@@ -1,0 +1,128 @@
+.adminNavbar {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: none !important;
+  font-size: 14px !important;
+  border-radius: none !important;
+  margin: auto 0;
+  padding: auto 0;
+  font-family: "MontserratSemiBold-600";
+}
+body[dir="rtl"] .adminNavbar {
+  font-family: "IBMPlexSansArabic-SemiBold" !important;
+}
+nav.adminNavbar.navbar.navbar-expand-lg.navbar-light {
+  padding: 0px 0px;
+}
+
+.dropItems4 > .dropdown-menu.show {
+  padding: 0 !important;
+  margin: 0;
+  overflow: hidden;
+}
+
+.dropItems5 > .dropdown-menu.show {
+  padding: 0 !important;
+  margin: 0;
+  overflow: hidden;
+}
+
+.dropItems3 > .dropdown-menu.show {
+  padding: 0 !important;
+  margin: 0;
+  overflow: hidden;
+}
+
+.dropItems2 > .dropdown-menu.show {
+  padding: 0 !important;
+  margin: 0;
+  overflow: hidden;
+}
+
+.dropdown-menu {
+  border-radius: 2px;
+}
+
+.DiskusAdminNavBar > .dropdown-menu.show {
+  padding: 0;
+  top: 23px;
+  left: 20px;
+  width: auto;
+  /* padding: 0 10px; */
+}
+body[dir="rtl"] .DiskusAdminNavBar > .dropdown-menu.show {
+  left: auto;
+  top: 20px !important;
+  /* right: -180px; */
+}
+
+.DiskusAdminNavBar > .dropdown-menu .dropdown-item.active {
+  background: none;
+  color: #000 !important;
+}
+
+.DiskusAdminNavBar > .dropdown-menu .dropdown-item:hover {
+  background: linear-gradient(to left, #4adede 0%, #6172d6 100%);
+  color: #fff !important;
+}
+body[dir="rtl"] .DiskusAdminNavBar > .dropdown-menu .dropdown-item {
+  font-family: "IBMPlexSansArabic-Medium" !important;
+}
+
+body[dir="rtl"] .DiskusAdminNavBar > .dropdown-menu .dropdown-item:hover {
+  background: linear-gradient(to right, #4adede 0%, #6172d6 100%);
+  color: #fff !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+}
+
+.DiskusAdminNavBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.DiskusAdminNavBar .dropdown-toggle::after {
+  margin-left: 0.7em;
+}
+
+.DiskusAdminNavBar a:nth-child(1) {
+  color: #5a5a5a !important;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: none !important;
+}
+body[dir="rtl"] .DiskusAdminNavBar a:nth-child(1) {
+  font-family: "IBMPlexSansArabic-SemiBold" !important;
+}
+
+.DiskusAdminNavBar .dropdown-menu a {
+  color: #5a5a5a !important;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: none !important;
+}
+
+.adminNavbar .dropdown-toggle::after {
+  display: none !important;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 8px solid;
+  border-right: 5px solid transparent;
+  border-bottom: 0;
+  border-left: 5px solid transparent;
+  color: #5a5a5a !important;
+}
+
+.DiskusAdminNavBar > .dropdown-menu .dropdown-item {
+  text-align: center;
+  padding: 10px 10px;
+  font-size: 13px !important;
+  font-family: "MontserratMedium";
+  border-bottom: 1px solid #dadada !important;
+  white-space: nowrap !important;
+  width: 100%;
+}

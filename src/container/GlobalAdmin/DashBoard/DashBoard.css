@@ -1,0 +1,59 @@
+.sidebar-container {
+  /* max-width: 60px !important; */
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-row {
+  display: -webkit-box !important;
+}
+
+.talk-icons-container {
+  display: flex;
+  align-items: flex-end;
+  margin: 0;
+  padding: 0;
+  justify-content: flex-end !important;
+  align-items: flex-end !important;
+  margin-right: 10px;
+  position: relative;
+  top: -3px;
+}
+
+.Dashboard-Content {
+  margin-left: 60px !important;
+}
+
+.Dashboard-Main-Container.container-fluid {
+  height: 91vh !important;
+  padding-right: 20px;
+  padding-left: 0;
+  /* margin-left: 90px; */
+  width: 99% !important;
+}
+
+body[dir="rtl"] .Dashboard-Main-Container.container-fluid {
+  height: 90vh !important;
+  /* padding-left : 20px !important; */
+  padding-right: 0 !important;
+  /* margin-right: 70px !important; */
+  width: 97% !important;
+}
+
+.overlay-incoming-videocall {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: auto;
+  z-index: 8;
+}
+
+.dashbaord_data {
+  width: 95%;
+}
+.talk_features_home {
+  width: 5%;
+}

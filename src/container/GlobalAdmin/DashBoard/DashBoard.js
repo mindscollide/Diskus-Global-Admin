@@ -1,0 +1,37 @@
+import React from "react";
+import "./DashBoard.css";
+import { ConfigProvider, Layout } from "antd";
+import Header from "../../../components/layout/Header/Header";
+import AdminOptionsNavBar from "../../../components/layout/AdminOptionsNavbar/AdminOptionsNavBar";
+import { Sidebar } from "../../../components/layout";
+import { Outlet } from "react-router-dom";
+
+const DashBoard = () => {
+  const { Sider, Content } = Layout;
+  return (
+    <>
+      <ConfigProvider
+      // direction={currentLanguage === "ar" ? ar_EG : en_US}
+      // locale={currentLanguage === "ar" ? ar_EG : en_US}
+      >
+        <Layout>
+          <Header />
+          <AdminOptionsNavBar />
+        </Layout>
+
+        <Layout>
+          <Sider width={"4%"}>
+            <Sidebar />
+          </Sider>
+          <Content>
+            <div className="dashbaord_data">
+              <Outlet />
+            </div>
+          </Content>
+        </Layout>
+      </ConfigProvider>
+    </>
+  );
+};
+
+export default DashBoard;
