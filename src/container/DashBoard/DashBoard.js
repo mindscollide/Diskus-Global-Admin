@@ -1,13 +1,12 @@
 import React from "react";
 import "./DashBoard.css";
 import { ConfigProvider, Layout } from "antd";
-import Header from "../../../components/layout/Header/Header";
-import AdminOptionsNavBar from "../../../components/layout/AdminOptionsNavbar/AdminOptionsNavBar";
-import { Sidebar } from "../../../components/layout";
+import Header from "../../components/layout/Header/Header";
+import AdminOptionsNavBar from "../../components/layout/AdminOptionsNavbar/AdminOptionsNavBar";
 import { Outlet } from "react-router-dom";
 
 const DashBoard = () => {
-  const { Sider, Content } = Layout;
+  const { Content } = Layout;
   return (
     <>
       <ConfigProvider
@@ -20,9 +19,6 @@ const DashBoard = () => {
         </Layout>
 
         <Layout>
-          <Sider width={"4%"}>
-            <Sidebar />
-          </Sider>
           <Content>
             <div className="dashbaord_data">
               <Outlet />

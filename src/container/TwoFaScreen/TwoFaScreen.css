@@ -1,0 +1,53 @@
+.two-fa-verification-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 30px !important;
+  text-align: left !important;
+}
+
+.two-fa-verification-subheading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  text-align: left !important;
+}
+
+.SendCode-button-color {
+  width: 100px !important;
+  height: 37px !important;
+  padding: 0px !important;
+  background-color: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 2px !important;
+  font-size: 16px !important;
+  border: none !important;
+}
+
+.textfield-forget-password-class {
+  width: 300px !important;
+  height: 37px !important;
+  padding: 0px 8px !important;
+  border: 1px solid #eee !important;
+  border-radius: 4px !important;
+}
+
+.go-back-text {
+  color: #6172d6 !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+.go-back-text:hover {
+  opacity: 0.8 !important;
+  cursor: pointer !important;
+}
+
+.radio-button-class {
+  margin-right: 5px !important;
+}
+
+.radio-text {
+  color: #5a5a5a !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+}
