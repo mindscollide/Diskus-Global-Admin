@@ -78,7 +78,7 @@ const LanguageSelector = () => {
       ref={languageref}
       onClick={() => setLanguageDropdown(!languageDropdown)}
     >
-      <span>
+      <span className="d-flex gap-2">
         <img src={LanguageBlack} alt="" draggable="false" />
         {/* {selectedLanguage.languageTitle} */}
         {currentLanguage === "en"

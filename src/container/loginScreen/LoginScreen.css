@@ -1,0 +1,36 @@
+.sign-in-text {
+  color: #6172d6 !important;
+  font-weight: 500 !important;
+  font-size: 32px !important;
+  text-align: center !important;
+}
+
+.button-color {
+  width: 100px !important;
+  height: 37px !important;
+  padding: 0px !important;
+  background-color: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 2px !important;
+  font-size: 16px !important;
+  border: none !important;
+}
+
+.forget-paswword-text {
+  color: #6172d6 !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+.forget-paswword-text:hover {
+  opacity: 0.8 !important;
+  cursor: pointer !important;
+}
+
+.textfield-signIn-class {
+  width: 300px !important;
+  height: 37px !important;
+  padding: 0px 8px !important;
+  border: 1px solid #eee !important;
+  border-radius: 4px !important;
+}

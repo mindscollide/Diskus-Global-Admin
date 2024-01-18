@@ -1,0 +1,129 @@
+.two-fa-verification-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 30px !important;
+  text-align: left !important;
+  margin-left: 50px !important;
+}
+
+body[dir="rtl"] .two-fa-verification-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 30px !important;
+  text-align: left !important;
+  margin-right: 50px !important;
+}
+
+.two-fa-verification-subheading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  text-align: left !important;
+  margin-left: 50px !important;
+}
+
+body[dir="rtl"] .two-fa-verification-subheading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  text-align: left !important;
+  margin-right: 50px !important;
+}
+
+.SendCode-button-color {
+  width: 100px !important;
+  height: 37px !important;
+  padding: 0px !important;
+  background-color: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 2px !important;
+  font-size: 16px !important;
+  border: none !important;
+}
+
+.textfield-forget-password-class {
+  width: 300px !important;
+  height: 37px !important;
+  padding: 0px 8px !important;
+  border: 1px solid #eee !important;
+  border-radius: 4px !important;
+}
+
+.go-back-text {
+  color: #6172d6 !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+.go-back-text:hover {
+  opacity: 0.8 !important;
+  cursor: pointer !important;
+}
+
+.radio-button-class {
+  margin-left: 39.5px !important;
+}
+
+body[dir="rtl"] .radio-button-class {
+  margin-right: 39.5px !important;
+}
+
+.radio-button-class-1 {
+  margin-left: 49px !important;
+}
+
+body[dir="rtl"] .radio-button-class-1 {
+  margin-right: 49px !important;
+}
+
+.radio-button-class-2 {
+  margin-left: 55px !important;
+}
+
+body[dir="rtl"] .radio-button-class-2 {
+  margin-right: 55px !important;
+}
+
+.radio-text {
+  color: #5a5a5a !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  margin-left: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+body[dir="rtl"] .radio-text {
+  color: #5a5a5a !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  margin-right: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.radio-option {
+  display: flex !important;
+  align-items: center !important;
+}
+
+body[dir="rtl"] .radio-option {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.icon {
+  margin-right: 8px !important; /* Adjust the margin as needed */
+}
+
+.radio-column-2fa {
+  display: block !important;
+  margin-left: 50px !important;
+  margin-top: 10px !important;
+}
+
+body[dir="rtl"] .radio-column-2fa {
+  display: block !important;
+  margin-right: 45px !important;
+  margin-top: 10px !important;
+}
