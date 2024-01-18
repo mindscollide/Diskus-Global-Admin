@@ -5,6 +5,7 @@
   width: 100%;
   padding: 20px;
   border-radius: 4px !important;
+  margin: 0 auto;
 }
 
 body[dir="rtl"] .screens-card {
@@ -76,10 +77,15 @@ body[dir="rtl"] .forgotpassword-round-circle-class {
 
 .phone-notification-round-circle-class {
   position: fixed !important;
-  bottom: -140px !important;
-  right: -100px !important;
-  transform: rotate(-35deg) !important;
-  z-index: -1 !important;
+  bottom: -228px !important;
+  right: -187px !important;
+  transform: rotate(-57deg) !important;
+  z-index: 1px !important;
+  width: 35rem;
+  height: auto;
+  object-fit: cover;
+  overflow: hidden;
+  z-index: -1;
 }
 
 body[dir="rtl"] .phone-notification-round-circle-class {
@@ -159,7 +165,8 @@ body[dir="rtl"] .language-selector-class {
   padding-left: 30px;
 }
 .twoFaScreen_mobileIcon {
-  width: 30rem !important;
+  width: 26rem !important;
+  margin-left: 200px;
 }
 .diskus_logo_card {
   width: 16rem !important;

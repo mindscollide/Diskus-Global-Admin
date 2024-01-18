@@ -1,8 +1,9 @@
 .two-fa-verification-heading {
   color: #5a5a5a !important;
-  font-weight: 500 !important;
   font-size: 30px !important;
   text-align: left !important;
+  font-family: "MontserratSemiBold-600";
+  line-height: initial;
 }
 
 body[dir="rtl"] .two-fa-verification-heading {
@@ -112,15 +113,12 @@ body[dir="rtl"] .radio-option {
   margin-right: 8px !important; /* Adjust the margin as needed */
 }
 
-/* .radio-column-2fa {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+.radio-column-2fa {
   margin-top: 20px;
 }
 
-body[dir="rtl"] .radio-column-2fa {
+/* body[dir="rtl"] .radio-column-2fa {
   display: block !important;
   margin-right: 45px !important;
   margin-top: 10px !important;
-} */
+}  */

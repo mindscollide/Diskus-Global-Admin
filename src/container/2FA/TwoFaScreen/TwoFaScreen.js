@@ -9,62 +9,61 @@ import styles from "./TwoFaScreen.module.css";
 const TwoFaScreen = ({ onClickGoBack }) => {
   return (
     <>
-      <Row>
+      <Row className="mt-5">
         <Col lg={12} md={12} sm={12}>
           <span className={styles["two-fa-verification-heading"]}>
-            2FA verification
+            2FA Verification
           </span>
         </Col>
-      </Row>
-      <Col lg={12} md={12} sm={12}>
-        <span className={styles["two-fa-verification-subheading"]}>
-          Select any one option
-        </span>
-      </Col>
 
-      <Col lg={12} md={12} sm={12} className={styles["radio-column-2fa"]}>
-        <div className={styles["radio-option"]}>
-          <img src={img10} width="15px" alt="" className="icon" />
-          <label className={styles["radio-text"]}>
-            Send Notification on Device
-            <Form.Check
-              type="radio"
-              name="twoFaOption"
-              value="Send Notification on Device"
-              className={styles["radio-button-class"]}
-            />
-          </label>
-        </div>
+        <Col lg={12} md={12} sm={12}>
+          <span className={styles["two-fa-verification-subheading"]}>
+            Select any one option
+          </span>
+        </Col>
 
-        <div className={styles["radio-option"]}>
-          <img src={img5} width="15px" alt="" className="icon mt-1" />
-          <label className={styles["radio-text"]}>
-            Send Notification on Email
-            <Form.Check
-              type="radio"
-              name="twoFaOption"
-              value="Send Notification on Email"
-              className={styles["radio-button-class-1"]}
-            />
-          </label>
-        </div>
+        <Col lg={12} md={12} sm={12} className={styles["radio-column-2fa"]}>
+          <div className={styles["radio-option"]}>
+            <img src={img10} width="15px" alt="" className="icon" />
+            <label className={styles["radio-text"]}>
+              Send Notification on Device
+              <Form.Check
+                type="radio"
+                name="twoFaOption"
+                value="Send Notification on Device"
+                className={styles["radio-button-class"]}
+              />
+            </label>
+          </div>
 
-        <div className={styles["radio-option"]}>
-          <img src={img5} width="15px" alt="" className="icon mt-1" />
+          <div className={styles["radio-option"]}>
+            <img src={img5} width="15px" alt="" className="icon mt-1" />
+            <label className={styles["radio-text"]}>
+              Send Notification on Email
+              <Form.Check
+                type="radio"
+                name="twoFaOption"
+                value="Send Notification on Email"
+                className={styles["radio-button-class-1"]}
+              />
+            </label>
+          </div>
 
-          <label className={styles["radio-text"]}>
-            Send Notification on SMS
-            <Form.Check
-              type="radio"
-              name="twoFaOption"
-              value="Send Notification on SMS"
-              className={styles["radio-button-class-2"]}
-            />
-          </label>
-        </div>
-      </Col>
+          <div className={styles["radio-option"]}>
+            <img src={img5} width="15px" alt="" className="icon mt-1" />
 
-      <Row>
+            <label className={styles["radio-text"]}>
+              Send Notification on SMS
+              <Form.Check
+                type="radio"
+                name="twoFaOption"
+                value="Send Notification on SMS"
+                className={styles["radio-button-class-2"]}
+              />
+            </label>
+          </div>
+        </Col>
+
         <Col
           lg={12}
           md={12}
@@ -76,9 +75,7 @@ const TwoFaScreen = ({ onClickGoBack }) => {
             text="Send Code"
           />
         </Col>
-      </Row>
 
-      <Row>
         <Col
           lg={12}
           md={12}

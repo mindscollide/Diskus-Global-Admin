@@ -205,7 +205,7 @@ const LoginCard = () => {
                   <img
                     src={DiskusRoundLogo}
                     alt="login-round-logo"
-                    className={styles["round-circle-class"]}
+                    className={styles["phone-notification-round-circle-class"]}
                   />
                 </div>
               </>
