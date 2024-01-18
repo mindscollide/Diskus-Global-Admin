@@ -13,9 +13,8 @@ export const router = createHashRouter(
       {/* <Route path="/" element={<Login />} /> */}
       {/* <Route path="/Forgot" element={<ForgotPassword />} /> */}
 
-      <Route exact path="/Admin/" element={<LoginCard />}>
-        {/* This TestRedux File is just for Testing of the Redux Toolkit Setup */}
-        {/* <Route exact path="testRedux" element={<TestRedux />} /> */}
+      <Route exact path="/" element={<LoginCard />}>
+        <Route path="admin" element={<LoginCard />} />
       </Route>
     </>
   )

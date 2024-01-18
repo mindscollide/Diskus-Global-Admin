@@ -1,0 +1,131 @@
+.phone-notification-verification-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 30px !important;
+  text-align: left !important;
+  display: flex !important;
+  margin-left: 50px !important;
+}
+
+body[dir="rtl"] .phone-notification-verification-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 30px !important;
+  text-align: left !important;
+  display: flex !important;
+  margin-right: 50px !important;
+}
+
+.phone-notification-verification-subheading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  text-align: left !important;
+  display: flex !important;
+  margin-left: 50px !important;
+}
+
+body[dir="rtl"] .phone-notification-verification-subheading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  text-align: left !important;
+  display: flex !important;
+  margin-right: 50px !important;
+}
+
+.number-notification-verification-subheading {
+  color: #6172d6 !important;
+  font-weight: 500 !important;
+  font-size: 24px !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.timer-verification-subheading {
+  color: #5a5a5a !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.phone-notification-SendCode-button-color {
+  width: 100px !important;
+  height: 37px !important;
+  padding: 0px !important;
+  background-color: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 2px !important;
+  font-size: 16px !important;
+  border: none !important;
+}
+
+.textfield-forget-password-class {
+  width: 300px !important;
+  height: 37px !important;
+  padding: 0px 8px !important;
+  border: 1px solid #eee !important;
+  border-radius: 4px !important;
+}
+
+.phone-notification-go-back-text {
+  color: #6172d6 !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+.phone-notification-go-back-text:hover {
+  opacity: 0.8 !important;
+  cursor: pointer !important;
+}
+
+.phone-radio-button-class {
+  margin-left: 140px !important;
+}
+.phone-radio-button-class-1 {
+  margin-left: 137.5px !important;
+}
+
+.phone-radio-button-class-2 {
+  margin-left: 137.5px !important;
+}
+
+.phone-radio-text {
+  color: #5a5a5a !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  margin-left: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.phone-notification-div {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.icon {
+  margin-right: 8px !important; /* Adjust the margin as needed */
+}
+
+.radio-column {
+  display: block !important;
+  margin-left: 0px !important;
+  margin-top: 10px !important;
+}
+
+body[dir="rtl"] .radio-column {
+  display: block !important;
+  margin-right: 0px !important;
+  margin-top: 10px !important;
+}
+
+.phone-verification-subheading-two {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  display: flex !important;
+  justify-content: center !important;
+}
