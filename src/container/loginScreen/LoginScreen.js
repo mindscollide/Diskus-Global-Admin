@@ -31,9 +31,9 @@ const LoginScreen = ({ onClickForgetPasswordText, onClickSignIn }) => {
           lg={12}
           md={12}
           sm={12}
-          className="d-flex justify-content-center mt-4"
+          className="d-flex justify-content-center  mt-4"
         >
-          <button className="button-color" onClick={onClickSignIn}>
+          <button className="button-color w-100" onClick={onClickSignIn}>
             Next
           </button>
         </Col>

@@ -1,9 +1,9 @@
 .two-fa-verification-heading {
   color: #5a5a5a !important;
-  font-weight: 500 !important;
   font-size: 30px !important;
   text-align: left !important;
-  margin-left: 50px !important;
+  font-family: "MontserratSemiBold-600";
+  line-height: initial;
 }
 
 body[dir="rtl"] .two-fa-verification-heading {
@@ -11,7 +11,6 @@ body[dir="rtl"] .two-fa-verification-heading {
   font-weight: 500 !important;
   font-size: 30px !important;
   text-align: left !important;
-  margin-right: 50px !important;
 }
 
 .two-fa-verification-subheading {
@@ -19,7 +18,6 @@ body[dir="rtl"] .two-fa-verification-heading {
   font-weight: 500 !important;
   font-size: 16px !important;
   text-align: left !important;
-  margin-left: 50px !important;
 }
 
 body[dir="rtl"] .two-fa-verification-subheading {
@@ -88,7 +86,6 @@ body[dir="rtl"] .radio-button-class-2 {
   color: #5a5a5a !important;
   font-weight: 400 !important;
   font-size: 16px !important;
-  margin-left: 8px !important;
   display: flex !important;
   align-items: center !important;
 }
@@ -117,13 +114,11 @@ body[dir="rtl"] .radio-option {
 }
 
 .radio-column-2fa {
-  display: block !important;
-  margin-left: 50px !important;
-  margin-top: 10px !important;
+  margin-top: 20px;
 }
 
-body[dir="rtl"] .radio-column-2fa {
+/* body[dir="rtl"] .radio-column-2fa {
   display: block !important;
   margin-right: 45px !important;
   margin-top: 10px !important;
-}
+}  */
