@@ -17,7 +17,7 @@ import {
   VerificationNotificationPhone,
 } from "../../../container";
 import { useDispatch, useSelector } from "react-redux";
-import { changeScreen } from "../../../store/AuthAction";
+import { changeScreen } from "../../../store/ActionsSlicers/AuthAction";
 import { useTranslation } from "react-i18next";
 
 const LoginCard = () => {
