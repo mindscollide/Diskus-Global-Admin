@@ -20,5 +20,49 @@
 }
 
 .dropdown-countrylist {
-  max-height: 18vh !important;
+  max-height: 12vh !important;
+}
+
+.ReactFlagsSelect-module_selectBtn__19wW7 {
+  padding: 3px 8px !important;
+}
+
+.UpdateBtnStyles {
+  padding: 12px 30px !important;
+  background: #5a5a5a !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+.UpdateBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #5a5a5a !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+.RevertBtnStyles {
+  padding: 12px 30px !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+.RevertBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+.OverAllPadding {
+  padding: 0px 20px !important;
 }
