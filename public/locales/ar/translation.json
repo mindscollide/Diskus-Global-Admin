@@ -6,5 +6,9 @@
   "Simplify-management": "تبسيط الإدارة",
   "Collaborate": "يتعاون",
   "Prioritize": "تحديد الأولويات",
-  "User-login-history": "سجل تسجيل دخول المستخدم"
+  "User-login-history": "سجل تسجيل دخول المستخدم",
+  "User-information": "معلومات المستخدم",
+  "Organization-name": "اسم المنظمة",
+  "Email": "بريد إلكتروني",
+  "Country-code": "الرقم الدولي"
 }
