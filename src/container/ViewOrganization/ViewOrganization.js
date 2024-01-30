@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./ViewOrganization.module.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Table, TextField } from "../../components/elements";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
+import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import InputIcon from "react-multi-date-picker/components/input_icon";
+import gregorian from "react-date-object/calendars/gregorian";
+import gregorian_ar from "react-date-object/locales/gregorian_ar";
+import gregorian_en from "react-date-object/locales/gregorian_en";
 const ViewOrganization = () => {
   const { t } = useTranslation();
 
+  const calendRef = useRef();
+
+  let currentLanguage = localStorage.getItem("i18nextLng");
+
   const [searchBox, setSearchBox] = useState(false);
+  const [calendarValue, setCalendarValue] = useState(gregorian);
+  const [localValue, setLocalValue] = useState(gregorian_en);
 
   const PollsColoumn = [
     {
@@ -58,6 +70,22 @@ const ViewOrganization = () => {
     setSearchBox(!searchBox);
   };
 
+  const handleCancelSearchbox = () => {
+    setSearchBox(false);
+  };
+
+  useEffect(() => {
+    if (currentLanguage !== undefined && currentLanguage !== null) {
+      if (currentLanguage === "en") {
+        setCalendarValue(gregorian);
+        setLocalValue(gregorian_en);
+      } else if (currentLanguage === "ar") {
+        setCalendarValue(gregorian);
+        setLocalValue(gregorian_ar);
+      }
+    }
+  }, [currentLanguage]);
+
   return (
     <>
       <Container>
@@ -102,7 +130,55 @@ const ViewOrganization = () => {
                       md={12}
                       sm={12}
                       className={styles["SearchBox"]}
-                    ></Col>
+                    >
+                      <Row className="mt-2">
+                        <Col
+                          lg={12}
+                          md={12}
+                          sm={12}
+                          className="d-flex justify-content-end align-items-center"
+                        >
+                          <img
+                            alt=""
+                            src={BlackCrossicon}
+                            draggable="false"
+                            className={styles["crossIconClass"]}
+                            onClick={handleCancelSearchbox}
+                          />
+                        </Col>
+                      </Row>
+                      <Row className="mt-2">
+                        <Col lg={6} md={6} sm={6}>
+                          <TextField labelClass={"d-none"} />
+                        </Col>
+                        <Col lg={6} md={6} sm={6}>
+                          <TextField labelClass={"d-none"} />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg={6} md={6} sm={6}>
+                          <DatePicker
+                            // value={searchFields.DateView}
+                            format={"DD/MM/YYYY"}
+                            placeholder="DD/MM/YYYY"
+                            render={
+                              <InputIcon
+                                placeholder="DD/MM/YYYY"
+                                className="datepicker_input"
+                              />
+                            }
+                            editable={false}
+                            className="datePickerTodoCreate2"
+                            onOpenPickNewDate={false}
+                            inputMode=""
+                            calendar={calendarValue}
+                            locale={localValue}
+                            ref={calendRef}
+                            // onChange={meetingDateChangeHandler}
+                          />
+                        </Col>
+                      </Row>
+                    </Col>
                   </Row>
                 </>
               ) : null}
