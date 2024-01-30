@@ -17,5 +17,13 @@
   "Old-password": "كلمة المرور القديمة",
   "New-password": "كلمة المرور الجديدة",
   "Confirm-password": "تأكيد كلمة المرور",
-  "Reset": "إعادة ضبط"
+  "Reset": "إعادة ضبط",
+  "Password-must-be": "كلمة المرور يجب أن تكون",
+  "View-organization": "عرض المنظمة",
+  "Admin-name": "اسم المشرف",
+  "Contact-number": "رقم الاتصال",
+  "Subscription-expiry": "انتهاء الاشتراك",
+  "Subscription-status": "حالة الاشتراك",
+  "Edit-subscription": "تحرير الاشتراك",
+  "Edit-organization": "تحرير المنظمة"
 }

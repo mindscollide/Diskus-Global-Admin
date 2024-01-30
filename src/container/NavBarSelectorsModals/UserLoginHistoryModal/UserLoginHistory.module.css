@@ -6,13 +6,13 @@
 .userInformationHeading {
   font-size: 28px !important;
   font-weight: bold !important;
-  color: #5a5a5a !important;
+  color: #6172d6 !important;
 }
 
 .Subheadings {
   font-size: 12px !important;
   font-weight: bold !important;
-  color: #5a5a5a !important;
+  color: #6172d6 !important;
 }
 
 .PopulatedData {
@@ -23,13 +23,9 @@
   max-height: 12vh !important;
 }
 
-.ReactFlagsSelect-module_selectBtn__19wW7 {
-  padding: 3px 8px !important;
-}
-
 .UpdateBtnStyles {
   padding: 12px 30px !important;
-  background: #5a5a5a !important;
+  background: #6172d6 !important;
   border: none !important;
   font-size: 12px !important;
   border-radius: 4px !important;
@@ -38,7 +34,7 @@
 
 .UpdateBtnStyles:is(:hover, :focus, :focus-visible, :active) {
   padding: 12px 30px !important;
-  background: #5a5a5a !important;
+  background: #6172d6 !important;
   border: none !important;
   font-size: 12px !important;
   border-radius: 4px !important;

@@ -64,6 +64,7 @@ const UserLoginHistoryModal = () => {
                     >
                       <span className={styles["Subheadings"]}>
                         {t("Organization-name")}
+                        <span className={styles["redSteric"]}>*</span>
                       </span>
                       <span className={styles["PopulatedData"]}>
                         Waqas Associates
@@ -77,7 +78,10 @@ const UserLoginHistoryModal = () => {
                   sm={6}
                   className="d-flex flex-column flex-wrap"
                 >
-                  <span className={styles["Subheadings"]}>{t("Email")}</span>
+                  <span className={styles["Subheadings"]}>
+                    {t("Email")}
+                    <span className={styles["redSteric"]}>*</span>
+                  </span>
                   <span className={styles["PopulatedData"]}>
                     SaifKhan99@gmail.com
                   </span>
@@ -88,14 +92,15 @@ const UserLoginHistoryModal = () => {
                   <Row>
                     <Col lg={12} md={12} sm={12}>
                       <span className={styles["Subheadings"]}>
-                        {t("Country-code")}
+                        {t("Country-code")}{" "}
+                        <span className={styles["redSteric"]}>*</span>
                       </span>
                       <ReactFlagsSelect
                         fullWidth={false}
                         searchable={true}
                         placeholder={"Select Co...."}
                         customLabels={countryNameforPhoneNumber}
-                        className={styles["dropdown-countrylist"]}
+                        className={"dropdown-countrylist"}
                       />
                     </Col>
                   </Row>
@@ -105,6 +110,7 @@ const UserLoginHistoryModal = () => {
                     <Col lg={12} md={12} sm={12}>
                       <span className={styles["Subheadings"]}>
                         {t("Number")}
+                        <span className={styles["redSteric"]}>*</span>
                       </span>
                       <TextField
                         labelClass={"d-none"}

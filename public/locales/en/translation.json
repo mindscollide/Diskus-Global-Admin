@@ -17,5 +17,13 @@
   "Old-password": "Old Password",
   "New-password": "New Password",
   "Confirm-password": "Confirm Password",
-  "Reset": "Reset"
+  "Reset": "Reset",
+  "Password-must-be": "Password must be",
+  "View-organization": "View Organization",
+  "Admin-name": "Admin Name",
+  "Contact-number": "Contact Number",
+  "Subscription-expiry": "Subscription Expiry",
+  "Subscription-status": "Subscription Status",
+  "Edit-subscription": "Edit Subscription",
+  "Edit-organization": "Edit Organization"
 }

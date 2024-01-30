@@ -4,31 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button, Modal, TextField } from "../../../components/elements";
 import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
-import { Col, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import PasswordChecklist from "react-password-checklist";
 
 const Changepassword = () => {
   const ModalReducer = useSelector((state) => state.modal);
+
   const [isPasswordStrong, setPasswordStrong] = useState(false);
-  const [modalFlag, setmMdalFlag] = useState(false);
   const [Password, setPassword] = useState({
     newPassword: "",
     ConfirmPassword: "",
   });
+
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
   const handleClose = () => {
     dispatch(ChangePasswordModalOpen(false));
-  };
-  const handleNewPasswordChange = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-    setPassword({
-      ...Password,
-      [name]: value.trimStart(),
-    });
   };
 
   return (
@@ -43,7 +36,7 @@ const Changepassword = () => {
         size={"md"}
         ModalBody={
           <>
-            <section className=" p-1">
+            <Container>
               <Row>
                 <Col lg={12} md={12} sm={12}>
                   <span className={styles["ChangePasswordHeading"]}>
@@ -105,8 +98,11 @@ const Changepassword = () => {
                   sm={6}
                   className={styles["passwordCheckBox"]}
                 >
-                  <Row>
+                  <Row className="mt-3">
                     <Col lg={12} md={12} sm={12}>
+                      <p className={styles["HeadingForPassword"]}>
+                        {t("Password-must-be")}
+                      </p>
                       <PasswordChecklist
                         rules={["minLength", "specialChar", "letter", "match"]}
                         messages={{
@@ -125,7 +121,7 @@ const Changepassword = () => {
                             setPasswordStrong(isValid)
                           );
                         }}
-                        className={"borderRadius-4"}
+                        className={["PasswordCheckList"]}
                         invalidColor="#ff0000"
                         validColor="#6172D6"
                         iconSize={"11px"}
@@ -134,12 +130,12 @@ const Changepassword = () => {
                   </Row>
                 </Col>
               </Row>
-            </section>
+            </Container>
           </>
         }
         ModalFooter={
           <>
-            <section className="p-1">
+            <Container>
               <Row className="mt-5">
                 <Col
                   lg={6}
@@ -165,7 +161,7 @@ const Changepassword = () => {
                   />
                 </Col>
               </Row>
-            </section>
+            </Container>
           </>
         }
       />

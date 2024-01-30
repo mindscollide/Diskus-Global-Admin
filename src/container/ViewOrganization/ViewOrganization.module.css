@@ -1,0 +1,28 @@
+.HeadingViewORganization {
+  font-weight: bold !important;
+  font-size: 26px !important;
+  color: #6172d6 !important;
+}
+
+.Search_Bar_icon_class {
+  cursor: pointer;
+  top: 10px;
+  position: absolute;
+  left: auto;
+  right: 10px;
+}
+
+.polling_searchinput {
+  display: inline-block !;
+  position: absolute !important;
+  right: 0 !important;
+  width: auto;
+  top: 5px;
+  margin-right: 25px;
+}
+
+body[dir="rtl"] .polling_searchinput {
+  position: absolute !important;
+  right: 88% !important;
+  cursor: pointer !important;
+}

@@ -1,3 +1,13 @@
 body {
   background-color: #f6fafd !important;
 }
+
+.dropdown-countrylist .ReactFlagsSelect-module_selectBtn__19wW7 {
+  padding: 3px 10px !important;
+}
+
+.ant-table-thead > tr * {
+  color: #6172d6 !important;
+  font-family: "MontserratSemiBold-600";
+  font-size: 14px !important;
+}
