@@ -7,7 +7,16 @@ import DiskusLogoHeader from "../../../assets/images/DiskusLogo/diskus_newheader
 import Profilepicture from "../../../assets/images/OutletImages/newprofile.png";
 import "./Header.css";
 import LanguageSelector from "../../elements/languageSelector/Language-selector";
+import Changepassword from "../../../container/NavBarSelectorsModals/ChangePasswordModal/Changepassword";
+import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
+import { useDispatch } from "react-redux";
 const Header = () => {
+  const dispatch = useDispatch();
+
+  const handleChangePasswordModal = () => {
+    dispatch(ChangePasswordModalOpen(true));
+  };
+
   return (
     <>
       <Navbar className="header2-container" sticky="top">
@@ -67,9 +76,10 @@ const Header = () => {
                 </Dropdown.Item>
                 <Dropdown.Item className={" text-black"}>
                   <Nav.Link
-                    as={Link}
-                    to="changePassword"
+                    // as={Link}
+                    // to="changePassword"
                     className="text-black"
+                    onClick={handleChangePasswordModal}
                   >
                     {"Change password"}
                   </Nav.Link>
@@ -84,6 +94,7 @@ const Header = () => {
           </Nav>
         </section>
       </Navbar>
+      <Changepassword />
     </>
   );
 };

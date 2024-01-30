@@ -6,10 +6,10 @@ import { useTranslation } from "react-i18next";
 import { ModalIsOpen } from "../../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch, useSelector } from "react-redux";
 import UserLoginHistoryModal from "../../../container/NavBarSelectorsModals/UserLoginHistoryModal/UserLoginHistoryModal";
+import UserHistoryConfirmationModal from "../../../container/NavBarSelectorsModals/UserLoginHistoryModal/UserLoginConfirmationModal/UserHistoryConfirmationModal";
 const AdminOptionsNavBar = () => {
   const { t } = useTranslation();
   const ModalReducer = useSelector((state) => state.modal);
-  console.log(ModalReducer, "ModalReducerModalReducer");
   const dispatch = useDispatch();
   const handleOpenModal = () => {
     dispatch(ModalIsOpen(true));
@@ -114,6 +114,7 @@ const AdminOptionsNavBar = () => {
         </>
       </Nav>
       <UserLoginHistoryModal />
+      <UserHistoryConfirmationModal />
     </>
   );
 };

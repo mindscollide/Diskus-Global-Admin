@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   showModal: false,
   ProceedUserHistoryModal: false,
+  ChangepasswordModal: false,
 };
 
 export const modalSlice = createSlice({
@@ -16,11 +17,13 @@ export const modalSlice = createSlice({
     ProceedHistoryModalOpen: (state, { payload }) => {
       state.ProceedUserHistoryModal = payload;
     },
+    ChangePasswordModalOpen: (state, { payload }) => {
+      state.ChangepasswordModal = payload;
+    },
   },
 });
 
-export const { ModalIsOpen, ProceedHistoryModalOpen } = modalSlice.actions;
-
-// export const selectShowModal = (state) => state.modal.showModal;
+export const { ModalIsOpen, ProceedHistoryModalOpen, ChangePasswordModalOpen } =
+  modalSlice.actions;
 
 export default modalSlice.reducer;

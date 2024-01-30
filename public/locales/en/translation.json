@@ -11,5 +11,11 @@
   "Organization-name": "Organization Name",
   "Email": "Email",
   "Country-code": "Country Code",
-  "Revert": "Revert"
+  "Revert": "Revert",
+  "Are-you-sure-you-want-to-update-the-changes": "Are you sure you want to update the changes?",
+  "Change-password": "Change Password",
+  "Old-password": "Old Password",
+  "New-password": "New Password",
+  "Confirm-password": "Confirm Password",
+  "Reset": "Reset"
 }

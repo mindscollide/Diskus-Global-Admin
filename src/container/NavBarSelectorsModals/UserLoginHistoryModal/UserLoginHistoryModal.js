@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./UserLoginHistory.module.css";
 import { Button, Modal, TextField } from "../../../components/elements";
 import { useDispatch, useSelector } from "react-redux";
-import { ModalIsOpen } from "../../../store/ActionsSlicers/UIModalsActions";
+import {
+  ModalIsOpen,
+  ProceedHistoryModalOpen,
+} from "../../../store/ActionsSlicers/UIModalsActions";
 import { useTranslation } from "react-i18next";
 import { Col, Row } from "react-bootstrap";
 import ReactFlagsSelect from "react-flags-select";
@@ -15,8 +18,20 @@ const UserLoginHistoryModal = () => {
 
   const { t } = useTranslation();
 
+  useEffect(() => {
+    return () => {
+      dispatch(ProceedHistoryModalOpen(false));
+      dispatch(ModalIsOpen(false));
+    };
+  }, []);
+
   const handleClose = () => {
     dispatch(ModalIsOpen(false));
+  };
+
+  const hanleUpdateFunction = () => {
+    dispatch(ModalIsOpen(false));
+    dispatch(ProceedHistoryModalOpen(true));
   };
   return (
     <>
@@ -127,6 +142,7 @@ const UserLoginHistoryModal = () => {
                   <Button
                     text={t("Update")}
                     className={styles["UpdateBtnStyles"]}
+                    onClick={hanleUpdateFunction}
                   />
                 </Col>
               </Row>
