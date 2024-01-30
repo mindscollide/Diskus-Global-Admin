@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./ViewOrganization.module.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,8 @@ import { Table, TextField } from "../../components/elements";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 const ViewOrganization = () => {
   const { t } = useTranslation();
+
+  const [searchBox, setSearchBox] = useState(false);
 
   const PollsColoumn = [
     {
@@ -52,6 +54,10 @@ const ViewOrganization = () => {
     },
   ];
 
+  const HandleopenSearchBox = () => {
+    setSearchBox(!searchBox);
+  };
+
   return (
     <>
       <Container>
@@ -80,6 +86,7 @@ const ViewOrganization = () => {
                           alt=""
                           className={styles["Search_Bar_icon_class"]}
                           draggable="false"
+                          onClick={HandleopenSearchBox}
                         />
                       </Col>
                     </Row>
@@ -87,6 +94,18 @@ const ViewOrganization = () => {
                 }
                 iconClassName={"d-block"}
               />
+              {searchBox ? (
+                <>
+                  <Row>
+                    <Col
+                      lg={12}
+                      md={12}
+                      sm={12}
+                      className={styles["SearchBox"]}
+                    ></Col>
+                  </Row>
+                </>
+              ) : null}
             </span>
           </Col>
         </Row>

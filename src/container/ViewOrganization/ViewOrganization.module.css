@@ -12,17 +12,14 @@
   right: 10px;
 }
 
-.polling_searchinput {
-  display: inline-block !;
-  position: absolute !important;
-  right: 0 !important;
-  width: auto;
-  top: 5px;
-  margin-right: 25px;
-}
-
-body[dir="rtl"] .polling_searchinput {
-  position: absolute !important;
-  right: 88% !important;
-  cursor: pointer !important;
+.SearchBox {
+  width: 523px !important;
+  height: 183px !important;
+  background: #ffffff !important;
+  position: absolute;
+  right: 0;
+  z-index: 1 !important;
+  top: 39px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
 }
