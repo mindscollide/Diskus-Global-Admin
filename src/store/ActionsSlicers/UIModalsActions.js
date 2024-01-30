@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   showModal: false,
+  ProceedUserHistoryModal: false,
 };
 
 export const modalSlice = createSlice({
@@ -10,13 +11,15 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     ModalIsOpen: (state, { payload }) => {
-      console.log(payload, "payloadpayloadpayload");
       state.showModal = payload;
+    },
+    ProceedHistoryModalOpen: (state, { payload }) => {
+      state.ProceedUserHistoryModal = payload;
     },
   },
 });
 
-export const { ModalIsOpen } = modalSlice.actions;
+export const { ModalIsOpen, ProceedHistoryModalOpen } = modalSlice.actions;
 
 // export const selectShowModal = (state) => state.modal.showModal;
 
