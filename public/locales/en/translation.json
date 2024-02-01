@@ -25,5 +25,8 @@
   "Subscription-expiry": "Subscription Expiry",
   "Subscription-status": "Subscription Status",
   "Edit-subscription": "Edit Subscription",
-  "Edit-organization": "Edit Organization"
+  "Edit-organization": "Edit Organization",
+  "Organization-details": "Organization Details",
+  "Organization-status": "Organization Status",
+  "Admin-email": "Admin Email"
 }

@@ -25,5 +25,8 @@
   "Subscription-expiry": "انتهاء الاشتراك",
   "Subscription-status": "حالة الاشتراك",
   "Edit-subscription": "تحرير الاشتراك",
-  "Edit-organization": "تحرير المنظمة"
+  "Edit-organization": "تحرير المنظمة",
+  "Organization-details": "تفاصيل المنظمة",
+  "Organization-status": "حالة المنظمة",
+  "Admin Email": "البريد الإلكتروني المشرف"
 }

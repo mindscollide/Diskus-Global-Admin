@@ -14,7 +14,8 @@
 
 .SearchBox {
   width: 523px !important;
-  height: 183px !important;
+  height: auto !important;
+  min-height: 260px !important;
   background: #ffffff !important;
   position: absolute;
   right: 0;
@@ -26,4 +27,40 @@
 
 .crossIconClass {
   cursor: pointer !important;
+}
+
+.SearchBoxResetButton {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+  border-radius: 4px !important;
+}
+
+.SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+  border-radius: 4px !important;
+}
+
+.SearchButton {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  border: none !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 4px !important;
+}
+
+.SearchButton:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  border: none !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 4px !important;
 }

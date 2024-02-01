@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./ViewOrganization.module.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { Table, TextField } from "../../components/elements";
+import { Button, Table, TextField } from "../../components/elements";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -10,8 +10,20 @@ import InputIcon from "react-multi-date-picker/components/input_icon";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
+import Select from "react-select";
+import EditIcon from "../../assets/images/OutletImages/Edit_Icon.svg";
+import EditOrganizationModal from "./EditOrganizationModal/EditOrganizationModal";
+import {
+  editOrganizationModalOpen,
+  editSubscriptionModalOpen,
+} from "../../store/ActionsSlicers/UIModalsActions";
+import { useDispatch } from "react-redux";
+import EditSubscriptionModal from "./EditSubscriptionModal/EditSubscriptionModal";
+
 const ViewOrganization = () => {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const calendRef = useRef();
 
@@ -21,48 +33,102 @@ const ViewOrganization = () => {
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
 
-  const PollsColoumn = [
+  const ViewOrganizationColoumn = [
     {
       title: t("Organization-name"),
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "organizationName",
+      key: "organizationName",
       width: "169px",
     },
     {
       title: t("Admin-name"),
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "adminName",
+      key: "adminName",
       width: "125px",
     },
     {
       title: t("Contact-number"),
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "contactNumber",
+      key: "contactNumber",
       width: "150px",
     },
     {
       title: t("Subscription-expiry"),
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "SubscriptionExpiry",
+      key: "SubscriptionExpiry",
       width: "170px",
     },
     {
       title: t("Subscription-status"),
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "subscriptionStatus",
+      key: "subscriptionStatus",
       width: "170px",
     },
     {
       title: t("Edit-subscription"),
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "editSubscription",
+      key: "editSubscription",
       width: "155px",
     },
     {
       title: t("Edit-organization"),
-      dataIndex: "title",
-      key: "title",
-      width: "139px",
+      dataIndex: "editOrganization",
+      key: "editOrganization",
+      width: "145px",
+    },
+  ];
+
+  const handleEditOrganizationModal = () => {
+    dispatch(editOrganizationModalOpen(true));
+  };
+
+  const handleEditSubscriptionModal = () => {
+    dispatch(editSubscriptionModalOpen(true));
+  };
+
+  //Dummy data of Table
+
+  const data = [
+    {
+      key: "1",
+      editSubscription: (
+        <>
+          <Row>
+            <Col
+              lg={12}
+              md={12}
+              sm={12}
+              className="d-flex justify-content-center"
+            >
+              <img
+                src={EditIcon}
+                alt=""
+                draggable="false"
+                onClick={handleEditSubscriptionModal}
+              />
+            </Col>
+          </Row>
+        </>
+      ),
+      editOrganization: (
+        <>
+          <Row>
+            <Col
+              lg={12}
+              md={12}
+              sm={12}
+              className="d-flex justify-content-center"
+            >
+              <img
+                src={EditIcon}
+                alt=""
+                draggable="false"
+                onClick={handleEditOrganizationModal}
+              />
+            </Col>
+          </Row>
+        </>
+      ),
     },
   ];
 
@@ -73,6 +139,13 @@ const ViewOrganization = () => {
   const handleCancelSearchbox = () => {
     setSearchBox(false);
   };
+
+  const options = [
+    { value: "Enabled", label: "Enabled" },
+    { value: "Disabled", label: "Disabled" },
+    { value: "Locked", label: "Locked" },
+    { value: "Dormant", label: "Dormant" },
+  ];
 
   useEffect(() => {
     if (currentLanguage !== undefined && currentLanguage !== null) {
@@ -155,7 +228,28 @@ const ViewOrganization = () => {
                           <TextField labelClass={"d-none"} />
                         </Col>
                       </Row>
-                      <Row>
+                      <Row className="mt-3">
+                        <Col lg={6} md={6} sm={6}>
+                          <DatePicker
+                            // value={searchFields.DateView}
+                            format={"DD/MM/YYYY"}
+                            placeholder="DD/MM/YYYY"
+                            render={
+                              <InputIcon
+                                placeholder="DD/MM/YYYY"
+                                className="datepicker_input"
+                              />
+                            }
+                            editable={false}
+                            className="datePickerTodoCreate2"
+                            onOpenPickNewDate={false}
+                            inputMode=""
+                            calendar={calendarValue}
+                            locale={localValue}
+                            ref={calendRef}
+                            // onChange={meetingDateChangeHandler}
+                          />
+                        </Col>
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
                             // value={searchFields.DateView}
@@ -178,6 +272,28 @@ const ViewOrganization = () => {
                           />
                         </Col>
                       </Row>
+                      <Row className="mt-3">
+                        <Col lg={6} md={6} sm={6}>
+                          <Select options={options} />
+                        </Col>
+                      </Row>
+                      <Row className="mt-3">
+                        <Col
+                          lg={12}
+                          md={12}
+                          sm={12}
+                          className="d-flex justify-content-end gap-2"
+                        >
+                          <Button
+                            text={t("Reset")}
+                            className={styles["SearchBoxResetButton"]}
+                          />
+                          <Button
+                            text={t("Search")}
+                            className={styles["SearchButton"]}
+                          />
+                        </Col>
+                      </Row>
                     </Col>
                   </Row>
                 </>
@@ -187,10 +303,17 @@ const ViewOrganization = () => {
         </Row>
         <Row className="mt-3">
           <Col lg={12} md={12} sm={12}>
-            <Table column={PollsColoumn} pagination={false} className="Table" />
+            <Table
+              column={ViewOrganizationColoumn}
+              pagination={false}
+              rows={data}
+              className="Table"
+            />
           </Col>
         </Row>
       </Container>
+      <EditOrganizationModal />
+      <EditSubscriptionModal />
     </>
   );
 };

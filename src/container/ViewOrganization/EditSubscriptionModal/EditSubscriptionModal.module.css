@@ -1,0 +1,10 @@
+.modalFooterClassName {
+  border: none !important;
+  display: block !important;
+}
+
+.EditSubscriptionHeading {
+  font-size: 30px !important;
+  font-weight: bold !important;
+  color: #6172d6;
+}

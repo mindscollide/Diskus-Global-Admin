@@ -5,6 +5,8 @@ const initialState = {
   showModal: false,
   ProceedUserHistoryModal: false,
   ChangepasswordModal: false,
+  editOrganization: false,
+  editSubscriptionModal: false,
 };
 
 export const modalSlice = createSlice({
@@ -20,10 +22,21 @@ export const modalSlice = createSlice({
     ChangePasswordModalOpen: (state, { payload }) => {
       state.ChangepasswordModal = payload;
     },
+    editOrganizationModalOpen: (state, { payload }) => {
+      state.editOrganization = payload;
+    },
+    editSubscriptionModalOpen: (state, { payload }) => {
+      state.editSubscriptionModal = payload;
+    },
   },
 });
 
-export const { ModalIsOpen, ProceedHistoryModalOpen, ChangePasswordModalOpen } =
-  modalSlice.actions;
+export const {
+  ModalIsOpen,
+  ProceedHistoryModalOpen,
+  ChangePasswordModalOpen,
+  editOrganizationModalOpen,
+  editSubscriptionModalOpen,
+} = modalSlice.actions;
 
 export default modalSlice.reducer;
