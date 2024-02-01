@@ -1,3 +1,33 @@
 body {
   background-color: #f6fafd !important;
 }
+
+.dropdown-countrylist .ReactFlagsSelect-module_selectBtn__19wW7 {
+  padding: 3px 10px !important;
+}
+
+.ant-table-thead > tr * {
+  color: #6172d6 !important;
+  font-family: "MontserratSemiBold-600";
+  font-size: 14px !important;
+}
+
+.datepicker_input {
+  padding: 0px 45px !important;
+  border-radius: 4px !important;
+  border: 1px solid #ced4da;
+  width: 100% !important;
+  height: 39px !important;
+  font-weight: 500;
+  font-size: 12px !important;
+  font-family: "MontserratSemiBold-600";
+  cursor: pointer;
+}
+.datepicker_input:is(:hover, :focus, :focus-visible, :visited) {
+  outline: none !important;
+}
+
+.datePickerTodoCreate2 {
+  border: 1px solid #e1e1e1 !important;
+  font-family: "MontserratSemiBold-600" !important;
+}

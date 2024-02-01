@@ -3,9 +3,9 @@ import {
   createRoutesFromElements,
   createHashRouter,
 } from "react-router-dom";
-import DashBoard from "../container/DashBoard/DashBoard";
-import { Dashboard, TestRedux } from "../container";
+import { DashBoard } from "../container";
 import LoginCard from "../components/elements/loginsCard/LoginCard";
+import ViewOrganization from "../container/ViewOrganization/ViewOrganization";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -15,6 +15,9 @@ export const router = createHashRouter(
 
       <Route exact path="/" element={<LoginCard />}>
         <Route path="admin" element={<LoginCard />} />
+      </Route>
+      <Route path="/Dashboard" element={<DashBoard />}>
+        <Route path="vieworganization" element={<ViewOrganization />} />
       </Route>
     </>
   )

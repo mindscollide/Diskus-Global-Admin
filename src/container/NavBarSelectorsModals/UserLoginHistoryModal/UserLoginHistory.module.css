@@ -1,0 +1,64 @@
+.modalFooterClassName {
+  border: none !important;
+  display: block !important;
+}
+
+.userInformationHeading {
+  font-size: 28px !important;
+  font-weight: bold !important;
+  color: #6172d6 !important;
+}
+
+.Subheadings {
+  font-size: 12px !important;
+  font-weight: bold !important;
+  color: #6172d6 !important;
+}
+
+.PopulatedData {
+  font-size: 12px !important;
+}
+
+.dropdown-countrylist {
+  max-height: 12vh !important;
+}
+
+.UpdateBtnStyles {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+.UpdateBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+.RevertBtnStyles {
+  padding: 12px 30px !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+.RevertBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+.OverAllPadding {
+  padding: 0px 20px !important;
+}

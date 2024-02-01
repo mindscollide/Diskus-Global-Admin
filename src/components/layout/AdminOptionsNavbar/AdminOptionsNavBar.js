@@ -1,11 +1,19 @@
-import React, { useTransition } from "react";
-import { Row, Col, Nav, Container, Navbar, NavDropdown } from "react-bootstrap";
+import React from "react";
+import { Nav, Container, Navbar, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./NavbarAdmin.css";
 import { useTranslation } from "react-i18next";
-
+import { ModalIsOpen } from "../../../store/ActionsSlicers/UIModalsActions";
+import { useDispatch, useSelector } from "react-redux";
+import UserLoginHistoryModal from "../../../container/NavBarSelectorsModals/UserLoginHistoryModal/UserLoginHistoryModal";
+import UserHistoryConfirmationModal from "../../../container/NavBarSelectorsModals/UserLoginHistoryModal/UserLoginConfirmationModal/UserHistoryConfirmationModal";
 const AdminOptionsNavBar = () => {
   const { t } = useTranslation();
+  const ModalReducer = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
+  const handleOpenModal = () => {
+    dispatch(ModalIsOpen(true));
+  };
   return (
     <>
       <Nav className=" m-0 p-0 d-flex justify-content-center flex-column ">
@@ -90,29 +98,13 @@ const AdminOptionsNavBar = () => {
                     className="DiskusAdminNavBar"
                   >
                     <NavDropdown.Item
-                      as={Link}
-                      to="PackageDetail"
+                      // as={Link}
+                      // to="PackageDetail"
+                      onClick={handleOpenModal}
                       eventKey="link-8"
                       className="text-black border-none  bg-white"
                     >
-                      {"Package-detail"}
-                    </NavDropdown.Item>
-
-                    <NavDropdown.Item
-                      as={Link}
-                      to="CancelSub"
-                      eventKey="link-8"
-                      className="text-black border-none "
-                    >
-                      {"Cancel-subscriptions"}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item
-                      as={Link}
-                      to="deleteorganization"
-                      eventKey="link-8"
-                      className="text-black border-none "
-                    >
-                      {"Delete Organization"}
+                      {t("User-login-history")}
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
@@ -121,6 +113,8 @@ const AdminOptionsNavBar = () => {
           </Navbar>
         </>
       </Nav>
+      <UserLoginHistoryModal />
+      <UserHistoryConfirmationModal />
     </>
   );
 };

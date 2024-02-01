@@ -10,8 +10,8 @@ const authActionReducer = createSlice({
   name: "auth",
   initialState: initiaStateValue,
   reducers: {
-    changeScreen: (state, action) => {
-      state.screenName = action.payload;
+    changeScreen: (state, { payload }) => {
+      state.screenName = payload;
     },
   },
 });

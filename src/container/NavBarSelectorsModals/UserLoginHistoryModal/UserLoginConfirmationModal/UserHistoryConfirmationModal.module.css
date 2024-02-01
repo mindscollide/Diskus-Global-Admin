@@ -1,0 +1,46 @@
+.modalFooterClassName {
+  border: none !important;
+  display: block !important;
+}
+
+.ConfirmationModalHeading {
+  font-size: 20px !important;
+  font-weight: bold !important;
+  color: #6172d6 !important;
+}
+
+.ProceedBtnStyles {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+.ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+.CancelBtnStyles {
+  padding: 12px 30px !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+.CancelBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
