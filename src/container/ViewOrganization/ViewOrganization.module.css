@@ -64,3 +64,7 @@
   color: #fff !important;
   border-radius: 4px !important;
 }
+
+.EditIcon {
+  cursor: pointer !important;
+}

@@ -19,6 +19,7 @@ import {
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch } from "react-redux";
 import EditSubscriptionModal from "./EditSubscriptionModal/EditSubscriptionModal";
+import EditSubscriptionConfirmationModal from "./EditSubscriptionModal/EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
@@ -104,6 +105,7 @@ const ViewOrganization = () => {
                 src={EditIcon}
                 alt=""
                 draggable="false"
+                className={styles["EditIcon"]}
                 onClick={handleEditSubscriptionModal}
               />
             </Col>
@@ -123,6 +125,7 @@ const ViewOrganization = () => {
                 src={EditIcon}
                 alt=""
                 draggable="false"
+                className={styles["EditIcon"]}
                 onClick={handleEditOrganizationModal}
               />
             </Col>
@@ -314,6 +317,7 @@ const ViewOrganization = () => {
       </Container>
       <EditOrganizationModal />
       <EditSubscriptionModal />
+      <EditSubscriptionConfirmationModal />
     </>
   );
 };

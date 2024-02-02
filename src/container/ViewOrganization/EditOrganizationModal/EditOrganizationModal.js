@@ -35,17 +35,21 @@ const EditOrganizationModal = () => {
           <>
             <section className="m-3">
               <Row>
-                <Col lg={12} md={12} sm={12}>
+                <Col lg={1} md={1} sm={1}></Col>
+
+                <Col lg={11} md={11} sm={11}>
                   <span className={styles["OrganizationDetaisHeading"]}>
                     {t("Organization-details")}
                   </span>
                 </Col>
               </Row>
               <Row className="mt-4">
+                <Col lg={1} md={1} sm={1}></Col>
+
                 <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
+                  lg={11}
+                  md={11}
+                  sm={11}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
@@ -57,10 +61,12 @@ const EditOrganizationModal = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
+                <Col lg={1} md={1} sm={1}></Col>
+
                 <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
+                  lg={11}
+                  md={11}
+                  sm={11}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
@@ -72,10 +78,12 @@ const EditOrganizationModal = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
+                <Col lg={1} md={1} sm={1}></Col>
+
                 <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
+                  lg={11}
+                  md={11}
+                  sm={11}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
@@ -87,10 +95,12 @@ const EditOrganizationModal = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
+                <Col lg={1} md={1} sm={1}></Col>
+
                 <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
+                  lg={11}
+                  md={11}
+                  sm={11}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
@@ -102,10 +112,12 @@ const EditOrganizationModal = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
+                <Col lg={1} md={1} sm={1}></Col>
+
                 <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
+                  lg={11}
+                  md={11}
+                  sm={11}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
@@ -115,10 +127,12 @@ const EditOrganizationModal = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
+                <Col lg={1} md={1} sm={1}></Col>
+
                 <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
+                  lg={11}
+                  md={11}
+                  sm={11}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
@@ -128,10 +142,11 @@ const EditOrganizationModal = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
+                <Col lg={1} md={1} sm={1}></Col>
                 <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
+                  lg={11}
+                  md={11}
+                  sm={11}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>

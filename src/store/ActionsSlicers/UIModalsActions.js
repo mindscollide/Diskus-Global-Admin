@@ -7,6 +7,7 @@ const initialState = {
   ChangepasswordModal: false,
   editOrganization: false,
   editSubscriptionModal: false,
+  editSubscriptionConfirmationModal: false,
 };
 
 export const modalSlice = createSlice({
@@ -28,6 +29,9 @@ export const modalSlice = createSlice({
     editSubscriptionModalOpen: (state, { payload }) => {
       state.editSubscriptionModal = payload;
     },
+    editSubscriptionConfirmationModalOpen: (state, { payload }) => {
+      state.editSubscriptionConfirmationModal = payload;
+    },
   },
 });
 
@@ -37,6 +41,7 @@ export const {
   ChangePasswordModalOpen,
   editOrganizationModalOpen,
   editSubscriptionModalOpen,
+  editSubscriptionConfirmationModalOpen,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;
