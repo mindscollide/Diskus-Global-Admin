@@ -6,6 +6,7 @@ import {
 import { DashBoard } from "../container";
 import LoginCard from "../components/elements/loginsCard/LoginCard";
 import ViewOrganization from "../container/ViewOrganization/ViewOrganization";
+import LoginHistory from "../container/LoginHistory/LoginHistory";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ export const router = createHashRouter(
       </Route>
       <Route path="/Dashboard" element={<DashBoard />}>
         <Route path="vieworganization" element={<ViewOrganization />} />
+        <Route path="loginHistory" element={<LoginHistory />} />
       </Route>
     </>
   )

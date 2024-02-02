@@ -28,5 +28,12 @@
   "Edit-organization": "تحرير المنظمة",
   "Organization-details": "تفاصيل المنظمة",
   "Organization-status": "حالة المنظمة",
-  "Admin Email": "البريد الإلكتروني المشرف"
+  "Admin Email": "البريد الإلكتروني المشرف",
+  "User-name": "اسم المستخدم",
+  "User-email": "البريد الالكتروني للمستخدم",
+  "Login-date-time": "تاريخ الدخول الوقت",
+  "Logout-date-time": "تاريخ الخروج الوقت",
+  "Session-duration": "مدة الجلسة",
+  "Interface": "واجهه المستخدم",
+  "Ip-address": "عنوان IP"
 }
