@@ -36,5 +36,7 @@
   "Session-duration": "مدة الجلسة",
   "Interface": "واجهه المستخدم",
   "Ip-address": "عنوان IP",
-  "Billing-due": "الفواتير المستحقة"
+  "Billing-due": "الفواتير المستحقة",
+  "Amount-due": "المبلغ المستحق",
+  "Billing-date": "تاريخ الفواتير"
 }

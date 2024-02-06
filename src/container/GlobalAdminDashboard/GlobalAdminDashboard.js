@@ -3,6 +3,7 @@ import styles from "./GlobalAdminDashboard.module.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { Table } from "../../components/elements";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -47,6 +48,27 @@ const GlobalAdminDashboard = () => {
     setSelectedCompany(Country);
     setIsCompnayOpen(false);
   };
+
+  const UserLoginHistoryColoumn = [
+    {
+      title: t("Month"),
+      dataIndex: "Month",
+      key: "Month",
+      width: "135px",
+    },
+    {
+      title: t("Amount-due"),
+      dataIndex: "adminName",
+      key: "adminName",
+      width: "135px",
+    },
+    {
+      title: t("Billing-date"),
+      dataIndex: "contactNumber",
+      key: "contactNumber",
+      width: "130px",
+    },
+  ];
 
   return (
     <>
@@ -137,14 +159,27 @@ const GlobalAdminDashboard = () => {
                   </div>
                 </Col>
               </Row>
-              <Row>
+              <Row className="mt-5">
                 <Col
                   lg={12}
                   md={12}
                   sm={12}
-                  className="d-flex justify-content-center"
+                  className="d-flex justify-content-center flex-column flex-wrap align-items-center"
                 >
                   <span className={styles["PrizeStyles"]}>145$</span>
+                  <span className={styles["PrizeSubHeading"]}>
+                    Apex Arcane Enterprises Bill due
+                  </span>
+                </Col>
+              </Row>
+              <Row className="mt-5">
+                <Col lg={12} md={12} sm={12}>
+                  <Table
+                    column={UserLoginHistoryColoumn}
+                    pagination={false}
+                    // rows={data}
+                    className="Table"
+                  />
                 </Col>
               </Row>
             </section>

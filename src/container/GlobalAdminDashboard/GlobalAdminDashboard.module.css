@@ -68,7 +68,7 @@
 }
 .dropdown_list {
   background: #fff !important;
-
+  z-index: 1 !important;
   padding: 10px;
   position: absolute;
   border: 1px solid #e1e1e1;
@@ -89,5 +89,11 @@
 .PrizeStyles {
   color: #f16b6b !important;
   font-size: 40px !important;
+  font-weight: bold !important;
+}
+
+.PrizeSubHeading {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
   font-weight: bold !important;
 }

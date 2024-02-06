@@ -36,5 +36,7 @@
   "Session-duration": "Session Duration",
   "Interface": "Interface",
   "Ip-address": "IP Address",
-  "Billing-due": "Billing Due"
+  "Billing-due": "Billing Due",
+  "Amount-due": "Amount Due",
+  "Billing-date": "Billing Date"
 }
