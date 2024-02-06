@@ -60,7 +60,7 @@ const GlobalAdminDashboard = () => {
                     {t("Billing-due")}
                   </span>
                 </Col>
-                <Col lg={3} md={3} sm={3}>
+                <Col lg={3} md={3} sm={3} className="position-relative">
                   <div className={styles["dropdown-container"]}>
                     <div
                       className={styles["dropdown-header"]}
@@ -135,6 +135,16 @@ const GlobalAdminDashboard = () => {
                       </>
                     )}
                   </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  className="d-flex justify-content-center"
+                >
+                  <span className={styles["PrizeStyles"]}>145$</span>
                 </Col>
               </Row>
             </section>
