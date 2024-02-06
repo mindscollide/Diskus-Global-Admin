@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./GlobalAdminDashboard.module.css";
 import magnifyGlassIcon from "../../assets/images/OutletImages/Magglass Search Icon.png";
 import { Col, Container, Row } from "react-bootstrap";
@@ -7,6 +7,8 @@ import { Pie } from "@ant-design/plots";
 import { Button, Table, TextField } from "../../components/elements";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
+
+  const languageref = useRef();
 
   const months = [
     "January",
@@ -47,6 +49,22 @@ const GlobalAdminDashboard = () => {
   const [essentialTbl, setessentialTbl] = useState(false);
   const [professionalTbl, setProfessionalTbl] = useState(false);
   const [premiumTbl, setPremiumTbl] = useState(false);
+
+  const handleOutsideClick = (event) => {
+    if (
+      languageref.current &&
+      !languageref.current.contains(event.target) &&
+      isOpen
+    ) {
+      setIsOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [isOpen]);
 
   const toggling = () => setIsOpen(!isOpen);
 
@@ -435,6 +453,7 @@ const GlobalAdminDashboard = () => {
                     <div
                       className={styles["dropdown-header"]}
                       onClick={toggling}
+                      ref={languageref}
                     >
                       <span className={styles["MonthName"]}>
                         {selectedMonth}
