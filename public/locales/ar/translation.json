@@ -35,5 +35,6 @@
   "Logout-date-time": "تاريخ الخروج الوقت",
   "Session-duration": "مدة الجلسة",
   "Interface": "واجهه المستخدم",
-  "Ip-address": "عنوان IP"
+  "Ip-address": "عنوان IP",
+  "Billing-due": "الفواتير المستحقة"
 }

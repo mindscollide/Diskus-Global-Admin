@@ -17,11 +17,7 @@ import PDFIcon from "../../assets/images/OutletImages/color pdf.svg";
 const LoginHistory = () => {
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-
   const calendRef = useRef();
-
-  let currentLanguage = localStorage.getItem("i18nextLng");
 
   const [searchBox, setSearchBox] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);

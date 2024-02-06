@@ -1,0 +1,91 @@
+.LeftBoxDashboard {
+  padding: 5px 20px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  height: auto !important;
+  min-height: 80vh;
+}
+
+.RightBoxDashboard {
+  /* padding: 0px 10px !important; */
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  height: auto !important;
+  min-height: 80vh;
+}
+
+.BillingDueHeading {
+  font-size: 20px !important;
+  color: #6172d6 !important;
+  font-weight: bold !important;
+}
+
+/* Dropdown.module.css */
+
+.up {
+  border: 1px solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  cursor: pointer !important;
+  margin-top: 5px;
+}
+.down {
+  border: 1px solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  cursor: pointer !important;
+}
+.dropdown-header {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  user-select: none;
+}
+/* .open {
+  transform: translateY(-50%) rotate(135deg);
+} */
+
+.dropdown-list-item {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  height: auto !important;
+  border-bottom: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  padding: 3px 0;
+  cursor: pointer !important;
+}
+.dropdown-list-item:last-child {
+  border-bottom: none !important;
+}
+.dropdown-container {
+  max-width: 1005 !important;
+}
+.dropdown_list {
+  padding: 10px;
+  border: 1px solid #e1e1e1;
+  box-shadow: -11px 5px 38px -2px rgba(28, 14, 14, 0.63);
+  -webkit-box-shadow: -11px 5px 38px -2px rgba(28, 14, 14, 0.63);
+  -moz-box-shadow: -11px 5px 38px -2px rgba(28, 14, 14, 0.63);
+}
+
+.MonthName {
+  font-size: 16px !important;
+  color: #5a5a5a !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.SectionContainer {
+}
