@@ -8,7 +8,9 @@ import { Button, Table, TextField } from "../../components/elements";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
-  const languageref = useRef();
+  const MonthsRef = useRef();
+
+  const CompanyRef = useRef();
 
   const months = [
     "January",
@@ -52,19 +54,37 @@ const GlobalAdminDashboard = () => {
 
   const handleOutsideClick = (event) => {
     if (
-      languageref.current &&
-      !languageref.current.contains(event.target) &&
+      MonthsRef.current &&
+      !MonthsRef.current.contains(event.target) &&
       isOpen
     ) {
       setIsOpen(false);
     }
   };
+
+  const HandleOutSideClickCompany = (event) => {
+    if (
+      CompanyRef.current &&
+      !CompanyRef.current.contains(event.target) &&
+      isCompnayOpen
+    ) {
+      setIsCompnayOpen(false);
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    document.addEventListener("click", HandleOutSideClickCompany);
+    return () => {
+      document.removeEventListener("click", HandleOutSideClickCompany);
+    };
+  }, [isCompnayOpen]);
 
   const toggling = () => setIsOpen(!isOpen);
 
@@ -453,7 +473,7 @@ const GlobalAdminDashboard = () => {
                     <div
                       className={styles["dropdown-header"]}
                       onClick={toggling}
-                      ref={languageref}
+                      ref={MonthsRef}
                     >
                       <span className={styles["MonthName"]}>
                         {selectedMonth}
@@ -491,6 +511,7 @@ const GlobalAdminDashboard = () => {
                     <div
                       className={styles["dropdown-header"]}
                       onClick={togglingCompany}
+                      ref={CompanyRef}
                     >
                       <span className={styles["MonthName"]}>
                         {selectedCompany}
