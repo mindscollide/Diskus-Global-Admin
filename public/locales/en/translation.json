@@ -38,5 +38,21 @@
   "Ip-address": "IP Address",
   "Billing-due": "Billing Due",
   "Amount-due": "Amount Due",
-  "Billing-date": "Billing Date"
+  "Billing-date": "Billing Date",
+  "Trial": "Trial",
+  "Trial-extended": "Trial Extended",
+  "Subscribed": "Subscribed",
+  "Subscription-expired": "Subscription Expired",
+  "Expiration-date": "Expiration Date",
+  "Trial-start-date": "Trial Start Date",
+  "Trial-end-date": "Trial End Date",
+  "Trial-extended-date": "Trial Extended Date",
+  "Trial-extended-end-date": "Trial Extended End Date",
+  "Expiry-date": "Expiry Date",
+  "Essential": "Essential",
+  "Professional": "Professional",
+  "Premium": "Premium",
+  "Start-date": "Start Date",
+  "End-date": "End Date",
+  "Name": "Name"
 }

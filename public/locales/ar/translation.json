@@ -38,5 +38,21 @@
   "Ip-address": "عنوان IP",
   "Billing-due": "الفواتير المستحقة",
   "Amount-due": "المبلغ المستحق",
-  "Billing-date": "تاريخ الفواتير"
+  "Billing-date": "تاريخ الفواتير",
+  "Trial": "محاكمة",
+  "Trial-extended": "تمديد المحاكمة",
+  "Subscribed": "مشترك",
+  "Subscription-expired": "صلاحية الاشتراك",
+  "Expiration-date": "تاريخ انتهاء الصلاحية",
+  "Trial-start-date": "تاريخ بدء المحاكمة",
+  "Trial-end-date": "تاريخ انتهاء المحاكمة",
+  "Trial-extended-date": "تاريخ تمديد المحاكمة",
+  "Trial-extended-end-date": "تاريخ الانتهاء الممتد للمحاكمة",
+  "Expiry-date": "تاريخ الانتهاء",
+  "Essential": "ضروري",
+  "Professional": "احترافي",
+  "Premium": "غالي",
+  "Start-date": "تاريخ البدء",
+  "End-date": "تاريخ الانتهاء",
+  "Name": "اسم"
 }

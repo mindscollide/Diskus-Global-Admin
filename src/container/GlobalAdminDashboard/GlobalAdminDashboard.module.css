@@ -8,7 +8,7 @@
 }
 
 .RightBoxDashboard {
-  /* padding: 0px 10px !important; */
+  padding: 5px 20px !important;
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
@@ -96,4 +96,69 @@
   color: #5a5a5a !important;
   font-size: 12px !important;
   font-weight: bold !important;
+}
+
+.OrgazationStatusHeading {
+  color: #6172d6 !important;
+  font-size: 20px !important;
+  font-weight: bold !important;
+}
+
+.OuterBoxPieChart {
+  height: auto !important;
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  cursor: pointer !important;
+}
+
+.OuterBoxPieChart:is(:hover) {
+  height: auto !important;
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  cursor: pointer !important;
+  box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.42);
+  -webkit-box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.42);
+}
+
+.OuterBoxPieChartActive {
+  height: auto !important;
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  cursor: pointer !important;
+  box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.42);
+  -webkit-box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.42);
+}
+
+.ButtonsDashboard {
+  padding: 5px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+}
+
+.ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
+  padding: 5px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+}
+
+.Search_Bar_icon_class {
+  cursor: pointer;
+  top: 5px;
+  position: absolute;
+  left: auto;
+  right: 10px;
 }
