@@ -3,9 +3,10 @@ import { Col, Row } from "react-bootstrap";
 import "./LoginScreen.css";
 import { Button, TextField } from "../../components/elements";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { enterEmailValidation } from "../../store/Actions/AuthActions";
 import { useTranslation } from "react-i18next";
+import { changeScreen } from "../../store/ActionsSlicers/AuthAction";
 
 const LoginScreen = ({ onClickForgetPasswordText }) => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
+
+  const screenName = useSelector((state) => state.Auth.screenName);
 
   const [crendentials, setCrendentials] = useState({
     Email: "",
@@ -39,6 +42,7 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
   const onClickSignIn = () => {
     let value = crendentials.Email;
     dispatch(enterEmailValidation({ value, navigate, t }));
+    dispatch(changeScreen("PasswordVerification"));
   };
 
   return (
@@ -79,22 +83,6 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
             onClick={onClickSignIn}
             className={"LoginButton"}
           />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col
-          lg={12}
-          md={12}
-          sm={12}
-          className="d-flex justify-content-center mt-4"
-        >
-          <span
-            className="forget-paswword-text"
-            onClick={onClickForgetPasswordText}
-          >
-            Forget Password
-          </span>
         </Col>
       </Row>
     </>

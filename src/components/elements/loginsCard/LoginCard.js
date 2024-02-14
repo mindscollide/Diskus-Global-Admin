@@ -8,7 +8,12 @@ import img7 from "./../../../assets/images/DiskusLogo/7.png";
 import img9 from "./../../../assets/images/DiskusLogo/9.png";
 import img2 from "./../../../assets/images/DiskusLogo/2.png";
 
-import { LoginScreen, ForgotPassword, TwoFaScreen } from "../../../container";
+import {
+  LoginScreen,
+  ForgotPassword,
+  TwoFaScreen,
+  PasswordVerification,
+} from "../../../container";
 import { useDispatch, useSelector } from "react-redux";
 import { changeScreen } from "../../../store/ActionsSlicers/AuthAction";
 import { useTranslation } from "react-i18next";
@@ -36,8 +41,13 @@ const LoginCard = () => {
 
   // Function to switch to the twofascreen
   const onClickSignIn = () => {
-    // dispatch(changeScreen("TwoFaScreen"));
+    dispatch(changeScreen("PasswordVerification"));
   };
+
+  // Function to switch to the Enter Password screen
+  // const onClickToEnterpassword = () => {
+  //   dispatch(changeScreen("EnterPassword"));
+  // };
 
   return (
     <>
@@ -88,6 +98,9 @@ const LoginCard = () => {
                   )}
                   {screenName === "TwoFaScreen" && (
                     <TwoFaScreen onClickGoBack={onClickGoBack} />
+                  )}
+                  {screenName === "PasswordVerification" && (
+                    <PasswordVerification />
                   )}
                 </Col>
               </Row>
@@ -204,6 +217,25 @@ const LoginCard = () => {
                     src={DiskusRoundLogo}
                     alt="login-round-logo"
                     className={styles["phone-notification-round-circle-class"]}
+                  />
+                </div>
+              </>
+            )}
+
+            {screenName === "PasswordVerification" && (
+              <>
+                <div className={styles["login-screen-headings"]}>
+                  <h1 className={styles["heading-1"]}>
+                    {t("Simplify-management")}
+                  </h1>
+                  <h1 className={styles["heading-2"]}>{t("Collaborate")}</h1>
+                  <h1 className={styles["heading-1"]}>{t("Prioritize")}</h1>
+                </div>
+                <div className="Diskus_rounded_logo">
+                  <img
+                    src={DiskusRoundLogo}
+                    alt="login-round-logo"
+                    className={styles["round-circle-class"]}
                   />
                 </div>
               </>
