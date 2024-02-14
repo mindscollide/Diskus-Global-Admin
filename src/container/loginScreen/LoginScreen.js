@@ -85,6 +85,22 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
           />
         </Col>
       </Row>
+
+      <Row>
+        <Col
+          lg={12}
+          md={12}
+          sm={12}
+          className="d-flex justify-content-center mt-4"
+        >
+          <span
+            className="forget-paswword-text"
+            onClick={onClickForgetPasswordText}
+          >
+            Forget Password
+          </span>
+        </Col>
+      </Row>
     </>
   );
 };
