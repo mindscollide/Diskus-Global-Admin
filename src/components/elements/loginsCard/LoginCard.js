@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./LoginCard.module.css";
 import { Col, Row, Container } from "react-bootstrap";
 import DiskusLogo from "./../../../assets/images/DiskusLogo/Diskus_newLogo.svg";
@@ -8,24 +8,22 @@ import img7 from "./../../../assets/images/DiskusLogo/7.png";
 import img9 from "./../../../assets/images/DiskusLogo/9.png";
 import img2 from "./../../../assets/images/DiskusLogo/2.png";
 
-import {
-  LoginScreen,
-  ForgotPassword,
-  TwoFaScreen,
-  VerificationCode,
-  VerificationPhone,
-  VerificationNotificationPhone,
-} from "../../../container";
+import { LoginScreen, ForgotPassword, TwoFaScreen } from "../../../container";
 import { useDispatch, useSelector } from "react-redux";
 import { changeScreen } from "../../../store/ActionsSlicers/AuthAction";
 import { useTranslation } from "react-i18next";
+import Loader from "../../../components/elements/loader/Loader";
 
 const LoginCard = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const screenName = useSelector((state) => state.Auth.screenName);
 
   const dispatch = useDispatch();
+
+  const authState = useSelector((state) => state.EmailValidation);
+  const { loading } = authState;
+
   // Function to switch to the forgot password screen
   const onClickForgetPasswordText = () => {
     dispatch(changeScreen("forgotPassword"));
@@ -38,7 +36,7 @@ const LoginCard = () => {
 
   // Function to switch to the twofascreen
   const onClickSignIn = () => {
-    dispatch(changeScreen("TwoFaScreen"));
+    // dispatch(changeScreen("TwoFaScreen"));
   };
 
   return (
@@ -209,24 +207,10 @@ const LoginCard = () => {
                   />
                 </div>
               </>
-              // <>
-              //   <img
-              //     src={img2}
-              //     width="400px"
-              //     height="450px"
-              //     alt="verification"
-              //     className={styles["phone-notification-verification-image"]}
-              //   />
-              //   <img
-              //     src={DiskusRoundLogo}
-              //     alt="login-round-logo"
-              //     width="600px"
-              //     className={styles["phone-notification-round-circle-class"]}
-              //   />
-              // </>
             )}
           </Col>
         </Row>
+        {loading && <Loader />}
       </Container>
     </>
   );

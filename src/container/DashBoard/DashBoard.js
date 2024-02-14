@@ -6,9 +6,13 @@ import AdminOptionsNavBar from "../../components/layout/AdminOptionsNavbar/Admin
 import { Outlet } from "react-router-dom";
 import ar_EG from "antd/es/locale/ar_EG";
 import en_US from "antd/es/locale/en_US";
+import { useSelector } from "react-redux";
+import Loader from "../../components/elements/loader/Loader";
 
 const DashBoard = () => {
   const { Content } = Layout;
+  const authState = useSelector((state) => state.EmailValidation);
+  const { loading } = authState;
   let i18nextLng = localStorage.getItem("i18nextLng");
   console.log("i18nextLng", i18nextLng);
   const [currentLanguage, setCurrentLanguage] = useState(
@@ -37,6 +41,7 @@ const DashBoard = () => {
               <Outlet />
             </div>
           </Content>
+          {loading && <Loader />}
         </Layout>
       </ConfigProvider>
     </>

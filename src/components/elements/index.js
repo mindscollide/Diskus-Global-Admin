@@ -4,4 +4,13 @@ import VerificationInputField from "./verification_input/Verification_Input";
 import Modal from "./modal/Modal";
 import TextField from "./input_field/Input_field";
 import Table from "./table/Table";
-export { Login_Card, Button, VerificationInputField, Modal, TextField, Table };
+import loader from "./loader/Loader";
+export {
+  Login_Card,
+  Button,
+  VerificationInputField,
+  Modal,
+  TextField,
+  Table,
+  loader,
+};
