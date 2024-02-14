@@ -32,7 +32,7 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_01".toLowerCase()
               )
           ) {
-            return response.data.responseResult;
+            return rejectWithValue("Device does not exists");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -40,7 +40,7 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_02".toLowerCase()
               )
           ) {
-            return rejectWithValue("No-data-available");
+            return rejectWithValue("Device ID does not exists");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -48,7 +48,10 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_03".toLowerCase()
               )
           ) {
-            return rejectWithValue("Something-went-wrong");
+            return {
+              result: response.data.responseResult,
+              code: "EmailValidation_03",
+            };
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()

@@ -17,15 +17,17 @@ const EmailValidationSlice = createSlice({
         state.loading = true;
       })
       .addCase(enterEmailValidation.fulfilled, (state, action) => {
+        if (action.payload.code === "EmailValidation_03") {
+          localStorage.setItem("userID", JSON.stringify(action.payload.result));
+        }
         state.loading = false;
-        // Adapt this to match the structure of your successful response
         state.Authresponse = action.payload;
-        state.Responsemessage = "Success"; // Customize based on your API response
+        state.Responsemessage = "Success";
       })
       .addCase(enterEmailValidation.rejected, (state, action) => {
         state.loading = false;
         state.Authresponse = null;
-        state.Responsemessage = action.payload || "An error occurred"; // Customize error handling
+        state.Responsemessage = action.payload || "An error occurred";
       });
   },
 });
