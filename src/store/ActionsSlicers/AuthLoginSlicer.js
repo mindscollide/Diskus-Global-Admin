@@ -18,7 +18,10 @@ const EmailValidationSlice = createSlice({
       })
       .addCase(enterEmailValidation.fulfilled, (state, action) => {
         if (action.payload.code === "EmailValidation_03") {
-          localStorage.setItem("userID", JSON.stringify(action.payload.result));
+          localStorage.setItem(
+            "userID",
+            JSON.stringify(action.payload.result.userID)
+          );
         }
         state.loading = false;
         state.Authresponse = action.payload;
