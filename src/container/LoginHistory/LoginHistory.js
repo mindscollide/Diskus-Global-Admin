@@ -615,7 +615,7 @@ const LoginHistory = () => {
                         <TextField
                           placeholder={t("User-name")}
                           name={"userName"}
-                          onKeyDown={handleKeyDown}
+                          // onKeyDown={handleKeyDown}
                           type="text"
                           labelClass={"d-none"}
                           value={userLoginHistorySearch.userName}
@@ -625,6 +625,7 @@ const LoginHistory = () => {
                       <Col lg={6} md={6} sm={6}>
                         <TextField
                           labelClass={"d-none"}
+                          placeholder={t("User-email")}
                           name={"userEmail"}
                           type="email"
                           value={userLoginHistorySearch.userEmail}
