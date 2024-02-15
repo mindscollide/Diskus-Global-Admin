@@ -62,6 +62,30 @@ export const enterEmailValidation = createAsyncThunk(
             return rejectWithValue(
               "User's password is created but something went wrong."
             );
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_LoginWithGlobalEmail_05".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("password not created");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_LoginWithGlobalEmail_06".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("email is not verified");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_LoginWithGlobalEmail_07".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("email does not exist");
           } else {
             return rejectWithValue("Something-went-wrong");
           }
