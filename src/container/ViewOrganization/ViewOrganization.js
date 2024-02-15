@@ -22,6 +22,8 @@ import EditSubscriptionModal from "./EditSubscriptionModal/EditSubscriptionModal
 import EditSubscriptionConfirmationModal from "./EditSubscriptionModal/EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
 import { searchOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
+import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
+import moment from "moment";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
@@ -34,9 +36,11 @@ const ViewOrganization = () => {
 
   let currentLanguage = localStorage.getItem("i18nextLng");
 
-  const ViewOrganizationData = useSelector((state) => state.viewOrganization);
+  const ViewOrganizationData = useSelector(
+    (state) => state.searchOrganization.searchOrganizationData.result
+  );
 
-  console.log(ViewOrganizationData, "ViewOrganizationDataViewOrganizationData");
+  console.log(ViewOrganizationData, "viewOrganization");
 
   const [searchBox, setSearchBox] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
@@ -63,57 +67,116 @@ const ViewOrganization = () => {
   useEffect(() => {
     try {
       if (ViewOrganizationData !== null && ViewOrganizationData !== undefined) {
-        setViewOrganizationData(
-          ViewOrganizationData.result.searchOrganizations
+        console.log(
+          ViewOrganizationData.searchOrganizations,
+          "ViewOrganizationDataViewOrganizationData"
         );
+        setViewOrganizationData(ViewOrganizationData.searchOrganizations);
       }
     } catch {}
   }, [ViewOrganizationData]);
 
-  console.log(viewOrganizationData, "viewOrganizationDataviewOrganizationData");
+  console.log(viewOrganizationData, "ViewOrganizationColoumn");
 
   const ViewOrganizationColoumn = [
     {
       title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
-      width: "169px",
+      align: "center",
+      ellipsis: true,
+      width: 220,
     },
     {
       title: t("Admin-name"),
-      dataIndex: "adminName",
-      key: "adminName",
-      width: "125px",
+      dataIndex: "contactPersonName",
+      key: "contactPersonName",
+      align: "center",
+      ellipsis: true,
+      width: 220,
     },
     {
       title: t("Contact-number"),
       dataIndex: "number",
       key: "number",
-      width: "150px",
+      align: "center",
+      ellipsis: true,
+      width: 200,
     },
     {
-      title: t("Subscription-expiry"),
+      title: "Subscription Expiry",
       dataIndex: "subscriptionExpiry",
       key: "subscriptionExpiry",
-      width: "170px",
+      align: "center",
+      width: 200,
+      render: (text, record) => {
+        const formattedDate = moment(text, "YYYYMMDD").format("DD - MM - YYYY");
+        return formattedDate;
+      },
     },
     {
       title: t("Subscription-status"),
-      dataIndex: "subscriptionStatus",
-      key: "subscriptionStatus",
-      width: "170px",
+      dataIndex: "currentSubscrtionStatus",
+      key: "currentSubscrtionStatus",
+      align: "center",
+      ellipsis: true,
+      width: 200,
     },
     {
       title: t("Edit-subscription"),
       dataIndex: "editSubscription",
       key: "editSubscription",
-      width: "155px",
+      align: "center",
+      ellipsis: true,
+      width: 200,
+      render: (text, record) => {
+        return (
+          <Row>
+            <Col
+              lg={12}
+              md={12}
+              sm={12}
+              className="d-flex justify-content-center"
+            >
+              <img
+                src={EditIcon}
+                alt=""
+                draggable="false"
+                className={styles["EditIcon"]}
+                onClick={handleEditSubscriptionModal}
+              />
+            </Col>
+          </Row>
+        );
+      },
     },
     {
       title: t("Edit-organization"),
       dataIndex: "editOrganization",
       key: "editOrganization",
-      width: "145px",
+      align: "center",
+      ellipsis: true,
+      width: 200,
+      render: (text, record) => {
+        return (
+          <Row>
+            <Col
+              lg={12}
+              md={12}
+              sm={12}
+              className="d-flex justify-content-center"
+            >
+              <img
+                src={EditIcon}
+                alt=""
+                draggable="false"
+                className={styles["EditIcon"]}
+                onClick={handleEditOrganizationModal}
+              />
+            </Col>
+          </Row>
+        );
+      },
     },
   ];
 
@@ -348,7 +411,12 @@ const ViewOrganization = () => {
               column={ViewOrganizationColoumn}
               pagination={false}
               rows={viewOrganizationData}
-              className="Table"
+              footer={false}
+              className={"userlogin_history_tableP"}
+              size={"small"}
+              scroll={{
+                x: false,
+              }}
             />
           </Col>
         </Row>
