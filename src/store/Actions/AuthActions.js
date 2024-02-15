@@ -133,7 +133,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_PasswordVerification_01".toLowerCase()
+                "ERM_AuthService_AuthManager_GlobalPasswordVerification_01".toLowerCase()
               )
           ) {
             return rejectWithValue("Device does not exists");
@@ -141,7 +141,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_PasswordVerification_02".toLowerCase()
+                "ERM_AuthService_AuthManager_GlobalPasswordVerification_02".toLowerCase()
               )
           ) {
             return rejectWithValue("Device ID does not exists");
@@ -149,7 +149,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_PasswordVerification_03".toLowerCase()
+                "ERM_AuthService_AuthManager_GlobalPasswordVerification_03".toLowerCase()
               )
           ) {
             return rejectWithValue("Account is Blocked");
@@ -157,23 +157,52 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_PasswordVerification_04".toLowerCase()
+                "ERM_AuthService_AuthManager_GlobalPasswordVerification_04".toLowerCase()
               )
           ) {
-            return {
-              result: response.data.responseResult,
-              code: "GlobalPasswordVerification_04",
-            };
+            localStorage.setItem(
+              "token",
+              response.data.responseResult.authToken.token
+            );
+            localStorage.setItem(
+              "refreshToken",
+              response.data.responseResult.authToken.refreshToken
+            );
+            localStorage.setItem(
+              "adminname",
+              response.data.responseResult.authToken.name
+            );
+            navigate("/Dashboard");
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GlobalPasswordVerification_04",
+              };
+            } catch (error) {
+              console.log(error);
+            }
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_PasswordVerification_05".toLowerCase()
+                "ERM_AuthService_AuthManager_GlobalPasswordVerification_05".toLowerCase()
               )
           ) {
+            console.log(response.data.responseResult, "includesincludes");
+            localStorage.setItem(
+              "token",
+              response.data.responseResult.authToken.token
+            );
+            localStorage.setItem(
+              "refreshToken",
+              response.data.responseResult.authToken.refreshToken
+            );
+            localStorage.setItem(
+              "adminname",
+              response.data.responseResult.authToken.name
+            );
             navigate("/Dashboard");
             try {
-              console.log(response.data);
               return {
                 result: response.data.responseResult,
                 code: "GlobalPasswordVerification_05",
@@ -185,7 +214,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_PasswordVerification_06".toLowerCase()
+                "ERM_AuthService_AuthManager_GlobalPasswordVerification_06".toLowerCase()
               )
           ) {
             return rejectWithValue("Password not verified");
@@ -193,7 +222,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_PasswordVerification_07".toLowerCase()
+                "ERM_AuthService_AuthManager_GlobalPasswordVerification_07".toLowerCase()
               )
           ) {
             return rejectWithValue("Something-went-wrong");
