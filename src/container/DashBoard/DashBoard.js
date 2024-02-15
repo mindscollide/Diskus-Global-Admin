@@ -13,6 +13,9 @@ const DashBoard = () => {
   const { Content } = Layout;
   const authStateLoader = useSelector((state) => state.AuthActions.loading);
   const LoginHistoryLoader = useSelector((state) => state.loginHistory.loading);
+  const ViewOrganizationData = useSelector(
+    (state) => state.searchOrganization.loading
+  );
   let i18nextLng = localStorage.getItem("i18nextLng");
   console.log("i18nextLng", i18nextLng);
   const [currentLanguage, setCurrentLanguage] = useState(
@@ -41,7 +44,9 @@ const DashBoard = () => {
               <Outlet />
             </div>
           </Content>
-          {LoginHistoryLoader || authStateLoader ? <Loader /> : null}
+          {LoginHistoryLoader || authStateLoader || ViewOrganizationData ? (
+            <Loader />
+          ) : null}
         </Layout>
       </ConfigProvider>
     </>

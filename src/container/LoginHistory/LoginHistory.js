@@ -62,7 +62,6 @@ const LoginHistory = () => {
   const [isIpAddressValid, setIsIpAddressValid] = useState(false);
 
   //Login history Api calling
-
   useEffect(() => {
     let data = {
       OrganizationID: 0,

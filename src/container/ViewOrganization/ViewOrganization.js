@@ -17,22 +17,60 @@ import {
   editOrganizationModalOpen,
   editSubscriptionModalOpen,
 } from "../../store/ActionsSlicers/UIModalsActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EditSubscriptionModal from "./EditSubscriptionModal/EditSubscriptionModal";
 import EditSubscriptionConfirmationModal from "./EditSubscriptionModal/EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
+import { searchOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
+import { useNavigate } from "react-router-dom";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const calendRef = useRef();
 
   let currentLanguage = localStorage.getItem("i18nextLng");
 
+  const ViewOrganizationData = useSelector((state) => state.viewOrganization);
+
+  console.log(ViewOrganizationData, "ViewOrganizationDataViewOrganizationData");
+
   const [searchBox, setSearchBox] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
+  const [viewOrganizationData, setViewOrganizationData] = useState([]);
+
+  //Calling Organization Api
+  useEffect(() => {
+    let data = {
+      OrganizationID: 0,
+      CountryID: 0,
+      ContactPersonName: "",
+      Email: "",
+      StatusID: 0,
+      PackageID: 0,
+      SubsictionExpiryStart: "",
+      SubscriptionExpiryEnd: "",
+      sRow: 0,
+      Length: 10,
+    };
+    dispatch(searchOrganizationApi({ data, navigate, t }));
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (ViewOrganizationData !== null && ViewOrganizationData !== undefined) {
+        setViewOrganizationData(
+          ViewOrganizationData.result.searchOrganizations
+        );
+      }
+    } catch {}
+  }, [ViewOrganizationData]);
+
+  console.log(viewOrganizationData, "viewOrganizationDataviewOrganizationData");
 
   const ViewOrganizationColoumn = [
     {
@@ -49,14 +87,14 @@ const ViewOrganization = () => {
     },
     {
       title: t("Contact-number"),
-      dataIndex: "contactNumber",
-      key: "contactNumber",
+      dataIndex: "number",
+      key: "number",
       width: "150px",
     },
     {
       title: t("Subscription-expiry"),
-      dataIndex: "SubscriptionExpiry",
-      key: "SubscriptionExpiry",
+      dataIndex: "subscriptionExpiry",
+      key: "subscriptionExpiry",
       width: "170px",
     },
     {
@@ -309,7 +347,7 @@ const ViewOrganization = () => {
             <Table
               column={ViewOrganizationColoumn}
               pagination={false}
-              rows={data}
+              rows={viewOrganizationData}
               className="Table"
             />
           </Col>
