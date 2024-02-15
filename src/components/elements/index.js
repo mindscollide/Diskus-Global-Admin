@@ -5,6 +5,7 @@ import Modal from "./modal/Modal";
 import TextField from "./input_field/Input_field";
 import Table from "./table/Table";
 import loader from "./loader/Loader";
+import Checkbox from "./check_box/Checkbox";
 export {
   Login_Card,
   Button,
@@ -13,4 +14,5 @@ export {
   TextField,
   Table,
   loader,
+  Checkbox,
 };

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { enterEmailValidation } from "../../store/Actions/AuthActions";
 import { useTranslation } from "react-i18next";
-import { changeScreen } from "../../store/ActionsSlicers/AuthAction";
+import { changeScreen } from "../../store/ActionsSlicers/AuthScreenActionSlicer";
 
 const LoginScreen = ({ onClickForgetPasswordText }) => {
   const navigate = useNavigate();

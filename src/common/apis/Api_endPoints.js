@@ -5,6 +5,6 @@ const serviceAutheticationURL = ":11001/ERM_Auth";
 
 //Services URL
 //Login Api URL
-const authenticationAPI = baseURL + serviceAutheticationURL;
+const authenticationURL = baseURL + serviceAutheticationURL;
 
-export { authenticationAPI };
+export { authenticationURL };

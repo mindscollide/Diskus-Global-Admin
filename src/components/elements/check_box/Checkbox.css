@@ -1,0 +1,103 @@
+input[type="checkbox"]:checked + span:after,
+.half-checked-active input[type="checkbox"].checkboxchecked-all + span:after,
+input[type="checkbox"][disabled] + span:after,
+.blur-content .body-content-inner-wrapper .header .page-heading,
+.blur-content .body-content-inner-wrapper .header .nav .nav-item,
+.blur-content .body-content-inner-wrapper .body-content-wrapper {
+  position: absolute !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background: linear-gradient(to left, #49dbdb 0%, #6172d6 100%);
+  border: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.ant-checkbox-disabled .ant-checkbox-inner {
+  background: #d3d3d3;
+  /* filter: grayscale(0.5) !important; */
+  background-color: #d3d3d3 !important;
+  border: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+body[dir="rtl"] .ant-checkbox-checked .ant-checkbox-inner {
+  background: linear-gradient(to right, #49dbdb 0%, #6172d6 100%);
+  border: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.ant-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px !important;
+}
+.ant-checkbox-checked .ant-checkbox-inner:hover {
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 4px !important;
+}
+
+@supports (-ms-ime-align: auto) {
+  /* Styles specifically for Microsoft Edge */
+  /* Override the checkbox styles for Edge here */
+  .ant-checkbox-checked .ant-checkbox-inner {
+    /* Your custom styles */
+    background-color: #1677ff !important;
+    border-color: #1677ff !important;
+  }
+}
+
+/* Set the custom styles for the checkbox */
+/* Hide the default checkbox */
+.ProposedMeeting_Checkbox input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #1677ff;
+  background-color: #fff;
+  position: relative;
+}
+
+/* Checked state */
+.ProposedMeeting_Checkbox input[type="checkbox"]:checked {
+  /* Set the custom background color for checked state */
+  background-color: #1677ff;
+}
+
+/* Create the custom checkmark using pseudo-elements */
+.ProposedMeeting_Checkbox input[type="checkbox"]::before {
+  /* Position the pseudo-element */
+  content: "";
+  position: absolute;
+  top: 6.5%;
+  left: 33%;
+  transform: translate(-50%, -50%);
+  /* Style the checkmark shape */
+  width: 4px;
+  height: 10px;
+  border-width: 0 1px 1px 0;
+  border: solid #fff; /* Color of the checkmark */
+  border-width: 0 2px 2px 0; /* Adjust the checkmark shape */
+  /* Rotate the checkmark to resemble a tick */
+  transform: rotate(45deg);
+  /* Ensure it's hidden by default */
+  opacity: 0;
+}
+
+/* Show the checkmark for checked state */
+.ProposedMeeting_Checkbox input[type="checkbox"]:checked::before {
+  opacity: 1;
+}

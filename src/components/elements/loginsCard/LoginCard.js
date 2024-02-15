@@ -15,7 +15,7 @@ import {
   PasswordVerification,
 } from "../../../container";
 import { useDispatch, useSelector } from "react-redux";
-import { changeScreen } from "../../../store/ActionsSlicers/AuthAction";
+import { changeScreen } from "../../../store/ActionsSlicers/AuthScreenActionSlicer";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../components/elements/loader/Loader";
 
@@ -26,7 +26,7 @@ const LoginCard = () => {
 
   const dispatch = useDispatch();
 
-  const authState = useSelector((state) => state.EmailValidation);
+  const authState = useSelector((state) => state.AuthActions);
   const { loading } = authState;
 
   // Function to switch to the forgot password screen

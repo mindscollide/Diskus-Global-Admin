@@ -1,14 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { enterEmailValidation } from "../Actions/AuthActions";
+import {
+  PasswordVerificationApi,
+  enterEmailValidation,
+} from "../Actions/AuthActions";
 
 const initialState = {
   loading: false,
   Authresponse: null,
   Responsemessage: "",
+  passwordVerifyData: null,
 };
 
-const EmailValidationSlice = createSlice({
-  name: "EmailValidation",
+const AuthActionsSlice = createSlice({
+  name: "Auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -31,8 +35,21 @@ const EmailValidationSlice = createSlice({
         state.loading = false;
         state.Authresponse = null;
         state.Responsemessage = action.payload || "An error occurred";
+      })
+      .addCase(PasswordVerificationApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(PasswordVerificationApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.passwordVerifyData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(PasswordVerificationApi.rejected, (state, action) => {
+        state.loading = false;
+        state.passwordVerifyData = null;
+        state.Responsemessage = action.payload || "An error occurred";
       });
   },
 });
 
-export default EmailValidationSlice.reducer;
+export default AuthActionsSlice.reducer;

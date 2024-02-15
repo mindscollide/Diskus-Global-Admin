@@ -1,12 +1,12 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import AuthAction from "./ActionsSlicers/AuthAction";
+import AuthAction from "./ActionsSlicers/AuthScreenActionSlicer";
 import modalReducer from "./ActionsSlicers/UIModalsActions";
-import EmailValidationReducer from "./ActionsSlicers/AuthLoginSlicer";
+import AuthActions from "./ActionsSlicers/AuthLoginSlicer";
 
 const rootReducer = combineReducers({
   Auth: AuthAction,
   modal: modalReducer,
-  EmailValidation: EmailValidationReducer,
+  AuthActions: AuthActions,
 });
 
 const store = configureStore({

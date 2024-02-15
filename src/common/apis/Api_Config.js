@@ -2,4 +2,8 @@ const loginAPi = {
   RequestMethod: "ServiceManager.LoginWithGlobalEmail",
 };
 
-export { loginAPi };
+const passwordVerify = {
+  RequestMethod: "ServiceManager.GlobalPasswordVerification",
+};
+
+export { loginAPi, passwordVerify };

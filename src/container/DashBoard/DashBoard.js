@@ -11,7 +11,7 @@ import Loader from "../../components/elements/loader/Loader";
 
 const DashBoard = () => {
   const { Content } = Layout;
-  const authState = useSelector((state) => state.EmailValidation);
+  const authState = useSelector((state) => state.AuthActions);
   const { loading } = authState;
   let i18nextLng = localStorage.getItem("i18nextLng");
   console.log("i18nextLng", i18nextLng);
