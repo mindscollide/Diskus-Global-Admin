@@ -105,13 +105,15 @@ export const enterEmailValidation = createAsyncThunk(
 //password Verification
 export const PasswordVerificationApi = createAsyncThunk(
   "Auth/PasswordValidation",
-  async ({ value, navigate, t }, { rejectWithValue }) => {
+  async (requestData, { rejectWithValue }) => {
+    let { password, navigate, t } = requestData;
+    console.log(navigate, "PasswordValidationPasswordValidation");
     let userID = localStorage.getItem("userID");
     let data = {
       UserID: Number(userID),
       Device: "Browser",
       DeviceID: "1",
-      UserPassword: value,
+      UserPassword: password,
     };
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
@@ -131,7 +133,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_GlobalPasswordVerification_01".toLowerCase()
+                "ERM_AuthService_AuthManager_PasswordVerification_01".toLowerCase()
               )
           ) {
             return rejectWithValue("Device does not exists");
@@ -139,7 +141,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_GlobalPasswordVerification_02".toLowerCase()
+                "ERM_AuthService_AuthManager_PasswordVerification_02".toLowerCase()
               )
           ) {
             return rejectWithValue("Device ID does not exists");
@@ -147,7 +149,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_GlobalPasswordVerification_03".toLowerCase()
+                "ERM_AuthService_AuthManager_PasswordVerification_03".toLowerCase()
               )
           ) {
             return rejectWithValue("Account is Blocked");
@@ -155,7 +157,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_GlobalPasswordVerification_04".toLowerCase()
+                "ERM_AuthService_AuthManager_PasswordVerification_04".toLowerCase()
               )
           ) {
             return {
@@ -166,18 +168,24 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_GlobalPasswordVerification_05".toLowerCase()
+                "ERM_AuthService_AuthManager_PasswordVerification_05".toLowerCase()
               )
           ) {
-            return {
-              result: response.data.responseResult,
-              code: "GlobalPasswordVerification_05",
-            };
+            navigate("/Dashboard");
+            try {
+              console.log(response.data);
+              return {
+                result: response.data.responseResult,
+                code: "GlobalPasswordVerification_05",
+              };
+            } catch (error) {
+              console.log(error);
+            }
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_GlobalPasswordVerification_06".toLowerCase()
+                "ERM_AuthService_AuthManager_PasswordVerification_06".toLowerCase()
               )
           ) {
             return rejectWithValue("Password not verified");
@@ -185,7 +193,7 @@ export const PasswordVerificationApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_GlobalPasswordVerification_07".toLowerCase()
+                "ERM_AuthService_AuthManager_PasswordVerification_07".toLowerCase()
               )
           ) {
             return rejectWithValue("Something-went-wrong");

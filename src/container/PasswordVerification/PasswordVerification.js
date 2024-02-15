@@ -6,7 +6,7 @@ import { Button, Checkbox, TextField } from "../../components/elements";
 import PasswordEyeIcon from "../../assets/images/OutletImages/password.svg";
 import PasswordHideEyeIcon from "../../assets/images/OutletImages/password_hide.svg";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PasswordVerificationApi } from "../../store/Actions/AuthActions";
 
 const PasswordVerification = () => {
@@ -17,6 +17,9 @@ const PasswordVerification = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const state = useSelector((state) => state);
+  console.log(state, "statestatestate");
 
   //States
   const [showNewPasswordIcon, setShowNewPasswordIcon] = useState(false);
@@ -101,6 +104,8 @@ const PasswordVerification = () => {
       });
     } else {
       setErrorBar(false);
+      console.log(password, "password");
+
       dispatch(PasswordVerificationApi({ password, navigate, t }));
     }
   };
