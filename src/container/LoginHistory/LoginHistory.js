@@ -103,8 +103,8 @@ const LoginHistory = () => {
   const UserLoginHistoryColoumn = [
     {
       title: t("Organization-name"),
-      dataIndex: "organizationname",
-      key: "organizationname",
+      dataIndex: "organizationName",
+      key: "organizationName",
       align: "center",
       ellipsis: true,
       width: 220,
