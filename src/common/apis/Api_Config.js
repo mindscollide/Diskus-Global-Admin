@@ -10,4 +10,8 @@ const loginHistory = {
   RequestMethod: "ServiceManager.GetUserLoginHistory",
 };
 
-export { loginAPi, passwordVerify, loginHistory };
+const searchOrganization = {
+  RequestMethod: "ServiceManager.SearchOrganization",
+};
+
+export { loginAPi, passwordVerify, loginHistory, searchOrganization };
