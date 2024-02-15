@@ -37,15 +37,24 @@ const ViewOrganization = () => {
   let currentLanguage = localStorage.getItem("i18nextLng");
 
   const ViewOrganizationData = useSelector(
-    (state) => state.searchOrganization.searchOrganizationData.result
+    (state) => state.searchOrganization.searchOrganizationData
   );
 
-  console.log(ViewOrganizationData, "viewOrganization");
+  console.log(
+    ViewOrganizationData,
+    "ViewOrganizationDataViewOrganizationDataViewOrganizationData"
+  );
 
   const [searchBox, setSearchBox] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
   const [viewOrganizationData, setViewOrganizationData] = useState([]);
+  const [searchOrganizationData, setSearchOrganizationData] = useState({
+    userName: "",
+    userEmail: "",
+    DateFrom: "",
+    DateTo: "",
+  });
 
   //Calling Organization Api
   useEffect(() => {
@@ -71,12 +80,12 @@ const ViewOrganization = () => {
           ViewOrganizationData.searchOrganizations,
           "ViewOrganizationDataViewOrganizationData"
         );
-        setViewOrganizationData(ViewOrganizationData.searchOrganizations);
+        setViewOrganizationData(
+          ViewOrganizationData.result.searchOrganizations
+        );
       }
     } catch {}
   }, [ViewOrganizationData]);
-
-  console.log(viewOrganizationData, "ViewOrganizationColoumn");
 
   const ViewOrganizationColoumn = [
     {
@@ -188,54 +197,6 @@ const ViewOrganization = () => {
     dispatch(editSubscriptionModalOpen(true));
   };
 
-  //Dummy data of Table
-
-  const data = [
-    {
-      key: "1",
-      editSubscription: (
-        <>
-          <Row>
-            <Col
-              lg={12}
-              md={12}
-              sm={12}
-              className="d-flex justify-content-center"
-            >
-              <img
-                src={EditIcon}
-                alt=""
-                draggable="false"
-                className={styles["EditIcon"]}
-                onClick={handleEditSubscriptionModal}
-              />
-            </Col>
-          </Row>
-        </>
-      ),
-      editOrganization: (
-        <>
-          <Row>
-            <Col
-              lg={12}
-              md={12}
-              sm={12}
-              className="d-flex justify-content-center"
-            >
-              <img
-                src={EditIcon}
-                alt=""
-                draggable="false"
-                className={styles["EditIcon"]}
-                onClick={handleEditOrganizationModal}
-              />
-            </Col>
-          </Row>
-        </>
-      ),
-    },
-  ];
-
   const HandleopenSearchBox = () => {
     setSearchBox(!searchBox);
   };
@@ -250,6 +211,76 @@ const ViewOrganization = () => {
     { value: "Locked", label: "Locked" },
     { value: "Dormant", label: "Dormant" },
   ];
+
+  //onChange for View Orgniazation Search
+
+  const handleChangeSearchBoxValues = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    console.log({ name, value }, "handleChangeSearchBoxValues");
+
+    // For userName or Title, ensure only letters and whitespace are allowed
+    if (name === "adminName") {
+      if (value !== "") {
+        let valueCheck = /^[A-Za-z\s]*$/i.test(value);
+        if (valueCheck) {
+          setSearchOrganizationData((prevState) => ({
+            ...prevState,
+            [name]: value.trim(),
+          }));
+        }
+      } else {
+        setSearchOrganizationData((prevState) => ({
+          ...prevState,
+          userName: "",
+        }));
+      }
+    } else if (name === "adminEmail") {
+      setSearchOrganizationData((prevState) => ({
+        ...prevState,
+        userEmail: value.trim(),
+      }));
+    }
+  };
+
+  //onChange Date from
+  const handleChangeFromDate = (date) => {
+    let getDate = new Date(date);
+    let utcDate = getDate.toISOString().slice(0, 10).replace(/-/g, "");
+    setSearchOrganizationData({
+      ...searchOrganizationData,
+      DateFrom: utcDate,
+      // DateForView: getDate,
+    });
+  };
+
+  //onChange Date TO
+  const handleChangeToDate = (date) => {
+    let getDate = new Date(date);
+    let utcDate = getDate.toISOString().slice(0, 10).replace(/-/g, "");
+    setSearchOrganizationData({
+      ...searchOrganizationData,
+      DateTo: utcDate,
+      // DateToView: getDate,
+    });
+  };
+
+  const handleSearchButton = () => {
+    let data = {
+      OrganizationID: 0,
+      CountryID: 0,
+      ContactPersonName: searchOrganizationData.userName,
+      Email: searchOrganizationData.userEmail,
+      StatusID: 0,
+      PackageID: 0,
+      SubsictionExpiryStart: searchOrganizationData.DateFrom,
+      SubscriptionExpiryEnd: searchOrganizationData.DateTo,
+      sRow: 0,
+      Length: 10,
+    };
+    console.log(data, "handleSearchButtonhandleSearchButton");
+    // dispatch(searchOrganizationApi({ data, navigate, t }));
+  };
 
   useEffect(() => {
     if (currentLanguage !== undefined && currentLanguage !== null) {
@@ -326,16 +357,28 @@ const ViewOrganization = () => {
                       </Row>
                       <Row className="mt-2">
                         <Col lg={6} md={6} sm={6}>
-                          <TextField labelClass={"d-none"} />
+                          <TextField
+                            labelClass={"d-none"}
+                            value={searchOrganizationData.userName}
+                            name={"adminName"}
+                            placeholder={t("Admin-name")}
+                            change={handleChangeSearchBoxValues}
+                          />
                         </Col>
                         <Col lg={6} md={6} sm={6}>
-                          <TextField labelClass={"d-none"} />
+                          <TextField
+                            labelClass={"d-none"}
+                            name={"adminEmail"}
+                            placeholder={t("Admin-email")}
+                            value={searchOrganizationData.userEmail}
+                            change={handleChangeSearchBoxValues}
+                          />
                         </Col>
                       </Row>
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            // value={searchFields.DateView}
+                            value={searchOrganizationData.DateFrom}
                             format={"DD/MM/YYYY"}
                             placeholder="DD/MM/YYYY"
                             render={
@@ -351,12 +394,12 @@ const ViewOrganization = () => {
                             calendar={calendarValue}
                             locale={localValue}
                             ref={calendRef}
-                            // onChange={meetingDateChangeHandler}
+                            onChange={handleChangeFromDate}
                           />
                         </Col>
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            // value={searchFields.DateView}
+                            value={searchOrganizationData.DateTo}
                             format={"DD/MM/YYYY"}
                             placeholder="DD/MM/YYYY"
                             render={
@@ -372,7 +415,7 @@ const ViewOrganization = () => {
                             calendar={calendarValue}
                             locale={localValue}
                             ref={calendRef}
-                            // onChange={meetingDateChangeHandler}
+                            onChange={handleChangeToDate}
                           />
                         </Col>
                       </Row>
@@ -395,6 +438,7 @@ const ViewOrganization = () => {
                           <Button
                             text={t("Search")}
                             className={styles["SearchButton"]}
+                            onClick={handleSearchButton}
                           />
                         </Col>
                       </Row>
