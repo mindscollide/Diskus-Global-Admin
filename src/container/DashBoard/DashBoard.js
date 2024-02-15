@@ -13,6 +13,13 @@ const DashBoard = () => {
   const { Content } = Layout;
   const authStateLoader = useSelector((state) => state.AuthActions.loading);
   const LoginHistoryLoader = useSelector((state) => state.loginHistory.loading);
+  const { loginHistory } = useSelector((state) => state);
+
+  console.log(
+    LoginHistoryLoader,
+    loginHistory,
+    "LoginHistoryLoaderLoginHistoryLoader"
+  );
   const ViewOrganizationData = useSelector(
     (state) => state.searchOrganization.loading
   );

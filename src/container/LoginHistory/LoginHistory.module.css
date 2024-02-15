@@ -1,6 +1,7 @@
 .HeadingViewORganization {
   font-weight: bold !important;
   font-size: 26px !important;
+  font-family: "MontserratSemiBold-600" !important;
   color: #6172d6 !important;
 }
 
@@ -96,4 +97,12 @@
 
 .CrossIcon_Class {
   cursor: pointer !important;
+}
+
+.user-login-history-table-paper {
+  min-height: 40vh !important;
+  width: 100%;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px !important;
+  padding: 0 20px 20px 0;
 }

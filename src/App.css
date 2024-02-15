@@ -1,6 +1,17 @@
 body {
   background-color: #f6fafd !important;
 }
+::-webkit-scrollbar {
+  width: 0.5rem !important;
+  border-radius: 20px !important;
+  background-color: #f2f2f2 !important;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 20px !important;
+  background: #ccc !important;
+  margin-left: -15px !important;
+}
 
 .dropdown-countrylist .ReactFlagsSelect-module_selectBtn__19wW7 {
   padding: 3px 10px !important;

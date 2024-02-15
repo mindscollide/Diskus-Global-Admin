@@ -54,8 +54,17 @@ const ViewOrganization = () => {
     userEmail: "",
     DateFrom: "",
     DateTo: "",
+    DateToView: "",
+    DateFromView: "",
+    Status: {
+      value: 0,
+      label: "",
+    },
   });
-
+  console.log(
+    searchOrganizationData,
+    "searchOrganizationDatasearchOrganizationData"
+  );
   //Calling Organization Api
   useEffect(() => {
     let data = {
@@ -206,40 +215,26 @@ const ViewOrganization = () => {
   };
 
   const options = [
-    { value: "Enabled", label: "Enabled" },
-    { value: "Disabled", label: "Disabled" },
-    { value: "Locked", label: "Locked" },
-    { value: "Dormant", label: "Dormant" },
+    { value: "1", label: "Enabled" },
+    { value: "2", label: "Disabled" },
+    { value: "3", label: "Locked" },
+    { value: "4", label: "Dormant" },
   ];
 
   //onChange for View Orgniazation Search
 
-  const handleChangeSearchBoxValues = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-    console.log({ name, value }, "handleChangeSearchBoxValues");
-
-    // For userName or Title, ensure only letters and whitespace are allowed
+  const searchViewOrganizationHandler = (event) => {
+    const { name, value } = event.target;
     if (name === "adminName") {
-      if (value !== "") {
-        let valueCheck = /^[A-Za-z\s]*$/i.test(value);
-        if (valueCheck) {
-          setSearchOrganizationData((prevState) => ({
-            ...prevState,
-            [name]: value.trim(),
-          }));
-        }
-      } else {
-        setSearchOrganizationData((prevState) => ({
-          ...prevState,
-          userName: "",
-        }));
-      }
+      setSearchOrganizationData({
+        ...searchOrganizationData,
+        userName: value,
+      });
     } else if (name === "adminEmail") {
-      setSearchOrganizationData((prevState) => ({
-        ...prevState,
-        userEmail: value.trim(),
-      }));
+      setSearchOrganizationData({
+        ...searchOrganizationData,
+        userEmail: value,
+      });
     }
   };
 
@@ -250,7 +245,7 @@ const ViewOrganization = () => {
     setSearchOrganizationData({
       ...searchOrganizationData,
       DateFrom: utcDate,
-      // DateForView: getDate,
+      DateFromView: getDate,
     });
   };
 
@@ -261,9 +256,23 @@ const ViewOrganization = () => {
     setSearchOrganizationData({
       ...searchOrganizationData,
       DateTo: utcDate,
-      // DateToView: getDate,
+      DateToFrom: getDate,
     });
   };
+
+  //handle status change
+
+  const handleStatusChange = (selectedOption) => {
+    setSearchOrganizationData((prevState) => ({
+      ...prevState,
+      Status: selectedOption,
+    }));
+  };
+
+  console.log(
+    searchOrganizationData.Status,
+    "searchOrganizationDatasearchOrganizationData"
+  );
 
   const handleSearchButton = () => {
     let data = {
@@ -271,15 +280,15 @@ const ViewOrganization = () => {
       CountryID: 0,
       ContactPersonName: searchOrganizationData.userName,
       Email: searchOrganizationData.userEmail,
-      StatusID: 0,
+      StatusID: Number(searchOrganizationData.Status.value),
       PackageID: 0,
-      SubsictionExpiryStart: searchOrganizationData.DateFrom,
+      SubscriptionExpiryStart: searchOrganizationData.DateFrom,
       SubscriptionExpiryEnd: searchOrganizationData.DateTo,
       sRow: 0,
       Length: 10,
     };
     console.log(data, "handleSearchButtonhandleSearchButton");
-    // dispatch(searchOrganizationApi({ data, navigate, t }));
+    dispatch(searchOrganizationApi({ data, navigate, t }));
   };
 
   useEffect(() => {
@@ -362,7 +371,7 @@ const ViewOrganization = () => {
                             value={searchOrganizationData.userName}
                             name={"adminName"}
                             placeholder={t("Admin-name")}
-                            change={handleChangeSearchBoxValues}
+                            change={searchViewOrganizationHandler}
                           />
                         </Col>
                         <Col lg={6} md={6} sm={6}>
@@ -371,14 +380,14 @@ const ViewOrganization = () => {
                             name={"adminEmail"}
                             placeholder={t("Admin-email")}
                             value={searchOrganizationData.userEmail}
-                            change={handleChangeSearchBoxValues}
+                            change={searchViewOrganizationHandler}
                           />
                         </Col>
                       </Row>
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            value={searchOrganizationData.DateFrom}
+                            value={searchOrganizationData.DateFromView}
                             format={"DD/MM/YYYY"}
                             placeholder="DD/MM/YYYY"
                             render={
@@ -399,7 +408,7 @@ const ViewOrganization = () => {
                         </Col>
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            value={searchOrganizationData.DateTo}
+                            value={searchOrganizationData.DateToView}
                             format={"DD/MM/YYYY"}
                             placeholder="DD/MM/YYYY"
                             render={
@@ -421,7 +430,11 @@ const ViewOrganization = () => {
                       </Row>
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
-                          <Select options={options} />
+                          <Select
+                            value={searchOrganizationData.Status}
+                            options={options}
+                            onChange={handleStatusChange}
+                          />
                         </Col>
                       </Row>
                       <Row className="mt-3">

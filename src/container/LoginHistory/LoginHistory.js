@@ -20,6 +20,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getTimeDifference } from "../../common/functions/timeFormatters";
 import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Spin } from "antd";
+import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
 
 const LoginHistory = () => {
   const { t } = useTranslation();
@@ -44,7 +47,10 @@ const LoginHistory = () => {
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
   const [tablerows, setTablerows] = useState([]);
-  console.log(tablerows, "tablerowstablerowstablerowstablerows");
+  const [isScroll, setIsScroll] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [isRowsData, setSRowsData] = useState(0);
+  console.log(totalRecords, isRowsData, "isRowsDataisRowsData");
   const [userLoginHistorySearch, setUserLoginHistorySearch] = useState({
     userName: "",
     userEmail: "",
@@ -74,6 +80,8 @@ const LoginHistory = () => {
       sRow: 0,
       Length: 10,
     };
+    dispatch(loginHistoryLoader(true));
+
     dispatch(LoginHistoryAPI({ data, navigate, t }));
   }, []);
 
@@ -92,7 +100,32 @@ const LoginHistory = () => {
   useEffect(() => {
     try {
       if (UserLoginHistoryData !== null && UserLoginHistoryData !== undefined) {
-        setTablerows(UserLoginHistoryData.result.userLoginHistoryModel);
+        if (
+          UserLoginHistoryData.result.userLoginHistoryModel.length > 0 &&
+          UserLoginHistoryData.result.totalCount > 0
+        ) {
+          if (isScroll) {
+            setIsScroll(false);
+            let copyData = [...tablerows];
+            UserLoginHistoryData.result.userLoginHistoryModel.forEach(
+              (data, index) => {
+                copyData.push(data);
+              }
+            );
+            setTablerows(copyData);
+            setSRowsData(
+              (prev) =>
+                prev + UserLoginHistoryData.result.userLoginHistoryModel.length
+            );
+            setTotalRecords(UserLoginHistoryData.result.totalCount);
+          } else {
+            setTablerows(UserLoginHistoryData.result.userLoginHistoryModel);
+            setTotalRecords(UserLoginHistoryData.result.totalCount);
+            setSRowsData(
+              UserLoginHistoryData.result.userLoginHistoryModel.length
+            );
+          }
+        }
       }
     } catch {}
   }, [UserLoginHistoryData]);
@@ -288,6 +321,8 @@ const LoginHistory = () => {
           sRow: 0,
           Length: 10,
         };
+        dispatch(loginHistoryLoader(true));
+
         dispatch(LoginHistoryAPI({ data, navigate, t }));
         setSearchBox(false);
         setShowSearchText(true);
@@ -298,7 +333,7 @@ const LoginHistory = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      let Data = {
+      let data = {
         OrganizationID: 0,
         Username: userLoginHistorySearch.userName,
         UserEmail: userLoginHistorySearch.userEmail,
@@ -312,7 +347,9 @@ const LoginHistory = () => {
         sRow: 0,
         Length: 10,
       };
-      dispatch(LoginHistoryAPI({ Data, navigate, t }));
+      dispatch(loginHistoryLoader(true));
+
+      dispatch(LoginHistoryAPI({ data, navigate, t }));
       setUserLoginHistorySearch([
         ...userLoginHistorySearch,
         userLoginHistorySearch.userName,
@@ -341,6 +378,8 @@ const LoginHistory = () => {
       Length: 10,
     };
     console.log(data, "consoleconsole");
+    dispatch(loginHistoryLoader(true));
+
     dispatch(LoginHistoryAPI({ data, navigate, t }));
   };
 
@@ -364,6 +403,28 @@ const LoginHistory = () => {
       });
     } catch (error) {
       console.log(error, "userLoginHistorySearchuserLoginHistorySearch");
+    }
+  };
+
+  const handleScroll = async (e) => {
+    if (isRowsData <= totalRecords) {
+      setIsScroll(true);
+      let data = {
+        OrganizationID: 0,
+        Username: "",
+        UserEmail: "",
+        IpAddress: "",
+        DeviceID: "",
+        DateLogin: "",
+        DateLogOut: "",
+        sRow: Number(isRowsData),
+        Length: 10,
+      };
+      dispatch(loginHistoryLoader(false));
+
+      dispatch(LoginHistoryAPI({ data, navigate, t }));
+    } else {
+      setIsScroll(false);
     }
   };
 
@@ -661,17 +722,41 @@ const LoginHistory = () => {
       </Row>
       <Row className="mt-3">
         <Col lg={12} md={12} sm={12}>
-          <Table
-            column={UserLoginHistoryColoumn}
-            pagination={false}
-            rows={tablerows}
-            footer={false}
-            className={"userlogin_history_tableP"}
-            size={"small"}
-            scroll={{
-              x: false,
-            }}
-          />
+          <InfiniteScroll
+            dataLength={tablerows.length}
+            next={handleScroll}
+            height={"60vh"}
+            hasMore={tablerows.length === totalRecords ? false : true}
+            loader={
+              isRowsData <= totalRecords && isScroll ? (
+                <>
+                  <Row>
+                    <Col
+                      sm={12}
+                      md={12}
+                      lg={12}
+                      className="d-flex justify-content-center mt-2"
+                    >
+                      <Spin />
+                    </Col>
+                  </Row>
+                </>
+              ) : null
+            }
+            scrollableTarget="scrollableDiv"
+          >
+            <Table
+              column={UserLoginHistoryColoumn}
+              pagination={false}
+              rows={tablerows}
+              footer={false}
+              className={"userlogin_history_tableP"}
+              size={"small"}
+              scroll={{
+                x: false,
+              }}
+            />
+          </InfiniteScroll>
         </Col>
       </Row>
     </Container>

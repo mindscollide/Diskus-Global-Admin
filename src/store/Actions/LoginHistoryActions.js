@@ -2,10 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { loginHistory } from "../../common/apis/Api_Config";
 import { adminURL } from "../../common/apis/Api_endPoints";
+import { loginHistoryLoader } from "../ActionsSlicers/LoginHistorySlicer";
 
 export const LoginHistoryAPI = createAsyncThunk(
   "LoginHistory/LoginHistory",
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
     console.log(requestData, "requestDatarequestData");
     let { data, navigate, t } = requestData;
@@ -14,6 +15,7 @@ export const LoginHistoryAPI = createAsyncThunk(
     form.append("RequestMethod", loginHistory.RequestMethod);
 
     try {
+      // dispatch()
       const response = await axios({
         method: "post",
         url: adminURL,
@@ -33,6 +35,7 @@ export const LoginHistoryAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_GetUserLoginHistory_01".toLowerCase()
               )
           ) {
+            dispatch(loginHistoryLoader(false));
             try {
               return {
                 result: response.data.responseResult,
@@ -48,6 +51,8 @@ export const LoginHistoryAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_GetUserLoginHistory_02".toLowerCase()
               )
           ) {
+            dispatch(loginHistoryLoader(false));
+
             return rejectWithValue("No data available");
           } else if (
             response.data.responseResult.responseMessage
@@ -56,14 +61,22 @@ export const LoginHistoryAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_GetUserLoginHistory_03".toLowerCase()
               )
           ) {
+            dispatch(loginHistoryLoader(false));
+
             return rejectWithValue("Something-went-wrong");
           } else {
+            dispatch(loginHistoryLoader(false));
+
             return rejectWithValue("Something-went-wrong");
           }
         } else {
+          dispatch(loginHistoryLoader(false));
+
           return rejectWithValue("Something-went-wrong");
         }
       } else {
+        dispatch(loginHistoryLoader(false));
+
         return rejectWithValue("Something-went-wrong");
       }
     } catch (error) {
