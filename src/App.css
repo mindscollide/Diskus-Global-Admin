@@ -42,3 +42,7 @@ body {
   border: 1px solid #e1e1e1 !important;
   font-family: "MontserratSemiBold-600" !important;
 }
+
+.ant-table-wrapper.userlogin_history_tableP .ant-table-tbody tr td {
+  font-weight: 600;
+}
