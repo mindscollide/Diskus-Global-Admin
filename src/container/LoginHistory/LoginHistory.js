@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./LoginHistory.module.css";
 import { Button, Table, TextField } from "../../components/elements";
 import { Col, Container, Row } from "react-bootstrap";
@@ -6,6 +6,7 @@ import Select from "react-select";
 import { useTranslation } from "react-i18next";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import DatePicker, { DateObject } from "react-multi-date-picker";
+import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import moment from "moment";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import InputIcon from "react-multi-date-picker/components/input_icon";
@@ -14,17 +15,36 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 import PDFIcon from "../../assets/images/OutletImages/color pdf.svg";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
 import { validateEmailEnglishAndArabicFormat } from "../../common/functions/Validate";
+import { LoginHistoryAPI } from "../../store/Actions/LoginHistoryActions";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getTimeDifference } from "../../common/functions/timeFormatters";
+import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
 
 const LoginHistory = () => {
   const { t } = useTranslation();
 
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
   const calendRef = useRef();
 
+  let currentLanguage = localStorage.getItem("i18nextLng");
+
+  const UserLoginHistoryData = useSelector(
+    (state) => state.loginHistory.loginHistoryData
+  );
+
+  console.log(UserLoginHistoryData, "UserLoginHistoryDataUserLoginHistoryData");
+
+  //states for the component
   const [searchBox, setSearchBox] = useState(false);
   const [showsearchText, setShowSearchText] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
-
+  const [tablerows, setTablerows] = useState([]);
+  console.log(tablerows, "tablerowstablerowstablerowstablerows");
   const [userLoginHistorySearch, setUserLoginHistorySearch] = useState({
     userName: "",
     userEmail: "",
@@ -39,58 +59,112 @@ const LoginHistory = () => {
     },
     Title: "",
   });
-
-  const [isEmailValid, SetIsEmailValid] = useState(false);
   const [isIpAddressValid, setIsIpAddressValid] = useState(false);
+
+  //Login history Api calling
+
+  useEffect(() => {
+    let data = {
+      OrganizationID: 0,
+      Username: "",
+      UserEmail: "",
+      IpAddress: "",
+      DeviceID: "",
+      DateLogin: "",
+      DateLogOut: "",
+      sRow: 0,
+      Length: 10,
+    };
+    dispatch(LoginHistoryAPI({ data, navigate, t }));
+  }, []);
+
+  useEffect(() => {
+    if (currentLanguage !== null && currentLanguage !== undefined) {
+      if (currentLanguage === "en") {
+        setCalendarValue(gregorian);
+        setLocalValue(gregorian_en);
+      } else if (currentLanguage === "ar") {
+        setCalendarValue(gregorian);
+        setLocalValue(gregorian_ar);
+      }
+    }
+  }, [currentLanguage]);
+
+  useEffect(() => {
+    try {
+      if (UserLoginHistoryData !== null && UserLoginHistoryData !== undefined) {
+        setTablerows(UserLoginHistoryData.result.userLoginHistoryModel);
+      }
+    } catch {}
+  }, [UserLoginHistoryData]);
+
+  console.log(tablerows, "useEffectuseEffect");
 
   const UserLoginHistoryColoumn = [
     {
-      title: t("Organization-name"),
-      dataIndex: "organizationName",
-      key: "organizationName",
-      width: "175px",
-    },
-    {
       title: t("User-name"),
-      dataIndex: "adminName",
-      key: "adminName",
-      width: "115px",
+      dataIndex: "userName",
+      key: "userName",
+      align: "center",
+      ellipsis: true,
+      width: 220,
     },
     {
       title: t("User-email"),
-      dataIndex: "contactNumber",
-      key: "contactNumber",
-      width: "130px",
+      dataIndex: "emailAddress",
+      key: "emailAddress",
+      align: "center",
+      ellipsis: true,
+      width: 200,
     },
     {
       title: t("Login-date-time"),
-      dataIndex: "SubscriptionExpiry",
-      key: "SubscriptionExpiry",
-      width: "160px",
+      dataIndex: "dateLogin",
+      key: "dateLogin",
+      align: "center",
+      width: 200,
+      render: (text, record) => {
+        return newTimeFormaterForImportMeetingAgenda(text);
+      },
     },
     {
       title: t("Logout-date-time"),
-      dataIndex: "subscriptionStatus",
-      key: "subscriptionStatus",
-      width: "160px",
+      dataIndex: "dateLogOut",
+      key: "dateLogOut",
+      align: "center",
+      width: 200,
+      render: (text, record) => {
+        return newTimeFormaterForImportMeetingAgenda(text);
+      },
     },
     {
       title: t("Session-duration"),
-      dataIndex: "editSubscription",
-      key: "editSubscription",
-      width: "155px",
+      dataIndex: "decision",
+      key: "decision",
+      align: "center",
+      width: 150,
+      render: (text, record) => {
+        console.log(record, "recordrecordrecord");
+        return getTimeDifference(record.dateLogin, record.dateLogOut);
+      },
     },
     {
       title: t("Interface"),
-      dataIndex: "editOrganization",
-      key: "editOrganization",
-      width: "60px",
+      dataIndex: "deviceID",
+      align: "center",
+      key: "deviceID",
+      width: 100,
+
+      render: (text, data) => (
+        <span className={styles["voterCountStyle"]}>{text}</span>
+      ),
     },
     {
       title: t("Ip-address"),
-      dataIndex: "editOrganization",
-      key: "editOrganization",
-      width: "110px",
+      dataIndex: "loggedInFromIP",
+      align: "center",
+      key: "loggedInFromIP",
+      width: 120,
     },
   ];
 
@@ -178,13 +252,6 @@ const LoginHistory = () => {
     }
   };
 
-  const options = [
-    { value: "Enabled", label: "Enabled" },
-    { value: "Disabled", label: "Disabled" },
-    { value: "Locked", label: "Locked" },
-    { value: "Dormant", label: "Dormant" },
-  ];
-
   const InterfaceOptions = [
     { value: "Web", label: "Web" },
     { value: "Mobile", label: "Mobile" },
@@ -203,15 +270,18 @@ const LoginHistory = () => {
         userLoginHistorySearch.DateTo !== "" ||
         validateEmailEnglishAndArabicFormat(userLoginHistorySearch.userEmail)
       ) {
-        let Data = {
+        let data = {
+          OrganizationID: 0,
           Username: userLoginHistorySearch.userName,
           UserEmail: userLoginHistorySearch.userEmail,
           IpAddress: userLoginHistorySearch.IpAddress,
-
+          DeviceID: "1",
           DateLogin: userLoginHistorySearch.DateFrom,
           DateLogOut: userLoginHistorySearch.DateTo,
+          sRow: 0,
+          Length: 10,
         };
-        console.log(Data, "DataDataDataDataDataData");
+        dispatch(LoginHistoryAPI({ data, navigate, t }));
         setSearchBox(false);
         setShowSearchText(true);
       } else {
@@ -219,14 +289,38 @@ const LoginHistory = () => {
     } catch {}
   };
 
-  const handleSearches = (data, fieldName) => {
-    console.log(data, fieldName, "datadatadatahandleSearches");
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      let Data = {
+        OrganizationID: 0,
+        Username: userLoginHistorySearch.userName,
+        UserEmail: userLoginHistorySearch.userEmail,
+        IpAddress: userLoginHistorySearch.IpAddress,
+        DeviceID:
+          userLoginHistorySearch.InterFaceType.value === 0
+            ? ""
+            : userLoginHistorySearch.InterFaceType.value,
+        DateLogin: userLoginHistorySearch.DateFrom,
+        DateLogOut: userLoginHistorySearch.DateTo,
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(LoginHistoryAPI({ Data, navigate, t }));
+      setUserLoginHistorySearch([
+        ...userLoginHistorySearch,
+        userLoginHistorySearch.userName,
+      ]);
+    }
+  };
+
+  const handleSearches = (Data, fieldName) => {
+    console.log(Data, fieldName, "datadatadatahandleSearches");
     setUserLoginHistorySearch({
       ...userLoginHistorySearch,
       [fieldName]: "",
     });
 
-    let Data = {
+    let data = {
       Username: fieldName === "userName" ? "" : userLoginHistorySearch.userName,
       UserEmail:
         fieldName === "userEmail" ? "" : userLoginHistorySearch.userEmail,
@@ -239,7 +333,8 @@ const LoginHistory = () => {
       sRow: 0,
       Length: 10,
     };
-    console.log(Data, "consoleconsole");
+    console.log(data, "consoleconsole");
+    dispatch(LoginHistoryAPI({ data, navigate, t }));
   };
 
   const handleReset = () => {
@@ -452,6 +547,7 @@ const LoginHistory = () => {
                         <TextField
                           placeholder={t("User-name")}
                           name={"userName"}
+                          onKeyDown={handleKeyDown}
                           type="text"
                           labelClass={"d-none"}
                           value={userLoginHistorySearch.userName}
@@ -561,8 +657,13 @@ const LoginHistory = () => {
           <Table
             column={UserLoginHistoryColoumn}
             pagination={false}
-            // rows={data}
-            className="Table"
+            rows={tablerows}
+            footer={false}
+            className={"userlogin_history_tableP"}
+            size={"small"}
+            scroll={{
+              x: false,
+            }}
           />
         </Col>
       </Row>

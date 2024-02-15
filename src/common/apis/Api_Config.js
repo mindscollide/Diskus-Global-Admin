@@ -6,4 +6,8 @@ const passwordVerify = {
   RequestMethod: "ServiceManager.GlobalPasswordVerification",
 };
 
-export { loginAPi, passwordVerify };
+const loginHistory = {
+  RequestMethod: "ServiceManager.GetUserLoginHistory",
+};
+
+export { loginAPi, passwordVerify, loginHistory };

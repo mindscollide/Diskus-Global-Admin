@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios"; // Ensure axios is imported
+import axios from "axios";
 import { loginAPi, passwordVerify } from "../../common/apis/Api_Config";
 import { authenticationURL } from "../../common/apis/Api_endPoints";
 
