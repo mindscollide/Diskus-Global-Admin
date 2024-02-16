@@ -549,23 +549,6 @@ const ViewOrganization = () => {
                     </div>
                   ) : null}
 
-                  {showsearchText && searchOrganizationData.Title !== "" ? (
-                    <div className={styles["SearchablesItems"]}>
-                      <span className={styles["Searches"]}>
-                        {searchOrganizationData.Title}
-                      </span>
-                      <img
-                        src={Crossicon}
-                        alt=""
-                        className={styles["CrossIcon_Class"]}
-                        width={13}
-                        onClick={() =>
-                          handleSearches(searchOrganizationData.Title, "Title")
-                        }
-                      />
-                    </div>
-                  ) : null}
-
                   {showsearchText && searchOrganizationData.userEmail !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
