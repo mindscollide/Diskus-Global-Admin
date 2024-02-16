@@ -57,5 +57,8 @@
   "Name": "اسم",
   "Sign-in": "Sign In",
   "Enter-password": "Enter password",
-  "Remember-password": "Remember Password"
+  "Remember-password": "Remember Password",
+  "Securing-your-session-one-step-at-a-time": "Securing your session one step at a time",
+  "Deploying-multiple-encryption-layers": "Deploying multiple encryption layers",
+  "Obfuscating-network": "Obfuscating network"
 }
