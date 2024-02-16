@@ -123,6 +123,7 @@ const ViewOrganization = () => {
           label: "",
         },
       });
+      setShowSearchText(false);
     };
   }, []);
 
@@ -527,7 +528,7 @@ const ViewOrganization = () => {
                 iconClassName={"d-block"}
               />
               <Row>
-                <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
+                <Col lg={12} md={12} sm={12} className="d-flex gap-4 flex-wrap">
                   {showsearchText && searchOrganizationData.userName !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
