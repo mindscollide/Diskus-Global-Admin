@@ -10,7 +10,10 @@ import LanguageSelector from "../../elements/languageSelector/Language-selector"
 import Changepassword from "../../../container/NavBarSelectorsModals/ChangePasswordModal/Changepassword";
 import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 const Header = () => {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,6 +23,10 @@ const Header = () => {
 
   const handleDashboard = () => {
     navigate("/GlobalAdmin");
+  };
+
+  const handleLogout = () => {
+    navigate("/");
   };
 
   return (
@@ -83,7 +90,7 @@ const Header = () => {
                     to="CustomerInformation"
                     className="text-black"
                   >
-                    {"User Information"}
+                    {t("User-information")}
                   </Nav.Link>
                 </Dropdown.Item>
                 <Dropdown.Item className={" text-black"}>
@@ -93,12 +100,15 @@ const Header = () => {
                     className="text-black"
                     onClick={handleChangePasswordModal}
                   >
-                    {"Change password"}
+                    {t("Change-password")}
                   </Nav.Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <Nav.Link className="SignOutOptionMenu text-black border-none">
-                    {"Logout"}
+                  <Nav.Link
+                    className="SignOutOptionMenu text-black border-none"
+                    onClick={handleLogout}
+                  >
+                    {t("Logout")}
                   </Nav.Link>
                 </Dropdown.Item>
               </Dropdown.Menu>
