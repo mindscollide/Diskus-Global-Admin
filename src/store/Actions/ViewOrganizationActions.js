@@ -2,10 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { searchOrganization } from "../../common/apis/Api_Config";
 import { adminURL } from "../../common/apis/Api_endPoints";
+import { viewOrganizationLoader } from "../ActionsSlicers/ViewOrganizationActionSlicer";
 
 export const searchOrganizationApi = createAsyncThunk(
   "searchOragnization/searchOragnization",
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
     console.log(requestData, "requestDatarequestData");
     let { data, navigate, t } = requestData;
@@ -33,6 +34,7 @@ export const searchOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_SearchOrganization_01".toLowerCase()
               )
           ) {
+            dispatch(viewOrganizationLoader(false));
             try {
               return {
                 result: response.data.responseResult,
@@ -48,6 +50,7 @@ export const searchOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_SearchOrganization_02".toLowerCase()
               )
           ) {
+            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("No data available");
           } else if (
             response.data.responseResult.responseMessage
@@ -56,14 +59,18 @@ export const searchOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_SearchOrganization_03".toLowerCase()
               )
           ) {
+            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("Something-went-wrong");
           } else {
+            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("Something-went-wrong");
           }
         } else {
+          dispatch(viewOrganizationLoader(false));
           return rejectWithValue("Something-went-wrong");
         }
       } else {
+        dispatch(viewOrganizationLoader(false));
         return rejectWithValue("Something-went-wrong");
       }
     } catch (error) {

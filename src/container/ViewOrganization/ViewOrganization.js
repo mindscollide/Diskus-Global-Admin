@@ -13,6 +13,8 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 import Select from "react-select";
 import EditIcon from "../../assets/images/OutletImages/Edit_Icon.svg";
 import EditOrganizationModal from "./EditOrganizationModal/EditOrganizationModal";
+import { Spin } from "antd";
+import InfiniteScroll from "react-infinite-scroll-component";
 import {
   editOrganizationModalOpen,
   editSubscriptionModalOpen,
@@ -24,6 +26,7 @@ import { searchOrganizationApi } from "../../store/Actions/ViewOrganizationActio
 import { useNavigate } from "react-router-dom";
 import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
 import moment from "moment";
+import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
@@ -40,11 +43,10 @@ const ViewOrganization = () => {
     (state) => state.searchOrganization.searchOrganizationData
   );
 
-  console.log(
-    ViewOrganizationData,
-    "ViewOrganizationDataViewOrganizationDataViewOrganizationData"
-  );
-
+  //States for the component
+  const [isScroll, setIsScroll] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [isRowsData, setSRowsData] = useState(0);
   const [searchBox, setSearchBox] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
@@ -61,10 +63,7 @@ const ViewOrganization = () => {
       label: "",
     },
   });
-  console.log(
-    searchOrganizationData,
-    "searchOrganizationDatasearchOrganizationData"
-  );
+  console.log(totalRecords, isRowsData, "isRowsDataisRowsData");
   //Calling Organization Api
   useEffect(() => {
     let data = {
@@ -79,16 +78,44 @@ const ViewOrganization = () => {
       sRow: 0,
       Length: 10,
     };
+    dispatch(viewOrganizationLoader(true));
     dispatch(searchOrganizationApi({ data, navigate, t }));
   }, []);
+
+  console.log(ViewOrganizationData, "ViewOrganizationDataViewOrganizationData");
 
   useEffect(() => {
     try {
       if (ViewOrganizationData !== null && ViewOrganizationData !== undefined) {
-        console.log(
-          ViewOrganizationData.searchOrganizations,
-          "ViewOrganizationDataViewOrganizationData"
-        );
+        if (
+          ViewOrganizationData.result.searchOrganizations.length > 0 &&
+          ViewOrganizationData.result.totalCount > 0
+        ) {
+          if (isScroll) {
+            setIsScroll(false);
+            //copy pf the rows of table
+            let copyData = [...viewOrganizationData];
+            ViewOrganizationData.result.searchOrganizations.forEach(
+              (data, index) => {
+                copyData.push(data);
+              }
+            );
+            setViewOrganizationData(copyData);
+            setSRowsData(
+              (prev) =>
+                prev + ViewOrganizationData.result.searchOrganizations.length
+            );
+            setTotalRecords(ViewOrganizationData.result.totalCount);
+          } else {
+            setViewOrganizationData(
+              ViewOrganizationData.result.searchOrganizations
+            );
+            setTotalRecords(ViewOrganizationData.result.totalCount);
+            setSRowsData(
+              ViewOrganizationData.result.userLoginHistoryModel.length
+            );
+          }
+        }
         setViewOrganizationData(
           ViewOrganizationData.result.searchOrganizations
         );
@@ -288,6 +315,7 @@ const ViewOrganization = () => {
       Length: 10,
     };
     console.log(data, "handleSearchButtonhandleSearchButton");
+    dispatch(viewOrganizationLoader(true));
     dispatch(searchOrganizationApi({ data, navigate, t }));
   };
 
@@ -302,6 +330,28 @@ const ViewOrganization = () => {
       }
     }
   }, [currentLanguage]);
+
+  const handleScroll = async (e) => {
+    if (isRowsData <= totalRecords) {
+      setIsScroll(true);
+      let data = {
+        OrganizationID: 0,
+        CountryID: 0,
+        ContactPersonName: "",
+        Email: "",
+        StatusID: 0,
+        PackageID: 0,
+        SubsictionExpiryStart: "",
+        SubscriptionExpiryEnd: "",
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(false));
+      dispatch(searchOrganizationApi({ data, navigate, t }));
+    } else {
+      setIsScroll(false);
+    }
+  };
 
   return (
     <>
@@ -464,17 +514,43 @@ const ViewOrganization = () => {
         </Row>
         <Row className="mt-3">
           <Col lg={12} md={12} sm={12}>
-            <Table
-              column={ViewOrganizationColoumn}
-              pagination={false}
-              rows={viewOrganizationData}
-              footer={false}
-              className={"userlogin_history_tableP"}
-              size={"small"}
-              scroll={{
-                x: false,
-              }}
-            />
+            <InfiniteScroll
+              dataLength={viewOrganizationData.length}
+              next={handleScroll}
+              height={"60vh"}
+              hasMore={
+                viewOrganizationData.length === totalRecords ? false : true
+              }
+              loader={
+                isRowsData <= totalRecords && isScroll ? (
+                  <>
+                    <Row>
+                      <Col
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        className="d-flex justify-content-center mt-2"
+                      >
+                        <Spin />
+                      </Col>
+                    </Row>
+                  </>
+                ) : null
+              }
+              scrollableTarget="scrollableDiv"
+            >
+              <Table
+                column={ViewOrganizationColoumn}
+                pagination={false}
+                rows={viewOrganizationData}
+                footer={false}
+                className={"userlogin_history_tableP"}
+                size={"small"}
+                scroll={{
+                  x: false,
+                }}
+              />
+            </InfiniteScroll>
           </Col>
         </Row>
       </Container>

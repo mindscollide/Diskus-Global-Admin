@@ -106,6 +106,7 @@ const LoginHistory = () => {
         ) {
           if (isScroll) {
             setIsScroll(false);
+            //copy pf the rows of table
             let copyData = [...tablerows];
             UserLoginHistoryData.result.userLoginHistoryModel.forEach(
               (data, index) => {
@@ -329,32 +330,6 @@ const LoginHistory = () => {
       } else {
       }
     } catch {}
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      let data = {
-        OrganizationID: 0,
-        Username: userLoginHistorySearch.userName,
-        UserEmail: userLoginHistorySearch.userEmail,
-        IpAddress: userLoginHistorySearch.IpAddress,
-        DeviceID:
-          userLoginHistorySearch.InterFaceType.value === 0
-            ? ""
-            : userLoginHistorySearch.InterFaceType.value,
-        DateLogin: userLoginHistorySearch.DateFrom,
-        DateLogOut: userLoginHistorySearch.DateTo,
-        sRow: 0,
-        Length: 10,
-      };
-      dispatch(loginHistoryLoader(true));
-
-      dispatch(LoginHistoryAPI({ data, navigate, t }));
-      setUserLoginHistorySearch([
-        ...userLoginHistorySearch,
-        userLoginHistorySearch.userName,
-      ]);
-    }
   };
 
   const handleSearches = (Data, fieldName) => {
