@@ -14,6 +14,14 @@ const searchOrganization = {
   RequestMethod: "ServiceManager.SearchOrganization",
 };
 
+const editSubscription = {
+  RequestMethod: "ServiceManager.UpdateOrganizationSubscriptionStatus",
+};
+
+const editOrganization = {
+  RequestMethod: "ServiceManager.UpdateOrganizationStatus",
+};
+
 const getAllOrganization = {
   RequestMethod: "ServiceManager.GetAllOrganization",
 };
@@ -23,5 +31,7 @@ export {
   passwordVerify,
   loginHistory,
   searchOrganization,
+  editSubscription,
+  editOrganization,
   getAllOrganization,
 };

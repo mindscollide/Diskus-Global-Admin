@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav, Navbar, DropdownButton } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import DiskusNotificationIcon from "../../../assets/images/DiskusLogo/Diskus-notification_icon.svg";
 import DiskusLogoHeader from "../../../assets/images/DiskusLogo/diskus_newheader.svg";
@@ -12,9 +12,14 @@ import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsA
 import { useDispatch } from "react-redux";
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChangePasswordModal = () => {
     dispatch(ChangePasswordModalOpen(true));
+  };
+
+  const handleDashboard = () => {
+    navigate("/Dashboard");
   };
 
   return (
@@ -22,7 +27,14 @@ const Header = () => {
       <Navbar className="header2-container" sticky="top">
         <section className="d-flex justify-content-between w-100  align-items-center px-5">
           <Navbar.Brand>
-            <img src={DiskusLogoHeader} alt="" width={120} draggable="false" />
+            <img
+              src={DiskusLogoHeader}
+              alt=""
+              width={120}
+              draggable="false"
+              className="pointerClass"
+              onClick={handleDashboard}
+            />
           </Navbar.Brand>
 
           <Nav className="ml-auto align-items-center">

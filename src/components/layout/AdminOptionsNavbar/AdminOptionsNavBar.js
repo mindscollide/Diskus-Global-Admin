@@ -24,33 +24,17 @@ const AdminOptionsNavBar = () => {
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto d-flex justify-content-evenly w-100 py-1">
                   <NavDropdown
-                    title={t("Customer")}
+                    title={t("Organization")}
                     id="collasible-nav-dropdown"
                     className="DiskusAdminNavBar"
                   >
                     <NavDropdown.Item
                       as={Link}
-                      to="AllUserPage"
+                      to="vieworganization"
                       eventKey="link-7"
                       className="text-black border-none"
                     >
-                      {"All-user"}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item
-                      as={Link}
-                      to="AddUser"
-                      eventKey="link-7"
-                      className="text-black border-none"
-                    >
-                      {"Add-user"}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item
-                      as={Link}
-                      to="EditUser"
-                      eventKey="link-8"
-                      className="text-black border-none"
-                    >
-                      {"Edit-user"}
+                      {t("View-organization")}
                     </NavDropdown.Item>
                   </NavDropdown>
 
