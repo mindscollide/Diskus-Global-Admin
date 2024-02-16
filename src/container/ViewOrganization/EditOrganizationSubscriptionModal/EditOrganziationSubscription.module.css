@@ -1,0 +1,65 @@
+.modalFooterClassName {
+  border: none !important;
+  display: block !important;
+}
+
+.EditSubscriptionHeading {
+  font-size: 30px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  font-weight: bold !important;
+  color: #6172d6;
+}
+
+.EditSubscriptionSubHeading {
+  font-size: 16px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  font-weight: bold !important;
+  color: #6172d6;
+}
+
+.Data {
+  font-size: 12px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  font-weight: bold !important;
+  color: #5a5a5a !important;
+}
+
+.closeButtonSubscriptionEdit {
+  padding: 12px 30px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  font-size: 12px !important;
+  color: #5a5a5a !important;
+  background: #fff !important;
+  border: 1px solid#e1e1e1 !important;
+  border-radius: 4px !important;
+}
+
+.closeButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  font-size: 12px !important;
+  color: #5a5a5a !important;
+  background: #fff !important;
+  border: 1px solid#e1e1e1 !important;
+  border-radius: 4px !important;
+}
+
+.UpdateButtonSubscriptionEdit {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  color: #fff !important;
+  background: #6172d6 !important;
+  border: none !important;
+  border-radius: 4px !important;
+}
+
+.UpdateButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  color: #fff !important;
+  background: #6172d6 !important;
+  border: none !important;
+  border-radius: 4px !important;
+}

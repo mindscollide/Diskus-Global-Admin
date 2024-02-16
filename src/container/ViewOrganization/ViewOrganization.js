@@ -17,6 +17,8 @@ import { Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
   editOrganizationModalOpen,
+  editOrganizationSubscriptionModalOpen,
+  editSubscriptionConfirmationModalOpen,
   editSubscriptionModalOpen,
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
 import moment from "moment";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
+import EditOrganizationSubscription from "./EditOrganizationSubscriptionModal/EditOrganizationSubscription";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
@@ -175,6 +178,7 @@ const ViewOrganization = () => {
       ellipsis: true,
       width: 200,
       render: (text, record) => {
+        console.log(record, "recordrecordrecord");
         return (
           <Row>
             <Col
@@ -226,7 +230,8 @@ const ViewOrganization = () => {
   ];
 
   const handleEditOrganizationModal = () => {
-    dispatch(editOrganizationModalOpen(true));
+    // dispatch(editOrganizationModalOpen(true));
+    dispatch(editOrganizationSubscriptionModalOpen(true));
   };
 
   const handleEditSubscriptionModal = () => {
@@ -556,7 +561,7 @@ const ViewOrganization = () => {
       </Container>
       <EditOrganizationModal />
       <EditSubscriptionModal />
-      <EditSubscriptionConfirmationModal />
+      <EditOrganizationSubscription />
     </>
   );
 };

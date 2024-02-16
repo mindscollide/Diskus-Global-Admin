@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
-import styles from "./EditSubscriptionConfirmation.module.css";
+import styles from "./EditOrganizationConfirmation.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button, Modal } from "../../../../components/elements";
-import { editSubscriptionConfirmationModalOpen } from "../../../../store/ActionsSlicers/UIModalsActions";
+import {
+  editOrganizationConfirmation,
+  editSubscriptionConfirmationModalOpen,
+} from "../../../../store/ActionsSlicers/UIModalsActions";
 import { Col, Row } from "react-bootstrap";
 import { viewOrganizationLoader } from "../../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { EditSubscriptionAPI } from "../../../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
-const EditSubscriptionConfirmationModal = () => {
+const EditOrganizationConfirmation = () => {
   const ModalReducer = useSelector((state) => state.modal);
   console.log(ModalReducer, "ModalReducerModalReducerModalReducer");
 
@@ -20,31 +23,24 @@ const EditSubscriptionConfirmationModal = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(editSubscriptionConfirmationModalOpen(false));
+      dispatch(editOrganizationConfirmation(false));
     };
   }, []);
 
   const handleClose = () => {
-    dispatch(editSubscriptionConfirmationModalOpen(false));
+    dispatch(editOrganizationConfirmation(false));
   };
 
   const handleCancelButton = () => {
-    dispatch(editSubscriptionConfirmationModalOpen(false));
+    dispatch(editOrganizationConfirmation(false));
   };
 
-  const handleEditSubscriptionProceed = () => {
-    let data = {
-      OrganizationID: 463,
-      SubscriptionStatusID: 2,
-    };
-    dispatch(viewOrganizationLoader(false));
-    dispatch(EditSubscriptionAPI({ data, navigate, t }));
-  };
+  const handleEditSubscriptionProceed = () => {};
 
   return (
     <>
       <Modal
-        show={ModalReducer.editSubscriptionConfirmationModal}
+        show={ModalReducer.editOrganizationConfirmationModal}
         onHide={handleClose}
         closeButton={false}
         modalFooterClassName={styles["modalFooterClassName"]}
@@ -95,4 +91,4 @@ const EditSubscriptionConfirmationModal = () => {
   );
 };
 
-export default EditSubscriptionConfirmationModal;
+export default EditOrganizationConfirmation;
