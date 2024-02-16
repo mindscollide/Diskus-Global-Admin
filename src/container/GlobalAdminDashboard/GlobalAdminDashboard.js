@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./GlobalAdminDashboard.module.css";
 import magnifyGlassIcon from "../../assets/images/OutletImages/Magglass Search Icon.png";
+import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Pie } from "@ant-design/plots";
@@ -674,7 +675,7 @@ const GlobalAdminDashboard = () => {
                               className="d-flex gap-2 align-items-center"
                             >
                               <img
-                                src={magnifyGlassIcon}
+                                src={Search_Icon}
                                 alt=""
                                 className={styles["Search_Bar_icon_class"]}
                                 draggable="false"
