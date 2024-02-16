@@ -493,7 +493,7 @@ const ViewOrganization = () => {
 
   return (
     <>
-      <Container>
+      <Container fluid>
         <Row className="mt-3">
           <Col lg={7} md={7} sm={7}>
             <span className={styles["HeadingViewORganization"]}>

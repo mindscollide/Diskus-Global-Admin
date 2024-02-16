@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   const handleDashboard = () => {
-    navigate("/Dashboard");
+    navigate("/GlobalAdmin");
   };
 
   return (
