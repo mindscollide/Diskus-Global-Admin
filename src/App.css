@@ -187,3 +187,17 @@ span.Sub-Title {
   font-size: 12px;
   color: #5a5a5a;
 }
+
+span.Main-Title.Table {
+  color: #6172d6;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 20px;
+  font-family: "MontserratSemiBold-600";
+}
+
+span.Sub-Title.Table {
+  font-family: "Montserrat";
+  font-size: 10px;
+  color: #5a5a5a;
+}
