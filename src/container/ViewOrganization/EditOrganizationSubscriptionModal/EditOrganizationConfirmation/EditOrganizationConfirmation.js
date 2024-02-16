@@ -63,20 +63,18 @@ const EditOrganizationConfirmation = ({
         size={"md"}
         ModalBody={
           <>
-            <section className={styles["Padding"]}>
-              <Row>
-                <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
-                  className="d-flex justify-content-center"
-                >
-                  <span className={styles["ConfirmationModalHeading"]}>
-                    {t("Are-you-sure-you-want-to-update-the-changes")}
-                  </span>
-                </Col>
-              </Row>
-            </section>
+            <Row>
+              <Col
+                lg={12}
+                md={12}
+                sm={12}
+                className="d-flex justify-content-center"
+              >
+                <span className={styles["ConfirmationModalHeading"]}>
+                  {t("Are-you-sure-you-want-to-update-the-changes")}
+                </span>
+              </Col>
+            </Row>
           </>
         }
         ModalFooter={
