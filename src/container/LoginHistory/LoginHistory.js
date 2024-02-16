@@ -22,6 +22,7 @@ import { getTimeDifference } from "../../common/functions/timeFormatters";
 import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
+import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
 
 const LoginHistory = () => {
@@ -34,6 +35,13 @@ const LoginHistory = () => {
   const calendRef = useRef();
 
   let currentLanguage = localStorage.getItem("i18nextLng");
+
+  const organizationIdData = useSelector(
+    (state) => state.searchOrganization.getAllOrganizationData
+  );
+
+  const [organizationData, setOrganizationData] = useState([]);
+  const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
   const UserLoginHistoryData = useSelector(
     (state) => state.loginHistory.loginHistoryData
@@ -96,6 +104,24 @@ const LoginHistory = () => {
       }
     }
   }, [currentLanguage]);
+
+  useEffect(() => {
+    if (
+      organizationIdData?.result.getAllOrganizations.length > 0 &&
+      organizationIdData?.result.getAllOrganizations !== null
+    ) {
+      setOrganizationData(
+        organizationIdData.result.getAllOrganizations.map((item) => ({
+          value: item.organizationID,
+          label: item.organizationName,
+        }))
+      );
+    }
+  }, [organizationIdData]);
+
+  const organizerChangeHandler = (selectedOrganizer) => {
+    setOrganizationDataValue(selectedOrganizer);
+  };
 
   useEffect(() => {
     try {
@@ -671,10 +697,17 @@ const LoginHistory = () => {
                       </Col>
                     </Row>
                     <Row className="mt-3">
+                      <Col lg={6} md={6} sm={6}>
+                        <Select
+                          value={organizationDataValue}
+                          options={organizationData}
+                          onChange={organizerChangeHandler}
+                        />
+                      </Col>
                       <Col
-                        lg={12}
-                        md={12}
-                        sm={12}
+                        lg={6}
+                        md={6}
+                        sm={6}
                         className="d-flex justify-content-end gap-2"
                       >
                         <Button

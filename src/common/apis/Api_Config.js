@@ -14,4 +14,14 @@ const searchOrganization = {
   RequestMethod: "ServiceManager.SearchOrganization",
 };
 
-export { loginAPi, passwordVerify, loginHistory, searchOrganization };
+const getAllOrganization = {
+  RequestMethod: "ServiceManager.GetAllOrganization",
+};
+
+export {
+  loginAPi,
+  passwordVerify,
+  loginHistory,
+  searchOrganization,
+  getAllOrganization,
+};
