@@ -69,5 +69,22 @@
   "Search": "Search",
   "Arabic": "Arabic",
   "Update": "Update",
-  "Close": "Close"
+  "Close": "Close",
+  "Proceed": "Proceed",
+  "Cancel": "Cancel",
+  "Users": "Users",
+  "Apex-arcane-enterprises-bill-due": "Apex arcane enterprises bill due",
+  "Month": "Month",
+  "No-organization": "No Organization",
+  "No-organization-found-this-month": "No organization found this month",
+  "Logout": "Logout",
+  "In-active": "In Active",
+  "Active": "Active",
+  "Suspended": "Suspended",
+  "Closed": "Closed",
+  "Termination-requested": "Termination Requested",
+  "Cancelled": "Cancelled",
+  "Web": "Web",
+  "Mobile": "Mobile",
+  "Tablet": "Tablet"
 }

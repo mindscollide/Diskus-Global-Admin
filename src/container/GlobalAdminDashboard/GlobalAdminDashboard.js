@@ -558,7 +558,7 @@ const GlobalAdminDashboard = () => {
                 >
                   <span className={styles["PrizeStyles"]}>145$</span>
                   <span className={styles["PrizeSubHeading"]}>
-                    Apex Arcane Enterprises Bill due
+                    {t("Apex-arcane-enterprises-bill-due")}
                   </span>
                 </Col>
               </Row>
@@ -579,9 +579,11 @@ const GlobalAdminDashboard = () => {
                               alt=""
                             />
 
-                            <span className="Main-Title">No Organization</span>
+                            <span className="Main-Title">
+                              {t("No-organization")}
+                            </span>
                             <span className="Sub-Title">
-                              No organization found this month
+                              {t("No-organization-found-this-month")}
                             </span>
                           </section>
                         </>
@@ -726,10 +728,10 @@ const GlobalAdminDashboard = () => {
                             />
 
                             <span className="Main-Title Table">
-                              No Organization
+                              {t("No-organization")}
                             </span>
                             <span className="Sub-Title Table">
-                              No organization found this month
+                              {t("No-organization-found-this-month")}
                             </span>
                           </section>
                         </>
@@ -753,10 +755,10 @@ const GlobalAdminDashboard = () => {
                             />
 
                             <span className="Main-Title Table">
-                              No Organization
+                              {t("No-organization")}
                             </span>
                             <span className="Sub-Title Table">
-                              No organization found this month
+                              {t("No-organization-found-this-month")}
                             </span>
                           </section>
                         </>
@@ -780,10 +782,10 @@ const GlobalAdminDashboard = () => {
                             />
 
                             <span className="Main-Title Table">
-                              No Organization
+                              {t("No-organization")}
                             </span>
                             <span className="Sub-Title Table">
-                              No organization found this month
+                              {t("No-organization-found-this-month")}
                             </span>
                           </section>
                         </>
@@ -807,10 +809,10 @@ const GlobalAdminDashboard = () => {
                             />
 
                             <span className="Main-Title Table">
-                              No Organization
+                              {t("No-organization")}
                             </span>
                             <span className="Sub-Title Table">
-                              No organization found this month
+                              {t("No-organization-found-this-month")}
                             </span>
                           </section>
                         </>
@@ -834,10 +836,10 @@ const GlobalAdminDashboard = () => {
                             />
 
                             <span className="Main-Title Table">
-                              No Organization
+                              {t("No-organization")}
                             </span>
                             <span className="Sub-Title Table">
-                              No organization found this month
+                              {t("No-organization-found-this-month")}
                             </span>
                           </section>
                         </>
@@ -861,10 +863,10 @@ const GlobalAdminDashboard = () => {
                             />
 
                             <span className="Main-Title Table">
-                              No Organization
+                              {t("No-organization")}
                             </span>
                             <span className="Sub-Title Table">
-                              No organization found this month
+                              {t("No-organization-found-this-month")}
                             </span>
                           </section>
                         </>
@@ -888,10 +890,10 @@ const GlobalAdminDashboard = () => {
                             />
 
                             <span className="Main-Title Table">
-                              No Organization
+                              {t("No-organization")}
                             </span>
                             <span className="Sub-Title Table">
-                              No organization found this month
+                              {t("No-organization-found-this-month")}
                             </span>
                           </section>
                         </>

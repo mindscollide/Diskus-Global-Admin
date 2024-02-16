@@ -70,5 +70,22 @@
   "Arabic": "عربي",
   "Admin-email": "البريد الإلكتروني المشرف",
   "Update": "تحديث",
-  "Close": "يغلق"
+  "Close": "يغلق",
+  "Proceed": "يتابع",
+  "Cancel": "يلغي",
+  "Users": "المستخدمين",
+  "Apex-arcane-enterprises-bill-due": "فاتورة Apex Arcane Enterprises مستحقة الدفع",
+  "Month": "شهر",
+  "No-organization": "لا منظمة",
+  "No-organization-found-this-month": "لم يتم العثور على منظمة هذا الشهر",
+  "Logout": "تسجيل خروج",
+  "In-active": "غير نشط",
+  "Active": "نشيط",
+  "Suspended": "معلق",
+  "Closed": "مغلق",
+  "Termination-requested": "طلب الإنهاء",
+  "Cancelled": "ألغيت",
+  "Web": "ويب",
+  "Mobile": "متحرك",
+  "Tablet": "لوح"
 }
