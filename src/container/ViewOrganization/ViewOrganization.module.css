@@ -2,6 +2,7 @@
   font-weight: bold !important;
   font-size: 26px !important;
   color: #6172d6 !important;
+  font-family: "montserrat-500" !important;
 }
 
 .Search_Bar_icon_class {
@@ -67,4 +68,11 @@
 
 .EditIcon {
   cursor: pointer !important;
+}
+
+.inner-sub-Heading {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: "montserrat-500" !important;
 }

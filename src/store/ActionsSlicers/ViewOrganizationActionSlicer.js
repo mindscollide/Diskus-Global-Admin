@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   EditOrganizationAPI,
   EditSubscriptionAPI,
+  getAllOrganizationApi,
   searchOrganizationApi,
 } from "../Actions/ViewOrganizationActions";
 
@@ -10,6 +11,7 @@ const initialState = {
   searchOrganizationData: null,
   editSubscriptionData: null,
   editOrganizationData: null,
+  getAllOrganizationData: null,
   Responsemessage: "",
 };
 
@@ -60,6 +62,16 @@ const searchOrganization = createSlice({
 
       .addCase(EditOrganizationAPI.rejected, (state, action) => {
         state.editOrganizationData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      .addCase(getAllOrganizationApi.pending, (state) => {})
+      .addCase(getAllOrganizationApi.fulfilled, (state, action) => {
+        state.getAllOrganizationData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getAllOrganizationApi.rejected, (state, action) => {
+        state.getAllOrganizationData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

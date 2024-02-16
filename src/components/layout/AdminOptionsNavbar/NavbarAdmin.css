@@ -92,6 +92,7 @@ body[dir="rtl"] .DiskusAdminNavBar > .dropdown-menu .dropdown-item:hover {
   background-color: transparent;
   cursor: pointer;
   border: none !important;
+  font-family: "montserrat-bold" !important;
 }
 body[dir="rtl"] .DiskusAdminNavBar a:nth-child(1) {
   font-family: "IBMPlexSansArabic-SemiBold" !important;
@@ -121,7 +122,7 @@ body[dir="rtl"] .DiskusAdminNavBar a:nth-child(1) {
   text-align: center;
   padding: 10px 10px;
   font-size: 13px !important;
-  font-family: "MontserratMedium";
+  /* font-family: "MontserratMedium"; */
   border-bottom: 1px solid #dadada !important;
   white-space: nowrap !important;
   width: 100%;

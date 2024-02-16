@@ -22,6 +22,10 @@ const editOrganization = {
   RequestMethod: "ServiceManager.UpdateOrganizationStatus",
 };
 
+const getAllOrganization = {
+  RequestMethod: "ServiceManager.GetAllOrganization",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -29,4 +33,5 @@ export {
   searchOrganization,
   editSubscription,
   editOrganization,
+  getAllOrganization,
 };
