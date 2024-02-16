@@ -15,7 +15,7 @@ export const newTimeFormaterForImportMeetingAgenda = (dateTime) => {
     dateTime?.slice(12, 14) +
     ".000Z";
   let _dateTime = new Date(fullDateyear).toString("YYYYMMDDHHmmss");
-  return moment(_dateTime).format("h:mm A - D MMM, YYYY");
+  return moment(_dateTime).format("h:mm A - DD MMM, YYYY");
 };
 
 export const utcConvertintoGMT = (date) => {
@@ -35,3 +35,21 @@ export const utcConvertintoGMT = (date) => {
   let _dateTime = new Date(fullDateyear);
   return _dateTime;
 };
+
+export function convertUTCDateToLocalDate(dateString) {
+  const currentLanguage = localStorage.getItem("currentLanguage");
+
+  const dateTimeString = dateString + "235958";
+  const date = new Date(
+    Date.UTC(
+      parseInt(dateTimeString.substring(0, 4), 10),
+      parseInt(dateTimeString.substring(4, 6), 10) - 1,
+      parseInt(dateTimeString.substring(6, 8), 10),
+      parseInt(dateTimeString.substring(8, 10), 10),
+      parseInt(dateTimeString.substring(10, 12), 10),
+      parseInt(dateTimeString.substring(12, 14), 10)
+    )
+  );
+  const options = { day: "2-digit", month: "short", year: "numeric" };
+  return date.toLocaleDateString(currentLanguage, options).replace(/ /g, " ");
+}

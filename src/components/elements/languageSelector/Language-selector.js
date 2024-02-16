@@ -30,15 +30,16 @@ const LanguageSelector = () => {
   ]);
 
   const handleChangeLocale = (lang) => {
-    console.log(lang, "langlanglanglanglanglang ");
     if (lang === "ar") {
       document.body.dir = "rtl";
       i18n.changeLanguage("ar");
       setLanguage("ar");
+      localStorage.setItem("currentLanguage", "ar");
     } else {
       document.body.dir = "ltr";
       i18n.changeLanguage("en");
       setLanguage("en");
+      localStorage.setItem("currentLanguage", "en");
     }
     setLanguageDropdown(false);
     // setLanguage(lang)
