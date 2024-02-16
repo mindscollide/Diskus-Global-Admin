@@ -1,16 +1,22 @@
 import React, { useEffect } from "react";
-import styles from "./EditSubscriptionConfirmation.module.css";
+import styles from "./EditOrganizationConfirmation.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button, Modal } from "../../../../components/elements";
-import { editSubscriptionConfirmationModalOpen } from "../../../../store/ActionsSlicers/UIModalsActions";
+import {
+  editOrganizationConfirmation,
+  editSubscriptionConfirmationModalOpen,
+} from "../../../../store/ActionsSlicers/UIModalsActions";
 import { Col, Row } from "react-bootstrap";
 import { viewOrganizationLoader } from "../../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
-import { EditSubscriptionAPI } from "../../../../store/Actions/ViewOrganizationActions";
+import {
+  EditOrganizationAPI,
+  EditSubscriptionAPI,
+} from "../../../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
-const EditSubscriptionConfirmationModal = ({
-  organizationID,
-  subsciptionStatus,
+const EditOrganizationConfirmation = ({
+  organzationStatus,
+  editOrganizationID,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
   console.log(ModalReducer, "ModalReducerModalReducerModalReducer");
@@ -23,32 +29,32 @@ const EditSubscriptionConfirmationModal = ({
 
   useEffect(() => {
     return () => {
-      dispatch(editSubscriptionConfirmationModalOpen(false));
+      dispatch(editOrganizationConfirmation(false));
     };
   }, []);
 
   const handleClose = () => {
-    dispatch(editSubscriptionConfirmationModalOpen(false));
+    dispatch(editOrganizationConfirmation(false));
   };
 
   const handleCancelButton = () => {
-    dispatch(editSubscriptionConfirmationModalOpen(false));
+    dispatch(editOrganizationConfirmation(false));
   };
 
   const handleEditSubscriptionProceed = () => {
     let data = {
-      OrganizationID: Number(organizationID),
-      SubscriptionStatusID: Number(subsciptionStatus),
+      OrganizationID: Number(editOrganizationID),
+      StatusID: Number(organzationStatus),
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(EditSubscriptionAPI({ data, navigate, t }));
-    dispatch(editSubscriptionConfirmationModalOpen(false));
+    dispatch(EditOrganizationAPI({ data, navigate, t }));
+    dispatch(editOrganizationConfirmation(false));
   };
 
   return (
     <>
       <Modal
-        show={ModalReducer.editSubscriptionConfirmationModal}
+        show={ModalReducer.editOrganizationConfirmationModal}
         onHide={handleClose}
         closeButton={false}
         modalFooterClassName={styles["modalFooterClassName"]}
@@ -99,4 +105,4 @@ const EditSubscriptionConfirmationModal = ({
   );
 };
 
-export default EditSubscriptionConfirmationModal;
+export default EditOrganizationConfirmation;

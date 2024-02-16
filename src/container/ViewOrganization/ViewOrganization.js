@@ -17,6 +17,8 @@ import { Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
   editOrganizationModalOpen,
+  editOrganizationSubscriptionModalOpen,
+  editSubscriptionConfirmationModalOpen,
   editSubscriptionModalOpen,
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
 import moment from "moment";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
+import EditOrganizationSubscription from "./EditOrganizationSubscriptionModal/EditOrganizationSubscription";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
@@ -51,9 +54,15 @@ const ViewOrganization = () => {
   );
 
   const [organizationData, setOrganizationData] = useState([]);
+
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
   //States for the component
+  const [searchorganizationID, setSearchOrganizationID] = useState(0);
+  const [editOrganizationID, setEditOrganizationID] = useState(0);
+  const [editOrganzationName, setEditOrganzationName] = useState("");
+  const [editSubscriptionName, setEditSubscriptionName] = useState("");
+  const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isRowsData, setSRowsData] = useState(0);
@@ -93,12 +102,8 @@ const ViewOrganization = () => {
       Length: 10,
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(searchOrganizationApi({ data, navigate, t }));
-  }, []);
-
-  useEffect(() => {
-    dispatch(viewOrganizationLoader(false));
     dispatch(getAllOrganizationApi({ navigate, t }));
+    dispatch(searchOrganizationApi({ data, navigate, t }));
   }, []);
 
   useEffect(() => {
@@ -116,8 +121,8 @@ const ViewOrganization = () => {
   }, [organizationIdData]);
 
   const organizerChangeHandler = (selectedOrganizer) => {
+    setSearchOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
-    console.log(selectedOrganizer, "selectedOrganizer");
   };
 
   useEffect(() => {
@@ -233,6 +238,7 @@ const ViewOrganization = () => {
       ellipsis: true,
       width: 200,
       render: (text, record) => {
+        console.log(record, "recordrecordrecord");
         return (
           <Row>
             <Col
@@ -246,7 +252,7 @@ const ViewOrganization = () => {
                 alt=""
                 draggable="false"
                 className={styles["EditIcon"]}
-                onClick={handleEditSubscriptionModal}
+                onClick={() => handleEditSubscriptionModal(record)}
               />
             </Col>
           </Row>
@@ -274,7 +280,7 @@ const ViewOrganization = () => {
                 alt=""
                 draggable="false"
                 className={styles["EditIcon"]}
-                onClick={handleEditOrganizationModal}
+                onClick={() => handleEditOrganizationModal(record)}
               />
             </Col>
           </Row>
@@ -283,12 +289,17 @@ const ViewOrganization = () => {
     },
   ];
 
-  const handleEditOrganizationModal = () => {
-    dispatch(editOrganizationModalOpen(true));
+  const handleEditOrganizationModal = (record) => {
+    // dispatch(editOrganizationModalOpen(true));
+    setEditOrganzationName(record.organizationName);
+    setEditOrganizationID(record.organizationID);
+    dispatch(editOrganizationSubscriptionModalOpen(true));
   };
 
-  const handleEditSubscriptionModal = () => {
+  const handleEditSubscriptionModal = (record) => {
     dispatch(editSubscriptionModalOpen(true));
+    setOrganizationID(record.organizationID);
+    setEditSubscriptionName(record.organizationName);
   };
 
   const HandleopenSearchBox = () => {
@@ -361,7 +372,7 @@ const ViewOrganization = () => {
 
   const handleSearchButton = () => {
     let data = {
-      OrganizationID: 0,
+      OrganizationID: Number(searchorganizationID),
       CountryID: 0,
       ContactPersonName: searchOrganizationData.userName,
       Email: searchOrganizationData.userEmail,
@@ -409,6 +420,26 @@ const ViewOrganization = () => {
     } else {
       setIsScroll(false);
     }
+  };
+
+  const handleResetButton = () => {
+    setOrganizationDataValue(null);
+    setSearchOrganizationData({
+      userName: "",
+      userEmail: "",
+      DateFrom: "",
+      DateTo: "",
+      DateToView: "",
+      DateFromView: "",
+      Status: {
+        value: 0,
+        label: "",
+      },
+      OrganizationID: {
+        value: 0,
+        label: "",
+      },
+    });
   };
 
   return (
@@ -541,6 +572,7 @@ const ViewOrganization = () => {
                           <Select
                             value={searchOrganizationData.Status}
                             options={options}
+                            placeholder={t("Subscription-status")}
                             onChange={handleStatusChange}
                           />
                         </Col>
@@ -562,6 +594,7 @@ const ViewOrganization = () => {
                           <Button
                             text={t("Reset")}
                             className={styles["SearchBoxResetButton"]}
+                            onClick={handleResetButton}
                           />
                           <Button
                             text={t("Search")}
@@ -620,8 +653,14 @@ const ViewOrganization = () => {
         </Row>
       </Container>
       <EditOrganizationModal />
-      <EditSubscriptionModal />
-      <EditSubscriptionConfirmationModal />
+      <EditSubscriptionModal
+        organizationID={organizationID}
+        editSubscriptionName={editSubscriptionName}
+      />
+      <EditOrganizationSubscription
+        editOrganizationID={editOrganizationID}
+        editOrganzationName={editOrganzationName}
+      />
     </>
   );
 };

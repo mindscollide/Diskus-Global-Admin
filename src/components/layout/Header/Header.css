@@ -503,3 +503,7 @@ body[dir="rtl"] .header2-container {
   font-size: 12px !important;
   font-family: "MontserratSemiBold" !important;
 }
+
+.pointerClass {
+  cursor: pointer !important;
+}
