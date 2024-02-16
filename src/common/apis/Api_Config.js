@@ -18,10 +18,15 @@ const editSubscription = {
   RequestMethod: "ServiceManager.UpdateOrganizationSubscriptionStatus",
 };
 
+const editOrganization = {
+  RequestMethod: "ServiceManager.UpdateOrganizationSubscriptionStatus",
+};
+
 export {
   loginAPi,
   passwordVerify,
   loginHistory,
   searchOrganization,
   editSubscription,
+  editOrganization,
 };

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  EditOrganizationAPI,
   EditSubscriptionAPI,
   searchOrganizationApi,
 } from "../Actions/ViewOrganizationActions";
@@ -8,6 +9,7 @@ const initialState = {
   loading: false,
   searchOrganizationData: null,
   editSubscriptionData: null,
+  editOrganizationData: null,
   Responsemessage: "",
 };
 
@@ -44,6 +46,20 @@ const searchOrganization = createSlice({
 
       .addCase(EditSubscriptionAPI.rejected, (state, action) => {
         state.editSubscriptionData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      .addCase(EditOrganizationAPI.pending, (state) => {
+        // state.loading = true;
+      })
+
+      .addCase(EditOrganizationAPI.fulfilled, (state, action) => {
+        state.editOrganizationData = action.payload;
+        state.Responsemessage = "Success";
+      })
+
+      .addCase(EditOrganizationAPI.rejected, (state, action) => {
+        state.editOrganizationData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

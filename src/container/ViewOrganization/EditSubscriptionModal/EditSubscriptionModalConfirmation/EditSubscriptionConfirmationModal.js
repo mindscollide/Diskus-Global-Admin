@@ -8,7 +8,10 @@ import { Col, Row } from "react-bootstrap";
 import { viewOrganizationLoader } from "../../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { EditSubscriptionAPI } from "../../../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
-const EditSubscriptionConfirmationModal = () => {
+const EditSubscriptionConfirmationModal = ({
+  organizationID,
+  subsciptionStatus,
+}) => {
   const ModalReducer = useSelector((state) => state.modal);
   console.log(ModalReducer, "ModalReducerModalReducerModalReducer");
 
@@ -34,11 +37,12 @@ const EditSubscriptionConfirmationModal = () => {
 
   const handleEditSubscriptionProceed = () => {
     let data = {
-      OrganizationID: 463,
-      SubscriptionStatusID: 2,
+      OrganizationID: Number(organizationID),
+      SubscriptionStatusID: Number(subsciptionStatus),
     };
-    dispatch(viewOrganizationLoader(false));
+    dispatch(viewOrganizationLoader(true));
     dispatch(EditSubscriptionAPI({ data, navigate, t }));
+    dispatch(editSubscriptionConfirmationModalOpen(false));
   };
 
   return (

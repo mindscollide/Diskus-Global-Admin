@@ -10,7 +10,7 @@ import {
 } from "../../../store/ActionsSlicers/UIModalsActions";
 import { Col, Row } from "react-bootstrap";
 import EditSubscriptionConfirmationModal from "./EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
-const EditSubscriptionModal = () => {
+const EditSubscriptionModal = ({ organizationID, editSubscriptionName }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
   const dispatch = useDispatch();
@@ -22,6 +22,8 @@ const EditSubscriptionModal = () => {
     value: 0,
     label: "",
   });
+
+  console.log(subsciptionStatus.value, "subsciptionStatussubsciptionStatus");
 
   const handleChange = (option) => {
     setSubsciptionStatus(option);
@@ -88,7 +90,7 @@ const EditSubscriptionModal = () => {
                 <span className={styles["EditSubscriptionSubHeading"]}>
                   {t("Organization-name")}
                 </span>
-                <span className={styles["Data"]}>Waqas Associates</span>
+                <span className={styles["Data"]}>{editSubscriptionName}</span>
               </Col>
             </Row>
             <Row className="mt-3">
@@ -132,7 +134,10 @@ const EditSubscriptionModal = () => {
           </>
         }
       />
-      <EditSubscriptionConfirmationModal />
+      <EditSubscriptionConfirmationModal
+        organizationID={organizationID}
+        subsciptionStatus={subsciptionStatus.value}
+      />
     </>
   );
 };

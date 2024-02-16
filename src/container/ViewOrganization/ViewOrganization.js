@@ -47,6 +47,8 @@ const ViewOrganization = () => {
   );
 
   //States for the component
+  const [editSubscriptionName, setEditSubscriptionName] = useState("");
+  const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isRowsData, setSRowsData] = useState(0);
@@ -179,6 +181,8 @@ const ViewOrganization = () => {
       width: 200,
       render: (text, record) => {
         console.log(record, "recordrecordrecord");
+        setOrganizationID(record.organizationID);
+        setEditSubscriptionName(record.organizationName);
         return (
           <Row>
             <Col
@@ -560,7 +564,10 @@ const ViewOrganization = () => {
         </Row>
       </Container>
       <EditOrganizationModal />
-      <EditSubscriptionModal />
+      <EditSubscriptionModal
+        organizationID={organizationID}
+        editSubscriptionName={editSubscriptionName}
+      />
       <EditOrganizationSubscription />
     </>
   );
