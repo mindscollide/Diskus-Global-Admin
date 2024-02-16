@@ -78,7 +78,7 @@ const EditOrganizationSubscription = ({
             <Row>
               <Col lg={1} md={1} sm={1}></Col>
               <Col lg={11} md={11} sm={11}>
-                <span className={styles["EditSubscriptionHeading"]}>
+                <span className={styles["EditSubscriptionHeadingMain"]}>
                   {t("Edit-organization")}
                 </span>
               </Col>

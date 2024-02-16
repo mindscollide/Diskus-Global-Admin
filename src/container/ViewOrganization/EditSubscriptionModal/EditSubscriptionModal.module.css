@@ -11,15 +11,15 @@
 }
 
 .EditSubscriptionSubHeading {
-  font-size: 16px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-size: 10px !important;
+  font-family: "Montserrat" !important;
   font-weight: bold !important;
   color: #6172d6;
 }
 
 .Data {
   font-size: 12px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-family: "Montserrat" !important;
   font-weight: bold !important;
   color: #5a5a5a !important;
 }

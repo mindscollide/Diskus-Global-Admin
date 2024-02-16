@@ -58,6 +58,7 @@ body[dir="rtl"] .SearchBox {
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
   color: #5a5a5a !important;
+  font-family: "MontserratSemiBold-600" !important;
   border-radius: 4px !important;
 }
 
@@ -67,6 +68,7 @@ body[dir="rtl"] .SearchBox {
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
   color: #5a5a5a !important;
+  font-family: "MontserratSemiBold-600" !important;
   border-radius: 4px !important;
 }
 
@@ -76,6 +78,7 @@ body[dir="rtl"] .SearchBox {
   border: none !important;
   background: #6172d6 !important;
   color: #fff !important;
+  font-family: "MontserratSemiBold-600" !important;
   border-radius: 4px !important;
 }
 
@@ -84,6 +87,7 @@ body[dir="rtl"] .SearchBox {
   font-size: 12px !important;
   border: none !important;
   background: #6172d6 !important;
+  font-family: "MontserratSemiBold-600" !important;
   color: #fff !important;
   border-radius: 4px !important;
 }
@@ -106,16 +110,18 @@ body[dir="rtl"] .SearchBox {
 }
 
 .SearchablesItems {
-  padding: 5px 30px !important;
+  padding: 5px 20px !important;
   border-radius: 4px !important;
   background: #6172d6;
   display: flex;
-  gap: 25px !important;
+  text-align: center !important;
+  gap: 35px !important;
 }
 
 .Searches {
   font-size: 12px !important;
   color: #fff !important;
+  font-family: "MontserratBold-700" !important;
 }
 
 .CrossIcon_Class {
