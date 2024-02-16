@@ -23,8 +23,6 @@ const EditSubscriptionModal = ({ organizationID, editSubscriptionName }) => {
     label: "",
   });
 
-  console.log(subsciptionStatus.value, "subsciptionStatussubsciptionStatus");
-
   const handleChange = (option) => {
     setSubsciptionStatus(option);
   };

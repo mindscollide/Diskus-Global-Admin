@@ -9,9 +9,15 @@ import {
 } from "../../../../store/ActionsSlicers/UIModalsActions";
 import { Col, Row } from "react-bootstrap";
 import { viewOrganizationLoader } from "../../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
-import { EditSubscriptionAPI } from "../../../../store/Actions/ViewOrganizationActions";
+import {
+  EditOrganizationAPI,
+  EditSubscriptionAPI,
+} from "../../../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
-const EditOrganizationConfirmation = () => {
+const EditOrganizationConfirmation = ({
+  organzationStatus,
+  editOrganizationID,
+}) => {
   const ModalReducer = useSelector((state) => state.modal);
   console.log(ModalReducer, "ModalReducerModalReducerModalReducer");
 
@@ -35,7 +41,15 @@ const EditOrganizationConfirmation = () => {
     dispatch(editOrganizationConfirmation(false));
   };
 
-  const handleEditSubscriptionProceed = () => {};
+  const handleEditSubscriptionProceed = () => {
+    let data = {
+      OrganizationID: Number(editOrganizationID),
+      StatusID: Number(organzationStatus),
+    };
+    dispatch(viewOrganizationLoader(true));
+    dispatch(EditOrganizationAPI({ data, navigate, t }));
+    dispatch(editOrganizationConfirmation(false));
+  };
 
   return (
     <>

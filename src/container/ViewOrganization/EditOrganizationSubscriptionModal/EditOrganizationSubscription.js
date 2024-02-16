@@ -10,7 +10,10 @@ import {
 } from "../../../store/ActionsSlicers/UIModalsActions";
 import { Col, Row } from "react-bootstrap";
 import EditOrganizationConfirmation from "./EditOrganizationConfirmation/EditOrganizationConfirmation";
-const EditOrganizationSubscription = () => {
+const EditOrganizationSubscription = ({
+  editOrganizationID,
+  editOrganzationName,
+}) => {
   const ModalReducer = useSelector((state) => state.modal);
 
   const dispatch = useDispatch();
@@ -18,13 +21,15 @@ const EditOrganizationSubscription = () => {
   const { t } = useTranslation();
 
   //states
-  const [subsciptionStatus, setSubsciptionStatus] = useState({
+  const [organzationStatus, setOrganzationStatus] = useState({
     value: 0,
     label: "",
   });
 
+  console.log(organzationStatus.value, "organzationStatusorganzationStatus");
+
   const handleChange = (option) => {
-    setSubsciptionStatus(option);
+    setOrganzationStatus(option);
   };
 
   useEffect(() => {
@@ -89,7 +94,7 @@ const EditOrganizationSubscription = () => {
                 <span className={styles["EditSubscriptionSubHeading"]}>
                   {t("Organization-name")}
                 </span>
-                <span className={styles["Data"]}>Waqas Associates</span>
+                <span className={styles["Data"]}>{editOrganzationName}</span>
               </Col>
             </Row>
             <Row className="mt-3">
@@ -133,7 +138,10 @@ const EditOrganizationSubscription = () => {
           </>
         }
       />
-      <EditOrganizationConfirmation />
+      <EditOrganizationConfirmation
+        organzationStatus={organzationStatus.value}
+        editOrganizationID={editOrganizationID}
+      />
     </>
   );
 };

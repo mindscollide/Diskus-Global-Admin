@@ -19,7 +19,7 @@ const editSubscription = {
 };
 
 const editOrganization = {
-  RequestMethod: "ServiceManager.UpdateOrganizationSubscriptionStatus",
+  RequestMethod: "ServiceManager.UpdateOrganizationStatus",
 };
 
 export {

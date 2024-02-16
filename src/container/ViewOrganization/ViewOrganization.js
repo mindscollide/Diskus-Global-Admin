@@ -47,6 +47,8 @@ const ViewOrganization = () => {
   );
 
   //States for the component
+  const [editOrganizationID, setEditOrganizationID] = useState(0);
+  const [editOrganzationName, setEditOrganzationName] = useState("");
   const [editSubscriptionName, setEditSubscriptionName] = useState("");
   const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
@@ -181,8 +183,6 @@ const ViewOrganization = () => {
       width: 200,
       render: (text, record) => {
         console.log(record, "recordrecordrecord");
-        setOrganizationID(record.organizationID);
-        setEditSubscriptionName(record.organizationName);
         return (
           <Row>
             <Col
@@ -196,7 +196,7 @@ const ViewOrganization = () => {
                 alt=""
                 draggable="false"
                 className={styles["EditIcon"]}
-                onClick={handleEditSubscriptionModal}
+                onClick={() => handleEditSubscriptionModal(record)}
               />
             </Col>
           </Row>
@@ -224,7 +224,7 @@ const ViewOrganization = () => {
                 alt=""
                 draggable="false"
                 className={styles["EditIcon"]}
-                onClick={handleEditOrganizationModal}
+                onClick={() => handleEditOrganizationModal(record)}
               />
             </Col>
           </Row>
@@ -233,13 +233,17 @@ const ViewOrganization = () => {
     },
   ];
 
-  const handleEditOrganizationModal = () => {
+  const handleEditOrganizationModal = (record) => {
     // dispatch(editOrganizationModalOpen(true));
+    setEditOrganzationName(record.organizationName);
+    setEditOrganizationID(record.organizationID);
     dispatch(editOrganizationSubscriptionModalOpen(true));
   };
 
-  const handleEditSubscriptionModal = () => {
+  const handleEditSubscriptionModal = (record) => {
     dispatch(editSubscriptionModalOpen(true));
+    setOrganizationID(record.organizationID);
+    setEditSubscriptionName(record.organizationName);
   };
 
   const HandleopenSearchBox = () => {
@@ -492,6 +496,7 @@ const ViewOrganization = () => {
                           <Select
                             value={searchOrganizationData.Status}
                             options={options}
+                            placeholder={t("Subscription-status")}
                             onChange={handleStatusChange}
                           />
                         </Col>
@@ -568,7 +573,10 @@ const ViewOrganization = () => {
         organizationID={organizationID}
         editSubscriptionName={editSubscriptionName}
       />
-      <EditOrganizationSubscription />
+      <EditOrganizationSubscription
+        editOrganizationID={editOrganizationID}
+        editOrganzationName={editOrganzationName}
+      />
     </>
   );
 };
