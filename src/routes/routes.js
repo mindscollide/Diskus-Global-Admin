@@ -18,10 +18,10 @@ export const router = createHashRouter(
       <Route exact path="/" element={<LoginCard />}>
         <Route path="admin" element={<LoginCard />} />
       </Route>
-      <Route path="/Dashboard" element={<DashBoard />}>
+      <Route path="/GlobalAdmin/" element={<DashBoard />}>
+        <Route path="" element={<GlobalAdminDashboard />} />
         <Route path="vieworganization" element={<ViewOrganization />} />
         <Route path="loginHistory" element={<LoginHistory />} />
-        <Route path="GlobalAdminDashboard" element={<GlobalAdminDashboard />} />
       </Route>
     </>
   )

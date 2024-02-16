@@ -5,6 +5,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
+import Oops from "../../assets/images/OutletImages/Oops.png";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import moment from "moment";
@@ -459,7 +460,7 @@ const LoginHistory = () => {
   };
 
   return (
-    <Container>
+    <Container fluid>
       <Row className="mt-3">
         <Col lg={5} md={5} sm={5}>
           <span className={styles["HeadingViewORganization"]}>
@@ -790,6 +791,20 @@ const LoginHistory = () => {
               footer={false}
               className={"userlogin_history_tableP"}
               size={"small"}
+              locale={{
+                emptyText: (
+                  <>
+                    <section className="oops d-flex flex-column align-items-center justify-content-center ">
+                      <img src={Oops} width={"250px"} alt="" />
+
+                      <span className="Main-Title UserLogin">Oops!</span>
+                      <span className="Sub-Title UserLogin">
+                        We can't seem to find what you're looking for.
+                      </span>
+                    </section>
+                  </>
+                ), // Set your custom empty text here
+              }}
               // scroll={{
               //   x: false,
               // }}

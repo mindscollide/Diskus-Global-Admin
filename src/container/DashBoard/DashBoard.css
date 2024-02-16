@@ -52,7 +52,8 @@ body[dir="rtl"] .Dashboard-Main-Container.container-fluid {
 }
 
 .dashbaord_data {
-  width: 98%;
+  margin: 0px 37px;
+  /* width: 100%; */
 }
 .talk_features_home {
   width: 2%;
