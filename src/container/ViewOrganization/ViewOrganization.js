@@ -54,9 +54,11 @@ const ViewOrganization = () => {
   );
 
   const [organizationData, setOrganizationData] = useState([]);
+
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
   //States for the component
+  const [searchorganizationID, setSearchOrganizationID] = useState(0);
   const [editOrganizationID, setEditOrganizationID] = useState(0);
   const [editOrganzationName, setEditOrganzationName] = useState("");
   const [editSubscriptionName, setEditSubscriptionName] = useState("");
@@ -100,12 +102,8 @@ const ViewOrganization = () => {
       Length: 10,
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(searchOrganizationApi({ data, navigate, t }));
-  }, []);
-
-  useEffect(() => {
-    dispatch(viewOrganizationLoader(false));
     dispatch(getAllOrganizationApi({ navigate, t }));
+    dispatch(searchOrganizationApi({ data, navigate, t }));
   }, []);
 
   useEffect(() => {
@@ -123,6 +121,7 @@ const ViewOrganization = () => {
   }, [organizationIdData]);
 
   const organizerChangeHandler = (selectedOrganizer) => {
+    setSearchOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
     console.log(selectedOrganizer, "selectedOrganizer");
   };
@@ -162,8 +161,11 @@ const ViewOrganization = () => {
         setViewOrganizationData(
           ViewOrganizationData.result.searchOrganizations
         );
+        dispatch(viewOrganizationLoader(false));
       }
-    } catch {}
+    } catch {
+      dispatch(viewOrganizationLoader(false));
+    }
   }, [ViewOrganizationData]);
 
   const ViewOrganizationColoumn = [
@@ -374,7 +376,7 @@ const ViewOrganization = () => {
 
   const handleSearchButton = () => {
     let data = {
-      OrganizationID: 0,
+      OrganizationID: Number(searchorganizationID),
       CountryID: 0,
       ContactPersonName: searchOrganizationData.userName,
       Email: searchOrganizationData.userEmail,
@@ -422,6 +424,26 @@ const ViewOrganization = () => {
     } else {
       setIsScroll(false);
     }
+  };
+
+  const handleResetButton = () => {
+    setOrganizationDataValue(null);
+    setSearchOrganizationData({
+      userName: "",
+      userEmail: "",
+      DateFrom: "",
+      DateTo: "",
+      DateToView: "",
+      DateFromView: "",
+      Status: {
+        value: 0,
+        label: "",
+      },
+      OrganizationID: {
+        value: 0,
+        label: "",
+      },
+    });
   };
 
   return (
@@ -576,6 +598,7 @@ const ViewOrganization = () => {
                           <Button
                             text={t("Reset")}
                             className={styles["SearchBoxResetButton"]}
+                            onClick={handleResetButton}
                           />
                           <Button
                             text={t("Search")}

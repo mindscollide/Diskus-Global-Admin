@@ -39,7 +39,6 @@ export const searchOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_SearchOrganization_01".toLowerCase()
               )
           ) {
-            dispatch(viewOrganizationLoader(false));
             try {
               return {
                 result: response.data.responseResult,
@@ -48,6 +47,7 @@ export const searchOrganizationApi = createAsyncThunk(
             } catch (error) {
               console.log(error);
             }
+            dispatch(viewOrganizationLoader(false));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -266,7 +266,6 @@ export const getAllOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetAllOrganization_01".toLowerCase()
               )
           ) {
-            dispatch(viewOrganizationLoader(false));
             try {
               return {
                 result: response.data.responseResult,
@@ -282,7 +281,6 @@ export const getAllOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetAllOrganization_02".toLowerCase()
               )
           ) {
-            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("No data available");
           } else if (
             response.data.responseResult.responseMessage
@@ -291,18 +289,14 @@ export const getAllOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetAllOrganization_03".toLowerCase()
               )
           ) {
-            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("Something-went-wrong");
           } else {
-            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("Something-went-wrong");
           }
         } else {
-          dispatch(viewOrganizationLoader(false));
           return rejectWithValue("Something-went-wrong");
         }
       } else {
-        dispatch(viewOrganizationLoader(false));
         return rejectWithValue("Something-went-wrong");
       }
     } catch (error) {
