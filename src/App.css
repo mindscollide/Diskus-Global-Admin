@@ -1,5 +1,89 @@
+@font-face {
+  font-family: "montserrat-100";
+  src: url("./assets/fonts-new/montserrat-100-webfont.woff"),
+    url("./assets/fonts-new/montserrat-100-webfont.woff2");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "montserrat-200";
+  src: url("./assets/fonts-new/montserrat-200-webfont.woff"),
+    url("./assets/fonts-new/montserrat-200-webfont.woff2");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "montserrat";
+  src: url("./assets/fonts-new/montserrat-300-webfont.woff"),
+    url("./assets/fonts-new/montserrat-300-webfont.woff2");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "montserrat-500";
+  src: url("./assets/fonts-new/montserrat-500-webfont.woff"),
+    url("./assets/fonts-new/montserrat-500-webfont.woff2");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "montserrat-bold";
+  src: url("./assets/fonts-new/montserrat-700-webfont.woff"),
+    url("./assets/fonts-new/montserrat-700-webfont.woff2");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "montserrat-Boldest";
+  src: url("./assets/fonts-new/montserrat-900-webfont.woff"),
+    url("./assets/fonts-new/montserrat-900-webfont.woff2");
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: "montserrat-italic";
+  src: url("./assets/fonts-new/montserrat-italic-webfont.woff"),
+    url("./assets/fonts-new/montserrat-italic-webfont.woff2");
+}
+
+@font-face {
+  font-family: "montserrat-regular";
+  src: url("./assets/fonts-new/montserrat-regular-webfont.woff"),
+    url("./assets/fonts-new/montserrat-regular-webfont.woff2");
+  font-weight: 400;
+}
+
+.Montserrat {
+  font-family: "montserrat-regular" !important;
+}
+
+.Montserrat-Italic {
+  font-family: "montserrat-italic" !important;
+}
+
+.MontserratThin-100 {
+  font-family: "montserrat-100" !important;
+}
+
+.MontserratLight-300 {
+  font-family: "montserrat" !important;
+}
+
+.MontserratMedium-500 {
+  font-family: "montserrat-500" !important;
+}
+
+.MontserratSemiBold-700 {
+  font-family: "montserrat-bold" !important;
+}
+
+.MontserratBold-900 {
+  font-family: "montserrat-Boldest" !important;
+}
+
 body {
   background-color: #f6fafd !important;
+  font-family: "montserrat-regular" !important;
 }
 ::-webkit-scrollbar {
   width: 0.5rem !important;
@@ -45,4 +129,9 @@ body {
 
 .ant-table-wrapper.userlogin_history_tableP .ant-table-tbody tr td {
   font-weight: 600;
+}
+
+:where(.css-dev-only-do-not-override-dkbvqv)[class^="ant-layout"],
+:where(.css-dev-only-do-not-override-dkbvqv)[class*=" ant-layout"] {
+  background-color: #f6fafd;
 }

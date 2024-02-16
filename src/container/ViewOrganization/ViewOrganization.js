@@ -167,6 +167,11 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 220,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("Admin-name"),
@@ -175,6 +180,11 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 220,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("Contact-number"),
@@ -183,6 +193,11 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 200,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: "Subscription Expiry",
@@ -192,7 +207,9 @@ const ViewOrganization = () => {
       width: 200,
       render: (text, record) => {
         const formattedDate = moment(text, "YYYYMMDD").format("DD - MM - YYYY");
-        return formattedDate;
+        return (
+          <div className={styles["inner-sub-Heading"]}>{formattedDate}</div>
+        );
       },
     },
     {
@@ -202,6 +219,11 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 200,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("Edit-subscription"),
@@ -589,9 +611,9 @@ const ViewOrganization = () => {
                 footer={false}
                 className={"userlogin_history_tableP"}
                 size={"small"}
-                scroll={{
-                  x: false,
-                }}
+                // scroll={{
+                //   x: false,
+                // }}
               />
             </InfiniteScroll>
           </Col>

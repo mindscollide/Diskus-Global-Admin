@@ -167,6 +167,11 @@ const LoginHistory = () => {
       align: "center",
       ellipsis: true,
       width: 220,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("User-name"),
@@ -175,6 +180,11 @@ const LoginHistory = () => {
       align: "center",
       ellipsis: true,
       width: 220,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("User-email"),
@@ -183,6 +193,11 @@ const LoginHistory = () => {
       align: "center",
       ellipsis: true,
       width: 200,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("Login-date-time"),
@@ -191,7 +206,11 @@ const LoginHistory = () => {
       align: "center",
       width: 200,
       render: (text, record) => {
-        return newTimeFormaterForImportMeetingAgenda(text);
+        return (
+          <div className={styles["inner-sub-Heading"]}>
+            {newTimeFormaterForImportMeetingAgenda(text)}
+          </div>
+        );
       },
     },
     {
@@ -201,7 +220,11 @@ const LoginHistory = () => {
       align: "center",
       width: 200,
       render: (text, record) => {
-        return newTimeFormaterForImportMeetingAgenda(text);
+        return (
+          <div className={styles["inner-sub-Heading"]}>
+            {newTimeFormaterForImportMeetingAgenda(text)}
+          </div>
+        );
       },
     },
     {
@@ -212,7 +235,11 @@ const LoginHistory = () => {
       width: 150,
       render: (text, record) => {
         console.log(record, "recordrecordrecord");
-        return getTimeDifference(record.dateLogin, record.dateLogOut);
+        return (
+          <div className={styles["inner-sub-Heading"]}>
+            {getTimeDifference(record.dateLogin, record.dateLogOut)}
+          </div>
+        );
       },
     },
     {
@@ -221,9 +248,8 @@ const LoginHistory = () => {
       align: "center",
       key: "deviceID",
       width: 100,
-
       render: (text, data) => (
-        <span className={styles["voterCountStyle"]}>{text}</span>
+        <span className={styles["inner-sub-Heading"]}>{text}</span>
       ),
     },
     {
@@ -232,6 +258,9 @@ const LoginHistory = () => {
       align: "center",
       key: "loggedInFromIP",
       width: 120,
+      render: (text, data) => (
+        <span className={styles["inner-sub-Heading"]}>{text}</span>
+      ),
     },
   ];
 
@@ -752,7 +781,7 @@ const LoginHistory = () => {
                 </>
               ) : null
             }
-            scrollableTarget="scrollableDiv"
+            // scrollableTarget="scrollableDiv"
           >
             <Table
               column={UserLoginHistoryColoumn}
@@ -761,9 +790,9 @@ const LoginHistory = () => {
               footer={false}
               className={"userlogin_history_tableP"}
               size={"small"}
-              scroll={{
-                x: false,
-              }}
+              // scroll={{
+              //   x: false,
+              // }}
             />
           </InfiniteScroll>
         </Col>
