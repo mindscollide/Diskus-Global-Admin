@@ -3,18 +3,18 @@
   display: block !important;
 }
 
-.EditSubscriptionHeading {
-  font-size: 30px !important;
-  font-family: "MontserratSemiBold-600" !important;
+.EditSubscriptionSubHeading {
+  font-size: 10px !important;
+  font-family: "Montserrat" !important;
   font-weight: bold !important;
   color: #6172d6;
 }
 
-.EditSubscriptionSubHeading {
-  font-size: 16px !important;
-  font-family: "MontserratSemiBold-600" !important;
+.Data {
+  font-size: 12px !important;
+  font-family: "Montserrat" !important;
   font-weight: bold !important;
-  color: #6172d6;
+  color: #5a5a5a !important;
 }
 
 .Data {
@@ -62,4 +62,11 @@
   background: #6172d6 !important;
   border: none !important;
   border-radius: 4px !important;
+}
+
+.EditSubscriptionHeadingMain {
+  font-size: 30px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  font-weight: bold !important;
+  color: #6172d6;
 }

@@ -15,9 +15,9 @@ const LanguageSelector = () => {
   let currentLanguage = localStorage.getItem("i18nextLng");
   const [languageDropdown, setLanguageDropdown] = useState(false);
   const { t, i18n } = useTranslation();
-
+  console.log(currentLanguage, "currentLanguagecurrentLanguagecurrentLanguage");
   const location = useLocation();
-
+  const [language, setLanguage] = useState("en");
   const [languages, setLanguages] = useState([
     {
       label: "English",
@@ -27,22 +27,18 @@ const LanguageSelector = () => {
       label: "Arabic",
       value: "ar",
     },
-    {
-      label: "French",
-      value: "fr",
-    },
   ]);
 
   const handleChangeLocale = (lang) => {
+    console.log(lang, "langlanglanglanglanglang ");
     if (lang === "ar") {
       document.body.dir = "rtl";
       i18n.changeLanguage("ar");
-    } else if (lang === "fr") {
-      document.body.dir = "ltr";
-      i18n.changeLanguage("fr");
+      setLanguage("ar");
     } else {
       document.body.dir = "ltr";
       i18n.changeLanguage("en");
+      setLanguage("en");
     }
     setLanguageDropdown(false);
     // setLanguage(lang)
@@ -64,18 +60,18 @@ const LanguageSelector = () => {
     };
   }, [languageDropdown]);
 
-  useEffect(() => {
-    if (currentLanguage === "ar") {
-      document.body.dir = "rtl";
-      i18n.changeLanguage("ar");
-    } else if (currentLanguage === "fr") {
-      document.body.dir = "ltr";
-      i18n.changeLanguage("fr");
-    } else {
-      document.body.dir = "ltr";
-      i18n.changeLanguage("en");
-    }
-  }, [currentLanguage]);
+  // useEffect(() => {
+  //   if (currentLanguage === "ar") {
+  //     document.body.dir = "rtl";
+  //     i18n.changeLanguage("ar");
+  //   } else if (currentLanguage === "fr") {
+  //     document.body.dir = "ltr";
+  //     i18n.changeLanguage("fr");
+  //   } else {
+  //     document.body.dir = "ltr";
+  //     i18n.changeLanguage("en");
+  //   }
+  // }, [currentLanguage]);
 
   return (
     <section
@@ -100,12 +96,10 @@ const LanguageSelector = () => {
           draggable="false"
         />
         {/* {selectedLanguage.languageTitle} */}
-        {currentLanguage === "en"
+        {language === "en"
           ? t("English")
-          : currentLanguage === "ar"
+          : language === "ar"
           ? t("Arabic")
-          : currentLanguage === "fr"
-          ? t("French")
           : t("English")}
         {languageDropdown ? (
           <img
