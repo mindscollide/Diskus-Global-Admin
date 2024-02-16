@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Table, TextField } from "../../components/elements";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
+import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import gregorian from "react-date-object/calendars/gregorian";
@@ -58,6 +59,7 @@ const ViewOrganization = () => {
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
   //States for the component
+  const [showsearchText, setShowSearchText] = useState(false);
   const [searchorganizationID, setSearchOrganizationID] = useState(0);
   const [editOrganizationID, setEditOrganizationID] = useState(0);
   const [editOrganzationName, setEditOrganzationName] = useState("");
@@ -86,7 +88,7 @@ const ViewOrganization = () => {
       label: "",
     },
   });
-  console.log(totalRecords, isRowsData, "isRowsDataisRowsData");
+
   //Calling Organization Api
   useEffect(() => {
     let data = {
@@ -104,6 +106,24 @@ const ViewOrganization = () => {
     dispatch(viewOrganizationLoader(true));
     dispatch(getAllOrganizationApi({ navigate, t }));
     dispatch(searchOrganizationApi({ data, navigate, t }));
+    return () => {
+      setSearchOrganizationData({
+        userName: "",
+        userEmail: "",
+        DateFrom: "",
+        DateTo: "",
+        DateToView: "",
+        DateFromView: "",
+        Status: {
+          value: 0,
+          label: "",
+        },
+        OrganizationID: {
+          value: 0,
+          label: "",
+        },
+      });
+    };
   }, []);
 
   useEffect(() => {
@@ -386,6 +406,8 @@ const ViewOrganization = () => {
     console.log(data, "handleSearchButtonhandleSearchButton");
     dispatch(viewOrganizationLoader(true));
     dispatch(searchOrganizationApi({ data, navigate, t }));
+    setSearchBox(false);
+    setShowSearchText(true);
   };
 
   useEffect(() => {
@@ -399,6 +421,32 @@ const ViewOrganization = () => {
       }
     }
   }, [currentLanguage]);
+
+  const handleSearches = (Data, fieldName) => {
+    console.log(Data, fieldName, "datadatadatahandleSearches");
+    setSearchOrganizationData({
+      ...searchOrganizationData,
+      [fieldName]: "",
+    });
+
+    let data = {
+      OrganizationID: 0,
+      CountryID: 0,
+      ContactPersonName:
+        fieldName === "userName" ? "" : searchOrganizationData.userName,
+      Email: fieldName === "userEmail" ? "" : searchOrganizationData.userEmail,
+      StatusID: 0,
+      PackageID: 0,
+      SubsictionExpiryStart:
+        fieldName === "DateFrom" ? "" : searchOrganizationData.DateFrom,
+      SubscriptionExpiryEnd:
+        fieldName === "DateTo" ? "" : searchOrganizationData.DateTo,
+      sRow: 0,
+      Length: 10,
+    };
+    dispatch(viewOrganizationLoader(false));
+    dispatch(searchOrganizationApi({ data, navigate, t }));
+  };
 
   const handleScroll = async (e) => {
     if (isRowsData <= totalRecords) {
@@ -478,6 +526,110 @@ const ViewOrganization = () => {
                 }
                 iconClassName={"d-block"}
               />
+              <Row>
+                <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
+                  {showsearchText && searchOrganizationData.userName !== "" ? (
+                    <div className={styles["SearchablesItems"]}>
+                      <span className={styles["Searches"]}>
+                        {searchOrganizationData.userName}
+                      </span>
+                      <img
+                        src={Crossicon}
+                        alt=""
+                        className={styles["CrossIcon_Class"]}
+                        width={13}
+                        onClick={() =>
+                          handleSearches(
+                            searchOrganizationData.userName,
+                            "userName"
+                          )
+                        }
+                      />
+                    </div>
+                  ) : null}
+
+                  {showsearchText && searchOrganizationData.Title !== "" ? (
+                    <div className={styles["SearchablesItems"]}>
+                      <span className={styles["Searches"]}>
+                        {searchOrganizationData.Title}
+                      </span>
+                      <img
+                        src={Crossicon}
+                        alt=""
+                        className={styles["CrossIcon_Class"]}
+                        width={13}
+                        onClick={() =>
+                          handleSearches(searchOrganizationData.Title, "Title")
+                        }
+                      />
+                    </div>
+                  ) : null}
+
+                  {showsearchText && searchOrganizationData.userEmail !== "" ? (
+                    <div className={styles["SearchablesItems"]}>
+                      <span className={styles["Searches"]}>
+                        {searchOrganizationData.userEmail}
+                      </span>
+                      <img
+                        src={Crossicon}
+                        alt=""
+                        className={styles["CrossIcon_Class"]}
+                        width={13}
+                        onClick={() =>
+                          handleSearches(
+                            searchOrganizationData.userEmail,
+                            "userEmail"
+                          )
+                        }
+                      />
+                    </div>
+                  ) : null}
+
+                  {showsearchText && searchOrganizationData.DateFrom !== "" ? (
+                    <div className={styles["SearchablesItems"]}>
+                      <span className={styles["Searches"]}>
+                        {moment
+                          .utc(searchOrganizationData.DateFrom, "YYYYMMDD")
+                          .format("DD-MMM-YYYY")}
+                      </span>
+                      <img
+                        src={Crossicon}
+                        alt=""
+                        className={styles["CrossIcon_Class"]}
+                        width={13}
+                        onClick={() =>
+                          handleSearches(
+                            searchOrganizationData.DateFrom,
+                            "DateFrom"
+                          )
+                        }
+                      />
+                    </div>
+                  ) : null}
+
+                  {showsearchText && searchOrganizationData.DateTo !== "" ? (
+                    <div className={styles["SearchablesItems"]}>
+                      <span className={styles["Searches"]}>
+                        {moment
+                          .utc(searchOrganizationData.DateTo, "YYYYMMDD")
+                          .format("DD-MMM-YYYY")}
+                      </span>
+                      <img
+                        src={Crossicon}
+                        alt=""
+                        className={styles["CrossIcon_Class"]}
+                        width={13}
+                        onClick={() =>
+                          handleSearches(
+                            searchOrganizationData.DateTo,
+                            "DateTo"
+                          )
+                        }
+                      />
+                    </div>
+                  ) : null}
+                </Col>
+              </Row>
               {searchBox ? (
                 <>
                   <Row>

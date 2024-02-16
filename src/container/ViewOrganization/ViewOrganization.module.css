@@ -76,3 +76,20 @@
   font-weight: bold !important;
   font-family: "montserrat-500" !important;
 }
+
+.SearchablesItems {
+  padding: 5px 30px !important;
+  border-radius: 4px !important;
+  background: #6172d6;
+  display: flex;
+  gap: 25px !important;
+}
+
+.CrossIcon_Class {
+  cursor: pointer !important;
+}
+
+.Searches {
+  font-size: 12px !important;
+  color: #fff !important;
+}

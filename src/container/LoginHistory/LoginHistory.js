@@ -22,7 +22,6 @@ import { getTimeDifference } from "../../common/functions/timeFormatters";
 import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
-import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
 
 const LoginHistory = () => {
@@ -89,8 +88,24 @@ const LoginHistory = () => {
       Length: 10,
     };
     dispatch(loginHistoryLoader(true));
-
     dispatch(LoginHistoryAPI({ data, navigate, t }));
+    return () => {
+      setUserLoginHistorySearch({
+        userName: "",
+        userEmail: "",
+        DateFrom: "",
+        DateForView: "",
+        DateTo: "",
+        DateToView: "",
+        IpAddress: "",
+        InterFaceType: {
+          value: 0,
+          label: "",
+        },
+        Title: "",
+      });
+      setShowSearchText(false);
+    };
   }, []);
 
   useEffect(() => {
