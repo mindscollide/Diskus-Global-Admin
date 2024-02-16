@@ -715,6 +715,26 @@ const GlobalAdminDashboard = () => {
                     pagination={false}
                     // rows={data}
                     className="Table"
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className="d-flex flex-column align-items-center justify-content-center ">
+                            <img
+                              src={NoOrganizationIcon}
+                              width={"80px"}
+                              alt=""
+                            />
+
+                            <span className="Main-Title Table">
+                              No Organization
+                            </span>
+                            <span className="Sub-Title Table">
+                              No organization found this month
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
                   />
                 ) : trialExtended ? (
                   <Table
@@ -722,6 +742,26 @@ const GlobalAdminDashboard = () => {
                     pagination={false}
                     // rows={data}
                     className="Table"
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className="d-flex flex-column align-items-center justify-content-center ">
+                            <img
+                              src={NoOrganizationIcon}
+                              width={"80px"}
+                              alt=""
+                            />
+
+                            <span className="Main-Title Table">
+                              No Organization
+                            </span>
+                            <span className="Sub-Title Table">
+                              No organization found this month
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
                   />
                 ) : subscription ? (
                   <Table
@@ -729,6 +769,26 @@ const GlobalAdminDashboard = () => {
                     pagination={false}
                     // rows={data}
                     className="Table"
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className="d-flex flex-column align-items-center justify-content-center ">
+                            <img
+                              src={NoOrganizationIcon}
+                              width={"80px"}
+                              alt=""
+                            />
+
+                            <span className="Main-Title Table">
+                              No Organization
+                            </span>
+                            <span className="Sub-Title Table">
+                              No organization found this month
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
                   />
                 ) : subsExpiry ? (
                   <Table
@@ -736,6 +796,26 @@ const GlobalAdminDashboard = () => {
                     pagination={false}
                     // rows={data}
                     className="Table"
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className="d-flex flex-column align-items-center justify-content-center ">
+                            <img
+                              src={NoOrganizationIcon}
+                              width={"80px"}
+                              alt=""
+                            />
+
+                            <span className="Main-Title Table">
+                              No Organization
+                            </span>
+                            <span className="Sub-Title Table">
+                              No organization found this month
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
                   />
                 ) : essentialTbl ? (
                   <Table
@@ -743,6 +823,26 @@ const GlobalAdminDashboard = () => {
                     pagination={false}
                     // rows={data}
                     className="Table"
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className="d-flex flex-column align-items-center justify-content-center ">
+                            <img
+                              src={NoOrganizationIcon}
+                              width={"80px"}
+                              alt=""
+                            />
+
+                            <span className="Main-Title Table">
+                              No Organization
+                            </span>
+                            <span className="Sub-Title Table">
+                              No organization found this month
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
                   />
                 ) : professionalTbl ? (
                   <Table
@@ -750,6 +850,26 @@ const GlobalAdminDashboard = () => {
                     pagination={false}
                     // rows={data}
                     className="Table"
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className="d-flex flex-column align-items-center justify-content-center ">
+                            <img
+                              src={NoOrganizationIcon}
+                              width={"80px"}
+                              alt=""
+                            />
+
+                            <span className="Main-Title Table">
+                              No Organization
+                            </span>
+                            <span className="Sub-Title Table">
+                              No organization found this month
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
                   />
                 ) : premiumTbl ? (
                   <Table
@@ -757,6 +877,26 @@ const GlobalAdminDashboard = () => {
                     pagination={false}
                     // rows={data}
                     className="Table"
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className="d-flex flex-column align-items-center justify-content-center ">
+                            <img
+                              src={NoOrganizationIcon}
+                              width={"80px"}
+                              alt=""
+                            />
+
+                            <span className="Main-Title Table">
+                              No Organization
+                            </span>
+                            <span className="Sub-Title Table">
+                              No organization found this month
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
                   />
                 ) : null}
                 <Col lg={12} md={12} sm={12}></Col>

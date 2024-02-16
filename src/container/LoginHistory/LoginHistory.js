@@ -485,7 +485,7 @@ const LoginHistory = () => {
         <Col lg={2} md={2} sm={2} className="d-flex justify-content-end">
           <span className={styles["Export_To_Excel"]}>
             <img src={PDFIcon} alt="" draggable="false" />
-            <span>Export to Excel</span>
+            <span>{t("Export-to-excel")}</span>
           </span>
         </Col>
         <Col lg={5} md={5} sm={5}>

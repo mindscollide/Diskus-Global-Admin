@@ -81,14 +81,14 @@ const LanguageSelector = () => {
     >
       <span
         className={
-          location.pathname.includes("/GlobalAdmin/")
+          location.pathname.includes("/GlobalAdmin")
             ? "text-white d-flex gap-2  mx-3 align-items-center position-relative cursor-pointer"
             : "text-black d-flex gap-2 mx-3 align-items-center position-relative cursor-pointer"
         }
       >
         <img
           src={
-            location.pathname.includes("/GlobalAdmin/")
+            location.pathname.includes("/GlobalAdmin")
               ? LanguageIcon
               : LanguageBlack
           }
@@ -104,7 +104,7 @@ const LanguageSelector = () => {
         {languageDropdown ? (
           <img
             src={
-              location.pathname.includes("/GlobalAdmin/")
+              location.pathname.includes("/GlobalAdmin")
                 ? LanguageArrowUp
                 : LanguageArrowUpBlack
             }
@@ -115,7 +115,7 @@ const LanguageSelector = () => {
         ) : (
           <img
             src={
-              location.pathname.includes("/GlobalAdmin/")
+              location.pathname.includes("/GlobalAdmin")
                 ? LanguageArrowDown
                 : LanguageArrowDownBlack
             }
