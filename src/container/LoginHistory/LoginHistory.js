@@ -22,6 +22,7 @@ import { getTimeDifference } from "../../common/functions/timeFormatters";
 import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
+import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
 
 const LoginHistory = () => {
@@ -34,6 +35,13 @@ const LoginHistory = () => {
   const calendRef = useRef();
 
   let currentLanguage = localStorage.getItem("i18nextLng");
+
+  const organizationIdData = useSelector(
+    (state) => state.searchOrganization.getAllOrganizationData
+  );
+
+  const [organizationData, setOrganizationData] = useState([]);
+  const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
   const UserLoginHistoryData = useSelector(
     (state) => state.loginHistory.loginHistoryData
@@ -98,6 +106,24 @@ const LoginHistory = () => {
   }, [currentLanguage]);
 
   useEffect(() => {
+    if (
+      organizationIdData?.result.getAllOrganizations.length > 0 &&
+      organizationIdData?.result.getAllOrganizations !== null
+    ) {
+      setOrganizationData(
+        organizationIdData.result.getAllOrganizations.map((item) => ({
+          value: item.organizationID,
+          label: item.organizationName,
+        }))
+      );
+    }
+  }, [organizationIdData]);
+
+  const organizerChangeHandler = (selectedOrganizer) => {
+    setOrganizationDataValue(selectedOrganizer);
+  };
+
+  useEffect(() => {
     try {
       if (UserLoginHistoryData !== null && UserLoginHistoryData !== undefined) {
         if (
@@ -141,6 +167,11 @@ const LoginHistory = () => {
       align: "center",
       ellipsis: true,
       width: 220,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("User-name"),
@@ -149,6 +180,11 @@ const LoginHistory = () => {
       align: "center",
       ellipsis: true,
       width: 220,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("User-email"),
@@ -157,6 +193,11 @@ const LoginHistory = () => {
       align: "center",
       ellipsis: true,
       width: 200,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("Login-date-time"),
@@ -165,7 +206,11 @@ const LoginHistory = () => {
       align: "center",
       width: 200,
       render: (text, record) => {
-        return newTimeFormaterForImportMeetingAgenda(text);
+        return (
+          <div className={styles["inner-sub-Heading"]}>
+            {newTimeFormaterForImportMeetingAgenda(text)}
+          </div>
+        );
       },
     },
     {
@@ -175,7 +220,11 @@ const LoginHistory = () => {
       align: "center",
       width: 200,
       render: (text, record) => {
-        return newTimeFormaterForImportMeetingAgenda(text);
+        return (
+          <div className={styles["inner-sub-Heading"]}>
+            {newTimeFormaterForImportMeetingAgenda(text)}
+          </div>
+        );
       },
     },
     {
@@ -186,7 +235,11 @@ const LoginHistory = () => {
       width: 150,
       render: (text, record) => {
         console.log(record, "recordrecordrecord");
-        return getTimeDifference(record.dateLogin, record.dateLogOut);
+        return (
+          <div className={styles["inner-sub-Heading"]}>
+            {getTimeDifference(record.dateLogin, record.dateLogOut)}
+          </div>
+        );
       },
     },
     {
@@ -195,9 +248,8 @@ const LoginHistory = () => {
       align: "center",
       key: "deviceID",
       width: 100,
-
       render: (text, data) => (
-        <span className={styles["voterCountStyle"]}>{text}</span>
+        <span className={styles["inner-sub-Heading"]}>{text}</span>
       ),
     },
     {
@@ -206,6 +258,9 @@ const LoginHistory = () => {
       align: "center",
       key: "loggedInFromIP",
       width: 120,
+      render: (text, data) => (
+        <span className={styles["inner-sub-Heading"]}>{text}</span>
+      ),
     },
   ];
 
@@ -671,10 +726,17 @@ const LoginHistory = () => {
                       </Col>
                     </Row>
                     <Row className="mt-3">
+                      <Col lg={6} md={6} sm={6}>
+                        <Select
+                          value={organizationDataValue}
+                          options={organizationData}
+                          onChange={organizerChangeHandler}
+                        />
+                      </Col>
                       <Col
-                        lg={12}
-                        md={12}
-                        sm={12}
+                        lg={6}
+                        md={6}
+                        sm={6}
                         className="d-flex justify-content-end gap-2"
                       >
                         <Button
@@ -719,7 +781,7 @@ const LoginHistory = () => {
                 </>
               ) : null
             }
-            scrollableTarget="scrollableDiv"
+            // scrollableTarget="scrollableDiv"
           >
             <Table
               column={UserLoginHistoryColoumn}
@@ -728,9 +790,9 @@ const LoginHistory = () => {
               footer={false}
               className={"userlogin_history_tableP"}
               size={"small"}
-              scroll={{
-                x: false,
-              }}
+              // scroll={{
+              //   x: false,
+              // }}
             />
           </InfiniteScroll>
         </Col>

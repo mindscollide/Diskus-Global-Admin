@@ -22,7 +22,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import EditSubscriptionModal from "./EditSubscriptionModal/EditSubscriptionModal";
 import EditSubscriptionConfirmationModal from "./EditSubscriptionModal/EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
-import { searchOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
+import {
+  searchOrganizationApi,
+  getAllOrganizationApi,
+} from "../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
 import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
 import moment from "moment";
@@ -43,6 +46,13 @@ const ViewOrganization = () => {
     (state) => state.searchOrganization.searchOrganizationData
   );
 
+  const organizationIdData = useSelector(
+    (state) => state.searchOrganization.getAllOrganizationData
+  );
+
+  const [organizationData, setOrganizationData] = useState([]);
+  const [organizationDataValue, setOrganizationDataValue] = useState(null);
+
   //States for the component
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -59,6 +69,10 @@ const ViewOrganization = () => {
     DateToView: "",
     DateFromView: "",
     Status: {
+      value: 0,
+      label: "",
+    },
+    OrganizationID: {
       value: 0,
       label: "",
     },
@@ -82,7 +96,29 @@ const ViewOrganization = () => {
     dispatch(searchOrganizationApi({ data, navigate, t }));
   }, []);
 
-  console.log(ViewOrganizationData, "ViewOrganizationDataViewOrganizationData");
+  useEffect(() => {
+    dispatch(viewOrganizationLoader(false));
+    dispatch(getAllOrganizationApi({ navigate, t }));
+  }, []);
+
+  useEffect(() => {
+    if (
+      organizationIdData?.result.getAllOrganizations.length > 0 &&
+      organizationIdData?.result.getAllOrganizations !== null
+    ) {
+      setOrganizationData(
+        organizationIdData.result.getAllOrganizations.map((item) => ({
+          value: item.organizationID,
+          label: item.organizationName,
+        }))
+      );
+    }
+  }, [organizationIdData]);
+
+  const organizerChangeHandler = (selectedOrganizer) => {
+    setOrganizationDataValue(selectedOrganizer);
+    console.log(selectedOrganizer, "selectedOrganizer");
+  };
 
   useEffect(() => {
     try {
@@ -131,6 +167,11 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 220,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("Admin-name"),
@@ -139,6 +180,11 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 220,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("Contact-number"),
@@ -147,6 +193,11 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 200,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: "Subscription Expiry",
@@ -156,7 +207,9 @@ const ViewOrganization = () => {
       width: 200,
       render: (text, record) => {
         const formattedDate = moment(text, "YYYYMMDD").format("DD - MM - YYYY");
-        return formattedDate;
+        return (
+          <div className={styles["inner-sub-Heading"]}>{formattedDate}</div>
+        );
       },
     },
     {
@@ -166,6 +219,11 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 200,
+      render: (text, record) => (
+        <>
+          <span className={styles["inner-sub-Heading"]}>{text}</span>
+        </>
+      ),
     },
     {
       title: t("Edit-subscription"),
@@ -486,6 +544,13 @@ const ViewOrganization = () => {
                             onChange={handleStatusChange}
                           />
                         </Col>
+                        <Col lg={6} md={6} sm={6}>
+                          <Select
+                            value={organizationDataValue}
+                            options={organizationData}
+                            onChange={organizerChangeHandler}
+                          />
+                        </Col>
                       </Row>
                       <Row className="mt-3">
                         <Col
@@ -546,9 +611,9 @@ const ViewOrganization = () => {
                 footer={false}
                 className={"userlogin_history_tableP"}
                 size={"small"}
-                scroll={{
-                  x: false,
-                }}
+                // scroll={{
+                //   x: false,
+                // }}
               />
             </InfiniteScroll>
           </Col>

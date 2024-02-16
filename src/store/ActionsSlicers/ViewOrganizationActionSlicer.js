@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { searchOrganizationApi } from "../Actions/ViewOrganizationActions";
+import {
+  searchOrganizationApi,
+  getAllOrganizationApi,
+} from "../Actions/ViewOrganizationActions";
 
 const initialState = {
   loading: false,
   searchOrganizationData: null,
+  getAllOrganizationData: null,
   Responsemessage: "",
 };
 
@@ -28,6 +32,15 @@ const searchOrganization = createSlice({
       .addCase(searchOrganizationApi.rejected, (state, action) => {
         // state.loading = false;
         state.searchOrganizationData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+      .addCase(getAllOrganizationApi.pending, (state) => {})
+      .addCase(getAllOrganizationApi.fulfilled, (state, action) => {
+        state.getAllOrganizationData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getAllOrganizationApi.rejected, (state, action) => {
+        state.getAllOrganizationData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },
