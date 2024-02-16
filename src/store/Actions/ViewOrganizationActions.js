@@ -266,6 +266,7 @@ export const getAllOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetAllOrganization_01".toLowerCase()
               )
           ) {
+            dispatch(viewOrganizationLoader(false));
             try {
               return {
                 result: response.data.responseResult,
@@ -281,6 +282,7 @@ export const getAllOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetAllOrganization_02".toLowerCase()
               )
           ) {
+            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("No data available");
           } else if (
             response.data.responseResult.responseMessage
@@ -289,14 +291,18 @@ export const getAllOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetAllOrganization_03".toLowerCase()
               )
           ) {
+            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("Something-went-wrong");
           } else {
+            dispatch(viewOrganizationLoader(false));
             return rejectWithValue("Something-went-wrong");
           }
         } else {
+          dispatch(viewOrganizationLoader(false));
           return rejectWithValue("Something-went-wrong");
         }
       } else {
+        dispatch(viewOrganizationLoader(false));
         return rejectWithValue("Something-went-wrong");
       }
     } catch (error) {

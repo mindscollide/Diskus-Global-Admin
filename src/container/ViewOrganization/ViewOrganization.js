@@ -123,7 +123,6 @@ const ViewOrganization = () => {
   const organizerChangeHandler = (selectedOrganizer) => {
     setSearchOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
-    console.log(selectedOrganizer, "selectedOrganizer");
   };
 
   useEffect(() => {
@@ -161,11 +160,8 @@ const ViewOrganization = () => {
         setViewOrganizationData(
           ViewOrganizationData.result.searchOrganizations
         );
-        dispatch(viewOrganizationLoader(false));
       }
-    } catch {
-      dispatch(viewOrganizationLoader(false));
-    }
+    } catch {}
   }, [ViewOrganizationData]);
 
   const ViewOrganizationColoumn = [
