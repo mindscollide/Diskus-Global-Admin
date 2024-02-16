@@ -60,5 +60,12 @@
   "Remember-password": "Remember Password",
   "Securing-your-session-one-step-at-a-time": "Securing your session one step at a time",
   "Deploying-multiple-encryption-layers": "Deploying multiple encryption layers",
-  "Obfuscating-network": "Obfuscating network"
+  "Obfuscating-network": "Obfuscating network",
+  "Export-to-excel": "Export To Excel",
+  "Organization": "Organization",
+  "User-level-configurations": "User Level Configurations",
+  "Organization-level-configurations": "Organization Level Configurations",
+  "All-meeting": "All Meeting",
+  "Search": "Search",
+  "Arabic": "Arabic"
 }

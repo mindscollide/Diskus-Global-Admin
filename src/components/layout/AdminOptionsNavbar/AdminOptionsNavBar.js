@@ -49,7 +49,7 @@ const AdminOptionsNavBar = () => {
                       eventKey="link-8"
                       className="text-black border-none"
                     >
-                      {"All-meeting"}
+                      {t("All-meeting")}
                     </NavDropdown.Item>
                   </NavDropdown>
 
@@ -64,7 +64,7 @@ const AdminOptionsNavBar = () => {
                       eventKey="link-8"
                       className="text-black border-none "
                     >
-                      {"Organization-level-configurations"}
+                      {t("Organization-level-configurations")}
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       as={Link}
@@ -72,7 +72,7 @@ const AdminOptionsNavBar = () => {
                       eventKey="link-8"
                       className="text-black border-none "
                     >
-                      {"User-level-configurations"}
+                      {t("User-level-configurations")}
                     </NavDropdown.Item>
                   </NavDropdown>
 

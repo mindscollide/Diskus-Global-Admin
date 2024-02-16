@@ -205,7 +205,7 @@ const ViewOrganization = () => {
       ),
     },
     {
-      title: "Subscription Expiry",
+      title: t("Subscription-expiry"),
       dataIndex: "subscriptionExpiry",
       key: "subscriptionExpiry",
       align: "center",
