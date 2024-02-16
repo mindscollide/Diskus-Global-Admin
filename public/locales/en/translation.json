@@ -83,5 +83,8 @@
   "Suspended": "Suspended",
   "Closed": "Closed",
   "Termination-requested": "Termination Requested",
-  "Cancelled": "Cancelled"
+  "Cancelled": "Cancelled",
+  "Web": "Web",
+  "Mobile": "Mobile",
+  "Tablet": "Tablet"
 }

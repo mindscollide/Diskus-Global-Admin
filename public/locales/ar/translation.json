@@ -84,5 +84,8 @@
   "Suspended": "معلق",
   "Closed": "مغلق",
   "Termination-requested": "طلب الإنهاء",
-  "Cancelled": "ألغيت"
+  "Cancelled": "ألغيت",
+  "Web": "ويب",
+  "Mobile": "متحرك",
+  "Tablet": "لوح"
 }

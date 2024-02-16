@@ -264,9 +264,30 @@ const LoginHistory = () => {
       align: "center",
       key: "deviceID",
       width: 100,
-      render: (text, data) => (
-        <span className={styles["inner-sub-Heading"]}>{text}</span>
-      ),
+      render: (text, data) => {
+        console.log(data, "datadatadatadatadatadata");
+        return (
+          <>
+            {data.deviceID === "1" ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>{t("Web")}</span>
+              </>
+            ) : data.deviceID === "2" ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Mobile")}
+                </span>
+              </>
+            ) : data.deviceID === "3" ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Tablet")}
+                </span>
+              </>
+            ) : null}
+          </>
+        );
+      },
     },
     {
       title: t("Ip-address"),
