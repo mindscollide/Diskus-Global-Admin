@@ -105,6 +105,7 @@ body {
   color: #6172d6 !important;
   font-family: "MontserratSemiBold-600";
   font-size: 14px !important;
+  padding: 4px 8px !important;
 }
 
 .datepicker_input {
@@ -134,4 +135,20 @@ body {
 :where(.css-dev-only-do-not-override-dkbvqv)[class^="ant-layout"],
 :where(.css-dev-only-do-not-override-dkbvqv)[class*=" ant-layout"] {
   background-color: #f6fafd;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.navbar-nav {
+  font-family: "montserrat-regular";
+}
+
+p.user-name {
+  font-family: "montserrat-bold";
+}
+
+img.user-img {
+  border-radius: 50%;
 }

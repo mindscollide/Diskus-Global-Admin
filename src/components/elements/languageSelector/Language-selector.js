@@ -2,7 +2,10 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import LanguageArrowDownBlack from "../../../assets/images/language Selector SVGs/Language_ArrowDown.svg";
 import LanguageArrowUpBlack from "../../../assets/images/language Selector SVGs/Language_ArrowUp.svg";
+import LanguageArrowDown from "../../../assets/images/language Selector SVGs/LanguaugeSelector_Down.svg";
+import LanguageArrowUp from "../../../assets/images/language Selector SVGs/LanguaugeSelector_Up.svg";
 import LanguageBlack from "../../../assets/images/language Selector SVGs/Language_Black.svg";
+import LanguageIcon from "../../../assets/images/language Selector SVGs/Language_White.svg";
 import styles from "./Language-selector.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -12,6 +15,8 @@ const LanguageSelector = () => {
   let currentLanguage = localStorage.getItem("i18nextLng");
   const [languageDropdown, setLanguageDropdown] = useState(false);
   const { t, i18n } = useTranslation();
+
+  const location = useLocation();
 
   const [languages, setLanguages] = useState([
     {
@@ -78,8 +83,22 @@ const LanguageSelector = () => {
       ref={languageref}
       onClick={() => setLanguageDropdown(!languageDropdown)}
     >
-      <span className="d-flex gap-2">
-        <img src={LanguageBlack} alt="" draggable="false" />
+      <span
+        className={
+          location.pathname.includes("/Dashboard/")
+            ? "text-white d-flex gap-2  mx-3 align-items-center position-relative cursor-pointer"
+            : "text-black d-flex gap-2 mx-3 align-items-center position-relative cursor-pointer"
+        }
+      >
+        <img
+          src={
+            location.pathname.includes("/Dashboard/")
+              ? LanguageIcon
+              : LanguageBlack
+          }
+          alt=""
+          draggable="false"
+        />
         {/* {selectedLanguage.languageTitle} */}
         {currentLanguage === "en"
           ? t("English")
@@ -90,14 +109,22 @@ const LanguageSelector = () => {
           : t("English")}
         {languageDropdown ? (
           <img
-            src={LanguageArrowUpBlack}
+            src={
+              location.pathname.includes("/Dashboard/")
+                ? LanguageArrowUp
+                : LanguageArrowUpBlack
+            }
             onClick={() => setLanguageDropdown(!languageDropdown)}
             alt=""
             draggable="false"
           />
         ) : (
           <img
-            src={LanguageArrowDownBlack}
+            src={
+              location.pathname.includes("/Dashboard/")
+                ? LanguageArrowDown
+                : LanguageArrowDownBlack
+            }
             onClick={() => setLanguageDropdown(!languageDropdown)}
             alt=""
             draggable="false"

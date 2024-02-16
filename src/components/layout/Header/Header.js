@@ -27,7 +27,7 @@ const Header = () => {
 
           <Nav className="ml-auto align-items-center">
             <LanguageSelector />
-            <Nav.Link className="me-2">
+            {/* <Nav.Link className="me-2">
               <div className="dropdown-btn_dotted">
                 <DropdownButton
                   id="dropdown-btn_dotted"
@@ -52,7 +52,7 @@ const Header = () => {
                   </Dropdown.Item>
                 </DropdownButton>
               </div>
-            </Nav.Link>
+            </Nav.Link> */}
             <Dropdown className="profilebtn-dropdown">
               <Dropdown.Toggle className="dropdown-toggle">
                 <img
