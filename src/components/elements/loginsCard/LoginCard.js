@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./LoginCard.module.css";
 import { Col, Row, Container } from "react-bootstrap";
 import DiskusLogo from "./../../../assets/images/DiskusLogo/Diskus_newLogo.svg";
@@ -12,20 +12,23 @@ import {
   LoginScreen,
   ForgotPassword,
   TwoFaScreen,
-  VerificationCode,
-  VerificationPhone,
-  VerificationNotificationPhone,
+  PasswordVerification,
 } from "../../../container";
 import { useDispatch, useSelector } from "react-redux";
-import { changeScreen } from "../../../store/ActionsSlicers/AuthAction";
+import { changeScreen } from "../../../store/ActionsSlicers/AuthScreenActionSlicer";
 import { useTranslation } from "react-i18next";
+import Loader from "../../../components/elements/loader/Loader";
 
 const LoginCard = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const screenName = useSelector((state) => state.Auth.screenName);
 
   const dispatch = useDispatch();
+
+  const authState = useSelector((state) => state.AuthActions);
+  const { loading } = authState;
+
   // Function to switch to the forgot password screen
   const onClickForgetPasswordText = () => {
     dispatch(changeScreen("forgotPassword"));
@@ -38,8 +41,13 @@ const LoginCard = () => {
 
   // Function to switch to the twofascreen
   const onClickSignIn = () => {
-    dispatch(changeScreen("TwoFaScreen"));
+    dispatch(changeScreen("PasswordVerification"));
   };
+
+  // Function to switch to the Enter Password screen
+  // const onClickToEnterpassword = () => {
+  //   dispatch(changeScreen("EnterPassword"));
+  // };
 
   return (
     <>
@@ -90,6 +98,9 @@ const LoginCard = () => {
                   )}
                   {screenName === "TwoFaScreen" && (
                     <TwoFaScreen onClickGoBack={onClickGoBack} />
+                  )}
+                  {screenName === "PasswordVerification" && (
+                    <PasswordVerification />
                   )}
                 </Col>
               </Row>
@@ -209,24 +220,29 @@ const LoginCard = () => {
                   />
                 </div>
               </>
-              // <>
-              //   <img
-              //     src={img2}
-              //     width="400px"
-              //     height="450px"
-              //     alt="verification"
-              //     className={styles["phone-notification-verification-image"]}
-              //   />
-              //   <img
-              //     src={DiskusRoundLogo}
-              //     alt="login-round-logo"
-              //     width="600px"
-              //     className={styles["phone-notification-round-circle-class"]}
-              //   />
-              // </>
+            )}
+
+            {screenName === "PasswordVerification" && (
+              <>
+                <div className={styles["login-screen-headings"]}>
+                  <h1 className={styles["heading-1"]}>
+                    {t("Simplify-management")}
+                  </h1>
+                  <h1 className={styles["heading-2"]}>{t("Collaborate")}</h1>
+                  <h1 className={styles["heading-1"]}>{t("Prioritize")}</h1>
+                </div>
+                <div className="Diskus_rounded_logo">
+                  <img
+                    src={DiskusRoundLogo}
+                    alt="login-round-logo"
+                    className={styles["round-circle-class"]}
+                  />
+                </div>
+              </>
             )}
           </Col>
         </Row>
+        {loading && <Loader />}
       </Container>
     </>
   );

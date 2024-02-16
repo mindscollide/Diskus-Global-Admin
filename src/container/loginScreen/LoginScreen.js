@@ -1,8 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import "./LoginScreen.css";
+import { Button, TextField } from "../../components/elements";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { enterEmailValidation } from "../../store/Actions/AuthActions";
+import { useTranslation } from "react-i18next";
+import { changeScreen } from "../../store/ActionsSlicers/AuthScreenActionSlicer";
 
-const LoginScreen = ({ onClickForgetPasswordText, onClickSignIn }) => {
+const LoginScreen = ({ onClickForgetPasswordText }) => {
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const { t } = useTranslation();
+
+  const screenName = useSelector((state) => state.Auth.screenName);
+
+  const [crendentials, setCrendentials] = useState({
+    Email: "",
+  });
+
+  const HandleChange = (e, index) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    if (name === "EmailAddress") {
+      if (value !== "") {
+        setCrendentials({
+          ...crendentials,
+          Email: value.trimStart(),
+        });
+      } else {
+        setCrendentials({
+          ...crendentials,
+          Email: "",
+        });
+      }
+    }
+  };
+
+  const onClickSignIn = () => {
+    let value = crendentials.Email;
+    dispatch(enterEmailValidation({ value, navigate, t }));
+    dispatch(changeScreen("PasswordVerification"));
+  };
+
   return (
     <>
       <Row>
@@ -12,30 +54,35 @@ const LoginScreen = ({ onClickForgetPasswordText, onClickSignIn }) => {
           sm={12}
           className="my-4 d-flex justify-content-center"
         >
-          <span className="sign-in-text">Sign In</span>
+          <span className="sign-in-text">{t("Sign-in")}</span>
         </Col>
       </Row>
 
       <Row>
-        <Col lg={12} md={12} sm={12} className="d-flex justify-content-center">
-          <input
-            type={"text"}
-            placeholder="Enter Your Email"
-            className="textfield-signIn-class"
+        <Col lg={12} md={12} sm={12}>
+          <TextField
+            applyClass={"addOraganizer"}
+            labelClass={"d-none"}
+            name={"EmailAddress"}
+            change={HandleChange}
+            value={crendentials.Email}
+            maxLength={250}
           />
         </Col>
       </Row>
 
-      <Row>
+      <Row className="mt-3">
         <Col
           lg={12}
           md={12}
           sm={12}
-          className="d-flex justify-content-center  mt-4"
+          className="d-flex justify-content-center w-100"
         >
-          <button className="button-color w-100" onClick={onClickSignIn}>
-            Next
-          </button>
+          <Button
+            text={"Next"}
+            onClick={onClickSignIn}
+            className={"LoginButton"}
+          />
         </Col>
       </Row>
 

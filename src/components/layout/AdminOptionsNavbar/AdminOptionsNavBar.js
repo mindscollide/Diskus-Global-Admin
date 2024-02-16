@@ -98,9 +98,9 @@ const AdminOptionsNavBar = () => {
                     className="DiskusAdminNavBar"
                   >
                     <NavDropdown.Item
-                      // as={Link}
-                      // to="PackageDetail"
-                      onClick={handleOpenModal}
+                      as={Link}
+                      to="loginHistory"
+                      // onClick={handleOpenModal}
                       eventKey="link-8"
                       className="text-black border-none  bg-white"
                     >

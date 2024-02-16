@@ -6,9 +6,23 @@ import AdminOptionsNavBar from "../../components/layout/AdminOptionsNavbar/Admin
 import { Outlet } from "react-router-dom";
 import ar_EG from "antd/es/locale/ar_EG";
 import en_US from "antd/es/locale/en_US";
+import { useSelector } from "react-redux";
+import Loader from "../../components/elements/loader/Loader";
 
 const DashBoard = () => {
   const { Content } = Layout;
+  const authStateLoader = useSelector((state) => state.AuthActions.loading);
+  const LoginHistoryLoader = useSelector((state) => state.loginHistory.loading);
+  const { loginHistory } = useSelector((state) => state);
+
+  console.log(
+    LoginHistoryLoader,
+    loginHistory,
+    "LoginHistoryLoaderLoginHistoryLoader"
+  );
+  const ViewOrganizationData = useSelector(
+    (state) => state.searchOrganization.loading
+  );
   let i18nextLng = localStorage.getItem("i18nextLng");
   console.log("i18nextLng", i18nextLng);
   const [currentLanguage, setCurrentLanguage] = useState(
@@ -37,6 +51,9 @@ const DashBoard = () => {
               <Outlet />
             </div>
           </Content>
+          {LoginHistoryLoader || authStateLoader || ViewOrganizationData ? (
+            <Loader />
+          ) : null}
         </Layout>
       </ConfigProvider>
     </>

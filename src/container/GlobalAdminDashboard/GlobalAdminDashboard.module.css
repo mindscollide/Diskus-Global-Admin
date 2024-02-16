@@ -1,0 +1,164 @@
+.LeftBoxDashboard {
+  padding: 5px 20px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  height: auto !important;
+  min-height: 80vh;
+}
+
+.RightBoxDashboard {
+  padding: 5px 20px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  height: auto !important;
+  min-height: 80vh;
+}
+
+.BillingDueHeading {
+  font-size: 20px !important;
+  color: #6172d6 !important;
+  font-weight: bold !important;
+}
+
+/* Dropdown.module.css */
+
+.up {
+  border: 1px solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  cursor: pointer !important;
+  margin-top: 5px;
+}
+.down {
+  border: 1px solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  cursor: pointer !important;
+}
+.dropdown-header {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  user-select: none;
+}
+
+.dropdown-list-item {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  height: auto !important;
+  border-bottom: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  padding: 3px 0;
+  cursor: pointer !important;
+}
+.dropdown-list-item:last-child {
+  border-bottom: none !important;
+}
+.dropdown-container {
+  max-width: 100% !important;
+}
+.dropdown_list {
+  background: #fff !important;
+  z-index: 1 !important;
+  padding: 10px;
+  position: absolute;
+  border: 1px solid #e1e1e1;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+}
+
+.MonthName {
+  font-size: 16px !important;
+  color: #5a5a5a !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.PrizeStyles {
+  color: #f16b6b !important;
+  font-size: 40px !important;
+  font-weight: bold !important;
+}
+
+.PrizeSubHeading {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+}
+
+.OrgazationStatusHeading {
+  color: #6172d6 !important;
+  font-size: 20px !important;
+  font-weight: bold !important;
+}
+
+.OuterBoxPieChart {
+  height: auto !important;
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  cursor: pointer !important;
+}
+
+.OuterBoxPieChart:is(:hover) {
+  height: auto !important;
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  cursor: pointer !important;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+}
+
+.OuterBoxPieChartActive {
+  height: auto !important;
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  cursor: pointer !important;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+}
+
+.ButtonsDashboard {
+  padding: 5px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+}
+
+.ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
+  padding: 5px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+}
+
+.Search_Bar_icon_class {
+  cursor: pointer;
+  top: 5px;
+  position: absolute;
+  left: auto;
+  right: 10px;
+}

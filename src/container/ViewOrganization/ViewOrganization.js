@@ -13,68 +13,215 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 import Select from "react-select";
 import EditIcon from "../../assets/images/OutletImages/Edit_Icon.svg";
 import EditOrganizationModal from "./EditOrganizationModal/EditOrganizationModal";
+import { Spin } from "antd";
+import InfiniteScroll from "react-infinite-scroll-component";
 import {
   editOrganizationModalOpen,
   editSubscriptionModalOpen,
 } from "../../store/ActionsSlicers/UIModalsActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EditSubscriptionModal from "./EditSubscriptionModal/EditSubscriptionModal";
+import EditSubscriptionConfirmationModal from "./EditSubscriptionModal/EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
+import { searchOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
+import { useNavigate } from "react-router-dom";
+import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
+import moment from "moment";
+import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const calendRef = useRef();
 
   let currentLanguage = localStorage.getItem("i18nextLng");
 
+  const ViewOrganizationData = useSelector(
+    (state) => state.searchOrganization.searchOrganizationData
+  );
+
+  //States for the component
+  const [isScroll, setIsScroll] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [isRowsData, setSRowsData] = useState(0);
   const [searchBox, setSearchBox] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
+  const [viewOrganizationData, setViewOrganizationData] = useState([]);
+  const [searchOrganizationData, setSearchOrganizationData] = useState({
+    userName: "",
+    userEmail: "",
+    DateFrom: "",
+    DateTo: "",
+    DateToView: "",
+    DateFromView: "",
+    Status: {
+      value: 0,
+      label: "",
+    },
+  });
+  console.log(totalRecords, isRowsData, "isRowsDataisRowsData");
+  //Calling Organization Api
+  useEffect(() => {
+    let data = {
+      OrganizationID: 0,
+      CountryID: 0,
+      ContactPersonName: "",
+      Email: "",
+      StatusID: 0,
+      PackageID: 0,
+      SubsictionExpiryStart: "",
+      SubscriptionExpiryEnd: "",
+      sRow: 0,
+      Length: 10,
+    };
+    dispatch(viewOrganizationLoader(true));
+    dispatch(searchOrganizationApi({ data, navigate, t }));
+  }, []);
+
+  console.log(ViewOrganizationData, "ViewOrganizationDataViewOrganizationData");
+
+  useEffect(() => {
+    try {
+      if (ViewOrganizationData !== null && ViewOrganizationData !== undefined) {
+        if (
+          ViewOrganizationData.result.searchOrganizations.length > 0 &&
+          ViewOrganizationData.result.totalCount > 0
+        ) {
+          if (isScroll) {
+            setIsScroll(false);
+            //copy pf the rows of table
+            let copyData = [...viewOrganizationData];
+            ViewOrganizationData.result.searchOrganizations.forEach(
+              (data, index) => {
+                copyData.push(data);
+              }
+            );
+            setViewOrganizationData(copyData);
+            setSRowsData(
+              (prev) =>
+                prev + ViewOrganizationData.result.searchOrganizations.length
+            );
+            setTotalRecords(ViewOrganizationData.result.totalCount);
+          } else {
+            setViewOrganizationData(
+              ViewOrganizationData.result.searchOrganizations
+            );
+            setTotalRecords(ViewOrganizationData.result.totalCount);
+            setSRowsData(
+              ViewOrganizationData.result.userLoginHistoryModel.length
+            );
+          }
+        }
+        setViewOrganizationData(
+          ViewOrganizationData.result.searchOrganizations
+        );
+      }
+    } catch {}
+  }, [ViewOrganizationData]);
 
   const ViewOrganizationColoumn = [
     {
       title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
-      width: "169px",
+      align: "center",
+      ellipsis: true,
+      width: 220,
     },
     {
       title: t("Admin-name"),
-      dataIndex: "adminName",
-      key: "adminName",
-      width: "125px",
+      dataIndex: "contactPersonName",
+      key: "contactPersonName",
+      align: "center",
+      ellipsis: true,
+      width: 220,
     },
     {
       title: t("Contact-number"),
-      dataIndex: "contactNumber",
-      key: "contactNumber",
-      width: "150px",
+      dataIndex: "number",
+      key: "number",
+      align: "center",
+      ellipsis: true,
+      width: 200,
     },
     {
-      title: t("Subscription-expiry"),
-      dataIndex: "SubscriptionExpiry",
-      key: "SubscriptionExpiry",
-      width: "170px",
+      title: "Subscription Expiry",
+      dataIndex: "subscriptionExpiry",
+      key: "subscriptionExpiry",
+      align: "center",
+      width: 200,
+      render: (text, record) => {
+        const formattedDate = moment(text, "YYYYMMDD").format("DD - MM - YYYY");
+        return formattedDate;
+      },
     },
     {
       title: t("Subscription-status"),
-      dataIndex: "subscriptionStatus",
-      key: "subscriptionStatus",
-      width: "170px",
+      dataIndex: "currentSubscrtionStatus",
+      key: "currentSubscrtionStatus",
+      align: "center",
+      ellipsis: true,
+      width: 200,
     },
     {
       title: t("Edit-subscription"),
       dataIndex: "editSubscription",
       key: "editSubscription",
-      width: "155px",
+      align: "center",
+      ellipsis: true,
+      width: 200,
+      render: (text, record) => {
+        return (
+          <Row>
+            <Col
+              lg={12}
+              md={12}
+              sm={12}
+              className="d-flex justify-content-center"
+            >
+              <img
+                src={EditIcon}
+                alt=""
+                draggable="false"
+                className={styles["EditIcon"]}
+                onClick={handleEditSubscriptionModal}
+              />
+            </Col>
+          </Row>
+        );
+      },
     },
     {
       title: t("Edit-organization"),
       dataIndex: "editOrganization",
       key: "editOrganization",
-      width: "145px",
+      align: "center",
+      ellipsis: true,
+      width: 200,
+      render: (text, record) => {
+        return (
+          <Row>
+            <Col
+              lg={12}
+              md={12}
+              sm={12}
+              className="d-flex justify-content-center"
+            >
+              <img
+                src={EditIcon}
+                alt=""
+                draggable="false"
+                className={styles["EditIcon"]}
+                onClick={handleEditOrganizationModal}
+              />
+            </Col>
+          </Row>
+        );
+      },
     },
   ];
 
@@ -86,52 +233,6 @@ const ViewOrganization = () => {
     dispatch(editSubscriptionModalOpen(true));
   };
 
-  //Dummy data of Table
-
-  const data = [
-    {
-      key: "1",
-      editSubscription: (
-        <>
-          <Row>
-            <Col
-              lg={12}
-              md={12}
-              sm={12}
-              className="d-flex justify-content-center"
-            >
-              <img
-                src={EditIcon}
-                alt=""
-                draggable="false"
-                onClick={handleEditSubscriptionModal}
-              />
-            </Col>
-          </Row>
-        </>
-      ),
-      editOrganization: (
-        <>
-          <Row>
-            <Col
-              lg={12}
-              md={12}
-              sm={12}
-              className="d-flex justify-content-center"
-            >
-              <img
-                src={EditIcon}
-                alt=""
-                draggable="false"
-                onClick={handleEditOrganizationModal}
-              />
-            </Col>
-          </Row>
-        </>
-      ),
-    },
-  ];
-
   const HandleopenSearchBox = () => {
     setSearchBox(!searchBox);
   };
@@ -141,11 +242,82 @@ const ViewOrganization = () => {
   };
 
   const options = [
-    { value: "Enabled", label: "Enabled" },
-    { value: "Disabled", label: "Disabled" },
-    { value: "Locked", label: "Locked" },
-    { value: "Dormant", label: "Dormant" },
+    { value: "1", label: "Enabled" },
+    { value: "2", label: "Disabled" },
+    { value: "3", label: "Locked" },
+    { value: "4", label: "Dormant" },
   ];
+
+  //onChange for View Orgniazation Search
+
+  const searchViewOrganizationHandler = (event) => {
+    const { name, value } = event.target;
+    if (name === "adminName") {
+      setSearchOrganizationData({
+        ...searchOrganizationData,
+        userName: value,
+      });
+    } else if (name === "adminEmail") {
+      setSearchOrganizationData({
+        ...searchOrganizationData,
+        userEmail: value,
+      });
+    }
+  };
+
+  //onChange Date from
+  const handleChangeFromDate = (date) => {
+    let getDate = new Date(date);
+    let utcDate = getDate.toISOString().slice(0, 10).replace(/-/g, "");
+    setSearchOrganizationData({
+      ...searchOrganizationData,
+      DateFrom: utcDate,
+      DateFromView: getDate,
+    });
+  };
+
+  //onChange Date TO
+  const handleChangeToDate = (date) => {
+    let getDate = new Date(date);
+    let utcDate = getDate.toISOString().slice(0, 10).replace(/-/g, "");
+    setSearchOrganizationData({
+      ...searchOrganizationData,
+      DateTo: utcDate,
+      DateToFrom: getDate,
+    });
+  };
+
+  //handle status change
+
+  const handleStatusChange = (selectedOption) => {
+    setSearchOrganizationData((prevState) => ({
+      ...prevState,
+      Status: selectedOption,
+    }));
+  };
+
+  console.log(
+    searchOrganizationData.Status,
+    "searchOrganizationDatasearchOrganizationData"
+  );
+
+  const handleSearchButton = () => {
+    let data = {
+      OrganizationID: 0,
+      CountryID: 0,
+      ContactPersonName: searchOrganizationData.userName,
+      Email: searchOrganizationData.userEmail,
+      StatusID: Number(searchOrganizationData.Status.value),
+      PackageID: 0,
+      SubscriptionExpiryStart: searchOrganizationData.DateFrom,
+      SubscriptionExpiryEnd: searchOrganizationData.DateTo,
+      sRow: 0,
+      Length: 10,
+    };
+    console.log(data, "handleSearchButtonhandleSearchButton");
+    dispatch(viewOrganizationLoader(true));
+    dispatch(searchOrganizationApi({ data, navigate, t }));
+  };
 
   useEffect(() => {
     if (currentLanguage !== undefined && currentLanguage !== null) {
@@ -158,6 +330,28 @@ const ViewOrganization = () => {
       }
     }
   }, [currentLanguage]);
+
+  const handleScroll = async (e) => {
+    if (isRowsData <= totalRecords) {
+      setIsScroll(true);
+      let data = {
+        OrganizationID: 0,
+        CountryID: 0,
+        ContactPersonName: "",
+        Email: "",
+        StatusID: 0,
+        PackageID: 0,
+        SubsictionExpiryStart: "",
+        SubscriptionExpiryEnd: "",
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(false));
+      dispatch(searchOrganizationApi({ data, navigate, t }));
+    } else {
+      setIsScroll(false);
+    }
+  };
 
   return (
     <>
@@ -222,16 +416,28 @@ const ViewOrganization = () => {
                       </Row>
                       <Row className="mt-2">
                         <Col lg={6} md={6} sm={6}>
-                          <TextField labelClass={"d-none"} />
+                          <TextField
+                            labelClass={"d-none"}
+                            value={searchOrganizationData.userName}
+                            name={"adminName"}
+                            placeholder={t("Admin-name")}
+                            change={searchViewOrganizationHandler}
+                          />
                         </Col>
                         <Col lg={6} md={6} sm={6}>
-                          <TextField labelClass={"d-none"} />
+                          <TextField
+                            labelClass={"d-none"}
+                            name={"adminEmail"}
+                            placeholder={t("Admin-email")}
+                            value={searchOrganizationData.userEmail}
+                            change={searchViewOrganizationHandler}
+                          />
                         </Col>
                       </Row>
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            // value={searchFields.DateView}
+                            value={searchOrganizationData.DateFromView}
                             format={"DD/MM/YYYY"}
                             placeholder="DD/MM/YYYY"
                             render={
@@ -247,12 +453,12 @@ const ViewOrganization = () => {
                             calendar={calendarValue}
                             locale={localValue}
                             ref={calendRef}
-                            // onChange={meetingDateChangeHandler}
+                            onChange={handleChangeFromDate}
                           />
                         </Col>
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            // value={searchFields.DateView}
+                            value={searchOrganizationData.DateToView}
                             format={"DD/MM/YYYY"}
                             placeholder="DD/MM/YYYY"
                             render={
@@ -268,13 +474,17 @@ const ViewOrganization = () => {
                             calendar={calendarValue}
                             locale={localValue}
                             ref={calendRef}
-                            // onChange={meetingDateChangeHandler}
+                            onChange={handleChangeToDate}
                           />
                         </Col>
                       </Row>
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
-                          <Select options={options} />
+                          <Select
+                            value={searchOrganizationData.Status}
+                            options={options}
+                            onChange={handleStatusChange}
+                          />
                         </Col>
                       </Row>
                       <Row className="mt-3">
@@ -291,6 +501,7 @@ const ViewOrganization = () => {
                           <Button
                             text={t("Search")}
                             className={styles["SearchButton"]}
+                            onClick={handleSearchButton}
                           />
                         </Col>
                       </Row>
@@ -303,17 +514,49 @@ const ViewOrganization = () => {
         </Row>
         <Row className="mt-3">
           <Col lg={12} md={12} sm={12}>
-            <Table
-              column={ViewOrganizationColoumn}
-              pagination={false}
-              rows={data}
-              className="Table"
-            />
+            <InfiniteScroll
+              dataLength={viewOrganizationData.length}
+              next={handleScroll}
+              height={"60vh"}
+              hasMore={
+                viewOrganizationData.length === totalRecords ? false : true
+              }
+              loader={
+                isRowsData <= totalRecords && isScroll ? (
+                  <>
+                    <Row>
+                      <Col
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        className="d-flex justify-content-center mt-2"
+                      >
+                        <Spin />
+                      </Col>
+                    </Row>
+                  </>
+                ) : null
+              }
+              scrollableTarget="scrollableDiv"
+            >
+              <Table
+                column={ViewOrganizationColoumn}
+                pagination={false}
+                rows={viewOrganizationData}
+                footer={false}
+                className={"userlogin_history_tableP"}
+                size={"small"}
+                scroll={{
+                  x: false,
+                }}
+              />
+            </InfiniteScroll>
           </Col>
         </Row>
       </Container>
       <EditOrganizationModal />
       <EditSubscriptionModal />
+      <EditSubscriptionConfirmationModal />
     </>
   );
 };

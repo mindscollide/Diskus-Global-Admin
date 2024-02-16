@@ -5,34 +5,22 @@
   text-align: center !important;
 }
 
-.button-color {
-  width: 100% !important;
-  height: 37px !important;
-  padding: 0px !important;
-  background-color: #6172d6 !important;
-  color: #fff !important;
-  border-radius: 2px !important;
-  font-size: 16px !important;
-  border: none !important;
-}
-
-.forget-paswword-text {
-  color: #6172d6 !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-}
-
-.forget-paswword-text:hover {
-  opacity: 0.8 !important;
-  cursor: pointer !important;
-}
-
-.textfield-signIn-class,
-.textfield-signIn-class:is(:focus, :focus-visible, :active, :visited) {
-  width: 100% !important;
-  height: 37px !important;
-  padding: 0px 8px !important;
-  border: 1px solid #eee !important;
+.LoginButton {
+  padding: 12px 30px !important;
   border-radius: 4px !important;
-  outline: none;
+  color: #fff !important;
+  background: #6172d6 !important;
+  font-size: 14px !important;
+  border: none !important;
+  width: 100% !important;
+}
+
+.LoginButton:is(:hover, :active, :focus, :focus-visible) {
+  padding: 12px 30px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+  background: #6172d6 !important;
+  font-size: 14px !important;
+  border: none !important;
+  width: 100% !important;
 }
