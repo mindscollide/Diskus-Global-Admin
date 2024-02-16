@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./GlobalAdminDashboard.module.css";
 import magnifyGlassIcon from "../../assets/images/OutletImages/Magglass Search Icon.png";
 import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
+import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Pie } from "@ant-design/plots";
@@ -568,6 +569,24 @@ const GlobalAdminDashboard = () => {
                     pagination={false}
                     // rows={data}
                     className="Table"
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className="d-flex flex-column align-items-center justify-content-center ">
+                            <img
+                              src={NoOrganizationIcon}
+                              width={"180px"}
+                              alt=""
+                            />
+
+                            <span className="Main-Title">No Organization</span>
+                            <span className="Sub-Title">
+                              No organization found this month
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
                   />
                 </Col>
               </Row>

@@ -172,7 +172,7 @@ export const PasswordVerificationApi = createAsyncThunk(
               "adminname",
               response.data.responseResult.authToken.name
             );
-            navigate("/Dashboard");
+            navigate("/GlobalAdmin");
             try {
               return {
                 result: response.data.responseResult,
@@ -201,7 +201,7 @@ export const PasswordVerificationApi = createAsyncThunk(
               "adminname",
               response.data.responseResult.authToken.name
             );
-            navigate("/Dashboard");
+            navigate("/GlobalAdmin");
             try {
               return {
                 result: response.data.responseResult,
