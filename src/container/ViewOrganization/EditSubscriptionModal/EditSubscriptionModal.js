@@ -10,7 +10,11 @@ import {
 } from "../../../store/ActionsSlicers/UIModalsActions";
 import { Col, Row } from "react-bootstrap";
 import EditSubscriptionConfirmationModal from "./EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
-const EditSubscriptionModal = ({ organizationID, editSubscriptionName }) => {
+const EditSubscriptionModal = ({
+  organizationID,
+  editSubscriptionName,
+  currentSubscriptionName,
+}) => {
   const ModalReducer = useSelector((state) => state.modal);
 
   const dispatch = useDispatch();
@@ -19,8 +23,21 @@ const EditSubscriptionModal = ({ organizationID, editSubscriptionName }) => {
 
   //states
   const [subsciptionStatus, setSubsciptionStatus] = useState({
-    value: 0,
-    label: "",
+    value: currentSubscriptionName.toString(),
+    label:
+      currentSubscriptionName.toString() === "1"
+        ? "Active"
+        : currentSubscriptionName.toString() === "2"
+        ? "InActive"
+        : currentSubscriptionName.toString() === "3"
+        ? "suspended"
+        : currentSubscriptionName.toString() === "4"
+        ? "Closed"
+        : currentSubscriptionName.toString() === "5"
+        ? "Terminated Request"
+        : currentSubscriptionName.toString() === "6"
+        ? "Cancelled"
+        : "Active",
   });
 
   const handleChange = (option) => {
@@ -102,7 +119,11 @@ const EditSubscriptionModal = ({ organizationID, editSubscriptionName }) => {
                 <span className={styles["EditSubscriptionSubHeading"]}>
                   {t("Subscription-status")}
                 </span>
-                <Select options={options} onChange={handleChange} />
+                <Select
+                  options={options}
+                  onChange={handleChange}
+                  value={subsciptionStatus.label}
+                />
               </Col>
             </Row>
           </>

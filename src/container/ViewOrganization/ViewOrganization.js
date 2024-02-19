@@ -48,6 +48,7 @@ const ViewOrganization = () => {
   const calendRef = useRef();
 
   let currentLanguage = localStorage.getItem("i18nextLng");
+  const ModalReducer = useSelector((state) => state.modal);
 
   const ViewOrganizationData = useSelector(
     (state) => state.searchOrganization.searchOrganizationData
@@ -67,6 +68,7 @@ const ViewOrganization = () => {
   const [editOrganizationID, setEditOrganizationID] = useState(0);
   const [editOrganzationName, setEditOrganzationName] = useState("");
   const [editSubscriptionName, setEditSubscriptionName] = useState("");
+  const [currentSubscriptionName, setCurrentSubscriptionName] = useState(0);
   const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -360,9 +362,11 @@ const ViewOrganization = () => {
   };
 
   const handleEditSubscriptionModal = (record) => {
+    console.log("handleChange", record);
     dispatch(editSubscriptionModalOpen(true));
     setOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationName);
+    setCurrentSubscriptionName(record.currentSubscrtionStatus);
   };
 
   const HandleopenSearchBox = () => {
@@ -427,11 +431,6 @@ const ViewOrganization = () => {
       Status: selectedOption,
     }));
   };
-
-  console.log(
-    searchOrganizationData.Status,
-    "searchOrganizationDatasearchOrganizationData"
-  );
 
   const handleSearchButton = () => {
     let data = {
@@ -831,10 +830,14 @@ const ViewOrganization = () => {
         </Row>
       </Container>
       <EditOrganizationModal />
-      <EditSubscriptionModal
-        organizationID={organizationID}
-        editSubscriptionName={editSubscriptionName}
-      />
+      {ModalReducer.editSubscriptionModal && (
+        <EditSubscriptionModal
+          organizationID={organizationID}
+          editSubscriptionName={editSubscriptionName}
+          currentSubscriptionName={currentSubscriptionName}
+        />
+      )}
+
       <EditOrganizationSubscription
         editOrganizationID={editOrganizationID}
         editOrganzationName={editOrganzationName}
