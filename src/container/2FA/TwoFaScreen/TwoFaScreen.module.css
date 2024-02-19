@@ -11,6 +11,7 @@ body[dir="rtl"] .two-fa-verification-heading {
   font-weight: 500 !important;
   font-size: 30px !important;
   text-align: left !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
 }
 
 .two-fa-verification-subheading {
@@ -26,6 +27,7 @@ body[dir="rtl"] .two-fa-verification-subheading {
   font-size: 16px !important;
   text-align: left !important;
   margin-right: 50px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
 }
 
 .SendCode-button-color {
@@ -37,6 +39,18 @@ body[dir="rtl"] .two-fa-verification-subheading {
   border-radius: 2px !important;
   font-size: 16px !important;
   border: none !important;
+}
+
+body[dir="rtl"] .SendCode-button-color {
+  width: 100px !important;
+  height: 37px !important;
+  padding: 0px !important;
+  background-color: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 2px !important;
+  font-size: 16px !important;
+  border: none !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
 }
 
 .textfield-forget-password-class {

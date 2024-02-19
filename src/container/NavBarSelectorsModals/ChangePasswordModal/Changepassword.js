@@ -46,7 +46,7 @@ const Changepassword = () => {
               </Row>
               <Row>
                 <Col lg={6} md={6} sm={6}>
-                  <Row className="mt-1">
+                  <Row className="mt-3">
                     <Col
                       lg={12}
                       md={12}

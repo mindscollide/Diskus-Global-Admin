@@ -810,9 +810,9 @@ const LoginHistory = () => {
                     <section className="oops d-flex flex-column align-items-center justify-content-center ">
                       <img src={Oops} width={"250px"} alt="" />
 
-                      <span className="Main-Title UserLogin">Oops!</span>
+                      <span className="Main-Title UserLogin">{t("Oops")}</span>
                       <span className="Sub-Title UserLogin">
-                        We can't seem to find what you're looking for.
+                        {t("We-can't-seem-to-find-what-you're-looking-for")}
                       </span>
                     </section>
                   </>

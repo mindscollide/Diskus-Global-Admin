@@ -37,7 +37,7 @@ export const utcConvertintoGMT = (date) => {
 };
 
 export function convertUTCDateToLocalDate(dateString) {
-  const currentLanguage = localStorage.getItem("currentLanguage");
+  const currentLanguage = Number(localStorage.getItem("currentLanguage"));
 
   const dateTimeString = dateString + "235958";
   const date = new Date(
@@ -50,6 +50,10 @@ export function convertUTCDateToLocalDate(dateString) {
       parseInt(dateTimeString.substring(12, 14), 10)
     )
   );
-  const options = { day: "2-digit", month: "short", year: "numeric" };
-  return date.toLocaleDateString(currentLanguage, options).replace(/ /g, " ");
+  if (date instanceof Date && !isNaN(date)) {
+    const options = { day: "2-digit", month: "short", year: "numeric" };
+    return date.toLocaleDateString(currentLanguage, options).replace(/ /g, " ");
+  } else {
+    return "Invalid Date";
+  }
 }

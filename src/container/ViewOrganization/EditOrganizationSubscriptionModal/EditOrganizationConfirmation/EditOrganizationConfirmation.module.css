@@ -12,6 +12,15 @@
   font-family: "MontserratSemiBold-600" !important;
 }
 
+body[dir="rtl"] .ConfirmationModalHeading {
+  font-size: 18px !important;
+  color: #6172d6 !important;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+}
+
 .ProceedBtnStyles {
   padding: 12px 30px !important;
   background: #6172d6 !important;
@@ -22,10 +31,30 @@
   color: #fff !important;
 }
 
+body[dir="rtl"] .ProceedBtnStyles {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  border: none !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
 .ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
   padding: 12px 30px !important;
   background: #6172d6 !important;
   font-family: "MontserratSemiBold-600" !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+body[dir="rtl"] .ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
   border: none !important;
   font-size: 12px !important;
   border-radius: 4px !important;
@@ -42,9 +71,29 @@
   color: #5a5a5a !important;
 }
 
+body[dir="rtl"] .CancelBtnStyles {
+  padding: 12px 30px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
 .CancelBtnStyles:is(:hover, :focus, :focus-visible, :active) {
   padding: 12px 30px !important;
   font-family: "MontserratSemiBold-600" !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"] .CancelBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   font-size: 12px !important;

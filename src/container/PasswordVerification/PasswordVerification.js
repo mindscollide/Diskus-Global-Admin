@@ -185,7 +185,7 @@ const PasswordVerification = () => {
             className="d-flex justify-content-center w-100"
           >
             <Button
-              text={"SignIn"}
+              text={t("SignIn")}
               className={styles["LoginButton"]}
               onClick={loginHandler}
             />

@@ -169,10 +169,14 @@ export const PasswordVerificationApi = createAsyncThunk(
               response.data.responseResult.authToken.refreshToken
             );
             localStorage.setItem(
+              "userRoleId",
+              response.data.responseResult.userRoleId
+            );
+            localStorage.setItem(
               "adminname",
               response.data.responseResult.authToken.name
             );
-            navigate("/GlobalAdmin");
+            navigate("/GlobalAdmin/");
             try {
               return {
                 result: response.data.responseResult,
@@ -194,6 +198,10 @@ export const PasswordVerificationApi = createAsyncThunk(
               response.data.responseResult.authToken.token
             );
             localStorage.setItem(
+              "userRoleId",
+              response.data.responseResult.userRoleId
+            );
+            localStorage.setItem(
               "refreshToken",
               response.data.responseResult.authToken.refreshToken
             );
@@ -201,7 +209,7 @@ export const PasswordVerificationApi = createAsyncThunk(
               "adminname",
               response.data.responseResult.authToken.name
             );
-            navigate("/GlobalAdmin");
+            navigate("/GlobalAdmin/");
             try {
               return {
                 result: response.data.responseResult,
