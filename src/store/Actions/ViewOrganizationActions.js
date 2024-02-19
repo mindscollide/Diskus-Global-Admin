@@ -115,7 +115,20 @@ export const EditSubscriptionAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationSubscriptionStatus_01".toLowerCase()
               )
           ) {
+            let data = {
+              OrganizationID: 0,
+              CountryID: 0,
+              ContactPersonName: "",
+              Email: "",
+              StatusID: 0,
+              PackageID: 0,
+              SubsictionExpiryStart: "",
+              SubscriptionExpiryEnd: "",
+              sRow: 0,
+              Length: 10,
+            };
             dispatch(viewOrganizationLoader(false));
+            dispatch(searchOrganizationApi({ data, navigate, t }));
             try {
               return {
                 result: response.data.responseResult,
@@ -161,7 +174,6 @@ export const EditSubscriptionAPI = createAsyncThunk(
 );
 
 //Edit Organization
-
 export const EditOrganizationAPI = createAsyncThunk(
   "organization/editOrganization",
   async (requestData, { rejectWithValue, dispatch }) => {
@@ -192,7 +204,20 @@ export const EditOrganizationAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationStatus_01".toLowerCase()
               )
           ) {
+            let data = {
+              OrganizationID: 0,
+              CountryID: 0,
+              ContactPersonName: "",
+              Email: "",
+              StatusID: 0,
+              PackageID: 0,
+              SubsictionExpiryStart: "",
+              SubscriptionExpiryEnd: "",
+              sRow: 0,
+              Length: 10,
+            };
             dispatch(viewOrganizationLoader(false));
+            dispatch(searchOrganizationApi({ data, navigate, t }));
             try {
               return {
                 result: response.data.responseResult,

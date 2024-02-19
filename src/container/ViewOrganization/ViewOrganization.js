@@ -30,7 +30,10 @@ import {
   getAllOrganizationApi,
 } from "../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
-import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
+import {
+  convertUTCDateToLocalDate,
+  newTimeFormaterForImportMeetingAgenda,
+} from "../../common/functions/dateFormatters";
 import moment from "moment";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import EditOrganizationSubscription from "./EditOrganizationSubscriptionModal/EditOrganizationSubscription";
@@ -45,6 +48,7 @@ const ViewOrganization = () => {
   const calendRef = useRef();
 
   let currentLanguage = localStorage.getItem("i18nextLng");
+  const ModalReducer = useSelector((state) => state.modal);
 
   const ViewOrganizationData = useSelector(
     (state) => state.searchOrganization.searchOrganizationData
@@ -64,6 +68,7 @@ const ViewOrganization = () => {
   const [editOrganizationID, setEditOrganizationID] = useState(0);
   const [editOrganzationName, setEditOrganzationName] = useState("");
   const [editSubscriptionName, setEditSubscriptionName] = useState("");
+  const [currentSubscriptionName, setCurrentSubscriptionName] = useState(0);
   const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -232,7 +237,7 @@ const ViewOrganization = () => {
       align: "center",
       width: 200,
       render: (text, record) => {
-        const formattedDate = moment(text, "YYYYMMDD").format("DD - MM - YYYY");
+        const formattedDate = convertUTCDateToLocalDate(text);
         return (
           <div className={styles["inner-sub-Heading"]}>{formattedDate}</div>
         );
@@ -245,11 +250,50 @@ const ViewOrganization = () => {
       align: "center",
       ellipsis: true,
       width: 200,
-      render: (text, record) => (
-        <>
-          <span className={styles["inner-sub-Heading"]}>{text}</span>
-        </>
-      ),
+      render: (text, record) => {
+        console.log(record, "recordrecordrecord");
+        return (
+          <>
+            {record.currentSubscrtionStatus === 1 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Active")}
+                </span>
+              </>
+            ) : record.currentSubscrtionStatus === 2 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("In-active")}
+                </span>
+              </>
+            ) : record.currentSubscrtionStatus === 3 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Suspended")}
+                </span>
+              </>
+            ) : record.currentSubscrtionStatus === 4 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Closed")}
+                </span>
+              </>
+            ) : record.currentSubscrtionStatus === 5 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Termination-requested")}
+                </span>
+              </>
+            ) : record.currentSubscrtionStatus === 6 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Cancelled")}
+                </span>
+              </>
+            ) : null}
+          </>
+        );
+      },
     },
     {
       title: t("Edit-subscription"),
@@ -318,9 +362,11 @@ const ViewOrganization = () => {
   };
 
   const handleEditSubscriptionModal = (record) => {
+    console.log("handleChange", record);
     dispatch(editSubscriptionModalOpen(true));
     setOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationName);
+    setCurrentSubscriptionName(record.currentSubscrtionStatus);
   };
 
   const HandleopenSearchBox = () => {
@@ -385,11 +431,6 @@ const ViewOrganization = () => {
       Status: selectedOption,
     }));
   };
-
-  console.log(
-    searchOrganizationData.Status,
-    "searchOrganizationDatasearchOrganizationData"
-  );
 
   const handleSearchButton = () => {
     let data = {
@@ -544,23 +585,6 @@ const ViewOrganization = () => {
                             searchOrganizationData.userName,
                             "userName"
                           )
-                        }
-                      />
-                    </div>
-                  ) : null}
-
-                  {showsearchText && searchOrganizationData.Title !== "" ? (
-                    <div className={styles["SearchablesItems"]}>
-                      <span className={styles["Searches"]}>
-                        {searchOrganizationData.Title}
-                      </span>
-                      <img
-                        src={Crossicon}
-                        alt=""
-                        className={styles["CrossIcon_Class"]}
-                        width={13}
-                        onClick={() =>
-                          handleSearches(searchOrganizationData.Title, "Title")
                         }
                       />
                     </div>
@@ -806,10 +830,14 @@ const ViewOrganization = () => {
         </Row>
       </Container>
       <EditOrganizationModal />
-      <EditSubscriptionModal
-        organizationID={organizationID}
-        editSubscriptionName={editSubscriptionName}
-      />
+      {ModalReducer.editSubscriptionModal && (
+        <EditSubscriptionModal
+          organizationID={organizationID}
+          editSubscriptionName={editSubscriptionName}
+          currentSubscriptionName={currentSubscriptionName}
+        />
+      )}
+
       <EditOrganizationSubscription
         editOrganizationID={editOrganizationID}
         editOrganzationName={editOrganzationName}

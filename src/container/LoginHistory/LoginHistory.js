@@ -47,8 +47,6 @@ const LoginHistory = () => {
     (state) => state.loginHistory.loginHistoryData
   );
 
-  console.log(UserLoginHistoryData, "UserLoginHistoryDataUserLoginHistoryData");
-
   //states for the component
   const [searchBox, setSearchBox] = useState(false);
   const [showsearchText, setShowSearchText] = useState(false);
@@ -264,30 +262,9 @@ const LoginHistory = () => {
       align: "center",
       key: "deviceID",
       width: 100,
-      render: (text, data) => {
-        console.log(data, "datadatadatadatadatadata");
-        return (
-          <>
-            {data.deviceID === "1" ? (
-              <>
-                <span className={styles["inner-sub-Heading"]}>{t("Web")}</span>
-              </>
-            ) : data.deviceID === "2" ? (
-              <>
-                <span className={styles["inner-sub-Heading"]}>
-                  {t("Mobile")}
-                </span>
-              </>
-            ) : data.deviceID === "3" ? (
-              <>
-                <span className={styles["inner-sub-Heading"]}>
-                  {t("Tablet")}
-                </span>
-              </>
-            ) : null}
-          </>
-        );
-      },
+      render: (text, data) => (
+        <span className={styles["inner-sub-Heading"]}>{text}</span>
+      ),
     },
     {
       title: t("Ip-address"),
