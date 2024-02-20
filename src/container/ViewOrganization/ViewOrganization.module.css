@@ -5,6 +5,13 @@
   font-family: "montserrat-500" !important;
 }
 
+body[dir="rtl"] .HeadingViewORganization {
+  font-weight: bold !important;
+  font-size: 26px !important;
+  color: #6172d6 !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+}
+
 .Search_Bar_icon_class {
   cursor: pointer;
   top: 10px;
@@ -62,12 +69,33 @@ body[dir="rtl"] .SearchBox {
   border-radius: 4px !important;
 }
 
+body[dir="rtl"] .SearchBoxResetButton {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+  color: #5a5a5a !important;
+  border-radius: 4px !important;
+}
+
 .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
   font-size: 12px !important;
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
   font-family: "MontserratSemiBold-600" !important;
+  color: #5a5a5a !important;
+  border-radius: 4px !important;
+}
+
+body[dir="rtl"]
+  .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
   color: #5a5a5a !important;
   border-radius: 4px !important;
 }
@@ -82,11 +110,31 @@ body[dir="rtl"] .SearchBox {
   border-radius: 4px !important;
 }
 
+body[dir="rtl"] .SearchButton {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  border: none !important;
+  background: #6172d6 !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+  color: #fff !important;
+  border-radius: 4px !important;
+}
+
 .SearchButton:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
   font-size: 12px !important;
   border: none !important;
   font-family: "MontserratSemiBold-600" !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 4px !important;
+}
+
+body[dir="rtl"] .SearchButton:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  border: none !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
   background: #6172d6 !important;
   color: #fff !important;
   border-radius: 4px !important;
@@ -101,6 +149,13 @@ body[dir="rtl"] .SearchBox {
   font-size: 12px !important;
   font-weight: bold !important;
   font-family: "montserrat-500" !important;
+}
+
+body[dir="rtl"] .inner-sub-Heading {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
 }
 
 .SearchablesItems {

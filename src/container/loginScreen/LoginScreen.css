@@ -1,8 +1,17 @@
 .sign-in-text {
   color: #6172d6 !important;
   font-weight: 500 !important;
-  font-size: 32px !important;
+  font-size: 30px !important;
   text-align: center !important;
+  font-family: "MontserratSemiBold-600";
+}
+
+body[dir="rtl"] .sign-in-text {
+  color: #6172d6 !important;
+  font-weight: 500 !important;
+  font-size: 28px !important;
+  text-align: center !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
 }
 
 .LoginButton {
@@ -13,6 +22,18 @@
   font-size: 14px !important;
   border: none !important;
   width: 100% !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+}
+
+body[dir="rtl"] .LoginButton {
+  padding: 12px 30px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+  background: #6172d6 !important;
+  font-size: 14px !important;
+  border: none !important;
+  width: 100% !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
 }
 
 .LoginButton:is(:hover, :active, :focus, :focus-visible) {
@@ -23,4 +44,15 @@
   font-size: 14px !important;
   border: none !important;
   width: 100% !important;
+}
+
+body[dir="rtl"] .LoginButton:is(:hover, :active, :focus, :focus-visible) {
+  padding: 12px 30px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+  background: #6172d6 !important;
+  font-size: 14px !important;
+  border: none !important;
+  width: 100% !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
 }

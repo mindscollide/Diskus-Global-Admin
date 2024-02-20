@@ -8,6 +8,7 @@ import LoginCard from "../components/elements/loginsCard/LoginCard";
 import ViewOrganization from "../container/ViewOrganization/ViewOrganization";
 import LoginHistory from "../container/LoginHistory/LoginHistory";
 import GlobalAdminDashboard from "../container/GlobalAdminDashboard/GlobalAdminDashboard";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -15,13 +16,16 @@ export const router = createHashRouter(
       {/* <Route path="/" element={<Login />} /> */}
       {/* <Route path="/Forgot" element={<ForgotPassword />} /> */}
 
-      <Route exact path="/" element={<LoginCard />}>
+      <Route path="/" element={<LoginCard />}>
         <Route path="admin" element={<LoginCard />} />
       </Route>
-      <Route path="/GlobalAdmin/" element={<DashBoard />}>
-        <Route path="" element={<GlobalAdminDashboard />} />
-        <Route path="vieworganization" element={<ViewOrganization />} />
-        <Route path="loginHistory" element={<LoginHistory />} />
+      <Route element={<PrivateRoutes />}>
+        <Route exact path="/GlobalAdmin/" element={<DashBoard />}>
+          <Route path="" element={<GlobalAdminDashboard />} />
+          <Route path="GlobalDashboard" element={<GlobalAdminDashboard />} />
+          <Route path="vieworganization" element={<ViewOrganization />} />
+          <Route path="loginHistory" element={<LoginHistory />} />
+        </Route>
       </Route>
     </>
   )

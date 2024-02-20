@@ -86,5 +86,15 @@
   "Cancelled": "Cancelled",
   "Web": "Web",
   "Mobile": "Mobile",
-  "Tablet": "Tablet"
+  "Tablet": "Tablet",
+  "Oops": "Oops !",
+  "We-can't-seem-to-find-what-you're-looking-for": "We can't seem to find what you're looking for.",
+  "Password-has-atleast-8-characters": "Password has atleast 8 characters",
+  "Password-has-special-characters": "Password has special characters",
+  "Password-has-a-letter": "Password has a letter",
+  "Passwords-match": "Passwords match",
+  "Forget-password": "Forget Password",
+  "Next": "Next",
+  "SignIn": "SignIn",
+  "Go-back": "Go Back"
 }

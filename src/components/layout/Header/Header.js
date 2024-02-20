@@ -22,11 +22,12 @@ const Header = () => {
   };
 
   const handleDashboard = () => {
-    navigate("/GlobalAdmin");
+    navigate("/GlobalAdmin/");
   };
 
   const handleLogout = () => {
     navigate("/");
+    localStorage.removeItem("token");
   };
 
   return (

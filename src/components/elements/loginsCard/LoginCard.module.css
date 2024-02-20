@@ -31,6 +31,12 @@ body[dir="rtl"] .screens-card {
 
 .column-class-heading-login h1 {
   font-size: 57px !important;
+  font-family: "MontserratSemiBold-600";
+}
+
+body[dir="rtl"] .column-class-heading-login h1 {
+  font-size: 57px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
 }
 
 body[dir="rtl"] .column-class-heading-login {

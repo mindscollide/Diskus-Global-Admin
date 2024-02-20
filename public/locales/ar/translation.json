@@ -87,5 +87,14 @@
   "Cancelled": "ألغيت",
   "Web": "ويب",
   "Mobile": "متحرك",
-  "Tablet": "لوح"
+  "Tablet": "لوح",
+  "Oops": " أُووبس !",
+  "We-can't-seem-to-find-what-you're-looking-for": "يبدو أننا لا نستطيع العثور على ما تبحث عنه.",
+  "Password-has-atleast-8-characters": "كلمة المرور تحتوي على 8 أحرف على الأقل",
+  "Password-has-special-characters": "كلمة المرور تحتوي على أحرف خاصة",
+  "Password-has-a-letter": "كلمة المرور تحتوي على حرف",
+  "Passwords-match": "كلمات السر متطابقة",
+  "Forget-password": "نسيت كلمة المرور",
+  "Next": "التالي",
+  "SignIn": "تسجيل الدخول"
 }

@@ -53,6 +53,71 @@
   font-weight: 400;
 }
 
+/* Arabic style fonts */
+
+@font-face {
+  font-family: "IBMPlexSansArabic-Bold";
+  src: url("./assets/fonts/IBMPlexSansArabic-Bold.ttf");
+}
+
+@font-face {
+  font-family: "IBMPlexSansArabic-ExtraLight";
+  src: url("./assets/fonts/IBMPlexSansArabic-ExtraLight.ttf");
+}
+
+@font-face {
+  font-family: "IBMPlexSansArabic-Light";
+  src: url("./assets/fonts/IBMPlexSansArabic-Light.ttf");
+}
+
+@font-face {
+  font-family: "IBMPlexSansArabic-Medium";
+  src: url("./assets/fonts/IBMPlexSansArabic-Medium.ttf");
+}
+
+@font-face {
+  font-family: "IBMPlexSansArabic-Regular";
+  src: url("./assets/fonts/IBMPlexSansArabic-Regular.ttf");
+}
+
+@font-face {
+  font-family: "IBMPlexSansArabic-SemiBold";
+  src: url("./assets/fonts/IBMPlexSansArabic-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "IBMPlexSansArabic-Thin";
+  src: url("./assets/fonts/IBMPlexSansArabic-Thin.ttf");
+}
+
+.IBMPlexSansArabic-Bold {
+  font-family: "IBMPlexSansArabic-Bold" !important;
+}
+
+.IBMPlexSansArabic-ExtraLight {
+  font-family: "IBMPlexSansArabic-ExtraLight" !important;
+}
+
+.IBMPlexSansArabic-Light {
+  font-family: "IBMPlexSansArabic-Light" !important;
+}
+
+.IBMPlexSansArabic-Medium {
+  font-family: "IBMPlexSansArabic-Medium" !important;
+}
+
+.IBMPlexSansArabic-Regular {
+  font-family: "IBMPlexSansArabic-Regular" !important;
+}
+
+.IBMPlexSansArabic-SemiBold {
+  font-family: "IBMPlexSansArabic-SemiBold" !important;
+}
+
+.IBMPlexSansArabic-Thin {
+  font-family: "IBMPlexSansArabic-Thin" !important;
+}
+
 .Montserrat {
   font-family: "montserrat-regular" !important;
 }
@@ -108,6 +173,13 @@ body {
   padding: 4px 8px !important;
 }
 
+body[dir="rtl"] .ant-table-thead > tr * {
+  color: #6172d6 !important;
+  font-family: "IBMPlexSansArabic-Light";
+  font-size: 14px !important;
+  padding: 4px 8px !important;
+}
+
 .datepicker_input {
   padding: 0px 45px !important;
   border-radius: 4px !important;
@@ -145,6 +217,10 @@ body {
   font-family: "montserrat-regular";
 }
 
+body[dir="rtl"] .navbar-nav {
+  font-family: "IBMPlexSansArabic-Medium";
+}
+
 p.user-name {
   font-family: "montserrat-bold";
 }
@@ -162,6 +238,14 @@ span.Main-Title {
   text-align: center;
   margin-top: 20px;
   font-family: "MontserratSemiBold-600";
+}
+
+body[dir="rtl"] span.Main-Title {
+  color: #6172d6;
+  font-size: 24px;
+  text-align: center;
+  margin-top: 20px;
+  font-family: "IBMPlexSansArabic-Medium";
 }
 
 span.Sub-Title {
@@ -188,6 +272,12 @@ span.Sub-Title {
   color: #5a5a5a;
 }
 
+body[dir="rtl"] span.Sub-Title {
+  font-family: "IBMPlexSansArabic-Light";
+  font-size: 12px;
+  color: #5a5a5a;
+}
+
 span.Main-Title.Table {
   color: #6172d6;
   font-size: 20px;
@@ -196,8 +286,22 @@ span.Main-Title.Table {
   font-family: "MontserratSemiBold-600";
 }
 
+body[dir="rtl"] span.Main-Title.Table {
+  color: #6172d6;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 20px;
+  font-family: "IBMPlexSansArabic-Medium";
+}
+
 span.Sub-Title.Table {
   font-family: "Montserrat";
+  font-size: 10px;
+  color: #5a5a5a;
+}
+
+body[dir="rtl"] span.Sub-Title.Table {
+  font-family: "IBMPlexSansArabic-Light";
   font-size: 10px;
   color: #5a5a5a;
 }

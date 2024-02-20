@@ -10,10 +10,22 @@
   color: #6172d6;
 }
 
+body[dir="rtl"] .EditSubscriptionHeading {
+  font-size: 30px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+  color: #6172d6;
+}
+
 .EditSubscriptionSubHeading {
   font-size: 10px !important;
   font-family: "Montserrat" !important;
   font-weight: bold !important;
+  color: #6172d6;
+}
+
+body[dir="rtl"] .EditSubscriptionSubHeading {
+  font-size: 10px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
   color: #6172d6;
 }
 
@@ -34,9 +46,30 @@
   border-radius: 4px !important;
 }
 
+body[dir="rtl"] .closeButtonSubscriptionEdit {
+  padding: 12px 30px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-size: 12px !important;
+  color: #5a5a5a !important;
+  background: #fff !important;
+  border: 1px solid#e1e1e1 !important;
+  border-radius: 4px !important;
+}
+
 .closeButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
   font-family: "MontserratSemiBold-600" !important;
+  font-size: 12px !important;
+  color: #5a5a5a !important;
+  background: #fff !important;
+  border: 1px solid#e1e1e1 !important;
+  border-radius: 4px !important;
+}
+
+body[dir="rtl"]
+  .closeButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
   font-size: 12px !important;
   color: #5a5a5a !important;
   background: #fff !important;
@@ -54,10 +87,31 @@
   border-radius: 4px !important;
 }
 
+body[dir="rtl"] .UpdateButtonSubscriptionEdit {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
+  color: #fff !important;
+  background: #6172d6 !important;
+  border: none !important;
+  border-radius: 4px !important;
+}
+
 .UpdateButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
   font-size: 12px !important;
   font-family: "MontserratSemiBold-600" !important;
+  color: #fff !important;
+  background: #6172d6 !important;
+  border: none !important;
+  border-radius: 4px !important;
+}
+
+body[dir="rtl"]
+  .UpdateButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  font-family: "IBMPlexSansArabic-Medium" !important;
   color: #fff !important;
   background: #6172d6 !important;
   border: none !important;

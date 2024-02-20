@@ -79,7 +79,7 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
           className="d-flex justify-content-center w-100"
         >
           <Button
-            text={"Next"}
+            text={t("Next")}
             onClick={onClickSignIn}
             className={"LoginButton"}
           />
@@ -97,7 +97,7 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
             className="forget-paswword-text"
             onClick={onClickForgetPasswordText}
           >
-            Forget Password
+            {t("Forget-password")}
           </span>
         </Col>
       </Row>
