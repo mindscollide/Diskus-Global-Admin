@@ -709,7 +709,7 @@ const GlobalAdminDashboard = () => {
                 >
                   <span className={styles["PrizeStyles"]}>{totalDue}$</span>
                   <span className={styles["PrizeSubHeading"]}>
-                    {t("Apex-arcane-enterprises-bill-due")}
+                    {selectedCompany}
                   </span>
                 </Col>
               </Row>
