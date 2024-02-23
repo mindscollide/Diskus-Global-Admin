@@ -20,7 +20,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
-import { convertUTCDateToLocalDate } from "../../common/functions/dateFormatters";
+import {
+  convertUTCDateToLocalDate,
+  convertUTCDateToLocalDateDiffFormat,
+} from "../../common/functions/dateFormatters";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -677,11 +680,12 @@ const GlobalAdminDashboard = () => {
       title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
-      width: "175px",
+      width: "150px",
+      align: "left",
       render: (text, record) => {
         return (
           <>
-            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
           </>
         );
       },
@@ -690,13 +694,12 @@ const GlobalAdminDashboard = () => {
       title: t("Start-date"),
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
-      width: "135px",
+      width: "130px",
+      align: "center",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDate(text);
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
-          <div className={styles["dashboard-table-insidetext"]}>
-            {formattedDate}
-          </div>
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
         );
       },
     },
@@ -704,14 +707,13 @@ const GlobalAdminDashboard = () => {
       title: t("End-date"),
       dataIndex: "subscriptionEndDate",
       key: "subscriptionEndDate",
-      width: "115px",
+      width: "130px",
+      align: "center",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDate(text);
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
 
         return (
-          <div className={styles["dashboard-table-insidetext"]}>
-            {formattedDate}
-          </div>
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
         );
       },
     },
@@ -726,7 +728,7 @@ const GlobalAdminDashboard = () => {
       render: (text, record) => {
         return (
           <>
-            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
           </>
         );
       },
@@ -743,11 +745,9 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionStartDate",
       width: "135px",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDate(text);
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
-          <div className={styles["dashboard-table-insidetext"]}>
-            {formattedDate}
-          </div>
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
         );
       },
     },
@@ -757,12 +757,10 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionEndDate",
       width: "115px",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDate(text);
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
 
         return (
-          <div className={styles["dashboard-table-insidetext"]}>
-            {formattedDate}
-          </div>
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
         );
       },
     },
@@ -783,7 +781,7 @@ const GlobalAdminDashboard = () => {
       render: (text, record) => {
         return (
           <>
-            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
           </>
         );
       },
@@ -794,12 +792,10 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionStartDate",
       width: "135px",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDate(text);
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
 
         return (
-          <div className={styles["dashboard-table-insidetext"]}>
-            {formattedDate}
-          </div>
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
         );
       },
     },
@@ -809,12 +805,10 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionEndDate",
       width: "115px",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDate(text);
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
 
         return (
-          <div className={styles["dashboard-table-insidetext"]}>
-            {formattedDate}
-          </div>
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
         );
       },
     },
@@ -860,6 +854,12 @@ const GlobalAdminDashboard = () => {
     setsubsExpiry(true);
   };
 
+  useEffect(() => {
+    if (users === true) {
+      setessentialTbl(true);
+    }
+  }, []);
+
   const handleEssentialButton = () => {
     setPremiumTbl(false);
     setProfessionalTbl(false);
@@ -894,10 +894,10 @@ const GlobalAdminDashboard = () => {
     if (isRowsData <= totalRecords) {
       setIsScroll(true);
       let data = {
-        PageNumber: 1,
+        PageNumber: Number(isRowsData),
         length: 15,
       };
-      dispatch(globalAdminDashBoardLoader(true));
+      dispatch(globalAdminDashBoardLoader(false));
       dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
     } else {
       setIsScroll(false);
@@ -1110,7 +1110,13 @@ const GlobalAdminDashboard = () => {
                     <>
                       <Button
                         text={t("Essential")}
-                        className={styles["ButtonsDashboard"]}
+                        className={
+                          professionalTbl === false &&
+                          premiumTbl === false &&
+                          users
+                            ? styles["activeEssentialButton"]
+                            : styles["ButtonsDashboard"]
+                        }
                         onClick={handleEssentialButton}
                       />
                       <Button
