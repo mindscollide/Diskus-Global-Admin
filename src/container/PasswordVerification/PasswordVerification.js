@@ -1,8 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./PasswordVerification.module.css";
 import { useTranslation } from "react-i18next";
 import { Col, Form, Row } from "react-bootstrap";
-import { Button, Checkbox, TextField } from "../../components/elements";
+import {
+  Button,
+  Checkbox,
+  TextField,
+  Notification,
+} from "../../components/elements";
 import PasswordEyeIcon from "../../assets/images/OutletImages/password.svg";
 import PasswordHideEyeIcon from "../../assets/images/OutletImages/password_hide.svg";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +25,12 @@ const PasswordVerification = () => {
 
   const state = useSelector((state) => state);
   console.log(state, "statestatestate");
+
+  const [openNotification, setOpenNotification] = useState({
+    passwordFlag: false,
+    passwordNotification: null,
+    severity: "none",
+  });
 
   //States
   const [showNewPasswordIcon, setShowNewPasswordIcon] = useState(false);
@@ -97,11 +108,20 @@ const PasswordVerification = () => {
   const loginHandler = (e) => {
     e.preventDefault();
     if (password === "") {
-      setOpen({
-        ...open,
-        open: true,
-        message: "Enter Password",
+      setOpenNotification({
+        ...openNotification,
+        passwordFlag: true,
+        passwordNotification: t("Please-fill-Input-field"),
+        severity: "error",
       });
+
+      // Close the notification after 3 seconds
+      setTimeout(() => {
+        setOpenNotification({
+          ...openNotification,
+          passwordFlag: false,
+        });
+      }, 3000);
     } else {
       setErrorBar(false);
       console.log(password, "password");
@@ -109,6 +129,24 @@ const PasswordVerification = () => {
       dispatch(PasswordVerificationApi({ password, navigate, t }));
     }
   };
+
+  useEffect(() => {
+    let RememberPasswordLocal = JSON.parse(
+      localStorage.getItem("remeberPassword")
+    );
+    if (RememberPasswordLocal === true) {
+      let RememberPasswordLocalValue = localStorage.getItem(
+        "rememberPasswordValue"
+      );
+      SetRememberPassword(RememberPasswordLocal);
+      let newPasswordDecript = decryptPassword(RememberPasswordLocalValue);
+      setPassword(newPasswordDecript);
+    } else {
+      localStorage.setItem("remeberPassword", false);
+      localStorage.setItem("rememberPasswordValue", "");
+    }
+    passwordRef.current.focus();
+  }, []);
 
   return (
     <>
@@ -192,6 +230,18 @@ const PasswordVerification = () => {
           </Col>
         </Row>
       </Form>
+
+      <Notification
+        show={openNotification.passwordFlag}
+        hide={setOpenNotification}
+        message={openNotification.passwordNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-email"
+        }
+      />
     </>
   );
 };

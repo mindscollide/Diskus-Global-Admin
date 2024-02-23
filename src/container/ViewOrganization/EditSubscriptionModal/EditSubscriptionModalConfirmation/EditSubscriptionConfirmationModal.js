@@ -9,8 +9,8 @@ import { viewOrganizationLoader } from "../../../../store/ActionsSlicers/ViewOrg
 import { EditSubscriptionAPI } from "../../../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
 const EditSubscriptionConfirmationModal = ({
-  organizationID,
   subsciptionStatus,
+  organizationID,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
   console.log(ModalReducer, "ModalReducerModalReducerModalReducer");

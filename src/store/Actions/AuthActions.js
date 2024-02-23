@@ -6,9 +6,9 @@ import { authenticationURL } from "../../common/apis/Api_endPoints";
 //Email Verification
 export const enterEmailValidation = createAsyncThunk(
   "Auth/EmailValidation",
-  async ({ value, navigate, t }, { rejectWithValue }) => {
+  async ({ email, navigate, t }, { rejectWithValue }) => {
     let data = {
-      UserEmail: value,
+      UserEmail: email,
       Device: "Browser",
       DeviceID: "1",
     };

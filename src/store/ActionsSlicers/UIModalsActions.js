@@ -29,15 +29,19 @@ export const modalSlice = createSlice({
       state.editOrganization = payload;
     },
     editSubscriptionModalOpen: (state, { payload }) => {
+      console.log(payload, "payloadpayloadpayload");
       state.editSubscriptionModal = payload;
     },
     editSubscriptionConfirmationModalOpen: (state, { payload }) => {
+      console.log(payload, "payloadpayloadpayload");
       state.editSubscriptionConfirmationModal = payload;
     },
     editOrganizationSubscriptionModalOpen: (state, { payload }) => {
+      console.log(payload, "payloadpayloadpayloadsss");
       state.editOraganizationSubscriptionModal = payload;
     },
     editOrganizationConfirmation: (state, { payload }) => {
+      console.log(payload, "payloadpayloadpayloadsss");
       state.editOrganizationConfirmationModal = payload;
     },
   },
