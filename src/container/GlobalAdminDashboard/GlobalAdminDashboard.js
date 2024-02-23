@@ -8,15 +8,22 @@ import { Pie } from "@ant-design/plots";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
-  GetAllBillingDueApi,
+  OrganizationsByActiveLicenseApi,
   StatsOfActiveLicenseApi,
+  GetAllBillingDueApi,
   TotalThisMonthDueApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Spin } from "antd";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
-import { convertUTCDateToLocalDate } from "../../common/functions/dateFormatters";
+import {
+  convertUTCDateToLocalDate,
+  convertUTCDateToLocalDateDiffFormat,
+} from "../../common/functions/dateFormatters";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -31,6 +38,17 @@ const GlobalAdminDashboard = () => {
   //StatsOfActiveLicenseApi Reducer Data
   const StatsOfActiveLicenseApiReducerData = useSelector(
     (state) => state.globalAdminDashboardReducer.StatsOfActiveLicenseApiData
+  );
+
+  //OrganizationsByActiveLicenseApi Reducer Data
+  const OrganizationLicenseReducer = useSelector(
+    (state) =>
+      state.globalAdminDashboardReducer.OrganizationsByActiveLicenseApiData
+  );
+
+  console.log(
+    OrganizationLicenseReducer,
+    "OrganizationLicenseReducerOrganizationLicenseReducer"
   );
 
   //Get All Organization Reducer Data
@@ -78,6 +96,20 @@ const GlobalAdminDashboard = () => {
   const [essentialTbl, setessentialTbl] = useState(false);
   const [professionalTbl, setProfessionalTbl] = useState(false);
   const [premiumTbl, setPremiumTbl] = useState(false);
+
+  // state for row of essential
+  const [essentialRow, setEssentialRow] = useState([]);
+
+  // state for row of professional
+  const [professionalRow, setProfessionalRow] = useState([]);
+
+  // state for row of Premium
+  const [premiumRow, setPremiumRow] = useState([]);
+  console.log(premiumRow, "premiumRowpremiumRow");
+
+  const [isScroll, setIsScroll] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [isRowsData, setSRowsData] = useState(0);
 
   //StatsOfActiveLicenseApi States
   const [activelicenses, setActivelicenses] = useState({
@@ -142,6 +174,130 @@ const GlobalAdminDashboard = () => {
       console.log(error, "errors");
     }
   }, [StatsOfActiveLicenseApiReducerData]);
+
+  //Calling OrganizationsByActiveLicenseApi
+  useEffect(() => {
+    let data = {
+      PageNumber: 1,
+      length: 15,
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
+  }, []);
+
+  //OrganizationsByActiveLicenseApi Data in table to set Row data of Essential column
+  useEffect(() => {
+    try {
+      if (
+        OrganizationLicenseReducer !== null &&
+        OrganizationLicenseReducer !== undefined
+      ) {
+        if (
+          OrganizationLicenseReducer.result.listOfEssential.length > 0 &&
+          OrganizationLicenseReducer.result.totalCount > 0
+        ) {
+          if (isScroll) {
+            setIsScroll(false);
+            let essentialCopyData = [...essentialRow];
+            OrganizationLicenseReducer.result.listOfEssential.forEach(
+              (data, index) => {
+                essentialCopyData.push(data);
+              }
+            );
+            setEssentialRow(essentialCopyData);
+            setSRowsData(
+              (prev) =>
+                prev + OrganizationLicenseReducer.result.listOfEssential.length
+            );
+            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
+          } else {
+            setEssentialRow(OrganizationLicenseReducer.result.listOfEssential);
+            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
+            setSRowsData(
+              OrganizationLicenseReducer.result.listOfEssential.length
+            );
+          }
+        }
+      }
+    } catch {}
+  }, []);
+
+  //OrganizationsByActiveLicenseApi Data in table to set Row data of Professional column
+  useEffect(() => {
+    try {
+      if (
+        OrganizationLicenseReducer !== null &&
+        OrganizationLicenseReducer !== undefined
+      ) {
+        if (
+          OrganizationLicenseReducer.result.listOfProfessional.length > 0 &&
+          OrganizationLicenseReducer.result.totalCount > 0
+        ) {
+          if (isScroll) {
+            setIsScroll(false);
+            let professionalCopyData = [...professionalRow];
+            OrganizationLicenseReducer.result.listOfProfessional.forEach(
+              (data, index) => {
+                professionalCopyData.push(data);
+              }
+            );
+            setProfessionalRow(professionalCopyData);
+            setSRowsData(
+              (prev) =>
+                prev +
+                OrganizationLicenseReducer.result.listOfProfessional.length
+            );
+            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
+          } else {
+            setProfessionalRow(
+              OrganizationLicenseReducer.result.listOfProfessional
+            );
+            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
+            setSRowsData(
+              OrganizationLicenseReducer.result.listOfProfessional.length
+            );
+          }
+        }
+      }
+    } catch {}
+  }, []);
+
+  //OrganizationsByActiveLicenseApi Data in table to set Row data of Premium column
+  useEffect(() => {
+    try {
+      if (
+        OrganizationLicenseReducer !== null &&
+        OrganizationLicenseReducer !== undefined
+      ) {
+        if (
+          OrganizationLicenseReducer.result.listOfPremium.length > 0 &&
+          OrganizationLicenseReducer.result.totalCount > 0
+        ) {
+          if (isScroll) {
+            setIsScroll(false);
+            let premiumCopyData = [...premiumRow];
+            OrganizationLicenseReducer.result.listOfPremium.forEach(
+              (data, index) => {
+                premiumCopyData.push(data);
+              }
+            );
+            setPremiumRow(premiumCopyData);
+            setSRowsData(
+              (prev) =>
+                prev + OrganizationLicenseReducer.result.listOfPremium.length
+            );
+            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
+          } else {
+            setPremiumRow(OrganizationLicenseReducer.result.listOfPremium);
+            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
+            setSRowsData(
+              OrganizationLicenseReducer.result.listOfPremium.length
+            );
+          }
+        }
+      }
+    } catch {}
+  }, []);
 
   //Getting All Organizations
   useEffect(() => {
@@ -268,6 +424,7 @@ const GlobalAdminDashboard = () => {
     setsubsExpiry(false);
     setOrganizationStatus(false);
     setUsers(true);
+    setessentialTbl(true);
   };
 
   const DashboardGlobalColumn = [
@@ -506,29 +663,59 @@ const GlobalAdminDashboard = () => {
   ];
 
   const essentialColumns = [
-    {
-      title: t("Name"),
-      dataIndex: "Name",
-      key: "Name",
-      width: "125px",
-    },
+    // {
+    //   title: t("Name"),
+    //   dataIndex: "organizationName",
+    //   key: "organizationName",
+    //   width: "125px",
+    //   render: (text, record) => {
+    //     return (
+    //       <>
+    //         <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+    //       </>
+    //     );
+    //   },
+    // },
     {
       title: t("Organization-name"),
-      dataIndex: "OrganizationName",
-      key: "OrganizationName",
-      width: "175px",
+      dataIndex: "organizationName",
+      key: "organizationName",
+      width: "150px",
+      align: "left",
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Start-date"),
-      dataIndex: "StartDate",
-      key: "StartDate",
-      width: "135px",
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
+      width: "130px",
+      align: "center",
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
     {
       title: t("End-date"),
-      dataIndex: "EndDate",
-      key: "EndDate",
-      width: "115px",
+      dataIndex: "subscriptionEndDate",
+      key: "subscriptionEndDate",
+      width: "130px",
+      align: "center",
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
   ];
 
@@ -538,6 +725,13 @@ const GlobalAdminDashboard = () => {
       dataIndex: "Name",
       key: "Name",
       width: "125px",
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Organization-name"),
@@ -547,15 +741,28 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Start-date"),
-      dataIndex: "StartDate",
-      key: "StartDate",
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
       width: "135px",
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
     {
       title: t("End-date"),
-      dataIndex: "EndDate",
-      key: "EndDate",
+      dataIndex: "subscriptionEndDate",
+      key: "subscriptionEndDate",
       width: "115px",
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
   ];
 
@@ -568,21 +775,42 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Organization-name"),
-      dataIndex: "OrganizationName",
-      key: "OrganizationName",
+      dataIndex: "organizationName",
+      key: "organizationName",
       width: "175px",
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Start-date"),
-      dataIndex: "StartDate",
-      key: "StartDate",
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
       width: "135px",
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
     {
       title: t("End-date"),
-      dataIndex: "EndDate",
-      key: "EndDate",
+      dataIndex: "subscriptionEndDate",
+      key: "subscriptionEndDate",
       width: "115px",
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
   ];
 
@@ -626,6 +854,12 @@ const GlobalAdminDashboard = () => {
     setsubsExpiry(true);
   };
 
+  useEffect(() => {
+    if (users === true) {
+      setessentialTbl(true);
+    }
+  }, []);
+
   const handleEssentialButton = () => {
     setPremiumTbl(false);
     setProfessionalTbl(false);
@@ -654,6 +888,20 @@ const GlobalAdminDashboard = () => {
     setessentialTbl(false);
     setProfessionalTbl(false);
     setPremiumTbl(true);
+  };
+
+  const handleScroll = async (e) => {
+    if (isRowsData <= totalRecords) {
+      setIsScroll(true);
+      let data = {
+        PageNumber: Number(isRowsData),
+        length: 15,
+      };
+      dispatch(globalAdminDashBoardLoader(false));
+      dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
+    } else {
+      setIsScroll(false);
+    }
   };
 
   return (
@@ -862,7 +1110,13 @@ const GlobalAdminDashboard = () => {
                     <>
                       <Button
                         text={t("Essential")}
-                        className={styles["ButtonsDashboard"]}
+                        className={
+                          professionalTbl === false &&
+                          premiumTbl === false &&
+                          users
+                            ? styles["activeEssentialButton"]
+                            : styles["ButtonsDashboard"]
+                        }
                         onClick={handleEssentialButton}
                       />
                       <Button
@@ -1019,86 +1273,162 @@ const GlobalAdminDashboard = () => {
                     }}
                   />
                 ) : essentialTbl ? (
-                  <Table
-                    column={essentialColumns}
-                    pagination={false}
-                    // rows={data}
-                    className="Table"
-                    locale={{
-                      emptyText: (
+                  <InfiniteScroll
+                    dataLength={essentialRow.length}
+                    next={handleScroll}
+                    hasMore={
+                      essentialRow.length === totalRecords ? false : true
+                    }
+                    height={"30vh"}
+                    loader={
+                      isRowsData <= totalRecords && isScroll ? (
                         <>
-                          <section className="d-flex flex-column align-items-center justify-content-center ">
-                            <img
-                              src={NoOrganizationIcon}
-                              width={"80px"}
-                              alt=""
-                            />
-
-                            <span className="Main-Title Table">
-                              {t("No-organization")}
-                            </span>
-                            <span className="Sub-Title Table">
-                              {t("No-organization-found-this-month")}
-                            </span>
-                          </section>
+                          <Row>
+                            <Col
+                              sm={12}
+                              md={12}
+                              lg={12}
+                              className="d-flex justify-content-center mt-2"
+                            >
+                              <Spin />
+                            </Col>
+                          </Row>
                         </>
-                      ), // Set your custom empty text here
-                    }}
-                  />
+                      ) : null
+                    }
+                  >
+                    <Table
+                      column={essentialColumns}
+                      pagination={false}
+                      rows={essentialRow}
+                      footer={false}
+                      className="Table"
+                      locale={{
+                        emptyText: (
+                          <>
+                            <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"180px"}
+                                alt=""
+                              />
+
+                              <span className="Main-Title">
+                                {t("No-organization")}
+                              </span>
+                              <span className="Sub-Title">
+                                {t("No-organization-found-this-month")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+                  </InfiniteScroll>
                 ) : professionalTbl ? (
-                  <Table
-                    column={ProfessionalColumns}
-                    pagination={false}
-                    // rows={data}
-                    className="Table"
-                    locale={{
-                      emptyText: (
+                  <InfiniteScroll
+                    dataLength={professionalRow.length}
+                    next={handleScroll}
+                    hasMore={
+                      professionalRow.length === totalRecords ? false : true
+                    }
+                    height={"30vh"}
+                    loader={
+                      isRowsData <= totalRecords && isScroll ? (
                         <>
-                          <section className="d-flex flex-column align-items-center justify-content-center ">
-                            <img
-                              src={NoOrganizationIcon}
-                              width={"80px"}
-                              alt=""
-                            />
-
-                            <span className="Main-Title Table">
-                              {t("No-organization")}
-                            </span>
-                            <span className="Sub-Title Table">
-                              {t("No-organization-found-this-month")}
-                            </span>
-                          </section>
+                          <Row>
+                            <Col
+                              sm={12}
+                              md={12}
+                              lg={12}
+                              className="d-flex justify-content-center mt-2"
+                            >
+                              <Spin />
+                            </Col>
+                          </Row>
                         </>
-                      ), // Set your custom empty text here
-                    }}
-                  />
+                      ) : null
+                    }
+                  >
+                    <Table
+                      column={ProfessionalColumns}
+                      pagination={false}
+                      rows={professionalRow}
+                      footer={false}
+                      className="Table"
+                      locale={{
+                        emptyText: (
+                          <>
+                            <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"80px"}
+                                alt=""
+                              />
+
+                              <span className="Main-Title">
+                                {t("No-organization")}
+                              </span>
+                              <span className="Sub-Title">
+                                {t("No-organization-found-this-month")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+                  </InfiniteScroll>
                 ) : premiumTbl ? (
-                  <Table
-                    column={PreimiumColumns}
-                    pagination={false}
-                    // rows={data}
-                    className="Table"
-                    locale={{
-                      emptyText: (
+                  <InfiniteScroll
+                    dataLength={premiumRow.length}
+                    next={handleScroll}
+                    hasMore={premiumRow.length === totalRecords ? false : true}
+                    height={"30vh"}
+                    loader={
+                      isRowsData <= totalRecords && isScroll ? (
                         <>
-                          <section className="d-flex flex-column align-items-center justify-content-center ">
-                            <img
-                              src={NoOrganizationIcon}
-                              width={"80px"}
-                              alt=""
-                            />
-
-                            <span className="Main-Title Table">
-                              {t("No-organization")}
-                            </span>
-                            <span className="Sub-Title Table">
-                              {t("No-organization-found-this-month")}
-                            </span>
-                          </section>
+                          <Row>
+                            <Col
+                              sm={12}
+                              md={12}
+                              lg={12}
+                              className="d-flex justify-content-center mt-2"
+                            >
+                              <Spin />
+                            </Col>
+                          </Row>
                         </>
-                      ), // Set your custom empty text here
-                    }}
-                  />
+                      ) : null
+                    }
+                  >
+                    <Table
+                      column={PreimiumColumns}
+                      pagination={false}
+                      rows={premiumRow}
+                      footer={false}
+                      className="Table"
+                      locale={{
+                        emptyText: (
+                          <>
+                            <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"80px"}
+                                alt=""
+                              />
+
+                              <span className="Main-Title">
+                                {t("No-organization")}
+                              </span>
+                              <span className="Sub-Title">
+                                {t("No-organization-found-this-month")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+                  </InfiniteScroll>
                 ) : null}
                 <Col lg={12} md={12} sm={12}></Col>
               </Row>

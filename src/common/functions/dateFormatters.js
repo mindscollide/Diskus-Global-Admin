@@ -57,3 +57,29 @@ export function convertUTCDateToLocalDate(dateString) {
     return "Invalid Date";
   }
 }
+
+export function convertUTCDateToLocalDateDiffFormat(dateString) {
+  const currentLanguage = Number(localStorage.getItem("currentLanguage"));
+
+  const dateTimeString = dateString + "235958";
+  const date = new Date(
+    Date.UTC(
+      parseInt(dateTimeString.substring(0, 4), 10),
+      parseInt(dateTimeString.substring(4, 6), 10) - 1,
+      parseInt(dateTimeString.substring(6, 8), 10),
+      parseInt(dateTimeString.substring(8, 10), 10),
+      parseInt(dateTimeString.substring(10, 12), 10),
+      parseInt(dateTimeString.substring(12, 14), 10)
+    )
+  );
+
+  if (date instanceof Date && !isNaN(date)) {
+    const day = ("0" + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const year = date.getFullYear();
+
+    return `${day} - ${month} - ${year}`;
+  } else {
+    return "Invalid Date";
+  }
+}
