@@ -8,7 +8,10 @@ import { useTranslation } from "react-i18next";
 import { Pie } from "@ant-design/plots";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
-import { StatsOfActiveLicenseApi } from "../../store/Actions/GlobalAdminDashboardActions";
+import {
+  StatsOfActiveLicenseApi,
+  TotalThisMonthDueApi,
+} from "../../store/Actions/GlobalAdminDashboardActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
@@ -34,6 +37,12 @@ const GlobalAdminDashboard = () => {
     (state) => state.searchOrganization.getAllOrganizationData
   );
 
+  //Get All TotalThisMonthDueApi Reducer Data
+
+  const TotalThisMonthDueApiData = useSelector(
+    (state) => state.globalAdminDashboardReducer.TotalThisMonthDueApiData
+  );
+
   const months = [
     "January",
     "February",
@@ -47,13 +56,6 @@ const GlobalAdminDashboard = () => {
     "October",
     "November",
     "December",
-  ];
-
-  const Company = [
-    "Apex Arcrane Enterprises",
-    "Astral Apex Holdings",
-    "Cascade Innovation Guild",
-    "Mosaic Venture Groups",
   ];
 
   const [isOpen, setIsOpen] = useState(false);
@@ -89,10 +91,8 @@ const GlobalAdminDashboard = () => {
   const [totalDue, setTotalDue] = useState(null);
 
   //Organizataion State
-
   const [organziations, setOrganizations] = useState([]);
-
-  console.log(organziations, "organziationsorganziations");
+  const [organizationID, setOrganizationID] = useState(0);
 
   //Calling StatsOfActiveLicenseApi
   useEffect(() => {
@@ -143,7 +143,6 @@ const GlobalAdminDashboard = () => {
   }, []);
 
   //Getting All Organizations Data
-
   useEffect(() => {
     let newarr = [];
     try {
@@ -206,10 +205,28 @@ const GlobalAdminDashboard = () => {
   };
 
   const onCountryClickClick = (Country) => () => {
-    console.log(Country.organizationName, "CountryCountryCountry");
     setSelectedCompany(Country.organizationName);
+    setOrganizationID(Country.organizationID);
     setIsCompnayOpen(false);
+    let data = {
+      OrganizationID: Number(Country.organizationID),
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(TotalThisMonthDueApi({ data, navigate, t }));
   };
+
+  //Data for Dues
+  useEffect(() => {
+    try {
+      if (
+        TotalThisMonthDueApiData !== null &&
+        TotalThisMonthDueApiData !== undefined
+      ) {
+        setTotalDue(TotalThisMonthDueApiData.result.totalBillingThisMonth);
+      } else {
+      }
+    } catch (error) {}
+  }, [TotalThisMonthDueApiData]);
 
   const handleOrgnizationStatus = () => {
     setessentialTbl(false);
@@ -690,7 +707,7 @@ const GlobalAdminDashboard = () => {
                   sm={12}
                   className="d-flex justify-content-center flex-column flex-wrap align-items-center"
                 >
-                  <span className={styles["PrizeStyles"]}>145$</span>
+                  <span className={styles["PrizeStyles"]}>{totalDue}$</span>
                   <span className={styles["PrizeSubHeading"]}>
                     {t("Apex-arcane-enterprises-bill-due")}
                   </span>
