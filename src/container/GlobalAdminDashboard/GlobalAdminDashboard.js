@@ -95,8 +95,12 @@ const GlobalAdminDashboard = () => {
 
   //Organizataion State
   const [organziations, setOrganizations] = useState([]);
-  const [selectedCompany, setSelectedCompany] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState(
+    organziations[0]?.organizationName || "Default Company Name"
+  );
   const [organizationID, setOrganizationID] = useState(0);
+
+  console.log(organziations, "selectedCompanyselectedCompany");
 
   //Billing Dues Table data
   const [billDueTable, setBillDueTable] = useState([]);
@@ -167,6 +171,21 @@ const GlobalAdminDashboard = () => {
       console.log(error, "error");
     }
   }, [organizationIdData]);
+
+  //byDefault
+  useEffect(() => {
+    if (organziations.length > 0) {
+      setSelectedCompany(organziations[0].organizationName);
+      setOrganizationID(organziations[0].organizationID);
+      let data = {
+        OrganizationID: Number(organziations[0].organizationID),
+      };
+      dispatch(TotalThisMonthDueApi({ data, navigate, t }));
+      dispatch(GetAllBillingDueApi({ data, navigate, t }));
+    }
+  }, [organziations]);
+
+  console.log(organizationID, "organizationID");
 
   const handleOutsideClick = (event) => {
     if (
