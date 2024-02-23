@@ -87,8 +87,9 @@ export const OrganizationsByActiveLicenseApi = createAsyncThunk(
   "OrganizationsByActiveLicenseApi/OrganizationsByActiveLicenseApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { navigate, t } = requestData;
+    let { data, navigate, t } = requestData;
     let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", OrganizationsByActiveLicense.RequestMethod);
     try {
       const response = await axios({
