@@ -11,6 +11,8 @@ import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdm
 import { StatsOfActiveLicenseApi } from "../../store/Actions/GlobalAdminDashboardActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
+import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -23,9 +25,13 @@ const GlobalAdminDashboard = () => {
   const navigate = useNavigate();
 
   //StatsOfActiveLicenseApi Reducer Data
-
   const StatsOfActiveLicenseApiReducerData = useSelector(
     (state) => state.globalAdminDashboardReducer.StatsOfActiveLicenseApiData
+  );
+
+  //Get All Organization Reducer Data
+  const organizationIdData = useSelector(
+    (state) => state.searchOrganization.getAllOrganizationData
   );
 
   const months = [
@@ -54,7 +60,7 @@ const GlobalAdminDashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(months[0]);
 
   const [isCompnayOpen, setIsCompnayOpen] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState(Company[0]);
+  const [selectedCompany, setSelectedCompany] = useState([]);
 
   const [organizationStatus, setOrganizationStatus] = useState(false);
   const [users, setUsers] = useState(false);
@@ -78,6 +84,15 @@ const GlobalAdminDashboard = () => {
     totalNumberOfProfessionalLicense: 0,
     totalNumberOfProfessionalLicensePercentage: 0,
   });
+
+  //TotalThisMonthDueApi states
+  const [totalDue, setTotalDue] = useState(null);
+
+  //Organizataion State
+
+  const [organziations, setOrganizations] = useState([]);
+
+  console.log(organziations, "organziationsorganziations");
 
   //Calling StatsOfActiveLicenseApi
   useEffect(() => {
@@ -120,6 +135,32 @@ const GlobalAdminDashboard = () => {
       console.log(error, "errors");
     }
   }, [StatsOfActiveLicenseApiReducerData]);
+
+  //Getting All Organizations
+  useEffect(() => {
+    dispatch(viewOrganizationLoader(true));
+    dispatch(getAllOrganizationApi({ navigate, t }));
+  }, []);
+
+  //Getting All Organizations Data
+
+  useEffect(() => {
+    let newarr = [];
+    try {
+      if (organizationIdData !== null && organizationIdData !== undefined) {
+        console.log(organizationIdData, "organizationIdData");
+        let organizations = organizationIdData.result.getAllOrganizations;
+        organizations.map((data, index) => {
+          console.log(data, "datadatadatadata");
+          newarr.push(data);
+        });
+        setOrganizations(newarr);
+      } else {
+      }
+    } catch (error) {
+      console.log(error, "error");
+    }
+  }, [organizationIdData]);
 
   const handleOutsideClick = (event) => {
     if (
@@ -165,7 +206,8 @@ const GlobalAdminDashboard = () => {
   };
 
   const onCountryClickClick = (Country) => () => {
-    setSelectedCompany(Country);
+    console.log(Country.organizationName, "CountryCountryCountry");
+    setSelectedCompany(Country.organizationName);
     setIsCompnayOpen(false);
   };
 
@@ -621,15 +663,16 @@ const GlobalAdminDashboard = () => {
                     {isCompnayOpen && (
                       <>
                         <section className={styles["dropdown_list"]}>
-                          {Company.map((Country) => {
+                          {organziations.map((CountryData, index) => {
+                            console.log(CountryData, "CountryDataCountryData");
                             return (
                               <>
                                 <div
                                   className={styles["dropdown-list-item"]}
-                                  onClick={onCountryClickClick(Country)}
-                                  key={Country}
+                                  onClick={onCountryClickClick(CountryData)}
+                                  key={CountryData}
                                 >
-                                  {Country}
+                                  {CountryData.organizationName}
                                 </div>
                               </>
                             );
