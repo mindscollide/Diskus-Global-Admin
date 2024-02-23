@@ -13,6 +13,7 @@ import EditOrganizationConfirmation from "./EditOrganizationConfirmation/EditOrg
 const EditOrganizationSubscription = ({
   editOrganizationID,
   editOrganzationName,
+  currentSubscriptionName,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
@@ -25,6 +26,31 @@ const EditOrganizationSubscription = ({
     value: 0,
     label: "",
   });
+
+  console.log(organzationStatus, "khhdskfdmacbwdhc");
+
+  //states
+  useEffect(() => {
+    setOrganzationStatus({
+      value: currentSubscriptionName.toString(),
+      label:
+        currentSubscriptionName.toString() === "1"
+          ? "Active"
+          : currentSubscriptionName.toString() === "2"
+          ? "InActive"
+          : currentSubscriptionName.toString() === "3"
+          ? "suspended"
+          : currentSubscriptionName.toString() === "4"
+          ? "Closed"
+          : currentSubscriptionName.toString() === "5"
+          ? "Terminated Request"
+          : currentSubscriptionName.toString() === "6"
+          ? "Deleted"
+          : currentSubscriptionName.toString() === "7"
+          ? "Archived"
+          : "Active",
+    });
+  }, [currentSubscriptionName]);
 
   console.log(organzationStatus.value, "organzationStatusorganzationStatus");
 
@@ -62,6 +88,10 @@ const EditOrganizationSubscription = ({
     { value: "6", label: "Deleted" },
     { value: "7", label: "Archived" },
   ];
+
+  const organizationOption = options.find(
+    (option) => option.value === organzationStatus.value
+  );
 
   return (
     <>
@@ -108,7 +138,11 @@ const EditOrganizationSubscription = ({
                 <span className={styles["EditSubscriptionSubHeading"]}>
                   {t("Subscription-status")}
                 </span>
-                <Select options={options} onChange={handleChange} />
+                <Select
+                  options={options}
+                  onChange={handleChange}
+                  value={organizationOption}
+                />
               </Col>
             </Row>
           </>

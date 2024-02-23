@@ -17,28 +17,42 @@ const EditSubscriptionModal = ({
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
+  const isEditSubscriptionModalOpen = useSelector(
+    (state) => state.modal.editSubscriptionConfirmationModal
+  );
+
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
+  console.log(currentSubscriptionName, "currentSubscriptionNameacduwvuc");
+
+  const [subsciptionStatus, setSubsciptionStatus] = useState({
+    value: 0,
+    label: "",
+  });
+
+  console.log(subsciptionStatus, "subsciptionStatussubsciptionSt");
 
   //states
-  const [subsciptionStatus, setSubsciptionStatus] = useState({
-    value: currentSubscriptionName.toString(),
-    label:
-      currentSubscriptionName.toString() === "1"
-        ? "Active"
-        : currentSubscriptionName.toString() === "2"
-        ? "InActive"
-        : currentSubscriptionName.toString() === "3"
-        ? "suspended"
-        : currentSubscriptionName.toString() === "4"
-        ? "Closed"
-        : currentSubscriptionName.toString() === "5"
-        ? "Terminated Request"
-        : currentSubscriptionName.toString() === "6"
-        ? "Cancelled"
-        : "Active",
-  });
+  useEffect(() => {
+    setSubsciptionStatus({
+      value: currentSubscriptionName.toString(),
+      label:
+        currentSubscriptionName.toString() === "1"
+          ? "Active"
+          : currentSubscriptionName.toString() === "2"
+          ? "InActive"
+          : currentSubscriptionName.toString() === "3"
+          ? "suspended"
+          : currentSubscriptionName.toString() === "4"
+          ? "Closed"
+          : currentSubscriptionName.toString() === "5"
+          ? "Terminated Request"
+          : currentSubscriptionName.toString() === "6"
+          ? "Cancelled"
+          : "Active",
+    });
+  }, [currentSubscriptionName]);
 
   const handleChange = (option) => {
     setSubsciptionStatus(option);
@@ -60,9 +74,11 @@ const EditSubscriptionModal = ({
   };
 
   const handleUpdateButton = () => {
-    dispatch(editSubscriptionModalOpen(false));
     dispatch(editSubscriptionConfirmationModalOpen(true));
+    dispatch(editSubscriptionModalOpen(false));
   };
+
+  // console.log(subscriptionOption, "vlayeeeee");
 
   //hardCode subscription Status
   const options = [
@@ -73,6 +89,10 @@ const EditSubscriptionModal = ({
     { value: "5", label: "Terminated Request" },
     { value: "6", label: "Cancelled" },
   ];
+
+  const subscriptionOption = options.find(
+    (option) => option.value === subsciptionStatus.value
+  );
 
   return (
     <>
@@ -122,7 +142,7 @@ const EditSubscriptionModal = ({
                 <Select
                   options={options}
                   onChange={handleChange}
-                  value={subsciptionStatus.label}
+                  value={subscriptionOption}
                 />
               </Col>
             </Row>
@@ -153,9 +173,10 @@ const EditSubscriptionModal = ({
           </>
         }
       />
+
       <EditSubscriptionConfirmationModal
-        organizationID={organizationID}
         subsciptionStatus={subsciptionStatus.value}
+        organizationID={organizationID}
       />
     </>
   );

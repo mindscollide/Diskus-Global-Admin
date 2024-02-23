@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./ViewOrganization.module.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { Button, Table, TextField } from "../../components/elements";
+import {
+  Button,
+  Table,
+  TextField,
+  Notification,
+} from "../../components/elements";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
@@ -50,6 +55,14 @@ const ViewOrganization = () => {
   let currentLanguage = localStorage.getItem("i18nextLng");
   const ModalReducer = useSelector((state) => state.modal);
 
+  const isEditSubscriptionModalOpen = useSelector(
+    (state) => state.modal.editSubscriptionModal
+  );
+
+  const Responsemessage = useSelector(
+    (state) => state.searchOrganization.Responsemessage
+  );
+
   const ViewOrganizationData = useSelector(
     (state) => state.searchOrganization.searchOrganizationData
   );
@@ -62,6 +75,16 @@ const ViewOrganization = () => {
 
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
+  const [openNotification, setOpenNotification] = useState({
+    organizationFlag: false,
+    organizationNotification: null,
+    severity: "none",
+  });
+
+  // open edit subscription modal
+  // const [editSubModal, setEditSubModal] = useState(false);
+  // console.log(editSubModal, "editSubModal");
+
   //States for the component
   const [showsearchText, setShowSearchText] = useState(false);
   const [searchorganizationID, setSearchOrganizationID] = useState(0);
@@ -69,6 +92,10 @@ const ViewOrganization = () => {
   const [editOrganzationName, setEditOrganzationName] = useState("");
   const [editSubscriptionName, setEditSubscriptionName] = useState("");
   const [currentSubscriptionName, setCurrentSubscriptionName] = useState(0);
+  console.log(
+    currentSubscriptionName,
+    "currentSubscriptionNamecurrentSubscriptionName"
+  );
   const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -358,15 +385,16 @@ const ViewOrganization = () => {
     // dispatch(editOrganizationModalOpen(true));
     setEditOrganzationName(record.organizationName);
     setEditOrganizationID(record.organizationID);
+    setCurrentSubscriptionName(record.currentSubscrtionStatus);
     dispatch(editOrganizationSubscriptionModalOpen(true));
   };
 
   const handleEditSubscriptionModal = (record) => {
-    console.log("handleChange", record);
-    dispatch(editSubscriptionModalOpen(true));
-    setOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationName);
+    setOrganizationID(record.organizationID);
     setCurrentSubscriptionName(record.currentSubscrtionStatus);
+    dispatch(editSubscriptionModalOpen(true));
+    // setEditSubModal(true);
   };
 
   const HandleopenSearchBox = () => {
@@ -433,23 +461,50 @@ const ViewOrganization = () => {
   };
 
   const handleSearchButton = () => {
-    let data = {
-      OrganizationID: Number(searchorganizationID),
-      CountryID: 0,
-      ContactPersonName: searchOrganizationData.userName,
-      Email: searchOrganizationData.userEmail,
-      StatusID: Number(searchOrganizationData.Status.value),
-      PackageID: 0,
-      SubscriptionExpiryStart: searchOrganizationData.DateFrom,
-      SubscriptionExpiryEnd: searchOrganizationData.DateTo,
-      sRow: 0,
-      Length: 10,
-    };
-    console.log(data, "handleSearchButtonhandleSearchButton");
-    dispatch(viewOrganizationLoader(true));
-    dispatch(searchOrganizationApi({ data, navigate, t }));
-    setSearchBox(false);
-    setShowSearchText(true);
+    if (
+      Responsemessage !== null &&
+      Responsemessage !== undefined &&
+      Responsemessage !== ""
+    ) {
+      let data = {
+        OrganizationID: Number(searchorganizationID),
+        CountryID: 0,
+        ContactPersonName: searchOrganizationData.userName,
+        Email: searchOrganizationData.userEmail,
+        StatusID: Number(searchOrganizationData.Status.value),
+        PackageID: 0,
+        SubscriptionExpiryStart: searchOrganizationData.DateFrom,
+        SubscriptionExpiryEnd: searchOrganizationData.DateTo,
+        sRow: 0,
+        Length: 10,
+      };
+      console.log(data, "handleSearchButtonhandleSearchButton");
+      dispatch(viewOrganizationLoader(true));
+      dispatch(searchOrganizationApi({ data, navigate, t }));
+      setSearchBox(false);
+      setShowSearchText(true);
+      if (Responsemessage === "Success") {
+        setTimeout(
+          setOpenNotification({
+            ...openNotification,
+            organizationFlag: true,
+            organizationNotification: t("Data Available"),
+            severity: "success",
+          }),
+          10000
+        );
+      } else {
+        setTimeout(
+          setOpenNotification({
+            ...openNotification,
+            organizationFlag: true,
+            organizationNotification: t("No Data Available"),
+            severity: "error",
+          }),
+          3000
+        );
+      }
+    }
   };
 
   useEffect(() => {
@@ -531,6 +586,38 @@ const ViewOrganization = () => {
       },
     });
   };
+
+  // USEEFFECT FOR SHOW NOTIFICATION
+
+  // useEffect(() => {
+  //   if (
+  //     Responsemessage !== null &&
+  //     Responsemessage !== undefined &&
+  //     Responsemessage !== ""
+  //   ) {
+  //     if (Responsemessage === "Success") {
+  //       setTimeout(
+  //         setOpenNotification({
+  //           ...openNotification,
+  //           organizationFlag: true,
+  //           organizationNotification: t("Data Available"),
+  //           severity: "success",
+  //         }),
+  //         10000
+  //       );
+  //     } else {
+  //       setTimeout(
+  //         setOpenNotification({
+  //           ...openNotification,
+  //           organizationFlag: true,
+  //           organizationNotification: t("No Data Available"),
+  //           severity: "error",
+  //         }),
+  //         3000
+  //       );
+  //     }
+  //   }
+  // }, [Responsemessage]);
 
   return (
     <>
@@ -829,18 +916,31 @@ const ViewOrganization = () => {
           </Col>
         </Row>
       </Container>
-      <EditOrganizationModal />
-      {ModalReducer.editSubscriptionModal && (
-        <EditSubscriptionModal
-          organizationID={organizationID}
-          editSubscriptionName={editSubscriptionName}
-          currentSubscriptionName={currentSubscriptionName}
-        />
-      )}
+      {/* <EditOrganizationModal /> */}
+      {/* {isEditSubscriptionModalOpen && ( */}
+      <EditSubscriptionModal
+        organizationID={organizationID}
+        editSubscriptionName={editSubscriptionName}
+        currentSubscriptionName={currentSubscriptionName}
+      />
+      {/* )} */}
 
       <EditOrganizationSubscription
         editOrganizationID={editOrganizationID}
         editOrganzationName={editOrganzationName}
+        currentSubscriptionName={currentSubscriptionName}
+      />
+
+      <Notification
+        show={openNotification.organizationFlag}
+        hide={setOpenNotification}
+        message={openNotification.organizationNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
       />
     </>
   );
