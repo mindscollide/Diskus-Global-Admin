@@ -211,9 +211,9 @@ const GlobalAdminDashboard = () => {
   // Users Chart
   const config = {
     data: [
-      { type: "Saif", value: 27 },
-      { type: "Aun", value: 25 },
-      { type: "Huzaifa", value: 18 },
+      { type: "one", value: 27 },
+      { type: "two", value: 25 },
+      { type: "three", value: 18 },
     ],
     color: ({ type }) => {
       switch (type) {
@@ -232,7 +232,7 @@ const GlobalAdminDashboard = () => {
     widht: "100%",
     height: 200,
     paddingRight: 80,
-    innerRadius: 0.6,
+    innerRadius: 0.5,
     label: {
       text: "value",
       style: {
@@ -263,25 +263,18 @@ const GlobalAdminDashboard = () => {
 
   // (User) Chart
 
-  const data = [
-    {
-      type: "Essential",
-      value: 27,
-    },
-    {
-      type: "Professional",
-      value: 25,
-    },
-    {
-      type: "Premium",
-      value: 18,
-    },
-  ];
   const configSecond = {
-    appendPadding: 10,
-    data,
-    angleField: "value",
-    colorField: "type",
+    data: [
+      {
+        type: "Essential",
+        value: activelicenses.totalNumberOfEssentialLicense,
+      },
+      {
+        type: "Professional",
+        value: activelicenses.totalNumberOfProfessionalLicense,
+      },
+      { type: "Premium", value: activelicenses.totalNumberOfPremiumLicense },
+    ],
     color: ({ type }) => {
       switch (type) {
         case "Essential":
@@ -294,10 +287,12 @@ const GlobalAdminDashboard = () => {
           return "#d3d3d3";
       }
     },
+    angleField: "value",
+    colorField: "type",
     widht: "100%",
     height: 200,
     paddingRight: 80,
-    innerRadius: 0.6,
+    innerRadius: 0.5,
     label: {
       text: "value",
       style: {
@@ -325,7 +320,6 @@ const GlobalAdminDashboard = () => {
       },
     ],
   };
-
   const TrialColumn = [
     {
       title: t("Name"),
