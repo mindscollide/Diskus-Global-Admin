@@ -4,6 +4,7 @@ import modalReducer from "./ActionsSlicers/UIModalsActions";
 import AuthActions from "./ActionsSlicers/AuthLoginSlicer";
 import loginHistory from "./ActionsSlicers/LoginHistorySlicer";
 import searchOrganization from "./ActionsSlicers/ViewOrganizationActionSlicer";
+import globalAdminDashboardReducer from "./ActionsSlicers/GlobalAdminDasboardSlicer";
 
 const rootReducer = combineReducers({
   Auth: AuthAction,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   AuthActions: AuthActions,
   loginHistory: loginHistory,
   searchOrganization: searchOrganization,
+  globalAdminDashboardReducer: globalAdminDashboardReducer,
 });
 
 const store = configureStore({
