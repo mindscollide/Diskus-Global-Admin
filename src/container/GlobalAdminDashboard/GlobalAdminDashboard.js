@@ -100,8 +100,6 @@ const GlobalAdminDashboard = () => {
   );
   const [organizationID, setOrganizationID] = useState(0);
 
-  console.log(organziations, "selectedCompanyselectedCompany");
-
   //Billing Dues Table data
   const [billDueTable, setBillDueTable] = useState([]);
 
@@ -172,7 +170,7 @@ const GlobalAdminDashboard = () => {
     }
   }, [organizationIdData]);
 
-  //byDefault
+  //byDefault Selection
   useEffect(() => {
     if (organziations.length > 0) {
       setSelectedCompany(organziations[0].organizationName);
@@ -184,8 +182,6 @@ const GlobalAdminDashboard = () => {
       dispatch(GetAllBillingDueApi({ data, navigate, t }));
     }
   }, [organziations]);
-
-  console.log(organizationID, "organizationID");
 
   const handleOutsideClick = (event) => {
     if (
