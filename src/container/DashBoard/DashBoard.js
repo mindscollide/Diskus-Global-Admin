@@ -13,13 +13,10 @@ const DashBoard = () => {
   const { Content } = Layout;
   const authStateLoader = useSelector((state) => state.AuthActions.loading);
   const LoginHistoryLoader = useSelector((state) => state.loginHistory.loading);
-  const { loginHistory } = useSelector((state) => state);
-
-  console.log(
-    LoginHistoryLoader,
-    loginHistory,
-    "LoginHistoryLoaderLoginHistoryLoader"
+  const globalAdminDashboardLoader = useSelector(
+    (state) => state.globalAdminDashboardReducer.loading
   );
+
   const ViewOrganizationData = useSelector(
     (state) => state.searchOrganization.loading
   );
@@ -51,7 +48,10 @@ const DashBoard = () => {
               <Outlet />
             </div>
           </Content>
-          {LoginHistoryLoader || authStateLoader || ViewOrganizationData ? (
+          {LoginHistoryLoader ||
+          authStateLoader ||
+          ViewOrganizationData ||
+          globalAdminDashboardLoader ? (
             <Loader />
           ) : null}
         </Layout>

@@ -37,7 +37,7 @@ export const StatsOfActiveLicenseApi = createAsyncThunk(
                 "Admin_AdminServiceManager_StatsOfTotalActiveLisences_01".toLowerCase()
               )
           ) {
-            // dispatch(globalAdminDashBoardLoader(false));
+            dispatch(globalAdminDashBoardLoader(false));
             try {
               return {
                 result: response.data.responseResult,
