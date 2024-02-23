@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
+import { convertUTCDateToLocalDate } from "../../common/functions/dateFormatters";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -278,18 +279,43 @@ const GlobalAdminDashboard = () => {
       dataIndex: "billingMonth",
       key: "billingMonth",
       width: "135px",
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Amount-due"),
       dataIndex: "amountDue",
       key: "amountDue",
       width: "135px",
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Billing-date"),
       dataIndex: "billingDate",
       key: "billingDate",
       width: "130px",
+      render: (text, response) => {
+        console.log(response, "responseresponse");
+        console.log(text, "responseresponse");
+        return (
+          <>
+            <span className={styles["dashboard-table-insidetext"]}>
+              {convertUTCDateToLocalDate(text)}
+            </span>
+          </>
+        );
+      },
     },
   ];
 

@@ -232,3 +232,10 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   left: auto;
   right: 10px;
 }
+
+.dashboard-table-insidetext {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: "montserrat-500" !important;
+}
