@@ -26,6 +26,22 @@ const getAllOrganization = {
   RequestMethod: "ServiceManager.GetAllOrganization",
 };
 
+const statsOfActiveLicenses = {
+  RequestMethod: "ServiceManager.StatsOfTotalActiveLisences",
+};
+
+const OrganizationsByActiveLicense = {
+  RequestMethod: "ServiceManager.ListOfAllTheActiveOrganizationWiseLisences",
+};
+
+const GetAllBillingDue = {
+  RequestMethod: "ServiceManager.GetAllBillingDue",
+};
+
+const TotalThisMonthDue = {
+  RequestMethod: "ServiceManager.TotalThisMonthDue",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -34,4 +50,8 @@ export {
   editSubscription,
   editOrganization,
   getAllOrganization,
+  statsOfActiveLicenses,
+  OrganizationsByActiveLicense,
+  GetAllBillingDue,
+  TotalThisMonthDue,
 };

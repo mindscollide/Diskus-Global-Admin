@@ -7,12 +7,26 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Pie } from "@ant-design/plots";
 import { Button, Table, TextField } from "../../components/elements";
+import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { StatsOfActiveLicenseApi } from "../../store/Actions/GlobalAdminDashboardActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
   const MonthsRef = useRef();
 
   const CompanyRef = useRef();
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  //StatsOfActiveLicenseApi Reducer Data
+
+  const StatsOfActiveLicenseApiReducerData = useSelector(
+    (state) => state.globalAdminDashboardReducer.StatsOfActiveLicenseApiData
+  );
 
   const months = [
     "January",
@@ -53,6 +67,59 @@ const GlobalAdminDashboard = () => {
   const [essentialTbl, setessentialTbl] = useState(false);
   const [professionalTbl, setProfessionalTbl] = useState(false);
   const [premiumTbl, setPremiumTbl] = useState(false);
+
+  //StatsOfActiveLicenseApi States
+  const [activelicenses, setActivelicenses] = useState({
+    totalActiveLicense: 0,
+    totalNumberOfEssentialLicense: 0,
+    totalNumberOfEssentialLicensePercentage: 0,
+    totalNumberOfPremiumLicense: 0,
+    totalNumberOfPremiumLicensePercentage: 0,
+    totalNumberOfProfessionalLicense: 0,
+    totalNumberOfProfessionalLicensePercentage: 0,
+  });
+
+  //Calling StatsOfActiveLicenseApi
+  useEffect(() => {
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(StatsOfActiveLicenseApi({ navigate, t }));
+  }, []);
+
+  //StatsOfActiveLicenseApi Data
+  useEffect(() => {
+    try {
+      if (
+        StatsOfActiveLicenseApiReducerData !== null &&
+        StatsOfActiveLicenseApiReducerData !== undefined
+      ) {
+        setActivelicenses({
+          totalActiveLicense:
+            StatsOfActiveLicenseApiReducerData.result.totalActiveLicense,
+          totalNumberOfEssentialLicense:
+            StatsOfActiveLicenseApiReducerData.result
+              .totalNumberOfEssentialLicense,
+          totalNumberOfEssentialLicensePercentage:
+            StatsOfActiveLicenseApiReducerData.result
+              .totalNumberOfEssentialLicensePercentage,
+          totalNumberOfPremiumLicense:
+            StatsOfActiveLicenseApiReducerData.result
+              .totalNumberOfPremiumLicense,
+          totalNumberOfPremiumLicensePercentage:
+            StatsOfActiveLicenseApiReducerData.result
+              .totalNumberOfPremiumLicensePercentage,
+          totalNumberOfProfessionalLicense:
+            StatsOfActiveLicenseApiReducerData.result
+              .totalNumberOfProfessionalLicense,
+          totalNumberOfProfessionalLicensePercentage:
+            StatsOfActiveLicenseApiReducerData.result
+              .totalNumberOfProfessionalLicensePercentage,
+        });
+      } else {
+      }
+    } catch (error) {
+      console.log(error, "errors");
+    }
+  }, [StatsOfActiveLicenseApiReducerData]);
 
   const handleOutsideClick = (event) => {
     if (
@@ -141,22 +208,31 @@ const GlobalAdminDashboard = () => {
   ];
 
   //Chart
-  // 1 Chart
+  // Users Chart
   const config = {
     data: [
-      { type: "One", value: 27 },
-      { type: "Two", value: 25 },
-      { type: "Three", value: 18 },
-      { type: "Four", value: 15 },
-      { type: "Five", value: 10 },
-      { type: "Six", value: 5 },
+      { type: "one", value: 27 },
+      { type: "two", value: 25 },
+      { type: "three", value: 18 },
     ],
+    color: ({ type }) => {
+      switch (type) {
+        case "Saif":
+          return "#ff7f0e";
+        case "Aun":
+          return "#1f77b4";
+        case "Huzaifa":
+          return "#2ca02c";
+        default:
+          return "#d3d3d3";
+      }
+    },
     angleField: "value",
     colorField: "type",
     widht: "100%",
     height: 200,
     paddingRight: 80,
-    innerRadius: 0.6,
+    innerRadius: 0.5,
     label: {
       text: "value",
       style: {
@@ -185,22 +261,38 @@ const GlobalAdminDashboard = () => {
     ],
   };
 
-  // Second Chart
+  // (User) Chart
+
   const configSecond = {
     data: [
-      { type: "One", value: 27 },
-      { type: "Two", value: 25 },
-      { type: "Three", value: 18 },
-      { type: "Four", value: 15 },
-      { type: "Five", value: 10 },
-      { type: "Six", value: 5 },
+      {
+        type: "Essential",
+        value: activelicenses.totalNumberOfEssentialLicense,
+      },
+      {
+        type: "Professional",
+        value: activelicenses.totalNumberOfProfessionalLicense,
+      },
+      { type: "Premium", value: activelicenses.totalNumberOfPremiumLicense },
     ],
+    color: ({ type }) => {
+      switch (type) {
+        case "Essential":
+          return "#ff7f0e";
+        case "Professional":
+          return "#1f77b4";
+        case "Premium":
+          return "#2ca02c";
+        default:
+          return "#d3d3d3";
+      }
+    },
     angleField: "value",
     colorField: "type",
     widht: "100%",
     height: 200,
     paddingRight: 80,
-    innerRadius: 0.6,
+    innerRadius: 0.5,
     label: {
       text: "value",
       style: {
@@ -228,7 +320,6 @@ const GlobalAdminDashboard = () => {
       },
     ],
   };
-
   const TrialColumn = [
     {
       title: t("Name"),
