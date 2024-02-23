@@ -9,6 +9,7 @@ import { Pie } from "@ant-design/plots";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
+  GetAllBillingDueApi,
   StatsOfActiveLicenseApi,
   TotalThisMonthDueApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
@@ -38,9 +39,14 @@ const GlobalAdminDashboard = () => {
   );
 
   //Get All TotalThisMonthDueApi Reducer Data
-
   const TotalThisMonthDueApiData = useSelector(
     (state) => state.globalAdminDashboardReducer.TotalThisMonthDueApiData
+  );
+
+  //Get All TotalThisMonthDueApi Reducer Data
+
+  const GetAllBillingDueApiData = useSelector(
+    (state) => state.globalAdminDashboardReducer.GetAllBillingDueApiData
   );
 
   const months = [
@@ -93,6 +99,9 @@ const GlobalAdminDashboard = () => {
   //Organizataion State
   const [organziations, setOrganizations] = useState([]);
   const [organizationID, setOrganizationID] = useState(0);
+
+  //Billing Dues Table data
+  const [billDueTable, setBillDueTable] = useState([]);
 
   //Calling StatsOfActiveLicenseApi
   useEffect(() => {
@@ -181,6 +190,7 @@ const GlobalAdminDashboard = () => {
     }
   };
 
+  //OutSide Click Functionality handled Both DropDowns
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
     return () => {
@@ -208,13 +218,15 @@ const GlobalAdminDashboard = () => {
     setSelectedCompany(Country.organizationName);
     setOrganizationID(Country.organizationID);
     setIsCompnayOpen(false);
-    let data = {
-      OrganizationID: Number(Country.organizationID),
-    };
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(TotalThisMonthDueApi({ data, navigate, t }));
+    if (Country.organizationID !== 0) {
+      let data = {
+        OrganizationID: Number(Country.organizationID),
+      };
+      dispatch(globalAdminDashBoardLoader(true));
+      dispatch(TotalThisMonthDueApi({ data, navigate, t }));
+      dispatch(GetAllBillingDueApi({ data, navigate, t }));
+    }
   };
-
   //Data for Dues
   useEffect(() => {
     try {
@@ -227,6 +239,21 @@ const GlobalAdminDashboard = () => {
       }
     } catch (error) {}
   }, [TotalThisMonthDueApiData]);
+
+  //Billling Due Table Data
+  useEffect(() => {
+    try {
+      if (
+        GetAllBillingDueApiData !== null &&
+        GetAllBillingDueApiData !== undefined
+      ) {
+        setBillDueTable(GetAllBillingDueApiData.result.billingDue);
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [GetAllBillingDueApiData]);
 
   const handleOrgnizationStatus = () => {
     setessentialTbl(false);
@@ -248,8 +275,8 @@ const GlobalAdminDashboard = () => {
   const DashboardGlobalColumn = [
     {
       title: t("Month"),
-      dataIndex: "Month",
-      key: "Month",
+      dataIndex: "billingMonth",
+      key: "billingMonth",
       width: "135px",
     },
     {
@@ -321,7 +348,6 @@ const GlobalAdminDashboard = () => {
   };
 
   // (User) Chart
-
   const configSecond = {
     data: [
       {
@@ -369,7 +395,6 @@ const GlobalAdminDashboard = () => {
       {
         type: "text",
         style: {
-          // text: "AntV\nCharts",
           x: "50%",
           y: "50%",
           textAlign: "center",
@@ -687,7 +712,7 @@ const GlobalAdminDashboard = () => {
                                 <div
                                   className={styles["dropdown-list-item"]}
                                   onClick={onCountryClickClick(CountryData)}
-                                  key={CountryData}
+                                  key={index}
                                 >
                                   {CountryData.organizationName}
                                 </div>
@@ -718,7 +743,7 @@ const GlobalAdminDashboard = () => {
                   <Table
                     column={DashboardGlobalColumn}
                     pagination={false}
-                    // rows={data}
+                    rows={billDueTable}
                     className="Table"
                     locale={{
                       emptyText: (
