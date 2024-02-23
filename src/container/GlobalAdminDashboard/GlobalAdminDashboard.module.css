@@ -84,6 +84,23 @@ body[dir="rtl"] .BillingDueHeading {
   -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
 }
 
+.dropdown_list {
+  height: 40vh !important;
+  overflow-x: hidden !important;
+}
+
+.dropdown_list::-webkit-scrollbar {
+  width: 0.5rem;
+  border-radius: 20px;
+  background-color: #f2f2f2;
+}
+
+.dropdown_list::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: #ccc;
+  margin-left: -15px;
+}
+
 .MonthName {
   font-size: 14px !important;
   color: #5a5a5a !important;
@@ -214,4 +231,11 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   position: absolute;
   left: auto;
   right: 10px;
+}
+
+.dashboard-table-insidetext {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: "montserrat-500" !important;
 }

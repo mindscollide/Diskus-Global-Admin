@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./GlobalAdminDashboard.module.css";
-import magnifyGlassIcon from "../../assets/images/OutletImages/Magglass Search Icon.png";
 import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
 import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import { Col, Container, Row } from "react-bootstrap";
@@ -8,9 +7,16 @@ import { useTranslation } from "react-i18next";
 import { Pie } from "@ant-design/plots";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
-import { StatsOfActiveLicenseApi } from "../../store/Actions/GlobalAdminDashboardActions";
+import {
+  GetAllBillingDueApi,
+  StatsOfActiveLicenseApi,
+  TotalThisMonthDueApi,
+} from "../../store/Actions/GlobalAdminDashboardActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
+import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
+import { convertUTCDateToLocalDate } from "../../common/functions/dateFormatters";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -23,9 +29,23 @@ const GlobalAdminDashboard = () => {
   const navigate = useNavigate();
 
   //StatsOfActiveLicenseApi Reducer Data
-
   const StatsOfActiveLicenseApiReducerData = useSelector(
     (state) => state.globalAdminDashboardReducer.StatsOfActiveLicenseApiData
+  );
+
+  //Get All Organization Reducer Data
+  const organizationIdData = useSelector(
+    (state) => state.searchOrganization.getAllOrganizationData
+  );
+
+  //Get All TotalThisMonthDueApi Reducer Data
+  const TotalThisMonthDueApiData = useSelector(
+    (state) => state.globalAdminDashboardReducer.TotalThisMonthDueApiData
+  );
+
+  //Get All TotalThisMonthDueApi Reducer Data
+  const GetAllBillingDueApiData = useSelector(
+    (state) => state.globalAdminDashboardReducer.GetAllBillingDueApiData
   );
 
   const months = [
@@ -43,18 +63,9 @@ const GlobalAdminDashboard = () => {
     "December",
   ];
 
-  const Company = [
-    "Apex Arcrane Enterprises",
-    "Astral Apex Holdings",
-    "Cascade Innovation Guild",
-    "Mosaic Venture Groups",
-  ];
-
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(months[0]);
-
   const [isCompnayOpen, setIsCompnayOpen] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState(Company[0]);
 
   const [organizationStatus, setOrganizationStatus] = useState(false);
   const [users, setUsers] = useState(false);
@@ -78,6 +89,17 @@ const GlobalAdminDashboard = () => {
     totalNumberOfProfessionalLicense: 0,
     totalNumberOfProfessionalLicensePercentage: 0,
   });
+
+  //TotalThisMonthDueApi states
+  const [totalDue, setTotalDue] = useState(null);
+
+  //Organizataion State
+  const [organziations, setOrganizations] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState([]);
+  const [organizationID, setOrganizationID] = useState(0);
+
+  //Billing Dues Table data
+  const [billDueTable, setBillDueTable] = useState([]);
 
   //Calling StatsOfActiveLicenseApi
   useEffect(() => {
@@ -121,6 +143,31 @@ const GlobalAdminDashboard = () => {
     }
   }, [StatsOfActiveLicenseApiReducerData]);
 
+  //Getting All Organizations
+  useEffect(() => {
+    dispatch(viewOrganizationLoader(true));
+    dispatch(getAllOrganizationApi({ navigate, t }));
+  }, []);
+
+  //Getting All Organizations Data
+  useEffect(() => {
+    let newarr = [];
+    try {
+      if (organizationIdData !== null && organizationIdData !== undefined) {
+        console.log(organizationIdData, "organizationIdData");
+        let organizations = organizationIdData.result.getAllOrganizations;
+        organizations.map((data, index) => {
+          console.log(data, "datadatadatadata");
+          newarr.push(data);
+        });
+        setOrganizations(newarr);
+      } else {
+      }
+    } catch (error) {
+      console.log(error, "error");
+    }
+  }, [organizationIdData]);
+
   const handleOutsideClick = (event) => {
     if (
       MonthsRef.current &&
@@ -141,6 +188,7 @@ const GlobalAdminDashboard = () => {
     }
   };
 
+  //OutSide Click Functionality handled Both DropDowns
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
     return () => {
@@ -165,9 +213,45 @@ const GlobalAdminDashboard = () => {
   };
 
   const onCountryClickClick = (Country) => () => {
-    setSelectedCompany(Country);
+    setSelectedCompany(Country.organizationName);
+    setOrganizationID(Country.organizationID);
     setIsCompnayOpen(false);
+    if (Country.organizationID !== 0) {
+      let data = {
+        OrganizationID: Number(Country.organizationID),
+      };
+      dispatch(globalAdminDashBoardLoader(true));
+      dispatch(TotalThisMonthDueApi({ data, navigate, t }));
+      dispatch(GetAllBillingDueApi({ data, navigate, t }));
+    }
   };
+  //Data for Dues
+  useEffect(() => {
+    try {
+      if (
+        TotalThisMonthDueApiData !== null &&
+        TotalThisMonthDueApiData !== undefined
+      ) {
+        setTotalDue(TotalThisMonthDueApiData.result.totalBillingThisMonth);
+      } else {
+      }
+    } catch (error) {}
+  }, [TotalThisMonthDueApiData]);
+
+  //Billling Due Table Data
+  useEffect(() => {
+    try {
+      if (
+        GetAllBillingDueApiData !== null &&
+        GetAllBillingDueApiData !== undefined
+      ) {
+        setBillDueTable(GetAllBillingDueApiData.result.billingDue);
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [GetAllBillingDueApiData]);
 
   const handleOrgnizationStatus = () => {
     setessentialTbl(false);
@@ -189,21 +273,46 @@ const GlobalAdminDashboard = () => {
   const DashboardGlobalColumn = [
     {
       title: t("Month"),
-      dataIndex: "Month",
-      key: "Month",
+      dataIndex: "billingMonth",
+      key: "billingMonth",
       width: "135px",
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Amount-due"),
       dataIndex: "amountDue",
       key: "amountDue",
       width: "135px",
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Billing-date"),
       dataIndex: "billingDate",
       key: "billingDate",
       width: "130px",
+      render: (text, response) => {
+        console.log(response, "responseresponse");
+        console.log(text, "responseresponse");
+        return (
+          <>
+            <span className={styles["dashboard-table-insidetext"]}>
+              {convertUTCDateToLocalDate(text)}
+            </span>
+          </>
+        );
+      },
     },
   ];
 
@@ -262,7 +371,6 @@ const GlobalAdminDashboard = () => {
   };
 
   // (User) Chart
-
   const configSecond = {
     data: [
       {
@@ -310,7 +418,6 @@ const GlobalAdminDashboard = () => {
       {
         type: "text",
         style: {
-          // text: "AntV\nCharts",
           x: "50%",
           y: "50%",
           textAlign: "center",
@@ -621,15 +728,16 @@ const GlobalAdminDashboard = () => {
                     {isCompnayOpen && (
                       <>
                         <section className={styles["dropdown_list"]}>
-                          {Company.map((Country) => {
+                          {organziations.map((CountryData, index) => {
+                            console.log(CountryData, "CountryDataCountryData");
                             return (
                               <>
                                 <div
                                   className={styles["dropdown-list-item"]}
-                                  onClick={onCountryClickClick(Country)}
-                                  key={Country}
+                                  onClick={onCountryClickClick(CountryData)}
+                                  key={index}
                                 >
-                                  {Country}
+                                  {CountryData.organizationName}
                                 </div>
                               </>
                             );
@@ -647,9 +755,9 @@ const GlobalAdminDashboard = () => {
                   sm={12}
                   className="d-flex justify-content-center flex-column flex-wrap align-items-center"
                 >
-                  <span className={styles["PrizeStyles"]}>145$</span>
+                  <span className={styles["PrizeStyles"]}>{totalDue}$</span>
                   <span className={styles["PrizeSubHeading"]}>
-                    {t("Apex-arcane-enterprises-bill-due")}
+                    {selectedCompany}
                   </span>
                 </Col>
               </Row>
@@ -658,7 +766,7 @@ const GlobalAdminDashboard = () => {
                   <Table
                     column={DashboardGlobalColumn}
                     pagination={false}
-                    // rows={data}
+                    rows={billDueTable}
                     className="Table"
                     locale={{
                       emptyText: (
