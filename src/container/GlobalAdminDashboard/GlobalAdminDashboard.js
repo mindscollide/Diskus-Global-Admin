@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./GlobalAdminDashboard.module.css";
-import magnifyGlassIcon from "../../assets/images/OutletImages/Magglass Search Icon.png";
 import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
 import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import { Col, Container, Row } from "react-bootstrap";
@@ -45,7 +44,6 @@ const GlobalAdminDashboard = () => {
   );
 
   //Get All TotalThisMonthDueApi Reducer Data
-
   const GetAllBillingDueApiData = useSelector(
     (state) => state.globalAdminDashboardReducer.GetAllBillingDueApiData
   );
@@ -67,9 +65,7 @@ const GlobalAdminDashboard = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(months[0]);
-
   const [isCompnayOpen, setIsCompnayOpen] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState([]);
 
   const [organizationStatus, setOrganizationStatus] = useState(false);
   const [users, setUsers] = useState(false);
@@ -99,6 +95,7 @@ const GlobalAdminDashboard = () => {
 
   //Organizataion State
   const [organziations, setOrganizations] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState([]);
   const [organizationID, setOrganizationID] = useState(0);
 
   //Billing Dues Table data
