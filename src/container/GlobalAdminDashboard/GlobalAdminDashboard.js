@@ -490,30 +490,42 @@ const GlobalAdminDashboard = () => {
 
   //Chart
   // Users Chart
+  const datasecond = [
+    {
+      type: "Essential",
+      value: 27,
+    },
+    {
+      type: "Professional",
+      value: 25,
+    },
+    {
+      type: "Premium",
+      value: 18,
+    },
+  ];
   const config = {
-    data: [
-      { type: "one", value: 27 },
-      { type: "two", value: 25 },
-      { type: "three", value: 18 },
-    ],
+    appendPadding: 10,
+    datasecond,
+    angleField: "value",
+    colorField: "type",
     color: ({ type }) => {
       switch (type) {
-        case "Saif":
-          return "#ff7f0e";
-        case "Aun":
-          return "#1f77b4";
-        case "Huzaifa":
-          return "#2ca02c";
+        case "Essential":
+          return "#81DB86";
+        case "Professional":
+          return "#6172D6";
+        case "Premium":
+          return "#D8A709";
         default:
           return "#d3d3d3";
       }
     },
-    angleField: "value",
-    colorField: "type",
-    widht: "100%",
+
+    widht: 100,
     height: 200,
-    paddingRight: 80,
-    innerRadius: 0.5,
+    radius: 1,
+    innerRadius: 0.6,
     label: {
       text: "value",
       style: {
@@ -527,11 +539,18 @@ const GlobalAdminDashboard = () => {
         rowPadding: 11,
       },
     },
+    interactions: [
+      {
+        type: "element-selected",
+      },
+      {
+        type: "element-active",
+      },
+    ],
     annotations: [
       {
         type: "text",
         style: {
-          // text: "AntV\nCharts",
           x: "50%",
           y: "50%",
           textAlign: "center",
@@ -542,63 +561,6 @@ const GlobalAdminDashboard = () => {
     ],
   };
 
-  // (User) Chart
-  const configSecond = {
-    data: [
-      {
-        type: "Essential",
-        value: activelicenses.totalNumberOfEssentialLicense,
-      },
-      {
-        type: "Professional",
-        value: activelicenses.totalNumberOfProfessionalLicense,
-      },
-      { type: "Premium", value: activelicenses.totalNumberOfPremiumLicense },
-    ],
-    color: ({ type }) => {
-      switch (type) {
-        case "Essential":
-          return "#ff7f0e";
-        case "Professional":
-          return "#1f77b4";
-        case "Premium":
-          return "#2ca02c";
-        default:
-          return "#d3d3d3";
-      }
-    },
-    angleField: "value",
-    colorField: "type",
-    widht: "100%",
-    height: 200,
-    paddingRight: 80,
-    innerRadius: 0.5,
-    label: {
-      text: "value",
-      style: {
-        fontWeight: "bold",
-      },
-    },
-    legend: {
-      color: {
-        title: true,
-        position: "right",
-        rowPadding: 11,
-      },
-    },
-    annotations: [
-      {
-        type: "text",
-        style: {
-          x: "50%",
-          y: "50%",
-          textAlign: "center",
-          fontSize: 40,
-          fontStyle: "bold",
-        },
-      },
-    ],
-  };
   const TrialColumn = [
     {
       title: t("Name"),
@@ -917,6 +879,76 @@ const GlobalAdminDashboard = () => {
     } else {
       setIsScroll(false);
     }
+  };
+
+  // (User) Chart
+
+  const data = [
+    {
+      type: "Essential",
+      value: activelicenses.totalNumberOfEssentialLicense,
+    },
+    {
+      type: "Professional",
+      value: activelicenses.totalNumberOfProfessionalLicense,
+    },
+    { type: "Premium", value: activelicenses.totalNumberOfPremiumLicense },
+  ];
+  const configSecond = {
+    appendPadding: 10,
+    data,
+    angleField: "value",
+    colorField: "type",
+    color: ({ type }) => {
+      switch (type) {
+        case "Essential":
+          return "#81DB86";
+        case "Professional":
+          return "#6172D6";
+        case "Premium":
+          return "#D8A709";
+        default:
+          return "#d3d3d3";
+      }
+    },
+
+    widht: 100,
+    height: 200,
+    radius: 1,
+    innerRadius: 0.6,
+    label: {
+      text: "value",
+      style: {
+        fontWeight: "bold",
+      },
+    },
+    legend: {
+      color: {
+        title: true,
+        position: "right",
+        rowPadding: 11,
+      },
+    },
+    interactions: [
+      {
+        type: "element-selected",
+      },
+      {
+        type: "element-active",
+      },
+    ],
+    annotations: [
+      {
+        type: "text",
+        style: {
+          x: "50%",
+          y: "50%",
+          textAlign: "center",
+          fontSize: 40,
+          fontStyle: "bold",
+        },
+      },
+    ],
   };
 
   return (
