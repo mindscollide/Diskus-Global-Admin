@@ -215,6 +215,16 @@ body[dir="rtl"] .ButtonsDashboard {
   color: #fff !important;
 }
 
+.activeEssentialButton {
+  padding: 5px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+  font-family: "montserrat-bold" !important;
+}
+
 body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   padding: 5px 20px !important;
   border: 1px solid #e1e1e1 !important;
@@ -236,6 +246,16 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
 .dashboard-table-insidetext {
   color: #5a5a5a !important;
   font-size: 12px !important;
-  font-weight: bold !important;
+  font-family: "montserrat-bold" !important;
+}
+.dashboard-tabletext {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  font-family: "montserrat-bold" !important;
+}
+
+.dashboard-user-dates {
+  color: #505050 !important;
+  font-size: 12px !important;
   font-family: "montserrat-500" !important;
 }
