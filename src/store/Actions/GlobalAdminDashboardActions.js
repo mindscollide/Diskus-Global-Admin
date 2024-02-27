@@ -6,6 +6,7 @@ import {
   OrganizationsByActiveLicense,
   TotalThisMonthDue,
   statsOfActiveLicenses,
+  statOrganizationBySubType,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 
@@ -60,6 +61,79 @@ export const StatsOfActiveLicenseApi = createAsyncThunk(
               .toLowerCase()
               .includes(
                 "Admin_AdminServiceManager_StatsOfTotalActiveLisences_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//OrganizationStatsBySubscriptionType API in Organizer Graph
+export const organziationStatsBySubscriptionApi = createAsyncThunk(
+  "organziationStatsBySubscriptionApi/organziationStatsBySubscriptionApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestMethod", statOrganizationBySubType.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_StatsOfOrganizationsBySubscriptionType_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "StatsOfTotalActiveLisences_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_StatsOfOrganizationsBySubscriptionType_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_StatsOfOrganizationsBySubscriptionType_03".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));

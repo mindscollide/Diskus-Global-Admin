@@ -1,31 +1,82 @@
 // ================================== function which support end arabic both ======================================== //
 
 // currently using in Session Duration in Login History
-export const convertUtcDateAndTimeToCurrentTimeZone = (utcDateTime, locale) => {
-  console.log("convertUTCDateToLocalDate", utcDateTime);
-  console.log("convertUTCDateToLocalDate", typeof utcDateTime);
-  const date = new Date(
-    `${utcDateTime.slice(0, 4)}-${utcDateTime.slice(4, 6)}-${utcDateTime.slice(
-      6,
-      8
-    )}T${utcDateTime.slice(8, 10)}:${utcDateTime.slice(
-      10,
-      12
-    )}:${utcDateTime.slice(12, 14)}.000Z`
-  );
+export const convertUtcDateAndTimeToCurrentTimeZone = (
+  utcDateTimes,
+  locale
+) => {
+  try {
+    console.log("convertUTCDateToLocalDate", utcDateTimes);
+    console.log("convertUTCDateToLocalDate", typeof utcDateTimes);
 
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-    // timeZoneName: "short",
-    numberingSystem: locale === "ar" ? "arab" : "latn",
-  };
-  return date.toLocaleString(locale, options);
+    if (!utcDateTimes) {
+      return "";
+    }
+
+    const date = new Date(
+      `${utcDateTimes.slice(0, 4)}-${utcDateTimes.slice(
+        4,
+        6
+      )}-${utcDateTimes.slice(6, 8)}T${utcDateTimes.slice(
+        8,
+        10
+      )}:${utcDateTimes.slice(10, 12)}:${utcDateTimes.slice(12, 14)}.000Z`
+    );
+
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      // timeZoneName: "short",
+      numberingSystem: locale === "ar" ? "arab" : "latn",
+    };
+    return date.toLocaleString(locale, options);
+  } catch (error) {
+    console.error("Error in convertUtcDateAndTimeToCurrentTimeZone:", error);
+    return "";
+  }
 };
+
+// export const convertUtcDateAndTimeToCurrentTimeZone = (utcDateTime, locale) => {
+//   try {
+//     if (!utcDateTime) {
+//       return "";
+//     }
+
+//     const year = utcDateTime.slice(0, 4);
+//     const month = utcDateTime.slice(4, 6);
+//     const day = utcDateTime.slice(6, 8);
+//     const hours = utcDateTime.slice(8, 10);
+//     const minutes = utcDateTime.slice(10, 12);
+//     const seconds = utcDateTime.slice(12, 14);
+
+//     const utcDate = new Date(
+//       Date.UTC(year, month - 1, day, hours, minutes, seconds)
+//     );
+//     const localDate = new Date(
+//       utcDate.toLocaleString("en-US", { timeZone: "UTC" })
+//     );
+
+//     const options = {
+//       year: "numeric",
+//       month: "short",
+//       day: "2-digit",
+//       hour: "numeric",
+//       minute: "numeric",
+//       hour12: true,
+//       numberingSystem: locale === "ar" ? "arab" : "latn",
+//     };
+
+//     const formattedDate = localDate.toLocaleString(locale, options);
+//     return formattedDate;
+//   } catch (error) {
+//     console.error("Error in convertUtcDateAndTimeToCurrentTimeZone:", error);
+//     return "";
+//   }
+// };
 
 // currently using in Session Duration in Organization List
 export const convertUTCDateToLocalDate = (utcDateTime, locale) => {

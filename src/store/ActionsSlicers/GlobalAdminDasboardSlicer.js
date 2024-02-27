@@ -4,6 +4,7 @@ import {
   OrganizationsByActiveLicenseApi,
   StatsOfActiveLicenseApi,
   TotalThisMonthDueApi,
+  organziationStatsBySubscriptionApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   OrganizationsByActiveLicenseApiData: null,
   TotalThisMonthDueApiData: null,
   GetAllBillingDueApiData: [],
+  OrganizationStatsSubscriptionData: null,
   Responsemessage: "",
 };
 
@@ -35,6 +37,22 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(StatsOfActiveLicenseApi.rejected, (state, action) => {
         state.StatsOfActiveLicenseApiData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //OrganizationStatsSubscriptionApi cases
+      .addCase(organziationStatsBySubscriptionApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(
+        organziationStatsBySubscriptionApi.fulfilled,
+        (state, action) => {
+          state.OrganizationStatsSubscriptionData = action.payload;
+          state.Responsemessage = "Success";
+        }
+      )
+      .addCase(organziationStatsBySubscriptionApi.rejected, (state, action) => {
+        state.OrganizationStatsSubscriptionData = null;
         state.Responsemessage = action.payload || "An error occurred";
       })
 

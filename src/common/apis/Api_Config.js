@@ -42,6 +42,11 @@ const TotalThisMonthDue = {
   RequestMethod: "ServiceManager.TotalThisMonthDue",
 };
 
+// stats of organizations by subscription Type
+const statOrganizationBySubType = {
+  RequestMethod: "ServiceManager.StatsOfOrganizationsBySubscriptionType",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -54,4 +59,5 @@ export {
   OrganizationsByActiveLicense,
   GetAllBillingDue,
   TotalThisMonthDue,
+  statOrganizationBySubType,
 };
