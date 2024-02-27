@@ -24,7 +24,7 @@ const LanguageSelector = () => {
       value: "en",
     },
     {
-      label: "Arabic",
+      label: "عربي",
       value: "ar",
     },
   ]);

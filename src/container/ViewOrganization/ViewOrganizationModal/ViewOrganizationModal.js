@@ -1,16 +1,23 @@
-import React from "react";
-import styles from "./EditOrganizationModal.module.css";
+import React, { useEffect } from "react";
+import styles from "./ViewOrganizationModal.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { editOrganizationModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
 import { Button, Modal } from "../../../components/elements";
 import { Col, Row } from "react-bootstrap";
-const EditOrganizationModal = () => {
+import { convertUTCDateToLocalDate } from "../../../common/functions/dateFormatters";
+const ViewOrganizationModal = ({ viewOrganizationModal }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    return () => {
+      // dispatch(editOrganizationModalOpen(true));
+    };
+  }, []);
 
   const handleClose = () => {
     dispatch(editOrganizationModalOpen(false));
@@ -56,11 +63,11 @@ const EditOrganizationModal = () => {
                     {t("Organization-name")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    Waqas Associate
+                    {viewOrganizationModal.organizationName}
                   </span>
                 </Col>
               </Row>
-              <Row className="mt-3">
+              <Row className="mt-4">
                 <Col lg={1} md={1} sm={1}></Col>
 
                 <Col
@@ -73,11 +80,11 @@ const EditOrganizationModal = () => {
                     {t("Admin-name")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    Muhammad Waqas
+                    {viewOrganizationModal.contactPersonName}
                   </span>
                 </Col>
               </Row>
-              <Row className="mt-3">
+              <Row className="mt-4">
                 <Col lg={1} md={1} sm={1}></Col>
 
                 <Col
@@ -90,11 +97,11 @@ const EditOrganizationModal = () => {
                     {t("Admin-email")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    Muhammadwaqas@gmail.com
+                    {viewOrganizationModal.emailAddress}
                   </span>
                 </Col>
               </Row>
-              <Row className="mt-3">
+              <Row className="mt-4">
                 <Col lg={1} md={1} sm={1}></Col>
 
                 <Col
@@ -104,14 +111,14 @@ const EditOrganizationModal = () => {
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
-                    {t("Contact #")}
+                    {t("Contact")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    03112234563
+                    {viewOrganizationModal.number}
                   </span>
                 </Col>
               </Row>
-              <Row className="mt-3">
+              <Row className="mt-4">
                 <Col lg={1} md={1} sm={1}></Col>
 
                 <Col
@@ -123,10 +130,14 @@ const EditOrganizationModal = () => {
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
                     {t("Subscription-expiry")}
                   </span>
-                  <span className={styles["DetialsSubHeading"]}>31-4-2024</span>
+                  <span className={styles["DetialsSubHeading"]}>
+                    {convertUTCDateToLocalDate(
+                      viewOrganizationModal.subscriptionExpiry
+                    )}
+                  </span>
                 </Col>
               </Row>
-              <Row className="mt-3">
+              <Row className="mt-4">
                 <Col lg={1} md={1} sm={1}></Col>
 
                 <Col
@@ -138,10 +149,48 @@ const EditOrganizationModal = () => {
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
                     {t("Subscription-status")}
                   </span>
-                  <span className={styles["DetialsSubHeading"]}>Enabled</span>
+                  <span className={styles["DetialsSubHeading"]}>
+                    {viewOrganizationModal.currentSubscrtionStatus === 1 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Active")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 2 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("In-active")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 3 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Suspended")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 4 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Closed")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 5 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Termination-requested")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 6 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Cancelled")}
+                        </span>
+                      </>
+                    ) : null}
+                  </span>
                 </Col>
               </Row>
-              <Row className="mt-3">
+              <Row className="mt-4">
                 <Col lg={1} md={1} sm={1}></Col>
                 <Col
                   lg={11}
@@ -152,7 +201,51 @@ const EditOrganizationModal = () => {
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
                     {t("Organization-status")}
                   </span>
-                  <span className={styles["DetialsSubHeading"]}>Enabled</span>
+                  <span className={styles["DetialsSubHeading"]}>
+                    {viewOrganizationModal.currentSubscrtionStatus === 1 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Active")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 2 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("In-active")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 3 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Suspended")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 4 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Closed")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 5 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Termination-requested")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 6 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Deleted")}
+                        </span>
+                      </>
+                    ) : viewOrganizationModal.currentSubscrtionStatus === 7 ? (
+                      <>
+                        <span className={styles["inner-sub-Heading"]}>
+                          {t("Archived")}
+                        </span>
+                      </>
+                    ) : null}
+                  </span>
                 </Col>
               </Row>
             </section>
@@ -181,4 +274,4 @@ const EditOrganizationModal = () => {
   );
 };
 
-export default EditOrganizationModal;
+export default ViewOrganizationModal;

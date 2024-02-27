@@ -176,3 +176,10 @@ body[dir="rtl"] .inner-sub-Heading {
   color: #fff !important;
   font-family: "MontserratBold-700" !important;
 }
+
+.inner-organization-heading-view-modal {
+  font-size: 14px !important;
+  color: #6172d6 !important;
+  font-family: "MontserratSemiBold-600";
+  cursor: pointer !important;
+}

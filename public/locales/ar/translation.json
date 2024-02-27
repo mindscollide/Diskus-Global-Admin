@@ -61,7 +61,7 @@
   "Securing-your-session-one-step-at-a-time": "تأمين جلستك خطوة واحدة في كل مرة",
   "Deploying-multiple-encryption-layers": "نشر طبقات تشفير متعددة",
   "Obfuscating-network": "شبكة غامضة",
-  "Export-to-excel": "تصدير إلى Excel",
+  "Export-to-excel": "تصدير إلى إكسل",
   "Organization": "منظمة",
   "User-level-configurations": "تكوينات مستوى المستخدم",
   "Organization-level-configurations": "تكوينات مستوى المنظمة",
@@ -96,5 +96,9 @@
   "Passwords-match": "كلمات السر متطابقة",
   "Forget-password": "نسيت كلمة المرور",
   "Next": "التالي",
-  "SignIn": "تسجيل الدخول"
+  "SignIn": "تسجيل الدخول",
+  "Deleted": "تم الحذف",
+  "Archived": "مؤرشف",
+  "Contact": "اتصال #",
+  "Export": "يصدّر"
 }
