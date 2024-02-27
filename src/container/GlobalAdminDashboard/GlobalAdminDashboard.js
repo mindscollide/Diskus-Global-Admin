@@ -4,9 +4,13 @@ import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
 import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import PDFIcon from "../../assets/images/OutletImages/color pdf.svg";
+
 import { Pie } from "@ant-design/plots";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { Chart } from "react-google-charts";
+
 import {
   OrganizationsByActiveLicenseApi,
   StatsOfActiveLicenseApi,
@@ -462,9 +466,12 @@ const GlobalAdminDashboard = () => {
       key: "amountDue",
       width: "135px",
       render: (text, response) => {
+        const amountWithDollar = `${text}$`;
         return (
           <>
-            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+            <span className={styles["dashboard-table-insidetext"]}>
+              {amountWithDollar}
+            </span>
           </>
         );
       },
@@ -488,78 +495,81 @@ const GlobalAdminDashboard = () => {
     },
   ];
 
-  //Chart
-  // Users Chart
-  const datasecond = [
-    {
-      type: "Essential",
-      value: 27,
-    },
-    {
-      type: "Professional",
-      value: 25,
-    },
-    {
-      type: "Premium",
-      value: 18,
-    },
+  // google chart
+  // for organization Chart
+  const exData = [
+    ["Task", "Hours per Day"],
+    ["Work", 8],
+    ["Eat", 4],
+    ["Commute", 4],
+    ["Sleep", 5], // CSS-style declaration
   ];
-  const config = {
-    appendPadding: 10,
-    datasecond,
-    angleField: "value",
-    colorField: "type",
-    color: ({ type }) => {
-      switch (type) {
-        case "Essential":
-          return "#81DB86";
-        case "Professional":
-          return "#6172D6";
-        case "Premium":
-          return "#D8A709";
-        default:
-          return "#d3d3d3";
-      }
-    },
 
-    widht: 100,
-    height: 200,
-    radius: 1,
-    innerRadius: 0.6,
-    label: {
-      text: "value",
-      style: {
-        fontWeight: "bold",
-      },
+  const options = {
+    pieHole: 0.5,
+    is3D: false,
+    colors: ["#81DB86", "#D8A709", "#6172D6", "#F16B6B"],
+    chartArea: {
+      width: "90%", // Adjust the width of the chart area
+      height: "90%", // Adjust the height of the chart area
     },
     legend: {
-      color: {
-        title: true,
-        position: "right",
-        rowPadding: 11,
-      },
+      alignment: "center",
     },
-    interactions: [
-      {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
-      },
-    ],
-    annotations: [
-      {
-        type: "text",
-        style: {
-          x: "50%",
-          y: "50%",
-          textAlign: "center",
-          fontSize: 40,
-          fontStyle: "bold",
-        },
-      },
-    ],
   };
+
+  // google chart
+  // for User Chart
+
+  const userData = [
+    ["Task", "Hours per Day"],
+    [
+      `Essential (${activelicenses.totalNumberOfEssentialLicense})`,
+      activelicenses.totalNumberOfEssentialLicense,
+    ],
+    [
+      `Professional (${activelicenses.totalNumberOfProfessionalLicense})`,
+      activelicenses.totalNumberOfProfessionalLicense,
+    ],
+    [
+      `Premium (${activelicenses.totalNumberOfProfessionalLicense})`,
+      activelicenses.totalNumberOfPremiumLicense,
+    ],
+  ];
+
+  const totalNumber =
+    activelicenses.totalNumberOfEssentialLicense +
+    activelicenses.totalNumberOfProfessionalLicense +
+    activelicenses.totalNumberOfProfessionalLicense;
+
+  console.log(totalNumber, "totalNumbertotalNumber");
+
+  const userOptions = {
+    pieHole: 0.5,
+    is3D: false,
+    colors: ["#81DB86", "#D8A709", "#6172D6", "#F16B6B"],
+    chartArea: {
+      width: "90%", // Adjust the width of the chart area
+      height: "90%", // Adjust the height of the chart area
+    },
+    legend: {
+      alignment: "center",
+    },
+    pieSliceText: "value", // Display the values inside the slices
+    pieSliceTextStyle: {
+      color: "#5A5A5A",
+      bold: true,
+      fontSize: 16,
+    },
+    tooltip: { trigger: "none" },
+  };
+
+  console.log(
+    activelicenses.totalNumberOfEssentialLicense,
+    activelicenses.totalNumberOfProfessionalLicense,
+    activelicenses.totalNumberOfPremiumLicense,
+    "testinnnnggggjsdvhcjhdvc"
+  );
 
   const TrialColumn = [
     {
@@ -881,76 +891,6 @@ const GlobalAdminDashboard = () => {
     }
   };
 
-  // (User) Chart
-
-  const data = [
-    {
-      type: "Essential",
-      value: activelicenses.totalNumberOfEssentialLicense,
-    },
-    {
-      type: "Professional",
-      value: activelicenses.totalNumberOfProfessionalLicense,
-    },
-    { type: "Premium", value: activelicenses.totalNumberOfPremiumLicense },
-  ];
-  const configSecond = {
-    appendPadding: 10,
-    data,
-    angleField: "value",
-    colorField: "type",
-    color: ({ type }) => {
-      switch (type) {
-        case "Essential":
-          return "#81DB86";
-        case "Professional":
-          return "#6172D6";
-        case "Premium":
-          return "#D8A709";
-        default:
-          return "#d3d3d3";
-      }
-    },
-
-    widht: 100,
-    height: 200,
-    radius: 1,
-    innerRadius: 0.6,
-    label: {
-      text: "value",
-      style: {
-        fontWeight: "bold",
-      },
-    },
-    legend: {
-      color: {
-        title: true,
-        position: "right",
-        rowPadding: 11,
-      },
-    },
-    interactions: [
-      {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
-      },
-    ],
-    annotations: [
-      {
-        type: "text",
-        style: {
-          x: "50%",
-          y: "50%",
-          textAlign: "center",
-          fontSize: 40,
-          fontStyle: "bold",
-        },
-      },
-    ],
-  };
-
   return (
     <>
       <Container>
@@ -1112,7 +1052,13 @@ const GlobalAdminDashboard = () => {
                     }
                     onClick={handleOrgnizationStatus}
                   >
-                    <Pie {...config} />
+                    {/* <Pie {...config} /> */}
+                    <Chart
+                      chartType="PieChart"
+                      height={"250px"}
+                      data={exData}
+                      options={options}
+                    />
                   </section>
                 </Col>
                 <Col lg={6} md={6} sm={12}>
@@ -1124,7 +1070,14 @@ const GlobalAdminDashboard = () => {
                     }
                     onClick={handleUsers}
                   >
-                    <Pie {...configSecond} />
+                    {/* <Pie {...configSecond} /> */}
+                    <Chart
+                      chartType="PieChart"
+                      width={"330px"}
+                      height={"250px"}
+                      data={userData}
+                      options={userOptions}
+                    />
                   </section>
                 </Col>
               </Row>
@@ -1152,6 +1105,11 @@ const GlobalAdminDashboard = () => {
                         className={styles["ButtonsDashboard"]}
                         onClick={handleSubscriptionExpiry}
                       />
+
+                      <span className={styles["Export_To_Excel"]}>
+                        <img src={PDFIcon} alt="" draggable="false" />
+                        <span>{t("Export-to-excel")}</span>
+                      </span>
                     </>
                   ) : users ? (
                     <>
@@ -1176,6 +1134,11 @@ const GlobalAdminDashboard = () => {
                         className={styles["ButtonsDashboard"]}
                         onClick={handlePreiumButton}
                       />
+
+                      <span className={styles["Export_To_Excel"]}>
+                        <img src={PDFIcon} alt="" draggable="false" />
+                        <span>{t("Export-to-excel")}</span>
+                      </span>
                     </>
                   ) : null}
                 </Col>
