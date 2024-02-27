@@ -18,7 +18,7 @@ import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import Select from "react-select";
 import EditIcon from "../../assets/images/OutletImages/Edit_Icon.svg";
-import EditOrganizationModal from "./EditOrganizationModal/EditOrganizationModal";
+import EditOrganizationModal from "./ViewOrganizationModal/ViewOrganizationModal";
 import { Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
@@ -35,13 +35,11 @@ import {
   getAllOrganizationApi,
 } from "../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
-import {
-  convertUTCDateToLocalDate,
-  newTimeFormaterForImportMeetingAgenda,
-} from "../../common/functions/dateFormatters";
+import { convertUTCDateToLocalDate } from "../../common/functions/dateFormatters";
 import moment from "moment";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import EditOrganizationSubscription from "./EditOrganizationSubscriptionModal/EditOrganizationSubscription";
+import ViewOrganizationModal from "./ViewOrganizationModal/ViewOrganizationModal";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
@@ -52,7 +50,9 @@ const ViewOrganization = () => {
 
   const calendRef = useRef();
 
-  let currentLanguage = localStorage.getItem("i18nextLng");
+  let currentLanguage = localStorage.getItem("currentLanguage");
+  const local = currentLanguage === "en" ? "en-US" : "ar-SA";
+
   const ModalReducer = useSelector((state) => state.modal);
 
   const isEditSubscriptionModalOpen = useSelector(
@@ -91,6 +91,10 @@ const ViewOrganization = () => {
   const [editOrganizationID, setEditOrganizationID] = useState(0);
   const [editOrganzationName, setEditOrganzationName] = useState("");
   const [editSubscriptionName, setEditSubscriptionName] = useState("");
+
+  // view organization modal
+  const [viewOrganizationModal, setViewOrganizationModal] = useState("");
+
   const [currentSubscriptionName, setCurrentSubscriptionName] = useState(0);
   console.log(
     currentSubscriptionName,
@@ -210,9 +214,6 @@ const ViewOrganization = () => {
             );
           }
         }
-        setViewOrganizationData(
-          ViewOrganizationData.result.searchOrganizations
-        );
       }
     } catch {}
   }, [ViewOrganizationData]);
@@ -227,7 +228,12 @@ const ViewOrganization = () => {
       width: 220,
       render: (text, record) => (
         <>
-          <span className={styles["inner-sub-Heading"]}>{text}</span>
+          <span
+            className={styles["inner-organization-heading-view-modal"]}
+            onClick={() => handleViewOrganizationModal(record)}
+          >
+            {text}
+          </span>
         </>
       ),
     },
@@ -264,9 +270,11 @@ const ViewOrganization = () => {
       align: "center",
       width: 200,
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDate(text);
         return (
-          <div className={styles["inner-sub-Heading"]}>{formattedDate}</div>
+          <div className={styles["inner-sub-Heading"]}>
+            {text != "" &&
+              convertUTCDateToLocalDate(text + "235958", currentLanguage)}
+          </div>
         );
       },
     },
@@ -395,6 +403,12 @@ const ViewOrganization = () => {
     setCurrentSubscriptionName(record.currentSubscrtionStatus);
     dispatch(editSubscriptionModalOpen(true));
     // setEditSubModal(true);
+  };
+
+  // to open view Organization modal
+  const handleViewOrganizationModal = (record) => {
+    setViewOrganizationModal(record);
+    dispatch(editOrganizationModalOpen(true));
   };
 
   const HandleopenSearchBox = () => {
@@ -557,7 +571,7 @@ const ViewOrganization = () => {
         PackageID: 0,
         SubsictionExpiryStart: "",
         SubscriptionExpiryEnd: "",
-        sRow: 0,
+        sRow: Number(isRowsData),
         Length: 10,
       };
       dispatch(viewOrganizationLoader(false));
@@ -874,12 +888,12 @@ const ViewOrganization = () => {
             </span>
           </Col>
         </Row>
-        <Row className="mt-3">
+        <Row className="mt-4">
           <Col lg={12} md={12} sm={12}>
             <InfiniteScroll
               dataLength={viewOrganizationData.length}
               next={handleScroll}
-              height={"60vh"}
+              height={"55vh"}
               hasMore={
                 viewOrganizationData.length === totalRecords ? false : true
               }
@@ -899,7 +913,7 @@ const ViewOrganization = () => {
                   </>
                 ) : null
               }
-              scrollableTarget="scrollableDiv"
+              // scrollableTarget="scrollableDiv"
             >
               <Table
                 column={ViewOrganizationColoumn}
@@ -930,6 +944,10 @@ const ViewOrganization = () => {
         editOrganzationName={editOrganzationName}
         currentSubscriptionName={currentSubscriptionName}
       />
+
+      {/* for view Organization Modal */}
+
+      <ViewOrganizationModal viewOrganizationModal={viewOrganizationModal} />
 
       <Notification
         show={openNotification.organizationFlag}

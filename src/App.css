@@ -204,10 +204,10 @@ body[dir="rtl"] .ant-table-thead > tr * {
   font-weight: 600;
 }
 
-:where(.css-dev-only-do-not-override-dkbvqv)[class^="ant-layout"],
+/* :where(.css-dev-only-do-not-override-dkbvqv)[class^="ant-layout"],
 :where(.css-dev-only-do-not-override-dkbvqv)[class*=" ant-layout"] {
   background-color: #f6fafd;
-}
+} */
 
 .cursor-pointer {
   cursor: pointer;
@@ -363,4 +363,12 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
   background: #cc0000 !important;
   position: relative !important;
   box-shadow: none !important;
+}
+
+:where(.css-dev-only-do-not-override-dkbvqv).ant-layout {
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  min-height: 0;
+  background: none !important;
 }

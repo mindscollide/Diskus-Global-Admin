@@ -4,7 +4,7 @@ import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
 import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import PDFIcon from "../../assets/images/OutletImages/color pdf.svg";
+import ExcelIcon from "../../assets/images/OutletImages/Excel-Icon.png";
 
 import { Pie } from "@ant-design/plots";
 import { Button, Table, TextField } from "../../components/elements";
@@ -27,6 +27,7 @@ import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActio
 import {
   convertUTCDateToLocalDate,
   convertUTCDateToLocalDateDiffFormat,
+  formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
@@ -38,6 +39,9 @@ const GlobalAdminDashboard = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  let currentLanguage = localStorage.getItem("currentLanguage");
+  const local = currentLanguage === "en" ? "en-US" : "ar-SA";
 
   //StatsOfActiveLicenseApi Reducer Data
   const StatsOfActiveLicenseApiReducerData = useSelector(
@@ -109,8 +113,6 @@ const GlobalAdminDashboard = () => {
 
   // state for row of Premium
   const [premiumRow, setPremiumRow] = useState([]);
-  console.log(premiumRow, "premiumRowpremiumRow");
-
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isRowsData, setSRowsData] = useState(0);
@@ -470,7 +472,7 @@ const GlobalAdminDashboard = () => {
         return (
           <>
             <span className={styles["dashboard-table-insidetext"]}>
-              {amountWithDollar}
+              {formatSessionDurationArabicAndEng(text, currentLanguage)}
             </span>
           </>
         );
@@ -482,12 +484,10 @@ const GlobalAdminDashboard = () => {
       key: "billingDate",
       width: "130px",
       render: (text, response) => {
-        console.log(response, "responseresponse");
-        console.log(text, "responseresponse");
         return (
           <>
             <span className={styles["dashboard-table-insidetext"]}>
-              {convertUTCDateToLocalDate(text)}
+              {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
             </span>
           </>
         );
@@ -513,6 +513,7 @@ const GlobalAdminDashboard = () => {
       width: "90%", // Adjust the width of the chart area
       height: "90%", // Adjust the height of the chart area
     },
+    direction: currentLanguage === "ar" ? "rtl" : "ltr",
     legend: {
       alignment: "center",
     },
@@ -524,7 +525,10 @@ const GlobalAdminDashboard = () => {
   const userData = [
     ["Task", "Hours per Day"],
     [
-      `Essential (${activelicenses.totalNumberOfEssentialLicense})`,
+      `Essential (${formatSessionDurationArabicAndEng(
+        activelicenses.totalNumberOfEssentialLicense,
+        currentLanguage
+      )})`,
       activelicenses.totalNumberOfEssentialLicense,
     ],
     [
@@ -552,24 +556,18 @@ const GlobalAdminDashboard = () => {
       width: "90%", // Adjust the width of the chart area
       height: "90%", // Adjust the height of the chart area
     },
+    direction: currentLanguage === "ar" ? "rtl" : "ltr",
     legend: {
       alignment: "center",
     },
-    pieSliceText: "value", // Display the values inside the slices
-    pieSliceTextStyle: {
-      color: "#5A5A5A",
-      bold: true,
-      fontSize: 16,
-    },
+    // pieSliceText: formatSessionDurationArabicAndEng("value", currentLanguage), // Display the values inside the slices
+    // pieSliceTextStyle: {
+    //   color: "#5A5A5A",
+    //   bold: true,
+    //   fontSize: 16,
+    // },
     tooltip: { trigger: "none" },
   };
-
-  console.log(
-    activelicenses.totalNumberOfEssentialLicense,
-    activelicenses.totalNumberOfProfessionalLicense,
-    activelicenses.totalNumberOfPremiumLicense,
-    "testinnnnggggjsdvhcjhdvc"
-  );
 
   const TrialColumn = [
     {
@@ -650,19 +648,19 @@ const GlobalAdminDashboard = () => {
   ];
 
   const essentialColumns = [
-    // {
-    //   title: t("Name"),
-    //   dataIndex: "organizationName",
-    //   key: "organizationName",
-    //   width: "125px",
-    //   render: (text, record) => {
-    //     return (
-    //       <>
-    //         <span className={styles["dashboard-table-insidetext"]}>{text}</span>
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      title: t("Name"),
+      dataIndex: "name",
+      key: "name",
+      width: "100px",
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+          </>
+        );
+      },
+    },
     {
       title: t("Organization-name"),
       dataIndex: "organizationName",
@@ -684,9 +682,11 @@ const GlobalAdminDashboard = () => {
       width: "130px",
       align: "center",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        // const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
+          </div>
         );
       },
     },
@@ -697,10 +697,12 @@ const GlobalAdminDashboard = () => {
       width: "130px",
       align: "center",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        // const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
 
         return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
+          </div>
         );
       },
     },
@@ -990,7 +992,13 @@ const GlobalAdminDashboard = () => {
                   sm={12}
                   className="d-flex justify-content-center flex-column flex-wrap align-items-center"
                 >
-                  <span className={styles["PrizeStyles"]}>{totalDue}$</span>
+                  <span className={styles["PrizeStyles"]}>
+                    {formatSessionDurationArabicAndEng(
+                      totalDue,
+                      currentLanguage
+                    )}
+                    $
+                  </span>
                   <span className={styles["PrizeSubHeading"]}>
                     {selectedCompany}
                   </span>
@@ -1082,7 +1090,7 @@ const GlobalAdminDashboard = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
-                <Col lg={12} md={12} sm={12} className="d-flex gap-2">
+                <Col lg={9} md={9} sm={9} className="d-flex gap-2">
                   {organizationStatus ? (
                     <>
                       <Button
@@ -1105,11 +1113,6 @@ const GlobalAdminDashboard = () => {
                         className={styles["ButtonsDashboard"]}
                         onClick={handleSubscriptionExpiry}
                       />
-
-                      <span className={styles["Export_To_Excel"]}>
-                        <img src={PDFIcon} alt="" draggable="false" />
-                        <span>{t("Export-to-excel")}</span>
-                      </span>
                     </>
                   ) : users ? (
                     <>
@@ -1134,12 +1137,21 @@ const GlobalAdminDashboard = () => {
                         className={styles["ButtonsDashboard"]}
                         onClick={handlePreiumButton}
                       />
-
-                      <span className={styles["Export_To_Excel"]}>
-                        <img src={PDFIcon} alt="" draggable="false" />
-                        <span>{t("Export-to-excel")}</span>
-                      </span>
                     </>
+                  ) : null}
+                </Col>
+
+                <Col
+                  lg={3}
+                  md={3}
+                  sm={3}
+                  className="d-flex justify-content-end"
+                >
+                  {users === true || organizationStatus === true ? (
+                    <span className={styles["Export_To_Excel_dashboard"]}>
+                      <img src={ExcelIcon} alt="" draggable="false" />
+                      <span>{t("Export")}</span>
+                    </span>
                   ) : null}
                 </Col>
               </Row>

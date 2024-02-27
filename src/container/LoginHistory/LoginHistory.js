@@ -12,20 +12,25 @@ import { useTranslation } from "react-i18next";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import Oops from "../../assets/images/OutletImages/Oops.png";
 import DatePicker, { DateObject } from "react-multi-date-picker";
-import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import moment from "moment";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
-import PDFIcon from "../../assets/images/OutletImages/color pdf.svg";
+import gregorian_ar from "react-date-object/locales/gregorian_ar";
+import ExcelIcon from "../../assets/images/OutletImages/Excel-Icon.png";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
 import { validateEmailEnglishAndArabicFormat } from "../../common/functions/Validate";
 import { LoginHistoryAPI } from "../../store/Actions/LoginHistoryActions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getTimeDifference } from "../../common/functions/timeFormatters";
-import { newTimeFormaterForImportMeetingAgenda } from "../../common/functions/dateFormatters";
+
+import {
+  convertUtcDateAndTimeToCurrentTimeZone,
+  newTimeFormaterForArabic,
+  convertNumberToArabic,
+  formatSessionDurationArabicAndEng,
+} from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
@@ -39,7 +44,9 @@ const LoginHistory = () => {
 
   const calendRef = useRef();
 
-  let currentLanguage = localStorage.getItem("i18nextLng");
+  let currentLanguage = localStorage.getItem("currentLanguage");
+  const local = currentLanguage === "en" ? "en-US" : "ar-SA";
+  console.log({ currentLanguage, local }, "currentLanguagecurrentLanguage");
 
   const organizationIdData = useSelector(
     (state) => state.searchOrganization.getAllOrganizationData
@@ -123,7 +130,7 @@ const LoginHistory = () => {
   }, []);
 
   useEffect(() => {
-    if (currentLanguage !== null && currentLanguage !== undefined) {
+    if (currentLanguage !== undefined) {
       if (currentLanguage === "en") {
         setCalendarValue(gregorian);
         setLocalValue(gregorian_en);
@@ -186,8 +193,6 @@ const LoginHistory = () => {
     } catch {}
   }, [UserLoginHistoryData]);
 
-  console.log(tablerows, "useEffectuseEffect");
-
   const UserLoginHistoryColoumn = [
     {
       title: t("Organization-name"),
@@ -236,9 +241,12 @@ const LoginHistory = () => {
       width: 200,
       render: (text, record) => {
         return (
-          <div className={styles["inner-sub-Heading"]}>
-            {newTimeFormaterForImportMeetingAgenda(text)}
-          </div>
+          <span className={styles["inner-sub-Heading"]}>
+            {convertUtcDateAndTimeToCurrentTimeZone(
+              record.dateLogin,
+              currentLanguage
+            )}
+          </span>
         );
       },
     },
@@ -250,23 +258,25 @@ const LoginHistory = () => {
       width: 200,
       render: (text, record) => {
         return (
-          <div className={styles["inner-sub-Heading"]}>
-            {newTimeFormaterForImportMeetingAgenda(text)}
-          </div>
+          <span className={styles["inner-sub-Heading"]}>
+            {convertUtcDateAndTimeToCurrentTimeZone(
+              record.dateLogOut,
+              currentLanguage
+            )}
+          </span>
         );
       },
     },
     {
       title: t("Session-duration"),
-      dataIndex: "decision",
-      key: "decision",
+      dataIndex: "sessionDuration",
+      key: "sessionDuration",
       align: "center",
       width: 150,
       render: (text, record) => {
-        console.log(record, "recordrecordrecord");
         return (
           <div className={styles["inner-sub-Heading"]}>
-            {getTimeDifference(record.dateLogin, record.dateLogOut)}
+            {formatSessionDurationArabicAndEng(text, currentLanguage)}
           </div>
         );
       },
@@ -277,8 +287,16 @@ const LoginHistory = () => {
       align: "center",
       key: "deviceID",
       width: 100,
-      render: (text, data) => (
-        <span className={styles["inner-sub-Heading"]}>{text}</span>
+      render: (text, record) => (
+        <span className={styles["inner-sub-Heading"]}>
+          {record.deviceID === "1" ? (
+            <span>{t("Web")}</span>
+          ) : record.deviceID === "2" ? (
+            <span>{t("Mobile")}</span>
+          ) : record.deviceID === "3" ? (
+            <span>{t("Tablet")}</span>
+          ) : null}
+        </span>
       ),
     },
     {
@@ -385,68 +403,49 @@ const LoginHistory = () => {
 
   const handleSearh = () => {
     try {
-      if (
-        Responsemessage !== null &&
-        Responsemessage !== undefined &&
-        Responsemessage !== ""
-      ) {
-        if (
-          userLoginHistorySearch.userName !== "" ||
-          userLoginHistorySearch.Title !== "" ||
-          userLoginHistorySearch.userEmail !== "" ||
-          userLoginHistorySearch.IpAddress !== "" ||
-          userLoginHistorySearch.InterFaceType.value !== 0 ||
-          userLoginHistorySearch.DateFrom !== "" ||
-          userLoginHistorySearch.DateTo !== "" ||
-          validateEmailEnglishAndArabicFormat(userLoginHistorySearch.userEmail)
-        ) {
-          let data = {
-            OrganizationID: 0,
-            Username: userLoginHistorySearch.userName,
-            UserEmail: userLoginHistorySearch.userEmail,
-            IpAddress: userLoginHistorySearch.IpAddress,
-            DeviceID: "1",
-            DateLogin: userLoginHistorySearch.DateFrom,
-            DateLogOut: userLoginHistorySearch.DateTo,
-            sRow: 0,
-            Length: 10,
-          };
-          dispatch(loginHistoryLoader(true));
+      let data = {
+        OrganizationID: 0,
+        Username: userLoginHistorySearch.userName,
+        UserEmail: userLoginHistorySearch.userEmail,
+        IpAddress: userLoginHistorySearch.IpAddress,
+        DeviceID: "1",
+        DateLogin: userLoginHistorySearch.DateFrom,
+        DateLogOut: userLoginHistorySearch.DateTo,
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(loginHistoryLoader(true));
+      dispatch(LoginHistoryAPI({ data, navigate, t }));
+      setSearchBox(false);
+      setShowSearchText(true);
 
-          dispatch(LoginHistoryAPI({ data, navigate, t }));
-          setSearchBox(false);
-          setShowSearchText(true);
-
-          // if (
-          //   Responsemessage !== null &&
-          //   Responsemessage !== undefined &&
-          //   Responsemessage !== ""
-          // ) {
-          //   if (Responsemessage === "Success") {
-          //     setTimeout(
-          //       setOpenNotification({
-          //         ...openNotification,
-          //         historyFlag: true,
-          //         historyNotification: t("Data Available"),
-          //         severity: "success",
-          //       }),
-          //       10000
-          //     );
-          //   } else {
-          //     setTimeout(
-          //       setOpenNotification({
-          //         ...openNotification,
-          //         historyFlag: true,
-          //         historyNotification: t("No Data Available"),
-          //         severity: "error",
-          //       }),
-          //       3000
-          //     );
-          //   }
-          // }
-        } else {
-        }
-      }
+      // if (
+      //   Responsemessage !== null &&
+      //   Responsemessage !== undefined &&
+      //   Responsemessage !== ""
+      // ) {
+      //   if (Responsemessage === "Success") {
+      //     setTimeout(
+      //       setOpenNotification({
+      //         ...openNotification,
+      //         historyFlag: true,
+      //         historyNotification: t("Data Available"),
+      //         severity: "success",
+      //       }),
+      //       10000
+      //     );
+      //   } else {
+      //     setTimeout(
+      //       setOpenNotification({
+      //         ...openNotification,
+      //         historyFlag: true,
+      //         historyNotification: t("No Data Available"),
+      //         severity: "error",
+      //       }),
+      //       3000
+      //     );
+      //   }
+      // }
     } catch {}
   };
 
@@ -514,7 +513,6 @@ const LoginHistory = () => {
         Length: 10,
       };
       dispatch(loginHistoryLoader(false));
-
       dispatch(LoginHistoryAPI({ data, navigate, t }));
     } else {
       setIsScroll(false);
@@ -564,7 +562,7 @@ const LoginHistory = () => {
           </Col>
           <Col lg={2} md={2} sm={2} className="d-flex justify-content-end">
             <span className={styles["Export_To_Excel"]}>
-              <img src={PDFIcon} alt="" draggable="false" />
+              <img src={ExcelIcon} alt="" draggable="false" />
               <span>{t("Export-to-excel")}</span>
             </span>
           </Col>
@@ -862,12 +860,12 @@ const LoginHistory = () => {
             </span>
           </Col>
         </Row>
-        <Row className="mt-3">
+        <Row className="mt-4">
           <Col lg={12} md={12} sm={12}>
             <InfiniteScroll
               dataLength={tablerows.length}
               next={handleScroll}
-              height={"60vh"}
+              height={"55vh"}
               hasMore={tablerows.length === totalRecords ? false : true}
               loader={
                 isRowsData <= totalRecords && isScroll ? (

@@ -136,7 +136,7 @@ const EditOrganizationSubscription = ({
                 className="d-flex flex-column flex-wrap"
               >
                 <span className={styles["EditSubscriptionSubHeading"]}>
-                  {t("Subscription-status")}
+                  {t("Organization-status")}
                 </span>
                 <Select
                   options={options}

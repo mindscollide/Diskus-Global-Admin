@@ -97,5 +97,9 @@
   "Next": "Next",
   "SignIn": "SignIn",
   "Go-back": "Go Back",
-  "Remember-email": "Remember email"
+  "Remember-email": "Remember email",
+  "Deleted": "Deleted",
+  "Archived": "Archived",
+  "Contact": "Contact",
+  "Export": "Export"
 }
