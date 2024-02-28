@@ -126,6 +126,7 @@ const LoginHistory = () => {
       setTotalRecords(0);
       setSRowsData(0);
       setTablerows([]);
+      setOrganizationDataValue(null);
     };
   }, []);
 
@@ -323,7 +324,23 @@ const LoginHistory = () => {
   ];
 
   const HandleopenSearchBox = () => {
+    setUserLoginHistorySearch({
+      ...userLoginHistorySearch,
+      userName: "",
+      userEmail: "",
+      DateFrom: "",
+      DateForView: "",
+      DateTo: "",
+      DateToView: "",
+      IpAddress: "",
+      InterFaceType: {
+        value: 0,
+        label: "",
+      },
+      Title: "",
+    });
     setShowSearchText(false);
+    setOrganizationDataValue(null);
     setSearchBox(!searchBox);
   };
 
@@ -490,6 +507,7 @@ const LoginHistory = () => {
   const handleReset = () => {
     try {
       setShowSearchText(false);
+      setOrganizationDataValue(null);
       setUserLoginHistorySearch({
         ...userLoginHistorySearch,
         userName: "",
