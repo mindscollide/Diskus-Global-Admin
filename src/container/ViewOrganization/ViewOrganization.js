@@ -18,18 +18,15 @@ import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import Select from "react-select";
 import EditIcon from "../../assets/images/OutletImages/Edit_Icon.svg";
-import EditOrganizationModal from "./ViewOrganizationModal/ViewOrganizationModal";
 import { Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
   editOrganizationModalOpen,
   editOrganizationSubscriptionModalOpen,
-  editSubscriptionConfirmationModalOpen,
   editSubscriptionModalOpen,
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch, useSelector } from "react-redux";
 import EditSubscriptionModal from "./EditSubscriptionModal/EditSubscriptionModal";
-import EditSubscriptionConfirmationModal from "./EditSubscriptionModal/EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
 import {
   searchOrganizationApi,
   getAllOrganizationApi,
@@ -96,10 +93,7 @@ const ViewOrganization = () => {
   const [viewOrganizationModal, setViewOrganizationModal] = useState("");
 
   const [currentSubscriptionName, setCurrentSubscriptionName] = useState(0);
-  console.log(
-    currentSubscriptionName,
-    "currentSubscriptionNamecurrentSubscriptionName"
-  );
+
   const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -213,6 +207,10 @@ const ViewOrganization = () => {
               ViewOrganizationData.result.userLoginHistoryModel.length
             );
           }
+        } else {
+          setViewOrganizationData([]);
+          setTotalRecords(0);
+          setSRowsData(0);
         }
       }
     } catch {}
@@ -412,6 +410,23 @@ const ViewOrganization = () => {
   };
 
   const HandleopenSearchBox = () => {
+    setShowSearchText(false);
+    setSearchOrganizationData({
+      userName: "",
+      userEmail: "",
+      DateFrom: "",
+      DateTo: "",
+      DateToView: "",
+      DateFromView: "",
+      Status: {
+        value: 0,
+        label: "",
+      },
+      OrganizationID: {
+        value: 0,
+        label: "",
+      },
+    });
     setSearchBox(!searchBox);
   };
 
@@ -555,7 +570,7 @@ const ViewOrganization = () => {
       sRow: 0,
       Length: 10,
     };
-    dispatch(viewOrganizationLoader(false));
+    dispatch(viewOrganizationLoader(true));
     dispatch(searchOrganizationApi({ data, navigate, t }));
   };
 
@@ -670,7 +685,7 @@ const ViewOrganization = () => {
                 iconClassName={"d-block"}
               />
               <Row>
-                <Col lg={12} md={12} sm={12} className="d-flex gap-4 flex-wrap">
+                <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
                   {showsearchText && searchOrganizationData.userName !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -787,6 +802,7 @@ const ViewOrganization = () => {
                             labelClass={"d-none"}
                             value={searchOrganizationData.userName}
                             name={"adminName"}
+                            applyClass={"SearchTextFiled"}
                             placeholder={t("Admin-name")}
                             change={searchViewOrganizationHandler}
                           />
@@ -795,6 +811,7 @@ const ViewOrganization = () => {
                           <TextField
                             labelClass={"d-none"}
                             name={"adminEmail"}
+                            applyClass={"SearchTextFiled"}
                             placeholder={t("Admin-email")}
                             value={searchOrganizationData.userEmail}
                             change={searchViewOrganizationHandler}
@@ -806,15 +823,18 @@ const ViewOrganization = () => {
                           <DatePicker
                             value={searchOrganizationData.DateFromView}
                             format={"DD/MM/YYYY"}
-                            placeholder="DD/MM/YYYY"
+                            placeholder={t("Date-From")}
                             render={
                               <InputIcon
-                                placeholder="DD/MM/YYYY"
-                                className="datepicker_input"
+                                placeholder={t("Date-from")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
                               />
                             }
                             editable={false}
                             className="datePickerTodoCreate2"
+                            containerClassName={styles["datePicker_Container"]}
                             onOpenPickNewDate={false}
                             inputMode=""
                             calendar={calendarValue}
@@ -827,15 +847,18 @@ const ViewOrganization = () => {
                           <DatePicker
                             value={searchOrganizationData.DateToView}
                             format={"DD/MM/YYYY"}
-                            placeholder="DD/MM/YYYY"
+                            placeholder={t("Date-to")}
                             render={
                               <InputIcon
-                                placeholder="DD/MM/YYYY"
-                                className="datepicker_input"
+                                placeholder={t("Date-from")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
                               />
                             }
                             editable={false}
                             className="datePickerTodoCreate2"
+                            containerClassName={styles["datePicker_Container"]}
                             onOpenPickNewDate={false}
                             inputMode=""
                             calendar={calendarValue}
@@ -849,14 +872,15 @@ const ViewOrganization = () => {
                         <Col lg={6} md={6} sm={6}>
                           <Select
                             value={searchOrganizationData.Status}
-                            options={options}
                             placeholder={t("Subscription-status")}
+                            options={options}
                             onChange={handleStatusChange}
                           />
                         </Col>
                         <Col lg={6} md={6} sm={6}>
                           <Select
                             value={organizationDataValue}
+                            placeholder={t("Organization")}
                             options={organizationData}
                             onChange={organizerChangeHandler}
                           />

@@ -51,6 +51,17 @@ const OrganizationBySubscriptiontype = {
   RequestMethod: "ServiceManager.OrganizationsBySubscriptionType",
 };
 
+//Login History Blling Due Report
+const billingDueReport = {
+  RequestMethod: "ServiceManager.LoginHistoryReport",
+};
+
+//Main DashBoard Billing Due Report
+
+const dashboardBillingDueReport = {
+  RequestMethod: "ServiceManager.BillingDueReport",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -65,4 +76,6 @@ export {
   TotalThisMonthDue,
   statOrganizationBySubType,
   OrganizationBySubscriptiontype,
+  billingDueReport,
+  dashboardBillingDueReport,
 };

@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LoginHistoryAPI } from "../Actions/LoginHistoryActions";
+import {
+  LoginHistoryAPI,
+  LogingHistoryReportApi,
+} from "../Actions/LoginHistoryActions";
 
 const initialState = {
   loading: false,
@@ -29,6 +32,16 @@ const loginHistorySlice = createSlice({
       .addCase(LoginHistoryAPI.rejected, (state, action) => {
         // state.loading = false;
         state.loginHistoryData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+      //Billing Due Report
+      .addCase(LogingHistoryReportApi.pending, (state) => {
+        // state.loading = false;
+      })
+      .addCase(LogingHistoryReportApi.fulfilled, (state, action) => {
+        state.Responsemessage = "Success";
+      })
+      .addCase(LogingHistoryReportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

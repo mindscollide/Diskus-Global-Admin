@@ -101,6 +101,8 @@
   "Deleted": "Deleted",
   "Archived": "Archived",
   "Contact": "Contact",
+  "Remaining-days": "Remaining days",
   "Export": "Export",
-  "Remaining-days": "Remaining days"
+  "Date-to": "Date to",
+  "Date-from": "Date from"
 }

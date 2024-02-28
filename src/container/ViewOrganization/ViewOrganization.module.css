@@ -29,7 +29,7 @@ body[dir="rtl"] .Search_Bar_icon_class {
 }
 
 .SearchBox {
-  width: 523px !important;
+  width: 100% !important;
   height: auto !important;
   min-height: 260px !important;
   background: #ffffff !important;
@@ -61,73 +61,66 @@ body[dir="rtl"] .SearchBox {
 
 .SearchBoxResetButton {
   padding: 12px 30px !important;
-  font-size: 12px !important;
-  border: 1px solid #e1e1e1 !important;
-  background: #fff !important;
-  font-family: "MontserratSemiBold-600" !important;
-  color: #5a5a5a !important;
+  font-family: "MontserratSemiBold-600";
   border-radius: 4px !important;
+  background-color: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #5a5a5a !important;
 }
 
 body[dir="rtl"] .SearchBoxResetButton {
   padding: 12px 30px !important;
-  font-size: 12px !important;
-  border: 1px solid #e1e1e1 !important;
-  background: #fff !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
-  color: #5a5a5a !important;
+  font-family: "MontserratSemiBold-600";
   border-radius: 4px !important;
+  background-color: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #5a5a5a !important;
 }
 
 .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
-  font-size: 12px !important;
-  border: 1px solid #e1e1e1 !important;
-  background: #fff !important;
-  font-family: "MontserratSemiBold-600" !important;
-  color: #5a5a5a !important;
+  font-family: "MontserratSemiBold-600";
   border-radius: 4px !important;
+  background-color: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #5a5a5a !important;
 }
 
 body[dir="rtl"]
   .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
-  font-size: 12px !important;
-  border: 1px solid #e1e1e1 !important;
-  background: #fff !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
-  color: #5a5a5a !important;
+  font-family: "MontserratSemiBold-600";
   border-radius: 4px !important;
+  background-color: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #5a5a5a !important;
 }
 
 .SearchButton {
   padding: 12px 30px !important;
-  font-size: 12px !important;
-  border: none !important;
-  background: #6172d6 !important;
-  font-family: "MontserratSemiBold-600" !important;
-  color: #fff !important;
   border-radius: 4px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  background-color: #6172d6 !important;
+  border: none !important;
+  color: #fff !important;
 }
 
 body[dir="rtl"] .SearchButton {
   padding: 12px 30px !important;
-  font-size: 12px !important;
-  border: none !important;
-  background: #6172d6 !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
-  color: #fff !important;
   border-radius: 4px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  background-color: #6172d6 !important;
+  border: none !important;
+  color: #fff !important;
 }
 
 .SearchButton:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
-  font-size: 12px !important;
-  border: none !important;
-  font-family: "MontserratSemiBold-600" !important;
-  background: #6172d6 !important;
-  color: #fff !important;
   border-radius: 4px !important;
+  font-family: "MontserratSemiBold-600" !important;
+  background-color: #6172d6 !important;
+  border: none !important;
+  color: #fff !important;
 }
 
 body[dir="rtl"] .SearchButton:is(:hover, :focus, :active, :focus-visible) {
@@ -182,4 +175,25 @@ body[dir="rtl"] .inner-sub-Heading {
   color: #6172d6 !important;
   font-family: "MontserratSemiBold-600";
   cursor: pointer !important;
+}
+
+.UserLoginHistory_datePicker {
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  height: 39px !important;
+  border-radius: 4px !important;
+  padding: 0 10px;
+  cursor: pointer !important;
+  font-family: "montserrat-500" !important;
+  font-size: 13px !important;
+}
+
+.UserLoginHistory_datePicker:is(:focus, :focus-visible) {
+  outline: none !important;
+}
+
+.datePicker_Container {
+  width: 100% !important;
+  border-radius: 4px !important;
+  display: block !important;
 }

@@ -20,20 +20,23 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import ExcelIcon from "../../assets/images/OutletImages/Excel-Icon.png";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
-import { validateEmailEnglishAndArabicFormat } from "../../common/functions/Validate";
-import { LoginHistoryAPI } from "../../store/Actions/LoginHistoryActions";
+import {
+  LoginHistoryAPI,
+  LogingHistoryReportApi,
+  billingDueReportAPI,
+} from "../../store/Actions/LoginHistoryActions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   convertUtcDateAndTimeToCurrentTimeZone,
-  newTimeFormaterForArabic,
-  convertNumberToArabic,
   formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
+import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
+import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 
 const LoginHistory = () => {
   const { t } = useTranslation();
@@ -57,10 +60,6 @@ const LoginHistory = () => {
 
   const UserLoginHistoryData = useSelector(
     (state) => state.loginHistory.loginHistoryData
-  );
-
-  const Responsemessage = useSelector(
-    (state) => state.searchOrganization.Responsemessage
   );
 
   const [openNotification, setOpenNotification] = useState({
@@ -126,7 +125,18 @@ const LoginHistory = () => {
         Title: "",
       });
       setShowSearchText(false);
+      setShowSearchText(false);
+      setIsScroll(false);
+      setTotalRecords(0);
+      setSRowsData(0);
+      setTablerows([]);
+      setOrganizationDataValue(null);
     };
+  }, []);
+
+  useEffect(() => {
+    dispatch(viewOrganizationLoader(true));
+    dispatch(getAllOrganizationApi({ navigate, t }));
   }, []);
 
   useEffect(() => {
@@ -141,6 +151,8 @@ const LoginHistory = () => {
     }
   }, [currentLanguage]);
 
+  console.log(organizationIdData, "organizationIdDataorganizationIdData");
+
   useEffect(() => {
     if (
       organizationIdData?.result.getAllOrganizations.length > 0 &&
@@ -154,8 +166,10 @@ const LoginHistory = () => {
       );
     }
   }, [organizationIdData]);
-
+  const [organizationID, setOrganizationID] = useState(0);
   const organizerChangeHandler = (selectedOrganizer) => {
+    console.log(selectedOrganizer.value, "selectedOrganizerselectedOrganizer");
+    setOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
   };
 
@@ -188,6 +202,10 @@ const LoginHistory = () => {
               UserLoginHistoryData.result.userLoginHistoryModel.length
             );
           }
+        } else {
+          setTablerows([]);
+          setTotalRecords(0);
+          setSRowsData(0);
         }
       }
     } catch {}
@@ -312,6 +330,23 @@ const LoginHistory = () => {
   ];
 
   const HandleopenSearchBox = () => {
+    setUserLoginHistorySearch({
+      ...userLoginHistorySearch,
+      userName: "",
+      userEmail: "",
+      DateFrom: "",
+      DateForView: "",
+      DateTo: "",
+      DateToView: "",
+      IpAddress: "",
+      InterFaceType: {
+        value: 0,
+        label: "",
+      },
+      Title: "",
+    });
+    setShowSearchText(false);
+    setOrganizationDataValue(null);
     setSearchBox(!searchBox);
   };
 
@@ -478,6 +513,7 @@ const LoginHistory = () => {
   const handleReset = () => {
     try {
       setShowSearchText(false);
+      setOrganizationDataValue(null);
       setUserLoginHistorySearch({
         ...userLoginHistorySearch,
         userName: "",
@@ -517,6 +553,21 @@ const LoginHistory = () => {
     } else {
       setIsScroll(false);
     }
+  };
+
+  //Export Api Call
+  const handleExport = () => {
+    let data = {
+      OrganizationID: Number(organizationID),
+      Username: userLoginHistorySearch.userName,
+      UserEmail: userLoginHistorySearch.userEmail,
+      IpAddress: userLoginHistorySearch.IpAddress,
+      DeviceID: "1",
+      DateLogin: userLoginHistorySearch.DateFrom,
+      DateLogOut: userLoginHistorySearch.DateTo,
+    };
+    dispatch(loginHistoryLoader(true));
+    dispatch(LogingHistoryReportApi({ data, navigate, t }));
   };
 
   // USEEFFECT FOR SHOW NOTIFICATION
@@ -560,8 +611,13 @@ const LoginHistory = () => {
               {t("User-login-history")}
             </span>
           </Col>
-          <Col lg={2} md={2} sm={2} className="d-flex justify-content-end">
-            <span className={styles["Export_To_Excel"]}>
+          <Col
+            lg={2}
+            md={2}
+            sm={2}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <span className={styles["Export_To_Excel"]} onClick={handleExport}>
               <img src={ExcelIcon} alt="" draggable="false" />
               <span>{t("Export-to-excel")}</span>
             </span>
@@ -614,7 +670,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.Title !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -631,7 +686,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.userEmail !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -651,7 +705,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.IpAddress !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -671,7 +724,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.DateFrom !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -693,7 +745,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.DateTo !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -750,6 +801,7 @@ const LoginHistory = () => {
                             // onKeyDown={handleKeyDown}
                             type="text"
                             labelClass={"d-none"}
+                            applyClass={"SearchTextFiled"}
                             value={userLoginHistorySearch.userName}
                             change={handleChangeSearchBoxValues}
                           />
@@ -758,6 +810,7 @@ const LoginHistory = () => {
                           <TextField
                             labelClass={"d-none"}
                             placeholder={t("User-email")}
+                            applyClass={"SearchTextFiled"}
                             name={"userEmail"}
                             type="email"
                             value={userLoginHistorySearch.userEmail}
@@ -770,15 +823,18 @@ const LoginHistory = () => {
                           <DatePicker
                             value={userLoginHistorySearch.DateForView}
                             format={"DD/MM/YYYY"}
-                            placeholder="DD/MM/YYYY"
+                            placeholder={t("Date-From")}
                             render={
                               <InputIcon
-                                placeholder="DD/MM/YYYY"
-                                className="datepicker_input"
+                                placeholder={t("Date-from")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
                               />
                             }
                             editable={false}
                             className="datePickerTodoCreate2"
+                            containerClassName={styles["datePicker_Container"]}
                             onOpenPickNewDate={false}
                             inputMode=""
                             calendar={calendarValue}
@@ -787,20 +843,23 @@ const LoginHistory = () => {
                             onChange={handleChangeFromDate}
                           />
                         </Col>
-                        <Col lg={6} md={6} sm={6}>
+                        <Col sm={12} md={6} lg={6}>
                           <DatePicker
                             value={userLoginHistorySearch.DateToView}
                             format={"DD/MM/YYYY"}
-                            placeholder="DD/MM/YYYY"
+                            placeholder={t("Date-to")}
                             render={
                               <InputIcon
-                                placeholder="DD/MM/YYYY"
-                                className="datepicker_input"
+                                placeholder={t("Date-to")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
                               />
                             }
                             editable={false}
                             className="datePickerTodoCreate2"
                             onOpenPickNewDate={false}
+                            containerClassName={styles["datePicker_Container"]}
                             inputMode=""
                             calendar={calendarValue}
                             locale={localValue}
@@ -815,6 +874,7 @@ const LoginHistory = () => {
                           <TextField
                             labelClass={"d-none"}
                             placeholder={t("Ip-address")}
+                            applyClass={"SearchTextFiled"}
                             value={userLoginHistorySearch.IpAddress}
                             name={"IpAddress"}
                             change={handleChangeSearchBoxValues}
@@ -830,6 +890,7 @@ const LoginHistory = () => {
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <Select
+                            placeholder={t("Organization")}
                             value={organizationDataValue}
                             options={organizationData}
                             onChange={organizerChangeHandler}
