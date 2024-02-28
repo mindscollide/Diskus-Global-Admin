@@ -372,3 +372,17 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
   min-height: 0;
   background: none !important;
 }
+
+.TrialTableDashboard .ant-table-thead > tr * {
+  font-size: 12px !important;
+  padding: 1px 0px !important;
+  font-family: "MontserratMedium-500";
+  font-weight: 600;
+}
+
+.TrialExtendedDashboard .ant-table-thead > tr * {
+  font-size: 12px !important;
+  padding: 1px 2px !important;
+  font-family: "MontserratMedium-500";
+  font-weight: 600;
+}

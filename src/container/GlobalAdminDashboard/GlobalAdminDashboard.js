@@ -29,7 +29,10 @@ import {
   convertUTCDateToLocalDate,
   convertUTCDateToLocalDateDiffFormat,
   formatSessionDurationArabicAndEng,
+  utcConvertintoGMT,
 } from "../../common/functions/dateFormatters";
+import SendInvoiceModal from "./SendInvoiceModal/SendInvoiceModal";
+import { dashboardSendInvoiceOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -127,6 +130,9 @@ const GlobalAdminDashboard = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [isRowsData, setSRowsData] = useState(0);
 
+  //to open sendInvoice Modal
+  const [sendInvoice, setSendInvoice] = useState("");
+
   //StatsOfActiveLicenseApi States
   const [activelicenses, setActivelicenses] = useState({
     totalActiveLicense: 0,
@@ -141,7 +147,22 @@ const GlobalAdminDashboard = () => {
   //OrganizationActiveStatsAPi states
   const [organizationStatsLicense, setOrganizationStatsLicense] = useState({
     totalOrganizations: 0,
+    totalNumberOfTrialOrganizations: 0,
+    totalNumberOfTrialOrganizationsPercentage: 0,
+    totalNumberOfExtendedTrialOrganizations: 0,
+    totalNumberOfExtendedTrialOrganizationsPercentage: 0,
+    totalNumberOfSubscribedOrganizations: 0,
+    totalNumberOfSubscribedOrganizationsPercentage: 0,
+    totalNumberOfExpiredSubscriptionOrganizations: 0,
+    totalNumberOfExpiredSubscriptionOrganizationsPercentage: 0,
+    totalNumberOfExpiredTrialSubscriptionOrganizations: 0,
+    totalNumberOfExpiredTrialSubscriptionOrganizationsPercentage: 0,
   });
+
+  console.log(
+    organizationStatsLicense,
+    "organizationStatsLicenseorganizationStatsLicense"
+  );
 
   //TotalThisMonthDueApi states
   const [totalDue, setTotalDue] = useState(null);
@@ -203,6 +224,58 @@ const GlobalAdminDashboard = () => {
       console.log(error, "errors");
     }
   }, [StatsOfActiveLicenseApiReducerData]);
+
+  //OrganizationStatsSubscription from Reducer
+  useEffect(() => {
+    try {
+      if (
+        OrganizationStatsSubscriptionReducer !== null &&
+        OrganizationStatsSubscriptionReducer !== undefined
+      ) {
+        setOrganizationStatsLicense({
+          totalOrganizations:
+            OrganizationStatsSubscriptionReducer.result.totalOrganizations,
+          totalNumberOfTrialOrganizations:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfTrialOrganizations,
+          totalNumberOfTrialOrganizationsPercentage:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfTrialOrganizationsPercentage,
+          totalNumberOfExtendedTrialOrganizations:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfExtendedTrialOrganizations,
+          totalNumberOfExtendedTrialOrganizationsPercentage:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfExtendedTrialOrganizationsPercentage,
+          totalNumberOfSubscribedOrganizations:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfSubscribedOrganizations,
+          totalNumberOfSubscribedOrganizationsPercentage:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfSubscribedOrganizationsPercentage,
+          totalNumberOfExpiredSubscriptionOrganizations:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfExpiredSubscriptionOrganizations,
+          totalNumberOfExpiredSubscriptionOrganizationsPercentage:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfExpiredSubscriptionOrganizationsPercentage,
+          totalNumberOfExpiredTrialSubscriptionOrganizations:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfExpiredTrialSubscriptionOrganizations,
+          totalNumberOfExpiredTrialSubscriptionOrganizationsPercentage:
+            OrganizationStatsSubscriptionReducer.result
+              .totalNumberOfExpiredTrialSubscriptionOrganizationsPercentage,
+        });
+      }
+    } catch (error) {
+      console.log(error, "error");
+    }
+  }, [OrganizationStatsSubscriptionReducer]);
+
+  useEffect(() => {
+    setTrialBtn(true);
+    setOrganizationStatus(true);
+  }, []);
 
   //Calling OrganizationsByActiveLicenseApi
   useEffect(() => {
@@ -457,6 +530,7 @@ const GlobalAdminDashboard = () => {
     setPremiumTbl(false);
     setUsers(false);
     setOrganizationStatus(true);
+    setTrialBtn(true);
   };
 
   const handleUsers = () => {
@@ -471,14 +545,16 @@ const GlobalAdminDashboard = () => {
 
   const DashboardGlobalColumn = [
     {
-      title: t("Month"),
-      dataIndex: "billingMonth",
-      key: "billingMonth",
-      width: "135px",
+      title: t("Billing-date"),
+      dataIndex: "billingDate",
+      key: "billingDate",
+      width: "150px",
       render: (text, response) => {
         return (
           <>
-            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+            <span className={styles["dashboard-user-dates"]}>
+              {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
+            </span>
           </>
         );
       },
@@ -487,32 +563,50 @@ const GlobalAdminDashboard = () => {
       title: t("Amount-due"),
       dataIndex: "amountDue",
       key: "amountDue",
-      width: "135px",
+      width: "140px",
       render: (text, response) => {
-        const amountWithDollar = `${text}$`;
+        const formattedText = formatSessionDurationArabicAndEng(
+          text,
+          currentLanguage
+        );
+        const amountWithDollar = `${formattedText}$`;
         return (
           <>
             <span className={styles["dashboard-table-insidetext"]}>
-              {formatSessionDurationArabicAndEng(text, currentLanguage)}
+              {amountWithDollar}
             </span>
           </>
         );
       },
     },
     {
-      title: t("Billing-date"),
-      dataIndex: "billingDate",
-      key: "billingDate",
-      width: "130px",
-      render: (text, response) => {
-        return (
-          <>
-            <span className={styles["dashboard-table-insidetext"]}>
-              {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
-            </span>
-          </>
-        );
-      },
+      title: t("Month"),
+      key: "billingMonth",
+      dataIndex: "billingMonth",
+      width: "120px",
+      render: (text, response) => (
+        <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+      ),
+    },
+    {
+      title: (
+        <span className={styles["Export_To_Excel_dashboard"]}>
+          <img src={ExcelIcon} alt="" draggable="false" />
+          <span>{t("Export")}</span>
+        </span>
+      ),
+      key: "billingMonth",
+      dataIndex: "billingMonth",
+      width: "80px",
+      render: (text, record) => (
+        <span className={styles["dashboard-table-insidetext"]}>
+          <Button
+            text="Send Invoice"
+            onClick={() => openSendInvoiceModal(record)}
+            className={styles["send-invoice-button"]}
+          />
+        </span>
+      ),
     },
   ];
 
@@ -520,10 +614,25 @@ const GlobalAdminDashboard = () => {
   // for organization Chart
   const exData = [
     ["Task", "Hours per Day"],
-    ["Work", 8],
-    ["Eat", 4],
-    ["Commute", 4],
-    ["Sleep", 5], // CSS-style declaration
+    [
+      `Trial (${formatSessionDurationArabicAndEng(
+        organizationStatsLicense.totalNumberOfTrialOrganizations,
+        currentLanguage
+      )})`,
+      organizationStatsLicense.totalNumberOfTrialOrganizations,
+    ],
+    [
+      `Trial Extended (${organizationStatsLicense.totalNumberOfExtendedTrialOrganizations})`,
+      organizationStatsLicense.totalNumberOfExtendedTrialOrganizations,
+    ],
+    [
+      `Subscribed (${organizationStatsLicense.totalNumberOfSubscribedOrganizations})`,
+      organizationStatsLicense.totalNumberOfSubscribedOrganizations,
+    ],
+    [
+      `Subscription Expired (${organizationStatsLicense.totalNumberOfExpiredSubscriptionOrganizations})`,
+      organizationStatsLicense.totalNumberOfExpiredSubscriptionOrganizations,
+    ],
   ];
 
   const options = {
@@ -538,6 +647,13 @@ const GlobalAdminDashboard = () => {
     legend: {
       alignment: "center",
     },
+    // pieSliceText: formatSessionDurationArabicAndEng("value", currentLanguage), // Display the values inside the slices
+    // pieSliceTextStyle: {
+    //   color: "#5A5A5A",
+    //   bold: true,
+    //   fontSize: 16,
+    // },
+    tooltip: { trigger: "none" },
   };
 
   // google chart
@@ -581,90 +697,138 @@ const GlobalAdminDashboard = () => {
     legend: {
       alignment: "center",
     },
-    pieSliceText: formatSessionDurationArabicAndEng("value", currentLanguage), // Display the values inside the slices
-    pieSliceTextStyle: {
-      color: "#5A5A5A",
-      bold: true,
-      fontSize: 16,
-    },
+    // pieSliceText: formatSessionDurationArabicAndEng("value", currentLanguage), // Display the values inside the slices
+    // pieSliceTextStyle: {
+    //   color: "#5A5A5A",
+    //   bold: true,
+    //   fontSize: 16,
+    // },
     tooltip: { trigger: "none" },
   };
 
   const TrialColumn = [
     {
-      title: t("Name"),
-      dataIndex: "Name",
-      key: "Name",
-      width: "175px",
+      title: t("Organization-name"),
+      dataIndex: "organizationName",
+      key: "organizationName",
+      width: "100px",
+      sortDirections: ["descend", "ascend"],
+      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
     },
     {
       title: t("Trial-start-date"),
       dataIndex: "TrialStartDate",
       key: "TrialStartDate",
-      width: "115px",
+      width: "110px",
+      align: "center",
+      sorter: (a, b) => a.TrialStartDate.localeCompare(b.TrialStartDate),
     },
     {
       title: t("Trial-end-date"),
       dataIndex: "TrialEndDate",
       key: "TrialEndDate",
-      width: "115px",
+      width: "100px",
+      align: "center",
+      sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
+    },
+    {
+      title: t("Remaining-days"),
+      dataIndex: "TrialEndDate",
+      key: "TrialEndDate",
+      width: "100px",
+      align: "center",
+      sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
     },
   ];
 
   const TraiExtendedColumn = [
     {
-      title: t("Name"),
+      title: t("Trial-extended-date"),
       dataIndex: "Name",
       key: "Name",
-      width: "135px",
+      width: "140px",
+      sortDirections: ["descend", "ascend"],
+      sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
     {
       title: t("Trial-extended-date"),
       dataIndex: "TrialExtendedDate",
       key: "TrialExtendedDate",
-      width: "135px",
+      width: "140px",
+      sorter: (a, b) => a.TrialExtendedDate.localeCompare(b.TrialExtendedDate),
     },
     {
       title: t("Trial-extended-end-date"),
       dataIndex: "TrialExtendedEndDate",
       key: "TrialExtendedEndDate",
-      width: "145px",
+      width: "160px",
+      align: "center",
+      sorter: (a, b) =>
+        a.TrialExtendedEndDate.localeCompare(b.TrialExtendedEndDate),
+    },
+    {
+      title: t("Remaining-days"),
+      dataIndex: "remaingDate",
+      key: "remaingDate",
+      width: "160px",
+      align: "center",
+      sorter: (a, b) => a.remaingDate.localeCompare(b.remaingDate),
     },
   ];
 
   const subscriptionColumn = [
     {
-      title: t("Name"),
+      title: t("Organization-name"),
       dataIndex: "Name",
       key: "Name",
-      width: "135px",
+      width: "200px",
+      sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
+    // {
+    //   title: t("ExpiryDate"),
+    //   dataIndex: "ExpiryDate",
+    //   key: "ExpiryDate",
+    //   width: "135px",
+    // },
     {
-      title: t("Expiry-date"),
+      title: t("Expiration-date"),
       dataIndex: "ExpiryDate",
       key: "ExpiryDate",
-      width: "135px",
+      width: "300px",
+      align: "center",
+      sorter: (a, b) => a.ExpiryDate.localeCompare(b.ExpiryDate),
     },
     {
-      title: t("Billing-date"),
-      dataIndex: "BillingDate",
-      key: "BillingDate",
-      width: "145px",
+      title: t("Remaining-days"),
+      dataIndex: "remaingDate",
+      key: "remaingDate",
+      width: "200px",
+      align: "center",
+      sorter: (a, b) => a.remaingDate.localeCompare(b.remaingDate),
     },
   ];
 
   const subscriptionExpiry = [
     {
-      title: t("Name"),
+      title: t("Organization-name"),
       dataIndex: "Name",
       key: "Name",
-      width: "135px",
+      width: "200px",
+      sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
     {
-      title: t("Expiry-date"),
+      title: t("ExpiryDate"),
       dataIndex: "ExpiryDate",
       key: "ExpiryDate",
-      width: "135px",
+      width: "300px",
+      align: "center",
+    },
+    {
+      title: t("Expiration-date"),
+      dataIndex: "ExpiryDate",
+      key: "ExpiryDate",
+      width: "200px",
+      sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
   ];
 
@@ -688,6 +852,11 @@ const GlobalAdminDashboard = () => {
       key: "organizationName",
       width: "150px",
       align: "left",
+      sortDirections: ["descend", "ascend"],
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
       render: (text, record) => {
         return (
           <>
@@ -867,6 +1036,8 @@ const GlobalAdminDashboard = () => {
   useEffect(() => {
     if (users === true) {
       setessentialTbl(true);
+    } else if (organizationStatus === true) {
+      setTrialBtn(true);
     }
   }, []);
 
@@ -912,6 +1083,10 @@ const GlobalAdminDashboard = () => {
     } else {
       setIsScroll(false);
     }
+  };
+
+  const openSendInvoiceModal = (record) => {
+    dispatch(dashboardSendInvoiceOpenModal(true));
   };
 
   return (
@@ -1025,6 +1200,7 @@ const GlobalAdminDashboard = () => {
                   </span>
                 </Col>
               </Row>
+
               <Row className="mt-5">
                 <Col lg={12} md={12} sm={12}>
                   <Table
@@ -1116,7 +1292,14 @@ const GlobalAdminDashboard = () => {
                     <>
                       <Button
                         text={t("Trial")}
-                        className={styles["ButtonsDashboard"]}
+                        className={
+                          trialExtended === false &&
+                          subscription === false &&
+                          subsExpiry === false &&
+                          organizationStatus
+                            ? styles["activeEssentialButton"]
+                            : styles["ButtonsDashboard"]
+                        }
                         onClick={handleTrailButton}
                       />
                       <Button
@@ -1211,8 +1394,8 @@ const GlobalAdminDashboard = () => {
                   <Table
                     column={TrialColumn}
                     pagination={false}
-                    // rows={data}
-                    className="Table"
+                    // rows={dataSource}
+                    className="TrialTableDashboard"
                     locale={{
                       emptyText: (
                         <>
@@ -1239,7 +1422,7 @@ const GlobalAdminDashboard = () => {
                     column={TraiExtendedColumn}
                     pagination={false}
                     // rows={data}
-                    className="Table"
+                    className="TrialExtendedDashboard"
                     locale={{
                       emptyText: (
                         <>
@@ -1266,7 +1449,7 @@ const GlobalAdminDashboard = () => {
                     column={subscriptionColumn}
                     pagination={false}
                     // rows={data}
-                    className="Table"
+                    className="TrialTableDashboard"
                     locale={{
                       emptyText: (
                         <>
@@ -1293,7 +1476,7 @@ const GlobalAdminDashboard = () => {
                     column={subscriptionExpiry}
                     pagination={false}
                     // rows={data}
-                    className="Table"
+                    className="TrialExtendedDashboard"
                     locale={{
                       emptyText: (
                         <>
@@ -1479,6 +1662,8 @@ const GlobalAdminDashboard = () => {
           </Col>
         </Row>
       </Container>
+
+      <SendInvoiceModal />
     </>
   );
 };
