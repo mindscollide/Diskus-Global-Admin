@@ -27,8 +27,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   convertUtcDateAndTimeToCurrentTimeZone,
-  newTimeFormaterForArabic,
-  convertNumberToArabic,
   formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -57,10 +55,6 @@ const LoginHistory = () => {
 
   const UserLoginHistoryData = useSelector(
     (state) => state.loginHistory.loginHistoryData
-  );
-
-  const Responsemessage = useSelector(
-    (state) => state.searchOrganization.Responsemessage
   );
 
   const [openNotification, setOpenNotification] = useState({
@@ -126,6 +120,11 @@ const LoginHistory = () => {
         Title: "",
       });
       setShowSearchText(false);
+      setShowSearchText(false);
+      setIsScroll(false);
+      setTotalRecords(0);
+      setSRowsData(0);
+      setTablerows([]);
     };
   }, []);
 
@@ -188,6 +187,10 @@ const LoginHistory = () => {
               UserLoginHistoryData.result.userLoginHistoryModel.length
             );
           }
+        } else {
+          setTablerows([]);
+          setTotalRecords(0);
+          setSRowsData(0);
         }
       }
     } catch {}
@@ -312,6 +315,7 @@ const LoginHistory = () => {
   ];
 
   const HandleopenSearchBox = () => {
+    setShowSearchText(false);
     setSearchBox(!searchBox);
   };
 
@@ -770,15 +774,18 @@ const LoginHistory = () => {
                           <DatePicker
                             value={userLoginHistorySearch.DateForView}
                             format={"DD/MM/YYYY"}
-                            placeholder="DD/MM/YYYY"
+                            placeholder={t("Date-From")}
                             render={
                               <InputIcon
-                                placeholder="DD/MM/YYYY"
-                                className="datepicker_input"
+                                placeholder={t("Date-from")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
                               />
                             }
                             editable={false}
                             className="datePickerTodoCreate2"
+                            containerClassName={styles["datePicker_Container"]}
                             onOpenPickNewDate={false}
                             inputMode=""
                             calendar={calendarValue}
@@ -787,20 +794,23 @@ const LoginHistory = () => {
                             onChange={handleChangeFromDate}
                           />
                         </Col>
-                        <Col lg={6} md={6} sm={6}>
+                        <Col sm={12} md={6} lg={6}>
                           <DatePicker
                             value={userLoginHistorySearch.DateToView}
                             format={"DD/MM/YYYY"}
                             placeholder="DD/MM/YYYY"
                             render={
                               <InputIcon
-                                placeholder="DD/MM/YYYY"
-                                className="datepicker_input"
+                                placeholder={t("Date-to")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
                               />
                             }
                             editable={false}
                             className="datePickerTodoCreate2"
                             onOpenPickNewDate={false}
+                            containerClassName={styles["datePicker_Container"]}
                             inputMode=""
                             calendar={calendarValue}
                             locale={localValue}

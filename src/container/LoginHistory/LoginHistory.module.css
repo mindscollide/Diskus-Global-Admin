@@ -210,3 +210,23 @@ body[dir="rtl"] .inner-sub-Heading {
   font-weight: bold !important;
   font-family: "IBMPlexSansArabic-Medium" !important;
 }
+
+.UserLoginHistory_datePicker {
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  height: 39px !important;
+  border-radius: 4px !important;
+  padding: 0 10px;
+  cursor: pointer !important;
+  font-family: "montserrat-500" !important;
+}
+
+.UserLoginHistory_datePicker:is(:focus, :focus-visible) {
+  outline: none !important;
+}
+
+.datePicker_Container {
+  width: 100% !important;
+  border-radius: 4px !important;
+  display: block !important;
+}
