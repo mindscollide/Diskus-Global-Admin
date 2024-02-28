@@ -6,6 +6,9 @@ const serviceAutheticationURL = ":11001/ERM_Auth";
 //Admin Endpoint
 const adminApi = ":11009/Admin";
 
+//Excel Report
+const excelReport = ":11020/ExcelReport";
+
 //Services URL
 
 //Login Api URL
@@ -14,4 +17,7 @@ const authenticationURL = baseURL + serviceAutheticationURL;
 //Admin Api URL
 const adminURL = baseURL + adminApi;
 
-export { authenticationURL, adminURL };
+//Excel Report URL
+const excelURL = baseURL + excelReport;
+
+export { authenticationURL, adminURL, excelURL };

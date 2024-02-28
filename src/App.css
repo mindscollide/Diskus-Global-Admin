@@ -372,3 +372,13 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
   min-height: 0;
   background: none !important;
 }
+
+.rmdp-day.rmdp-today span {
+  background-image: linear-gradient(#4bdbde, #5f7ad7) !important;
+}
+
+.rmdp-day.rmdp-selected span:not(.highlight) {
+  background-color: #e1e1e1 !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}

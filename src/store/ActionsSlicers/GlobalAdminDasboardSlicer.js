@@ -4,6 +4,7 @@ import {
   OrganizationsByActiveLicenseApi,
   StatsOfActiveLicenseApi,
   TotalThisMonthDueApi,
+  dashBoardReportApi,
   organziationStatsBySubscriptionApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
@@ -93,6 +94,19 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(TotalThisMonthDueApi.rejected, (state, action) => {
         state.TotalThisMonthDueApiData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //Billing Due Report
+      .addCase(dashBoardReportApi.pending, (state) => {
+        // state.loading = true;
+      })
+
+      .addCase(dashBoardReportApi.fulfilled, (state, action) => {
+        state.Responsemessage = "Success";
+      })
+
+      .addCase(dashBoardReportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "An error occurred";
       });
   },
