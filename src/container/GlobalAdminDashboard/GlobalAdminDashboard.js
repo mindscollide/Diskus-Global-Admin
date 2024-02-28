@@ -17,6 +17,7 @@ import {
   GetAllBillingDueApi,
   TotalThisMonthDueApi,
   organziationStatsBySubscriptionApi,
+  dashBoardReportApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -543,6 +544,17 @@ const GlobalAdminDashboard = () => {
     setessentialTbl(true);
   };
 
+  const onClickExport = () => {
+    let data = {
+      OrganizationID: Number(organizationID),
+      StartDate: "",
+      StartEnd: "",
+    };
+
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(dashBoardReportApi({ data, navigate, t }));
+  };
+
   const DashboardGlobalColumn = [
     {
       title: t("Billing-date"),
@@ -590,7 +602,10 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: (
-        <span className={styles["Export_To_Excel_dashboard"]}>
+        <span
+          className={styles["Export_To_Excel_dashboard"]}
+          onClick={onClickExport}
+        >
           <img src={ExcelIcon} alt="" draggable="false" />
           <span>{t("Export")}</span>
         </span>
@@ -834,10 +849,43 @@ const GlobalAdminDashboard = () => {
 
   const essentialColumns = [
     {
+      title: t("Organization-name"),
+      dataIndex: "organizationName",
+      key: "organizationName",
+      width: "200px",
+      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
+    },
+    {
+      title: t("Start-date"),
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
+      width: "200px",
+      align: "center",
+      sorter: (a, b) =>
+        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+      render: (text, record) => {
+        // const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        return (
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
+          </div>
+        );
+      },
+    },
+    {
       title: t("Name"),
       dataIndex: "name",
       key: "name",
-      width: "100px",
+      width: "200px",
+      align: "center",
+      sorter: (a, b) => a.name.localeCompare(b.name),
       render: (text, record) => {
         return (
           <>
@@ -846,64 +894,55 @@ const GlobalAdminDashboard = () => {
         );
       },
     },
-    {
-      title: t("Organization-name"),
-      dataIndex: "organizationName",
-      key: "organizationName",
-      width: "150px",
-      align: "left",
-      sortDirections: ["descend", "ascend"],
-      sorter: (a, b) =>
-        a.organizationName
-          .toLowerCase()
-          .localeCompare(b.organizationName.toLowerCase()),
-      render: (text, record) => {
-        return (
-          <>
-            <span className={styles["dashboard-tabletext"]}>{text}</span>
-          </>
-        );
-      },
-    },
-    {
-      title: t("Start-date"),
-      dataIndex: "subscriptionStartDate",
-      key: "subscriptionStartDate",
-      width: "130px",
-      align: "center",
-      render: (text, record) => {
-        // const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
-        return (
-          <div className={styles["dashboard-user-dates"]}>
-            {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
-          </div>
-        );
-      },
-    },
-    {
-      title: t("End-date"),
-      dataIndex: "subscriptionEndDate",
-      key: "subscriptionEndDate",
-      width: "130px",
-      align: "center",
-      render: (text, record) => {
-        // const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
 
-        return (
-          <div className={styles["dashboard-user-dates"]}>
-            {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
-          </div>
-        );
-      },
-    },
+    // {
+    //   title: t("End-date"),
+    //   dataIndex: "subscriptionEndDate",
+    //   key: "subscriptionEndDate",
+    //   width: "130px",
+    //   align: "center",
+    //   render: (text, record) => {
+    //     // const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+
+    //     return (
+    //       <div className={styles["dashboard-user-dates"]}>
+    //         {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   const ProfessionalColumns = [
     {
+      title: t("Organization-name"),
+      dataIndex: "OrganizationName",
+      key: "OrganizationName",
+      width: "200px",
+      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+    },
+    {
+      title: t("Start-date"),
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
+      width: "200px",
+      align: "center",
+      sorter: (a, b) =>
+        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
+    },
+    {
       title: t("Name"),
       dataIndex: "Name",
       key: "Name",
-      width: "125px",
+      width: "200px",
+      align: "center",
+      sorter: (a, b) => a.Name.localeCompare(b.Name),
       render: (text, record) => {
         return (
           <>
@@ -912,51 +951,29 @@ const GlobalAdminDashboard = () => {
         );
       },
     },
-    {
-      title: t("Organization-name"),
-      dataIndex: "OrganizationName",
-      key: "OrganizationName",
-      width: "175px",
-    },
-    {
-      title: t("Start-date"),
-      dataIndex: "subscriptionStartDate",
-      key: "subscriptionStartDate",
-      width: "135px",
-      render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
-        return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
-        );
-      },
-    },
-    {
-      title: t("End-date"),
-      dataIndex: "subscriptionEndDate",
-      key: "subscriptionEndDate",
-      width: "115px",
-      render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
 
-        return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
-        );
-      },
-    },
+    // {
+    //   title: t("End-date"),
+    //   dataIndex: "subscriptionEndDate",
+    //   key: "subscriptionEndDate",
+    //   width: "115px",
+    //   render: (text, record) => {
+    //     const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+
+    //     return (
+    //       <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+    //     );
+    //   },
+    // },
   ];
 
   const PreimiumColumns = [
     {
-      title: t("Name"),
-      dataIndex: "Name",
-      key: "Name",
-      width: "125px",
-    },
-    {
       title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
-      width: "175px",
+      width: "200px",
+      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
       render: (text, record) => {
         return (
           <>
@@ -969,7 +986,8 @@ const GlobalAdminDashboard = () => {
       title: t("Start-date"),
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
-      width: "135px",
+      width: "200px",
+      align: "center",
       render: (text, record) => {
         const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
 
@@ -979,18 +997,26 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("End-date"),
-      dataIndex: "subscriptionEndDate",
-      key: "subscriptionEndDate",
-      width: "115px",
-      render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
-
-        return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
-        );
-      },
+      title: t("Name"),
+      dataIndex: "Name",
+      key: "Name",
+      width: "200px",
+      align: "center",
     },
+
+    // {
+    //   title: t("End-date"),
+    //   dataIndex: "subscriptionEndDate",
+    //   key: "subscriptionEndDate",
+    //   width: "115px",
+    //   render: (text, record) => {
+    //     const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+
+    //     return (
+    //       <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+    //     );
+    //   },
+    // },
   ];
 
   const handleTrailButton = () => {
@@ -1528,7 +1554,7 @@ const GlobalAdminDashboard = () => {
                       pagination={false}
                       rows={essentialRow}
                       footer={false}
-                      className="Table"
+                      className="EssentialTable"
                       locale={{
                         emptyText: (
                           <>
@@ -1581,7 +1607,7 @@ const GlobalAdminDashboard = () => {
                       pagination={false}
                       rows={professionalRow}
                       footer={false}
-                      className="Table"
+                      className="EssentialTable"
                       locale={{
                         emptyText: (
                           <>
@@ -1632,7 +1658,7 @@ const GlobalAdminDashboard = () => {
                       pagination={false}
                       rows={premiumRow}
                       footer={false}
-                      className="Table"
+                      className="EssentialTable"
                       locale={{
                         emptyText: (
                           <>
