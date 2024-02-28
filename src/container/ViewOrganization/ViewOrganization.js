@@ -18,18 +18,15 @@ import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import Select from "react-select";
 import EditIcon from "../../assets/images/OutletImages/Edit_Icon.svg";
-import EditOrganizationModal from "./ViewOrganizationModal/ViewOrganizationModal";
 import { Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
   editOrganizationModalOpen,
   editOrganizationSubscriptionModalOpen,
-  editSubscriptionConfirmationModalOpen,
   editSubscriptionModalOpen,
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch, useSelector } from "react-redux";
 import EditSubscriptionModal from "./EditSubscriptionModal/EditSubscriptionModal";
-import EditSubscriptionConfirmationModal from "./EditSubscriptionModal/EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
 import {
   searchOrganizationApi,
   getAllOrganizationApi,

@@ -626,7 +626,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.Title !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -643,7 +642,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.userEmail !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -663,7 +661,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.IpAddress !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -683,7 +680,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.DateFrom !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -705,7 +701,6 @@ const LoginHistory = () => {
                       />
                     </div>
                   ) : null}
-
                   {showsearchText && userLoginHistorySearch.DateTo !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -762,6 +757,7 @@ const LoginHistory = () => {
                             // onKeyDown={handleKeyDown}
                             type="text"
                             labelClass={"d-none"}
+                            applyClass={"SearchTextFiled"}
                             value={userLoginHistorySearch.userName}
                             change={handleChangeSearchBoxValues}
                           />
@@ -770,6 +766,7 @@ const LoginHistory = () => {
                           <TextField
                             labelClass={"d-none"}
                             placeholder={t("User-email")}
+                            applyClass={"SearchTextFiled"}
                             name={"userEmail"}
                             type="email"
                             value={userLoginHistorySearch.userEmail}
@@ -833,6 +830,7 @@ const LoginHistory = () => {
                           <TextField
                             labelClass={"d-none"}
                             placeholder={t("Ip-address")}
+                            applyClass={"SearchTextFiled"}
                             value={userLoginHistorySearch.IpAddress}
                             name={"IpAddress"}
                             change={handleChangeSearchBoxValues}
