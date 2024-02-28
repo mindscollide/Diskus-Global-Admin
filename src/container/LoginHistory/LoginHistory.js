@@ -559,8 +559,12 @@ const LoginHistory = () => {
   const handleExport = () => {
     let data = {
       OrganizationID: Number(organizationID),
-      StartDate: userLoginHistorySearch.DateFrom,
-      StartEnd: userLoginHistorySearch.DateTo,
+      Username: userLoginHistorySearch.userName,
+      UserEmail: userLoginHistorySearch.userEmail,
+      IpAddress: userLoginHistorySearch.IpAddress,
+      DeviceID: "1",
+      DateLogin: userLoginHistorySearch.DateFrom,
+      DateLogOut: userLoginHistorySearch.DateTo,
     };
     dispatch(loginHistoryLoader(true));
     dispatch(LogingHistoryReportApi({ data, navigate, t }));

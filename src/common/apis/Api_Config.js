@@ -47,9 +47,15 @@ const statOrganizationBySubType = {
   RequestMethod: "ServiceManager.StatsOfOrganizationsBySubscriptionType",
 };
 
-//Blling Due Report
+//Login History Blling Due Report
 const billingDueReport = {
   RequestMethod: "ServiceManager.LoginHistoryReport",
+};
+
+//Main DashBoard Billing Due Report
+
+const dashboardBillingDueReport = {
+  RequestMethod: "ServiceManager.BillingDueReport",
 };
 
 export {
@@ -66,4 +72,5 @@ export {
   TotalThisMonthDue,
   statOrganizationBySubType,
   billingDueReport,
+  dashboardBillingDueReport,
 };
