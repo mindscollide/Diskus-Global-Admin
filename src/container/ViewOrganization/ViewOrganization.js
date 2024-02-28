@@ -872,8 +872,7 @@ const ViewOrganization = () => {
                         <Col lg={6} md={6} sm={6}>
                           <Select
                             value={searchOrganizationData.Status}
-                            // placeholder={t("Subscription-status")}
-                            placeholder={t("Organization")}
+                            placeholder={t("Subscription-status")}
                             options={options}
                             onChange={handleStatusChange}
                           />

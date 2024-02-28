@@ -29,7 +29,7 @@ body[dir="rtl"] .Search_Bar_icon_class {
 }
 
 .SearchBox {
-  width: 523px !important;
+  width: 100% !important;
   height: auto !important;
   min-height: 260px !important;
   background: #ffffff !important;
