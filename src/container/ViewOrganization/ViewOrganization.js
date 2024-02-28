@@ -93,10 +93,7 @@ const ViewOrganization = () => {
   const [viewOrganizationModal, setViewOrganizationModal] = useState("");
 
   const [currentSubscriptionName, setCurrentSubscriptionName] = useState(0);
-  console.log(
-    currentSubscriptionName,
-    "currentSubscriptionNamecurrentSubscriptionName"
-  );
+
   const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -688,7 +685,7 @@ const ViewOrganization = () => {
                 iconClassName={"d-block"}
               />
               <Row>
-                <Col lg={12} md={12} sm={12} className="d-flex gap-4 flex-wrap">
+                <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
                   {showsearchText && searchOrganizationData.userName !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -875,8 +872,9 @@ const ViewOrganization = () => {
                         <Col lg={6} md={6} sm={6}>
                           <Select
                             value={searchOrganizationData.Status}
+                            // placeholder={t("Subscription-status")}
+                            placeholder={t("Organization")}
                             options={options}
-                            placeholder={t("Subscription-status")}
                             onChange={handleStatusChange}
                           />
                         </Col>
