@@ -176,6 +176,7 @@ export const PasswordVerificationApi = createAsyncThunk(
               "adminname",
               response.data.responseResult.authToken.name
             );
+            localStorage.setItem("currentLanguage", "en");
             navigate("/GlobalAdmin/");
             try {
               return {
@@ -209,6 +210,8 @@ export const PasswordVerificationApi = createAsyncThunk(
               "adminname",
               response.data.responseResult.authToken.name
             );
+            localStorage.setItem("currentLanguage", "en");
+
             navigate("/GlobalAdmin/");
             try {
               return {

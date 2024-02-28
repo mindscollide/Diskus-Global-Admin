@@ -16,6 +16,7 @@ import {
   StatsOfActiveLicenseApi,
   GetAllBillingDueApi,
   TotalThisMonthDueApi,
+  organziationStatsBySubscriptionApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -48,15 +49,24 @@ const GlobalAdminDashboard = () => {
     (state) => state.globalAdminDashboardReducer.StatsOfActiveLicenseApiData
   );
 
+  //OrganizationStatsSubscriptionApi Reducer Data
+  const OrganizationStatsSubscriptionReducer = useSelector(
+    (state) =>
+      state.globalAdminDashboardReducer.OrganizationStatsSubscriptionData
+  );
+
+  console.log(
+    {
+      OrganizationStatsSubscriptionReducer,
+      StatsOfActiveLicenseApiReducerData,
+    },
+    "OrganizationStatsSubscriptionReducerjsdvjsvwdcw"
+  );
+
   //OrganizationsByActiveLicenseApi Reducer Data
   const OrganizationLicenseReducer = useSelector(
     (state) =>
       state.globalAdminDashboardReducer.OrganizationsByActiveLicenseApiData
-  );
-
-  console.log(
-    OrganizationLicenseReducer,
-    "OrganizationLicenseReducerOrganizationLicenseReducer"
   );
 
   //Get All Organization Reducer Data
@@ -128,6 +138,11 @@ const GlobalAdminDashboard = () => {
     totalNumberOfProfessionalLicensePercentage: 0,
   });
 
+  //OrganizationActiveStatsAPi states
+  const [organizationStatsLicense, setOrganizationStatsLicense] = useState({
+    totalOrganizations: 0,
+  });
+
   //TotalThisMonthDueApi states
   const [totalDue, setTotalDue] = useState(null);
 
@@ -145,6 +160,12 @@ const GlobalAdminDashboard = () => {
   useEffect(() => {
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(StatsOfActiveLicenseApi({ navigate, t }));
+  }, []);
+
+  //Calling organziationStatsBySubscriptionApi
+  useEffect(() => {
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(organziationStatsBySubscriptionApi({ navigate, t }));
   }, []);
 
   //StatsOfActiveLicenseApi Data
@@ -560,12 +581,12 @@ const GlobalAdminDashboard = () => {
     legend: {
       alignment: "center",
     },
-    // pieSliceText: formatSessionDurationArabicAndEng("value", currentLanguage), // Display the values inside the slices
-    // pieSliceTextStyle: {
-    //   color: "#5A5A5A",
-    //   bold: true,
-    //   fontSize: 16,
-    // },
+    pieSliceText: formatSessionDurationArabicAndEng("value", currentLanguage), // Display the values inside the slices
+    pieSliceTextStyle: {
+      color: "#5A5A5A",
+      bold: true,
+      fontSize: 16,
+    },
     tooltip: { trigger: "none" },
   };
 
