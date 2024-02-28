@@ -20,7 +20,11 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import ExcelIcon from "../../assets/images/OutletImages/Excel-Icon.png";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
-import { LoginHistoryAPI } from "../../store/Actions/LoginHistoryActions";
+import {
+  LoginHistoryAPI,
+  LogingHistoryReportApi,
+  billingDueReportAPI,
+} from "../../store/Actions/LoginHistoryActions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -162,8 +166,10 @@ const LoginHistory = () => {
       );
     }
   }, [organizationIdData]);
-
+  const [organizationID, setOrganizationID] = useState(0);
   const organizerChangeHandler = (selectedOrganizer) => {
+    console.log(selectedOrganizer.value, "selectedOrganizerselectedOrganizer");
+    setOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
   };
 
@@ -549,6 +555,17 @@ const LoginHistory = () => {
     }
   };
 
+  //Export Api Call
+  const handleExport = () => {
+    let data = {
+      OrganizationID: Number(organizationID),
+      StartDate: userLoginHistorySearch.DateFrom,
+      StartEnd: userLoginHistorySearch.DateTo,
+    };
+    dispatch(loginHistoryLoader(true));
+    dispatch(LogingHistoryReportApi({ data, navigate, t }));
+  };
+
   // USEEFFECT FOR SHOW NOTIFICATION
 
   // useEffect(() => {
@@ -590,8 +607,13 @@ const LoginHistory = () => {
               {t("User-login-history")}
             </span>
           </Col>
-          <Col lg={2} md={2} sm={2} className="d-flex justify-content-end">
-            <span className={styles["Export_To_Excel"]}>
+          <Col
+            lg={2}
+            md={2}
+            sm={2}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <span className={styles["Export_To_Excel"]} onClick={handleExport}>
               <img src={ExcelIcon} alt="" draggable="false" />
               <span>{t("Export-to-excel")}</span>
             </span>
