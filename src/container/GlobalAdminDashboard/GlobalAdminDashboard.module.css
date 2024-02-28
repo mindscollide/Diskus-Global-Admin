@@ -294,3 +294,21 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   font-family: "IBMPlexSansArabic-Medium" !important;
   cursor: pointer !important;
 }
+
+.send-invoice-button {
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  color: #505050;
+  padding: 7px 10px !important;
+  display: flex !important;
+  font-size: 12px !important;
+  font-family: "montserrat-500" !important;
+  cursor: pointer !important;
+}
+
+.send-invoice-button:hover {
+  color: #505050;
+  font-family: "montserrat-500" !important;
+  cursor: pointer !important;
+}

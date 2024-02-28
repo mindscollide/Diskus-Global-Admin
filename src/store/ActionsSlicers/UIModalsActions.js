@@ -10,6 +10,7 @@ const initialState = {
   editSubscriptionConfirmationModal: false,
   editOraganizationSubscriptionModal: false,
   editOrganizationConfirmationModal: false,
+  openSendInvoiceModal: false,
 };
 
 export const modalSlice = createSlice({
@@ -44,6 +45,11 @@ export const modalSlice = createSlice({
       console.log(payload, "payloadpayloadpayloadsss");
       state.editOrganizationConfirmationModal = payload;
     },
+
+    // to open send Invoice modal
+    dashboardSendInvoiceOpenModal: (state, { payload }) => {
+      state.openSendInvoiceModal = payload;
+    },
   },
 });
 
@@ -56,6 +62,7 @@ export const {
   editSubscriptionConfirmationModalOpen,
   editOrganizationSubscriptionModalOpen,
   editOrganizationConfirmation,
+  dashboardSendInvoiceOpenModal,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;
