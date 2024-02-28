@@ -210,6 +210,10 @@ const ViewOrganization = () => {
               ViewOrganizationData.result.userLoginHistoryModel.length
             );
           }
+        } else {
+          setViewOrganizationData([]);
+          setTotalRecords(0);
+          setSRowsData(0);
         }
       }
     } catch {}
@@ -409,6 +413,23 @@ const ViewOrganization = () => {
   };
 
   const HandleopenSearchBox = () => {
+    setShowSearchText(false);
+    setSearchOrganizationData({
+      userName: "",
+      userEmail: "",
+      DateFrom: "",
+      DateTo: "",
+      DateToView: "",
+      DateFromView: "",
+      Status: {
+        value: 0,
+        label: "",
+      },
+      OrganizationID: {
+        value: 0,
+        label: "",
+      },
+    });
     setSearchBox(!searchBox);
   };
 
@@ -552,7 +573,7 @@ const ViewOrganization = () => {
       sRow: 0,
       Length: 10,
     };
-    dispatch(viewOrganizationLoader(false));
+    dispatch(viewOrganizationLoader(true));
     dispatch(searchOrganizationApi({ data, navigate, t }));
   };
 
@@ -784,6 +805,7 @@ const ViewOrganization = () => {
                             labelClass={"d-none"}
                             value={searchOrganizationData.userName}
                             name={"adminName"}
+                            applyClass={"SearchTextFiled"}
                             placeholder={t("Admin-name")}
                             change={searchViewOrganizationHandler}
                           />
@@ -792,6 +814,7 @@ const ViewOrganization = () => {
                           <TextField
                             labelClass={"d-none"}
                             name={"adminEmail"}
+                            applyClass={"SearchTextFiled"}
                             placeholder={t("Admin-email")}
                             value={searchOrganizationData.userEmail}
                             change={searchViewOrganizationHandler}
@@ -803,15 +826,18 @@ const ViewOrganization = () => {
                           <DatePicker
                             value={searchOrganizationData.DateFromView}
                             format={"DD/MM/YYYY"}
-                            placeholder="DD/MM/YYYY"
+                            placeholder={t("Date-From")}
                             render={
                               <InputIcon
-                                placeholder="DD/MM/YYYY"
-                                className="datepicker_input"
+                                placeholder={t("Date-from")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
                               />
                             }
                             editable={false}
                             className="datePickerTodoCreate2"
+                            containerClassName={styles["datePicker_Container"]}
                             onOpenPickNewDate={false}
                             inputMode=""
                             calendar={calendarValue}
@@ -824,15 +850,18 @@ const ViewOrganization = () => {
                           <DatePicker
                             value={searchOrganizationData.DateToView}
                             format={"DD/MM/YYYY"}
-                            placeholder="DD/MM/YYYY"
+                            placeholder={t("Date-to")}
                             render={
                               <InputIcon
-                                placeholder="DD/MM/YYYY"
-                                className="datepicker_input"
+                                placeholder={t("Date-from")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
                               />
                             }
                             editable={false}
                             className="datePickerTodoCreate2"
+                            containerClassName={styles["datePicker_Container"]}
                             onOpenPickNewDate={false}
                             inputMode=""
                             calendar={calendarValue}
@@ -854,6 +883,7 @@ const ViewOrganization = () => {
                         <Col lg={6} md={6} sm={6}>
                           <Select
                             value={organizationDataValue}
+                            placeholder={t("Organization")}
                             options={organizationData}
                             onChange={organizerChangeHandler}
                           />
