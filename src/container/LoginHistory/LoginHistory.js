@@ -20,7 +20,6 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import ExcelIcon from "../../assets/images/OutletImages/Excel-Icon.png";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
-import { validateEmailEnglishAndArabicFormat } from "../../common/functions/Validate";
 import { LoginHistoryAPI } from "../../store/Actions/LoginHistoryActions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +31,8 @@ import {
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
+import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
+import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 
 const LoginHistory = () => {
   const { t } = useTranslation();
@@ -129,6 +130,11 @@ const LoginHistory = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(viewOrganizationLoader(true));
+    dispatch(getAllOrganizationApi({ navigate, t }));
+  }, []);
+
+  useEffect(() => {
     if (currentLanguage !== undefined) {
       if (currentLanguage === "en") {
         setCalendarValue(gregorian);
@@ -139,6 +145,8 @@ const LoginHistory = () => {
       }
     }
   }, [currentLanguage]);
+
+  console.log(organizationIdData, "organizationIdDataorganizationIdData");
 
   useEffect(() => {
     if (
@@ -798,7 +806,7 @@ const LoginHistory = () => {
                           <DatePicker
                             value={userLoginHistorySearch.DateToView}
                             format={"DD/MM/YYYY"}
-                            placeholder="DD/MM/YYYY"
+                            placeholder={t("Date-to")}
                             render={
                               <InputIcon
                                 placeholder={t("Date-to")}
@@ -840,6 +848,7 @@ const LoginHistory = () => {
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <Select
+                            placeholder={t("Organization")}
                             value={organizationDataValue}
                             options={organizationData}
                             onChange={organizerChangeHandler}
