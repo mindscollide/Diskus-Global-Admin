@@ -380,6 +380,13 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
   font-weight: 600;
 }
 
+body[dir="rtl"] .TrialTableDashboard .ant-table-thead > tr * {
+  font-size: 12px !important;
+  padding: 1px 0px !important;
+  font-family: "MontserratMedium-500";
+  font-weight: 600;
+}
+
 .TrialExtendedDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 2px !important;
@@ -387,7 +394,21 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
   font-weight: 600;
 }
 
+body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead > tr * {
+  font-size: 12px !important;
+  padding: 1px 0px !important;
+  font-family: "MontserratMedium-500";
+  font-weight: 600;
+}
+
 .EssentialTable .ant-table-thead > tr * {
+  font-size: 12px !important;
+  padding: 1px 0px !important;
+  font-family: "MontserratMedium-500";
+  font-weight: 600;
+}
+
+body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";

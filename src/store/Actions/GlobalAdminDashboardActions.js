@@ -8,6 +8,7 @@ import {
   statsOfActiveLicenses,
   statOrganizationBySubType,
   dashboardBillingDueReport,
+  OrganizationBySubscriptiontype,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 
@@ -423,6 +424,80 @@ export const dashBoardReportApi = createAsyncThunk(
     } catch (error) {
       // Handle errors
       return rejectWithValue(error.message);
+    }
+  }
+);
+
+//OrganizationBySubscriptionType Api
+export const OrganizationSubscriptionTypeApi = createAsyncThunk(
+  "OrganizationSubscriptionTypeApi/OrganizationSubscriptionTypeApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { userData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(userData));
+    form.append("RequestMethod", OrganizationBySubscriptiontype.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_OrganizationsBySubscriptionType_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "OrganizationsBySubscriptionType_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_OrganizationsBySubscriptionType_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_OrganizationsBySubscriptionType_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
     }
   }
 );

@@ -312,3 +312,24 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   font-family: "montserrat-500" !important;
   cursor: pointer !important;
 }
+
+body[dir="rtl"] .send-invoice-button {
+  font-size: 12px !important;
+  font-family: "IBMPlexSansArabic-SemiBold" !important;
+}
+
+.PaginationStyle-naturebusiness {
+  background-color: #fff !important;
+  display: flex !important;
+  justify-content: center !important;
+  width: auto !important;
+  padding: 10px 0px !important;
+  margin: 10px 0 10px 0;
+  height: auto !important;
+  box-shadow: 0px 0px 5px #ccc !important;
+  border-radius: 4px !important;
+}
+
+.PaginationStyle-naturebusiness:is(:focus-visible) {
+  outline: none !important;
+}
