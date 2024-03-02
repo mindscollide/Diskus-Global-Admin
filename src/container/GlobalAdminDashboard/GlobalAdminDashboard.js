@@ -18,12 +18,13 @@ import {
   TotalThisMonthDueApi,
   organziationStatsBySubscriptionApi,
   dashBoardReportApi,
+  OrganizationSubscriptionTypeApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Spin } from "antd";
+import { Spin, Pagination } from "antd";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import {
@@ -46,6 +47,13 @@ const GlobalAdminDashboard = () => {
   const navigate = useNavigate();
 
   let currentLanguage = localStorage.getItem("currentLanguage");
+  let currentPageSize = localStorage.getItem("OrganizationLicenseSize")
+    ? localStorage.getItem("OrganizationLicenseSize")
+    : 15;
+  let currentPage = localStorage.getItem("OrganizationLicensePage")
+    ? localStorage.getItem("OrganizationLicensePage")
+    : 1;
+
   const local = currentLanguage === "en" ? "en-US" : "ar-SA";
 
   //StatsOfActiveLicenseApi Reducer Data
@@ -57,14 +65,6 @@ const GlobalAdminDashboard = () => {
   const OrganizationStatsSubscriptionReducer = useSelector(
     (state) =>
       state.globalAdminDashboardReducer.OrganizationStatsSubscriptionData
-  );
-
-  console.log(
-    {
-      OrganizationStatsSubscriptionReducer,
-      StatsOfActiveLicenseApiReducerData,
-    },
-    "OrganizationStatsSubscriptionReducerjsdvjsvwdcw"
   );
 
   //OrganizationsByActiveLicenseApi Reducer Data
@@ -86,6 +86,17 @@ const GlobalAdminDashboard = () => {
   //Get All TotalThisMonthDueApi Reducer Data
   const GetAllBillingDueApiData = useSelector(
     (state) => state.globalAdminDashboardReducer.GetAllBillingDueApiData
+  );
+
+  // Reducer for Organization Stats graph Table Reducer
+  const OrganizationStatsTableDataReducer = useSelector(
+    (state) =>
+      state.globalAdminDashboardReducer.OrganizationSubscriptionStatsGraphData
+  );
+
+  console.log(
+    { OrganizationLicenseReducer, OrganizationStatsTableDataReducer },
+    "OrganizationStatsTableDataReducer"
   );
 
   const months = [
@@ -115,6 +126,18 @@ const GlobalAdminDashboard = () => {
   const [subscription, setSubscription] = useState(false);
   const [subsExpiry, setsubsExpiry] = useState(false);
 
+  // state for row of Trial Btn
+  const [trialRow, setTrialRow] = useState([]);
+
+  // state for row trial Extended
+  const [trialExtendedRow, setTrialExtendedRow] = useState([]);
+
+  // state for row list of subscribed
+  const [subscribedRow, setSubscribedRow] = useState([]);
+
+  // state for row list of subscription expired
+  const [subscriptionExpiredRow, setSubscriptionExpiredRow] = useState([]);
+
   const [essentialTbl, setessentialTbl] = useState(false);
   const [professionalTbl, setProfessionalTbl] = useState(false);
   const [premiumTbl, setPremiumTbl] = useState(false);
@@ -127,9 +150,8 @@ const GlobalAdminDashboard = () => {
 
   // state for row of Premium
   const [premiumRow, setPremiumRow] = useState([]);
-  const [isScroll, setIsScroll] = useState(false);
+
   const [totalRecords, setTotalRecords] = useState(0);
-  const [isRowsData, setSRowsData] = useState(0);
 
   //to open sendInvoice Modal
   const [sendInvoice, setSendInvoice] = useState("");
@@ -160,11 +182,6 @@ const GlobalAdminDashboard = () => {
     totalNumberOfExpiredTrialSubscriptionOrganizationsPercentage: 0,
   });
 
-  console.log(
-    organizationStatsLicense,
-    "organizationStatsLicenseorganizationStatsLicense"
-  );
-
   //TotalThisMonthDueApi states
   const [totalDue, setTotalDue] = useState(null);
 
@@ -189,6 +206,27 @@ const GlobalAdminDashboard = () => {
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(organziationStatsBySubscriptionApi({ navigate, t }));
   }, []);
+
+  // Calling Organization Subscription Stats Graph Api
+  useEffect(() => {
+    let userData = {
+      PageNumber: 1,
+      length: 15,
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(OrganizationSubscriptionTypeApi({ userData, navigate, t }));
+  }, []);
+
+  const paginationOnTrialsClick = async (current, pageSize) => {
+    let userData = {
+      PageNumber: current !== null ? parseInt(current) : 1,
+      length: pageSize !== null ? parseInt(pageSize) : 15,
+    };
+    localStorage.setItem("OrganizationLicenseSize", pageSize);
+    localStorage.setItem("OrganizationLicensePage", current);
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(OrganizationSubscriptionTypeApi({ userData, navigate, t }));
+  };
 
   //StatsOfActiveLicenseApi Data
   useEffect(() => {
@@ -288,119 +326,130 @@ const GlobalAdminDashboard = () => {
     dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
   }, []);
 
+  // pagination onclick for trial, trial extended, subscribed and subscription expired
+  const pageinationOnClick = async (current, pageSize) => {
+    let data = {
+      PageNumber: current !== null ? parseInt(current) : 1,
+      length: pageSize !== null ? parseInt(pageSize) : 15,
+    };
+    localStorage.setItem("OrganizationLicenseSize", pageSize);
+    localStorage.setItem("OrganizationLicensePage", current);
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
+  };
+
+  //OrganizationSubscriptionGraphTable Data in table to set Row of trial column
+  useEffect(() => {
+    try {
+      if (
+        OrganizationStatsTableDataReducer?.result.listOfTrial.length > 0 &&
+        OrganizationStatsTableDataReducer?.result.listOfTrial !== null
+      ) {
+        setTrialRow(OrganizationStatsTableDataReducer?.result.listOfTrial);
+      } else {
+        setTrialRow([]);
+      }
+    } catch {}
+  }, [OrganizationStatsTableDataReducer]);
+
+  //OrganizationSubscriptionGraphTable Data in table to set Row of trial Extended column
+  useEffect(() => {
+    try {
+      if (
+        OrganizationStatsTableDataReducer?.result.listOfExtendedTrail.length >
+          0 &&
+        OrganizationStatsTableDataReducer?.result.listOfExtendedTrail !== null
+      ) {
+        setTrialExtendedRow(
+          OrganizationStatsTableDataReducer?.result.listOfExtendedTrail
+        );
+      } else {
+        setTrialExtendedRow([]);
+      }
+    } catch {}
+  }, [OrganizationStatsTableDataReducer]);
+
+  //OrganizationSubscriptionGraphTable Data in table to set Row of Subscribed column
+  useEffect(() => {
+    try {
+      if (
+        OrganizationStatsTableDataReducer?.result.listOfSubscribed.length > 0 &&
+        OrganizationStatsTableDataReducer?.result.listOfSubscribed !== null
+      ) {
+        setSubscribedRow(
+          OrganizationStatsTableDataReducer?.result.listOfSubscribed
+        );
+      } else {
+        setSubscribedRow([]);
+      }
+    } catch {}
+  }, [OrganizationStatsTableDataReducer]);
+
+  //OrganizationSubscriptionGraphTable Data in table to set Row of Expire Subscribed column
+  useEffect(() => {
+    try {
+      if (
+        OrganizationStatsTableDataReducer?.result.listOfExpiredSubscription
+          .length > 0 &&
+        OrganizationStatsTableDataReducer?.result.listOfExpiredSubscription !==
+          null
+      ) {
+        setSubscriptionExpiredRow(
+          OrganizationStatsTableDataReducer?.result.listOfExpiredSubscription
+        );
+      } else {
+        setSubscriptionExpiredRow([]);
+      }
+    } catch {}
+  }, [OrganizationStatsTableDataReducer]);
+
   //OrganizationsByActiveLicenseApi Data in table to set Row data of Essential column
   useEffect(() => {
     try {
       if (
-        OrganizationLicenseReducer !== null &&
-        OrganizationLicenseReducer !== undefined
+        OrganizationLicenseReducer?.result.listOfEssential.length > 0 &&
+        OrganizationLicenseReducer?.result.listOfEssential !== null
       ) {
-        if (
-          OrganizationLicenseReducer.result.listOfEssential.length > 0 &&
-          OrganizationLicenseReducer.result.totalCount > 0
-        ) {
-          if (isScroll) {
-            setIsScroll(false);
-            let essentialCopyData = [...essentialRow];
-            OrganizationLicenseReducer.result.listOfEssential.forEach(
-              (data, index) => {
-                essentialCopyData.push(data);
-              }
-            );
-            setEssentialRow(essentialCopyData);
-            setSRowsData(
-              (prev) =>
-                prev + OrganizationLicenseReducer.result.listOfEssential.length
-            );
-            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
-          } else {
-            setEssentialRow(OrganizationLicenseReducer.result.listOfEssential);
-            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
-            setSRowsData(
-              OrganizationLicenseReducer.result.listOfEssential.length
-            );
-          }
-        }
+        setEssentialRow(OrganizationLicenseReducer?.result.listOfEssential);
+      } else {
+        setEssentialRow([]);
       }
     } catch {}
-  }, []);
+  }, [OrganizationLicenseReducer]);
 
   //OrganizationsByActiveLicenseApi Data in table to set Row data of Professional column
   useEffect(() => {
     try {
       if (
-        OrganizationLicenseReducer !== null &&
-        OrganizationLicenseReducer !== undefined
+        OrganizationLicenseReducer?.result.listOfProfessional.length > 0 &&
+        OrganizationLicenseReducer?.result.listOfProfessional !== null
       ) {
-        if (
-          OrganizationLicenseReducer.result.listOfProfessional.length > 0 &&
-          OrganizationLicenseReducer.result.totalCount > 0
-        ) {
-          if (isScroll) {
-            setIsScroll(false);
-            let professionalCopyData = [...professionalRow];
-            OrganizationLicenseReducer.result.listOfProfessional.forEach(
-              (data, index) => {
-                professionalCopyData.push(data);
-              }
-            );
-            setProfessionalRow(professionalCopyData);
-            setSRowsData(
-              (prev) =>
-                prev +
-                OrganizationLicenseReducer.result.listOfProfessional.length
-            );
-            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
-          } else {
-            setProfessionalRow(
-              OrganizationLicenseReducer.result.listOfProfessional
-            );
-            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
-            setSRowsData(
-              OrganizationLicenseReducer.result.listOfProfessional.length
-            );
-          }
-        }
+        setProfessionalRow(
+          OrganizationLicenseReducer?.result.listOfProfessional
+        );
+      } else {
+        setProfessionalRow([]);
       }
     } catch {}
-  }, []);
+  }, [OrganizationLicenseReducer]);
 
   //OrganizationsByActiveLicenseApi Data in table to set Row data of Premium column
   useEffect(() => {
     try {
       if (
-        OrganizationLicenseReducer !== null &&
-        OrganizationLicenseReducer !== undefined
+        OrganizationLicenseReducer?.result.listOfPremium.length > 0 &&
+        OrganizationLicenseReducer?.result.listOfPremium !== null
       ) {
-        if (
-          OrganizationLicenseReducer.result.listOfPremium.length > 0 &&
-          OrganizationLicenseReducer.result.totalCount > 0
-        ) {
-          if (isScroll) {
-            setIsScroll(false);
-            let premiumCopyData = [...premiumRow];
-            OrganizationLicenseReducer.result.listOfPremium.forEach(
-              (data, index) => {
-                premiumCopyData.push(data);
-              }
-            );
-            setPremiumRow(premiumCopyData);
-            setSRowsData(
-              (prev) =>
-                prev + OrganizationLicenseReducer.result.listOfPremium.length
-            );
-            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
-          } else {
-            setPremiumRow(OrganizationLicenseReducer.result.listOfPremium);
-            setTotalRecords(OrganizationLicenseReducer.result.totalCount);
-            setSRowsData(
-              OrganizationLicenseReducer.result.listOfPremium.length
-            );
-          }
-        }
+        setPremiumRow(OrganizationLicenseReducer?.result.listOfPremium);
+      } else {
+        setPremiumRow([]);
       }
     } catch {}
-  }, []);
+  }, [OrganizationLicenseReducer]);
+  console.log(
+    OrganizationLicenseReducer?.result.listOfPremium,
+    "OrganizationLicenseReducer"
+  );
 
   //Getting All Organizations
   useEffect(() => {
@@ -616,7 +665,7 @@ const GlobalAdminDashboard = () => {
       render: (text, record) => (
         <span className={styles["dashboard-table-insidetext"]}>
           <Button
-            text="Send Invoice"
+            text={t("Send-invoice")}
             onClick={() => openSendInvoiceModal(record)}
             className={styles["send-invoice-button"]}
           />
@@ -637,15 +686,24 @@ const GlobalAdminDashboard = () => {
       organizationStatsLicense.totalNumberOfTrialOrganizations,
     ],
     [
-      `Trial Extended (${organizationStatsLicense.totalNumberOfExtendedTrialOrganizations})`,
+      `Trial Extended (${formatSessionDurationArabicAndEng(
+        organizationStatsLicense.totalNumberOfExtendedTrialOrganizations,
+        currentLanguage
+      )})`,
       organizationStatsLicense.totalNumberOfExtendedTrialOrganizations,
     ],
     [
-      `Subscribed (${organizationStatsLicense.totalNumberOfSubscribedOrganizations})`,
+      `Subscribed (${formatSessionDurationArabicAndEng(
+        organizationStatsLicense.totalNumberOfSubscribedOrganizations,
+        currentLanguage
+      )})`,
       organizationStatsLicense.totalNumberOfSubscribedOrganizations,
     ],
     [
-      `Subscription Expired (${organizationStatsLicense.totalNumberOfExpiredSubscriptionOrganizations})`,
+      `Subscribed (${formatSessionDurationArabicAndEng(
+        organizationStatsLicense.totalNumberOfExpiredSubscriptionOrganizations,
+        currentLanguage
+      )})`,
       organizationStatsLicense.totalNumberOfExpiredSubscriptionOrganizations,
     ],
   ];
@@ -684,11 +742,17 @@ const GlobalAdminDashboard = () => {
       activelicenses.totalNumberOfEssentialLicense,
     ],
     [
-      `Professional (${activelicenses.totalNumberOfProfessionalLicense})`,
+      `Professional (${formatSessionDurationArabicAndEng(
+        activelicenses.totalNumberOfProfessionalLicense,
+        currentLanguage
+      )})`,
       activelicenses.totalNumberOfProfessionalLicense,
     ],
     [
-      `Premium (${activelicenses.totalNumberOfProfessionalLicense})`,
+      `Premium (${formatSessionDurationArabicAndEng(
+        activelicenses.totalNumberOfProfessionalLicense,
+        currentLanguage
+      )})`,
       activelicenses.totalNumberOfPremiumLicense,
     ],
   ];
@@ -729,22 +793,43 @@ const GlobalAdminDashboard = () => {
       width: "100px",
       sortDirections: ["descend", "ascend"],
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Trial-start-date"),
-      dataIndex: "TrialStartDate",
-      key: "TrialStartDate",
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
       width: "110px",
       align: "center",
-      sorter: (a, b) => a.TrialStartDate.localeCompare(b.TrialStartDate),
+      sorter: (a, b) =>
+        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
     {
       title: t("Trial-end-date"),
-      dataIndex: "TrialEndDate",
-      key: "TrialEndDate",
+      dataIndex: "subscriptionEndDate",
+      key: "subscriptionEndDate",
       width: "100px",
       align: "center",
-      sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
+      sorter: (a, b) =>
+        a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
     {
       title: t("Remaining-days"),
@@ -832,18 +917,34 @@ const GlobalAdminDashboard = () => {
       sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
     {
-      title: t("ExpiryDate"),
-      dataIndex: "ExpiryDate",
-      key: "ExpiryDate",
-      width: "300px",
+      title: t("Trial-start-date"),
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
+      width: "110px",
       align: "center",
+      sorter: (a, b) =>
+        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
     {
-      title: t("Expiration-date"),
-      dataIndex: "ExpiryDate",
-      key: "ExpiryDate",
-      width: "200px",
-      sorter: (a, b) => a.Name.localeCompare(b.Name),
+      title: t("Trial-end-date"),
+      dataIndex: "subscriptionEndDate",
+      key: "subscriptionEndDate",
+      width: "100px",
+      align: "center",
+      sorter: (a, b) =>
+        a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
+      render: (text, record) => {
+        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
+        return (
+          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+        );
+      },
     },
   ];
 
@@ -1095,20 +1196,6 @@ const GlobalAdminDashboard = () => {
     setessentialTbl(false);
     setProfessionalTbl(false);
     setPremiumTbl(true);
-  };
-
-  const handleScroll = async (e) => {
-    if (isRowsData <= totalRecords) {
-      setIsScroll(true);
-      let data = {
-        PageNumber: Number(isRowsData),
-        length: 15,
-      };
-      dispatch(globalAdminDashBoardLoader(false));
-      dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
-    } else {
-      setIsScroll(false);
-    }
   };
 
   const openSendInvoiceModal = (record) => {
@@ -1417,151 +1504,20 @@ const GlobalAdminDashboard = () => {
               </Row>
               <Row>
                 {trialBtn ? (
-                  <Table
-                    column={TrialColumn}
-                    pagination={false}
-                    // rows={dataSource}
-                    className="TrialTableDashboard"
-                    locale={{
-                      emptyText: (
-                        <>
-                          <section className="d-flex flex-column align-items-center justify-content-center ">
-                            <img
-                              src={NoOrganizationIcon}
-                              width={"80px"}
-                              alt=""
-                            />
-
-                            <span className="Main-Title Table">
-                              {t("No-organization")}
-                            </span>
-                            <span className="Sub-Title Table">
-                              {t("No-organization-found-this-month")}
-                            </span>
-                          </section>
-                        </>
-                      ), // Set your custom empty text here
-                    }}
-                  />
-                ) : trialExtended ? (
-                  <Table
-                    column={TraiExtendedColumn}
-                    pagination={false}
-                    // rows={data}
-                    className="TrialExtendedDashboard"
-                    locale={{
-                      emptyText: (
-                        <>
-                          <section className="d-flex flex-column align-items-center justify-content-center ">
-                            <img
-                              src={NoOrganizationIcon}
-                              width={"80px"}
-                              alt=""
-                            />
-
-                            <span className="Main-Title Table">
-                              {t("No-organization")}
-                            </span>
-                            <span className="Sub-Title Table">
-                              {t("No-organization-found-this-month")}
-                            </span>
-                          </section>
-                        </>
-                      ), // Set your custom empty text here
-                    }}
-                  />
-                ) : subscription ? (
-                  <Table
-                    column={subscriptionColumn}
-                    pagination={false}
-                    // rows={data}
-                    className="TrialTableDashboard"
-                    locale={{
-                      emptyText: (
-                        <>
-                          <section className="d-flex flex-column align-items-center justify-content-center ">
-                            <img
-                              src={NoOrganizationIcon}
-                              width={"80px"}
-                              alt=""
-                            />
-
-                            <span className="Main-Title Table">
-                              {t("No-organization")}
-                            </span>
-                            <span className="Sub-Title Table">
-                              {t("No-organization-found-this-month")}
-                            </span>
-                          </section>
-                        </>
-                      ), // Set your custom empty text here
-                    }}
-                  />
-                ) : subsExpiry ? (
-                  <Table
-                    column={subscriptionExpiry}
-                    pagination={false}
-                    // rows={data}
-                    className="TrialExtendedDashboard"
-                    locale={{
-                      emptyText: (
-                        <>
-                          <section className="d-flex flex-column align-items-center justify-content-center ">
-                            <img
-                              src={NoOrganizationIcon}
-                              width={"80px"}
-                              alt=""
-                            />
-
-                            <span className="Main-Title Table">
-                              {t("No-organization")}
-                            </span>
-                            <span className="Sub-Title Table">
-                              {t("No-organization-found-this-month")}
-                            </span>
-                          </section>
-                        </>
-                      ), // Set your custom empty text here
-                    }}
-                  />
-                ) : essentialTbl ? (
-                  <InfiniteScroll
-                    dataLength={essentialRow.length}
-                    next={handleScroll}
-                    hasMore={
-                      essentialRow.length === totalRecords ? false : true
-                    }
-                    height={"30vh"}
-                    loader={
-                      isRowsData <= totalRecords && isScroll ? (
-                        <>
-                          <Row>
-                            <Col
-                              sm={12}
-                              md={12}
-                              lg={12}
-                              className="d-flex justify-content-center mt-2"
-                            >
-                              <Spin />
-                            </Col>
-                          </Row>
-                        </>
-                      ) : null
-                    }
-                  >
+                  <>
                     <Table
-                      column={essentialColumns}
+                      column={TrialColumn}
                       pagination={false}
-                      rows={essentialRow}
+                      rows={trialRow}
                       footer={false}
-                      className="EssentialTable"
+                      className="TrialTableDashboard"
                       locale={{
                         emptyText: (
                           <>
                             <section className="d-flex flex-column align-items-center justify-content-center ">
                               <img
                                 src={NoOrganizationIcon}
-                                width={"180px"}
+                                width={"80px"}
                                 alt=""
                               />
 
@@ -1576,32 +1532,209 @@ const GlobalAdminDashboard = () => {
                         ), // Set your custom empty text here
                       }}
                     />
-                  </InfiniteScroll>
+
+                    <Row className="mt-2">
+                      <Col lg={12} md={12} sm={12}>
+                        <Pagination
+                          total={totalRecords}
+                          onChange={paginationOnTrialsClick}
+                          current={currentPage !== null ? currentPage : 1}
+                          showSizeChanger
+                          pageSizeOptions={[15, 30, 60, 100]}
+                          pageSize={
+                            currentPageSize !== null ? currentPageSize : 15
+                          }
+                          className={styles["PaginationStyle-naturebusiness"]}
+                        />
+                      </Col>
+                    </Row>
+                  </>
+                ) : trialExtended ? (
+                  <>
+                    <Table
+                      column={TraiExtendedColumn}
+                      pagination={false}
+                      rows={trialExtendedRow}
+                      footer={false}
+                      className="TrialExtendedDashboard"
+                      locale={{
+                        emptyText: (
+                          <>
+                            <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"80px"}
+                                alt=""
+                              />
+
+                              <span className="Main-Title">
+                                {t("No-organization")}
+                              </span>
+                              <span className="Sub-Title">
+                                {t("No-organization-found-this-month")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+
+                    <Row className="mt-2">
+                      <Col lg={12} md={12} sm={12}>
+                        <Pagination
+                          total={totalRecords}
+                          onChange={paginationOnTrialsClick}
+                          current={currentPage !== null ? currentPage : 1}
+                          showSizeChanger
+                          pageSizeOptions={[15, 30, 60, 100]}
+                          pageSize={
+                            currentPageSize !== null ? currentPageSize : 15
+                          }
+                          className={styles["PaginationStyle-naturebusiness"]}
+                        />
+                      </Col>
+                    </Row>
+                  </>
+                ) : subscription ? (
+                  <>
+                    <Table
+                      column={subscriptionColumn}
+                      pagination={false}
+                      rows={subscribedRow}
+                      footer={false}
+                      className="TrialTableDashboard"
+                      locale={{
+                        emptyText: (
+                          <>
+                            <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"80px"}
+                                alt=""
+                              />
+
+                              <span className="Main-Title">
+                                {t("No-organization")}
+                              </span>
+                              <span className="Sub-Title">
+                                {t("No-organization-found-this-month")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+
+                    <Row className="mt-2">
+                      <Col lg={12} md={12} sm={12}>
+                        <Pagination
+                          total={totalRecords}
+                          onChange={paginationOnTrialsClick}
+                          current={currentPage !== null ? currentPage : 1}
+                          showSizeChanger
+                          pageSizeOptions={[15, 30, 60, 100]}
+                          pageSize={
+                            currentPageSize !== null ? currentPageSize : 15
+                          }
+                          className={styles["PaginationStyle-naturebusiness"]}
+                        />
+                      </Col>
+                    </Row>
+                  </>
+                ) : subsExpiry ? (
+                  <>
+                    <Table
+                      column={subscriptionExpiry}
+                      pagination={false}
+                      rows={subscriptionExpiredRow}
+                      footer={false}
+                      className="TrialExtendedDashboard"
+                      locale={{
+                        emptyText: (
+                          <>
+                            <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"80px"}
+                                alt=""
+                              />
+
+                              <span className="Main-Title">
+                                {t("No-organization")}
+                              </span>
+                              <span className="Sub-Title">
+                                {t("No-organization-found-this-month")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+
+                    <Row className="mt-2">
+                      <Col lg={12} md={12} sm={12}>
+                        <Pagination
+                          total={totalRecords}
+                          onChange={paginationOnTrialsClick}
+                          current={currentPage !== null ? currentPage : 1}
+                          showSizeChanger
+                          pageSizeOptions={[15, 30, 60, 100]}
+                          pageSize={
+                            currentPageSize !== null ? currentPageSize : 15
+                          }
+                          className={styles["PaginationStyle-naturebusiness"]}
+                        />
+                      </Col>
+                    </Row>
+                  </>
+                ) : essentialTbl ? (
+                  <>
+                    <Table
+                      column={essentialColumns}
+                      pagination={false}
+                      rows={essentialRow}
+                      footer={false}
+                      className="EssentialTable"
+                      locale={{
+                        emptyText: (
+                          <>
+                            <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"80px"}
+                                alt=""
+                              />
+
+                              <span className="Main-Title">
+                                {t("No-organization")}
+                              </span>
+                              <span className="Sub-Title">
+                                {t("No-organization-found-this-month")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+
+                    <Row className="mt-2">
+                      <Col lg={12} md={12} sm={12}>
+                        <Pagination
+                          total={totalRecords}
+                          onChange={pageinationOnClick}
+                          current={currentPage !== null ? currentPage : 1}
+                          showSizeChanger
+                          pageSizeOptions={[15, 30, 60, 100]}
+                          pageSize={
+                            currentPageSize !== null ? currentPageSize : 15
+                          }
+                          className={styles["PaginationStyle-naturebusiness"]}
+                        />
+                      </Col>
+                    </Row>
+                  </>
                 ) : professionalTbl ? (
-                  <InfiniteScroll
-                    dataLength={professionalRow.length}
-                    next={handleScroll}
-                    hasMore={
-                      professionalRow.length === totalRecords ? false : true
-                    }
-                    height={"30vh"}
-                    loader={
-                      isRowsData <= totalRecords && isScroll ? (
-                        <>
-                          <Row>
-                            <Col
-                              sm={12}
-                              md={12}
-                              lg={12}
-                              className="d-flex justify-content-center mt-2"
-                            >
-                              <Spin />
-                            </Col>
-                          </Row>
-                        </>
-                      ) : null
-                    }
-                  >
+                  <>
                     <Table
                       column={ProfessionalColumns}
                       pagination={false}
@@ -1629,30 +1762,25 @@ const GlobalAdminDashboard = () => {
                         ), // Set your custom empty text here
                       }}
                     />
-                  </InfiniteScroll>
+
+                    <Row className="mt-2">
+                      <Col lg={12} md={12} sm={12}>
+                        <Pagination
+                          total={totalRecords}
+                          onChange={pageinationOnClick}
+                          current={currentPage !== null ? currentPage : 1}
+                          showSizeChanger
+                          pageSizeOptions={[15, 30, 60, 100]}
+                          pageSize={
+                            currentPageSize !== null ? currentPageSize : 15
+                          }
+                          className={styles["PaginationStyle-naturebusiness"]}
+                        />
+                      </Col>
+                    </Row>
+                  </>
                 ) : premiumTbl ? (
-                  <InfiniteScroll
-                    dataLength={premiumRow.length}
-                    next={handleScroll}
-                    hasMore={premiumRow.length === totalRecords ? false : true}
-                    height={"30vh"}
-                    loader={
-                      isRowsData <= totalRecords && isScroll ? (
-                        <>
-                          <Row>
-                            <Col
-                              sm={12}
-                              md={12}
-                              lg={12}
-                              className="d-flex justify-content-center mt-2"
-                            >
-                              <Spin />
-                            </Col>
-                          </Row>
-                        </>
-                      ) : null
-                    }
-                  >
+                  <>
                     <Table
                       column={PreimiumColumns}
                       pagination={false}
@@ -1680,7 +1808,23 @@ const GlobalAdminDashboard = () => {
                         ), // Set your custom empty text here
                       }}
                     />
-                  </InfiniteScroll>
+
+                    <Row className="mt-2">
+                      <Col lg={12} md={12} sm={12}>
+                        <Pagination
+                          total={totalRecords}
+                          onChange={pageinationOnClick}
+                          current={currentPage !== null ? currentPage : 1}
+                          showSizeChanger
+                          pageSizeOptions={[15, 30, 60, 100]}
+                          pageSize={
+                            currentPageSize !== null ? currentPageSize : 15
+                          }
+                          className={styles["PaginationStyle-naturebusiness"]}
+                        />
+                      </Col>
+                    </Row>
+                  </>
                 ) : null}
                 <Col lg={12} md={12} sm={12}></Col>
               </Row>

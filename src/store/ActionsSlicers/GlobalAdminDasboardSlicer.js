@@ -6,6 +6,7 @@ import {
   TotalThisMonthDueApi,
   dashBoardReportApi,
   organziationStatsBySubscriptionApi,
+  OrganizationSubscriptionTypeApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   TotalThisMonthDueApiData: null,
   GetAllBillingDueApiData: [],
   OrganizationStatsSubscriptionData: null,
+  OrganizationSubscriptionStatsGraphData: null,
   Responsemessage: "",
 };
 
@@ -107,6 +109,19 @@ const globalAdminDashboardReducer = createSlice({
       })
 
       .addCase(dashBoardReportApi.rejected, (state, action) => {
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //Global Admin Dashboard Organization Stats Graph Table Data Reducer
+      .addCase(OrganizationSubscriptionTypeApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(OrganizationSubscriptionTypeApi.fulfilled, (state, action) => {
+        state.OrganizationSubscriptionStatsGraphData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(OrganizationSubscriptionTypeApi.rejected, (state, action) => {
+        state.OrganizationSubscriptionStatsGraphData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },
