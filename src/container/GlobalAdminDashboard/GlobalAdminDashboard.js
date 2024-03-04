@@ -215,6 +215,11 @@ const GlobalAdminDashboard = () => {
   const [totalRecordsPremium, setTotalRecordsPremium] = useState(0);
   const [isRowsDataPremium, setSRowsDataPremium] = useState(0);
 
+  //Lazy Loading States of Billing Due Table (users)
+  const [isScrollBilling, setIsScrollBilling] = useState(false);
+  const [totalRecordsBilling, setTotalRecordsBilling] = useState(0);
+  const [isRowsDataBilling, setSRowsDataBilling] = useState(0);
+
   //Calling StatsOfActiveLicenseApi
   useEffect(() => {
     dispatch(globalAdminDashBoardLoader(true));
@@ -895,6 +900,8 @@ const GlobalAdminDashboard = () => {
       }
     } catch (error) {}
   }, [TotalThisMonthDueApiData]);
+
+  console.log(GetAllBillingDueApiData, "GetAllBillingDueApiData");
 
   //Billling Due Table Data
   useEffect(() => {

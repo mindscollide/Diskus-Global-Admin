@@ -310,11 +310,16 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   color: #505050;
   font-family: "montserrat-500" !important;
   cursor: pointer !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  display: flex !important;
+  font-size: 12px !important;
 }
 
 body[dir="rtl"] .send-invoice-button {
-  font-size: 12px !important;
   font-family: "IBMPlexSansArabic-SemiBold" !important;
+  text-wrap: nowrap !important;
 }
 
 .ContainerClass {
