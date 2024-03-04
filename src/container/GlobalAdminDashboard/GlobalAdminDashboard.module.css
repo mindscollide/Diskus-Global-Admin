@@ -11,8 +11,7 @@
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
-  height: auto !important;
-  min-height: 80vh;
+  height: 80vh !important;
 }
 
 .BillingDueHeading {
@@ -40,6 +39,7 @@ body[dir="rtl"] .BillingDueHeading {
   cursor: pointer !important;
   margin-top: 5px;
 }
+
 .down {
   border: 1px solid black;
   border-width: 0 3px 3px 0;
@@ -49,6 +49,7 @@ body[dir="rtl"] .BillingDueHeading {
   -webkit-transform: rotate(45deg);
   cursor: pointer !important;
 }
+
 .dropdown-header {
   display: flex;
   gap: 10px;
@@ -66,12 +67,15 @@ body[dir="rtl"] .BillingDueHeading {
   padding: 3px 0;
   cursor: pointer !important;
 }
+
 .dropdown-list-item:last-child {
   border-bottom: none !important;
 }
+
 .dropdown-container {
   max-width: 100% !important;
 }
+
 .dropdown_list {
   background: #fff !important;
   z-index: 1 !important;

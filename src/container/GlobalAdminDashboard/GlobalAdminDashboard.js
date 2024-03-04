@@ -1548,7 +1548,7 @@ const GlobalAdminDashboard = () => {
 
   return (
     <>
-      <Container className={styles["ContainerClass"]}>
+      <Container >
         <Row className="mt-3">
           <Col lg={5} md={5} sm={5}>
             <section className={styles["LeftBoxDashboard"]}>
@@ -1852,7 +1852,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={trialRow.length}
                       next={handleScroll}
-                      height={"33vh"}
+                      height={"25vh"}
                       hasMore={trialRow.length === totalRecords ? false : true}
                       loader={
                         isRowsData <= totalRecords && isScroll ? (
@@ -1905,7 +1905,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={trialExtendedRow.length}
                       next={handleScrollTrialExtended}
-                      height={"33vh"}
+                      height={"25vh"}
                       hasMore={
                         trialExtendedRow.length === totalRecordsTrialExtended
                           ? false
@@ -1963,7 +1963,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={subscribedRow.length}
                       next={handleScrollSubscribed}
-                      height={"33vh"}
+                      height={"25vh"}
                       hasMore={
                         subscribedRow.length === totalRecordsSubscribed
                           ? false
@@ -2021,7 +2021,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={subscriptionExpiredRow.length}
                       next={handleScrollSubscriptionExpiry}
-                      height={"33vh"}
+                      height={"25vh"}
                       hasMore={
                         subscriptionExpiredRow.length ===
                         totalRecordsSubscriptionExpiry
@@ -2081,7 +2081,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={essentialRow.length}
                       next={handleScrollEssential}
-                      height={"33vh"}
+                      height={"25vh"}
                       hasMore={
                         essentialRow.length === totalRecordsEssential
                           ? false
@@ -2139,7 +2139,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={professionalRow.length}
                       next={handleScrollProfessional}
-                      height={"33vh"}
+                      height={"25vh"}
                       hasMore={
                         professionalRow.length === totalRecordsProfessional
                           ? false
@@ -2197,7 +2197,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={premiumRow.length}
                       next={handleScrollPremium}
-                      height={"33vh"}
+                      height={"25vh"}
                       hasMore={
                         premiumRow.length === totalRecordsPremium ? false : true
                       }
