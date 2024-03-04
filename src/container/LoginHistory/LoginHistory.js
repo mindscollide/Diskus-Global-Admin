@@ -944,7 +944,6 @@ const LoginHistory = () => {
                   </>
                 ) : null
               }
-              // scrollableTarget="scrollableDiv"
             >
               <Table
                 column={UserLoginHistoryColoumn}
