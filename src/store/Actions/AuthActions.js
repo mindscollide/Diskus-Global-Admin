@@ -2,11 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { loginAPi, passwordVerify } from "../../common/apis/Api_Config";
 import { authenticationURL } from "../../common/apis/Api_endPoints";
+import { changeScreen } from "../ActionsSlicers/AuthScreenActionSlicer";
 
 //Email Verification
 export const enterEmailValidation = createAsyncThunk(
   "Auth/EmailValidation",
-  async ({ email, navigate, t }, { rejectWithValue }) => {
+  async ({ email, navigate, t }, { rejectWithValue,dispatch }) => {
     let data = {
       UserEmail: email,
       Device: "Browser",
@@ -49,6 +50,7 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_03".toLowerCase()
               )
           ) {
+            dispatch(changeScreen("PasswordVerification"));
             return {
               result: response.data.responseResult,
               code: "EmailValidation_03",

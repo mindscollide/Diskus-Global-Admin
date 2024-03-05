@@ -24,7 +24,6 @@ const PasswordVerification = () => {
   const dispatch = useDispatch();
 
   const state = useSelector((state) => state);
-  console.log(state, "statestatestate");
 
   const [openNotification, setOpenNotification] = useState({
     passwordFlag: false,
@@ -124,8 +123,6 @@ const PasswordVerification = () => {
       }, 3000);
     } else {
       setErrorBar(false);
-      console.log(password, "password");
-
       dispatch(PasswordVerificationApi({ password, navigate, t }));
     }
   };

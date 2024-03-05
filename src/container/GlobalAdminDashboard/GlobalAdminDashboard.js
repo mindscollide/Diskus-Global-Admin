@@ -222,24 +222,28 @@ const GlobalAdminDashboard = () => {
 
   //Calling StatsOfActiveLicenseApi
   useEffect(() => {
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(StatsOfActiveLicenseApi({ navigate, t }));
-  }, []);
-
-  //Calling organziationStatsBySubscriptionApi
-  useEffect(() => {
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(organziationStatsBySubscriptionApi({ navigate, t }));
-  }, []);
-
-  // Calling Organization Subscription Stats Graph Api
-  useEffect(() => {
     let userData = {
       PageNumber: 1,
       length: 15,
     };
+    let data = {
+      PageNumber: 1,
+      length: 15,
+    };
     dispatch(globalAdminDashBoardLoader(true));
+    dispatch(StatsOfActiveLicenseApi({ navigate, t }));
+    //Calling organziationStatsBySubscriptionApi
+    dispatch(organziationStatsBySubscriptionApi({ navigate, t }));
+    // Calling Organization Subscription Stats Graph Api
     dispatch(OrganizationSubscriptionTypeApi({ userData, navigate, t }));
+    //Calling OrganizationsByActiveLicenseApi
+    dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
+    //Getting All Organizations
+    dispatch(viewOrganizationLoader(true));
+    dispatch(getAllOrganizationApi({ navigate, t }));
+
+    setTrialBtn(true);
+    setOrganizationStatus(true);
   }, []);
 
   //StatsOfActiveLicenseApi Data
@@ -324,21 +328,6 @@ const GlobalAdminDashboard = () => {
       console.log(error, "error");
     }
   }, [OrganizationStatsSubscriptionReducer]);
-
-  useEffect(() => {
-    setTrialBtn(true);
-    setOrganizationStatus(true);
-  }, []);
-
-  //Calling OrganizationsByActiveLicenseApi
-  useEffect(() => {
-    let data = {
-      PageNumber: 1,
-      length: 15,
-    };
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
-  }, []);
 
   //OrganizationSubscriptionGraphTable Data in table to set Row of trial column
   useEffect(() => {
@@ -606,7 +595,6 @@ const GlobalAdminDashboard = () => {
     }
   };
 
-  console.log(OrganizationLicenseReducer, "useEffect");
   //OrganizationsByActiveLicenseApi Data in table to set Row data of Essential column
   useEffect(() => {
     try {
@@ -793,12 +781,6 @@ const GlobalAdminDashboard = () => {
     }
   };
 
-  //Getting All Organizations
-  useEffect(() => {
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ navigate, t }));
-  }, []);
-
   //Getting All Organizations Data
   useEffect(() => {
     let newarr = [];
@@ -900,8 +882,6 @@ const GlobalAdminDashboard = () => {
       }
     } catch (error) {}
   }, [TotalThisMonthDueApiData]);
-
-  console.log(GetAllBillingDueApiData, "GetAllBillingDueApiData");
 
   //Billling Due Table Data
   useEffect(() => {
@@ -1105,8 +1085,6 @@ const GlobalAdminDashboard = () => {
     activelicenses.totalNumberOfEssentialLicense +
     activelicenses.totalNumberOfProfessionalLicense +
     activelicenses.totalNumberOfProfessionalLicense;
-
-  console.log(totalNumber, "totalNumbertotalNumber");
 
   const userOptions = {
     pieHole: 0.5,
@@ -1548,7 +1526,7 @@ const GlobalAdminDashboard = () => {
 
   return (
     <>
-      <Container >
+      <Container>
         <Row className="mt-3">
           <Col lg={5} md={5} sm={5}>
             <section className={styles["LeftBoxDashboard"]}>
