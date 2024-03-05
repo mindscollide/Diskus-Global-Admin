@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   convertUtcDateAndTimeToCurrentTimeZone,
+  formatDate,
   formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -46,6 +47,7 @@ const LoginHistory = () => {
   const dispatch = useDispatch();
 
   const calendRef = useRef();
+  const [userNameSearch, setUserNameSearch] = useState("");
 
   let currentLanguage = localStorage.getItem("currentLanguage");
   const local = currentLanguage === "en" ? "en-US" : "ar-SA";
@@ -326,22 +328,37 @@ const LoginHistory = () => {
   ];
 
   const HandleopenSearchBox = () => {
+    if(userNameSearch!==""){
+      setUserNameSearch("");
+      let data = {
+        OrganizationID: 0,
+        Username: "",
+        UserEmail: "",
+        IpAddress: "",
+        DeviceID: "1",
+        DateLogin: "",
+        DateLogOut: "",
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(loginHistoryLoader(true));
+      dispatch(LoginHistoryAPI({ data, navigate, t }));
+    }
     setUserLoginHistorySearch({
       ...userLoginHistorySearch,
-      userName: "",
-      userEmail: "",
-      DateFrom: "",
-      DateForView: "",
-      DateTo: "",
-      DateToView: "",
-      IpAddress: "",
+      userName: userLoginHistorySearch.userName,
+      userEmail: userLoginHistorySearch.userEmail,
+      DateFrom: userLoginHistorySearch.DateFrom,
+      DateForView: userLoginHistorySearch.DateForView,
+      DateTo: userLoginHistorySearch.DateTo,
+      DateToView: userLoginHistorySearch.DateToView,
+      IpAddress: userLoginHistorySearch.IpAddress,
       InterFaceType: {
         value: 0,
         label: "",
       },
-      Title: "",
+      Title: userLoginHistorySearch.Title,
     });
-    setShowSearchText(false);
     setOrganizationDataValue(null);
     setSearchBox(!searchBox);
   };
@@ -597,7 +614,46 @@ const LoginHistory = () => {
   //     }
   //   }
   // }, [Responsemessage]);
+  function onChangeEventForSearch(e) {
+    let value = e.target.value;
+    setShowSearchText(false);
 
+    // Check if the first character is a space and remove it if it is
+    if (value.charAt(0) === " ") {
+      value = value.trimStart();
+    }
+    setUserNameSearch(value);
+    console.log("value", value);
+  }
+  const handleKeyDownSearch = (e) => {
+    if (e.key === "Enter") {
+      if (userNameSearch !== "") {
+        let data = {
+          OrganizationID: 0,
+          Username: userNameSearch,
+          UserEmail: "",
+          IpAddress: "",
+          DeviceID: "1",
+          DateLogin: "",
+          DateLogOut: "",
+          sRow: 0,
+          Length: 10,
+        };
+        dispatch(loginHistoryLoader(true));
+        dispatch(LoginHistoryAPI({ data, navigate, t }));
+      } else {
+        setTimeout(
+          setOpenNotification({
+            ...openNotification,
+            organizationFlag: true,
+            organizationNotification: t("Please-enter-data-in-inputfield"),
+            severity: "error",
+          }),
+          3000
+        );
+      }
+    }
+  };
   return (
     <Container fluid>
       <>
@@ -621,6 +677,10 @@ const LoginHistory = () => {
           <Col lg={5} md={5} sm={5}>
             <span className="position-relative">
               <TextField
+                onKeyDown={handleKeyDownSearch}
+                change={onChangeEventForSearch}
+                placeholder={t("User-name")}
+                value={userNameSearch}
                 labelClass={"d-none"}
                 applyClass={"NewMeetingFileds"}
                 inputicon={
@@ -723,9 +783,10 @@ const LoginHistory = () => {
                   {showsearchText && userLoginHistorySearch.DateFrom !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
-                        {moment
-                          .utc(userLoginHistorySearch.DateFrom, "YYYYMMDD")
-                          .format("DD-MMM-YYYY")}
+                        {formatDate(
+                          userLoginHistorySearch.DateFrom,
+                          currentLanguage
+                        )}
                       </span>
                       <img
                         src={Crossicon}
@@ -744,9 +805,10 @@ const LoginHistory = () => {
                   {showsearchText && userLoginHistorySearch.DateTo !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
-                        {moment
-                          .utc(userLoginHistorySearch.DateTo, "YYYYMMDD")
-                          .format("DD-MMM-YYYY")}
+                        {formatDate(
+                          userLoginHistorySearch.DateTo,
+                          currentLanguage
+                        )}
                       </span>
                       <img
                         src={Crossicon}
@@ -918,11 +980,11 @@ const LoginHistory = () => {
           </Col>
         </Row>
         <Row className="mt-4">
-          <Col lg={12} md={12} sm={12}>
+          <Col sm={12} md={12} lg={12} className="py-2  px-4 bg-white">
             <InfiniteScroll
               dataLength={tablerows.length}
               next={handleScroll}
-              height={"55vh"}
+              height={"70vh"}
               hasMore={tablerows.length === totalRecords ? false : true}
               loader={
                 isRowsData <= totalRecords && isScroll ? (
@@ -947,7 +1009,7 @@ const LoginHistory = () => {
                 rows={tablerows}
                 footer={false}
                 className={"userlogin_history_tableP"}
-                size={"small"}
+                size={"medium"}
                 locale={{
                   emptyText: (
                     <>

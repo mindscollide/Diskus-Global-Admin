@@ -431,22 +431,21 @@ const ViewOrganization = () => {
       dispatch(viewOrganizationLoader(true));
       dispatch(searchOrganizationApi({ data, navigate, t }));
     }
-
-    setShowSearchText(false);
     setSearchOrganizationData({
-      userName: "",
-      userEmail: "",
-      DateFrom: "",
-      DateTo: "",
-      DateToView: "",
-      DateFromView: "",
+      ...searchOrganizationData,
+      userName: searchOrganizationData.userName,
+      userEmail: searchOrganizationData.userEmail,
+      DateFrom: searchOrganizationData.DateFrom,
+      DateTo: searchOrganizationData.DateTo,
+      DateToView: searchOrganizationData.DateToView,
+      DateFromView: searchOrganizationData.DateFromView,
       Status: {
-        value: 0,
-        label: "",
+        value: searchOrganizationData.Status.value,
+        label: searchOrganizationData.Status.label,
       },
       OrganizationID: {
-        value: 0,
-        label: "",
+        value: searchOrganizationData.OrganizationID.value,
+        label: searchOrganizationData.OrganizationID.label,
       },
     });
     setSearchBox(!searchBox);
@@ -695,6 +694,7 @@ const ViewOrganization = () => {
         };
         dispatch(viewOrganizationLoader(true));
         dispatch(searchOrganizationApi({ data, navigate, t }));
+        setShowSearchText(true);
       } else {
         setTimeout(
           setOpenNotification({
@@ -981,43 +981,43 @@ const ViewOrganization = () => {
         </Row>
         <Row className="mt-2">
           <Col sm={12} md={12} lg={12} className="py-2  px-4 bg-white">
-          <InfiniteScroll
-            dataLength={viewOrganizationData.length}
-            next={handleScroll}
-            height={"70vh"}
-            hasMore={
-              viewOrganizationData.length === totalRecords ? false : true
-            }
-            loader={
-              isRowsData <= totalRecords && isScroll ? (
-                <>
-                  <Row>
-                    <Col
-                      sm={12}
-                      md={12}
-                      lg={12}
-                      className="d-flex justify-content-center mt-2"
-                    >
-                      <Spin />
-                    </Col>
-                  </Row>
-                </>
-              ) : null
-            }
-            // scrollableTarget="scrollableDiv"
-          >
-            <Table
-              column={ViewOrganizationColoumn}
-              pagination={false}
-              rows={viewOrganizationData}
-              footer={false}
-              className={"userlogin_history_tableP"}
-              size={"medium"}
-              // scroll={{
-              //   x: false,
-              // }}
-            />
-          </InfiniteScroll>
+            <InfiniteScroll
+              dataLength={viewOrganizationData.length}
+              next={handleScroll}
+              height={"70vh"}
+              hasMore={
+                viewOrganizationData.length === totalRecords ? false : true
+              }
+              loader={
+                isRowsData <= totalRecords && isScroll ? (
+                  <>
+                    <Row>
+                      <Col
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        className="d-flex justify-content-center mt-2"
+                      >
+                        <Spin />
+                      </Col>
+                    </Row>
+                  </>
+                ) : null
+              }
+              // scrollableTarget="scrollableDiv"
+            >
+              <Table
+                column={ViewOrganizationColoumn}
+                pagination={false}
+                rows={viewOrganizationData}
+                footer={false}
+                className={"userlogin_history_tableP"}
+                size={"medium"}
+                // scroll={{
+                //   x: false,
+                // }}
+              />
+            </InfiniteScroll>
           </Col>
         </Row>
       </Container>
