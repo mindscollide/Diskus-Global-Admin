@@ -1132,9 +1132,10 @@ const GlobalAdminDashboard = () => {
       sorter: (a, b) =>
         a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
         );
       },
     },
@@ -1147,9 +1148,10 @@ const GlobalAdminDashboard = () => {
       sorter: (a, b) =>
         a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
         );
       },
     },
@@ -1178,6 +1180,13 @@ const GlobalAdminDashboard = () => {
       key: "TrialExtendedDate",
       width: "140px",
       sorter: (a, b) => a.TrialExtendedDate.localeCompare(b.TrialExtendedDate),
+      render: (text, record) => {
+        return (
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
+        );
+      },
     },
     {
       title: t("Trial-extended-end-date"),
@@ -1187,6 +1196,13 @@ const GlobalAdminDashboard = () => {
       align: "center",
       sorter: (a, b) =>
         a.TrialExtendedEndDate.localeCompare(b.TrialExtendedEndDate),
+      render: (text, record) => {
+        return (
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
+        );
+      },
     },
     {
       title: t("Remaining-days"),
@@ -1219,6 +1235,13 @@ const GlobalAdminDashboard = () => {
       width: "300px",
       align: "center",
       sorter: (a, b) => a.ExpiryDate.localeCompare(b.ExpiryDate),
+      render: (text, record) => {
+        return (
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
+        );
+      },
     },
     {
       title: t("Remaining-days"),
@@ -1247,9 +1270,10 @@ const GlobalAdminDashboard = () => {
       sorter: (a, b) =>
         a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
         );
       },
     },
@@ -1262,9 +1286,10 @@ const GlobalAdminDashboard = () => {
       sorter: (a, b) =>
         a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
         );
       },
     },
@@ -1294,10 +1319,9 @@ const GlobalAdminDashboard = () => {
       sorter: (a, b) =>
         a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
-        // const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
           <div className={styles["dashboard-user-dates"]}>
-            {convertUTCDateToLocalDate(text + "235958", currentLanguage)}
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
           </div>
         );
       },
@@ -1353,9 +1377,10 @@ const GlobalAdminDashboard = () => {
       sorter: (a, b) =>
         a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
         return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
         );
       },
     },
@@ -1412,10 +1437,10 @@ const GlobalAdminDashboard = () => {
       width: "200px",
       align: "center",
       render: (text, record) => {
-        const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
-
         return (
-          <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
+          <div className={styles["dashboard-user-dates"]}>
+            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
+          </div>
         );
       },
     },

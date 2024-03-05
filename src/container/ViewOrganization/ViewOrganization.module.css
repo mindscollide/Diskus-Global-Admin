@@ -86,8 +86,7 @@ body[dir="rtl"] .SearchBoxResetButton {
   color: #5a5a5a !important;
 }
 
-body[dir="rtl"]
-  .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
+body[dir="rtl"] .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
   font-family: "MontserratSemiBold-600";
   border-radius: 4px !important;
@@ -196,4 +195,8 @@ body[dir="rtl"] .inner-sub-Heading {
   width: 100% !important;
   border-radius: 4px !important;
   display: block !important;
+}
+
+.Height {
+  height: 70vh !important;
 }

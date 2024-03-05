@@ -80,8 +80,6 @@ export const convertUtcDateAndTimeToCurrentTimeZone = (
 
 // currently using in Session Duration in Organization List
 export const convertUTCDateToLocalDate = (utcDateTime, locale) => {
-  console.log("convertUTCDateToLocalDate", utcDateTime);
-  console.log("convertUTCDateToLocalDate", typeof utcDateTime);
   try {
     const date = new Date(
       `${utcDateTime.slice(0, 4)}-${utcDateTime.slice(
@@ -130,6 +128,31 @@ export function formatSessionDurationArabicAndEng(number, locales) {
   }
 
   return formattedNumber;
+}
+
+export function formatDate(dateString, locale) {
+  const year = dateString.substring(0, 4);
+  const month = dateString.substring(4, 6);
+  const day = dateString.substring(6, 8);
+
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  };
+
+  const formattedDate = new Intl.DateTimeFormat(locale, options).format(new Date(`${year}-${month}-${day}`));
+
+  if (locale === "ar") {
+    return convertNumbersToArabic(formattedDate);
+  }
+
+  return formattedDate;
+}
+
+function convertNumbersToArabic(value) {
+  const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return String(value).replace(/\d/g, (digit) => arabicNumbers[digit]);
 }
 // ================================== function which support end arabic both ======================================== //
 export const utcConvertintoGMT = (date) => {

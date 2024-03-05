@@ -77,7 +77,6 @@ const LoginHistory = () => {
   const [isScroll, setIsScroll] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isRowsData, setSRowsData] = useState(0);
-  console.log(totalRecords, isRowsData, "isRowsDataisRowsData");
   const [userLoginHistorySearch, setUserLoginHistorySearch] = useState({
     userName: "",
     userEmail: "",
@@ -151,8 +150,6 @@ const LoginHistory = () => {
     }
   }, [currentLanguage]);
 
-  console.log(organizationIdData, "organizationIdDataorganizationIdData");
-
   useEffect(() => {
     if (
       organizationIdData?.result.getAllOrganizations.length > 0 &&
@@ -168,7 +165,6 @@ const LoginHistory = () => {
   }, [organizationIdData]);
   const [organizationID, setOrganizationID] = useState(0);
   const organizerChangeHandler = (selectedOrganizer) => {
-    console.log(selectedOrganizer.value, "selectedOrganizerselectedOrganizer");
     setOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
   };
