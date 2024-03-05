@@ -214,7 +214,8 @@ body[dir="rtl"] .ant-table-thead>tr * {
 }
 
 td.ant-table-cell.random {
-  padding: 5px 20px!important;
+  padding: 5px 8px !important;
+  text-align: center;
 }
 
 .TrialTableDashboard.ant-table-wrapper .ant-table-tbody tr td {

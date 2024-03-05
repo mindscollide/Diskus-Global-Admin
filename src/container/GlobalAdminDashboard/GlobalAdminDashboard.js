@@ -935,6 +935,7 @@ const GlobalAdminDashboard = () => {
       className: "random",
       key: "billingDate",
       width: "190px",
+      ellipses: true,
       render: (text, response) => {
         return (
           <>
@@ -1114,10 +1115,12 @@ const GlobalAdminDashboard = () => {
   const TrialColumn = [
     {
       title: t("Organization-name"),
-      className:"random",
+      className: "random",
       dataIndex: "organizationName",
       key: "organizationName",
       width: "100px",
+      align: "center",
+      ellipsis: true,
       sortDirections: ["descend", "ascend"],
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
       render: (text, record) => {
@@ -1131,10 +1134,11 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Trial-start-date"),
       dataIndex: "subscriptionStartDate",
-      className:"random",
+      className: "random",
       key: "subscriptionStartDate",
       width: "110px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) =>
         a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
@@ -1148,10 +1152,11 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Trial-end-date"),
       dataIndex: "subscriptionEndDate",
-      className:"random",
+      className: "random",
       key: "subscriptionEndDate",
       width: "100px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) =>
         a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
       render: (text, record) => {
@@ -1164,11 +1169,12 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Remaining-days"),
-      className:"random",
+      className: "random",
       dataIndex: "TrialEndDate",
       key: "TrialEndDate",
       width: "100px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
     },
   ];
@@ -1180,6 +1186,8 @@ const GlobalAdminDashboard = () => {
       dataIndex: "Name",
       key: "Name",
       width: "140px",
+      align: "center",
+      ellipsis: true,
       sortDirections: ["descend", "ascend"],
       sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
@@ -1189,6 +1197,8 @@ const GlobalAdminDashboard = () => {
       dataIndex: "TrialExtendedDate",
       key: "TrialExtendedDate",
       width: "140px",
+      align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.TrialExtendedDate.localeCompare(b.TrialExtendedDate),
       render: (text, record) => {
         return (
@@ -1204,6 +1214,8 @@ const GlobalAdminDashboard = () => {
       className: "random",
       key: "TrialExtendedEndDate",
       width: "170px",
+      align: "center",
+      ellipsis: true,
       align: "center",
       sorter: (a, b) =>
         a.TrialExtendedEndDate.localeCompare(b.TrialExtendedEndDate),
@@ -1222,6 +1234,8 @@ const GlobalAdminDashboard = () => {
       key: "remaingDate",
       width: "160px",
       align: "center",
+      ellipsis: true,
+      align: "center",
       sorter: (a, b) => a.remaingDate.localeCompare(b.remaingDate),
     },
   ];
@@ -1233,6 +1247,8 @@ const GlobalAdminDashboard = () => {
       dataIndex: "Name",
       key: "Name",
       width: "200px",
+      align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
     // {
@@ -1248,6 +1264,7 @@ const GlobalAdminDashboard = () => {
       key: "ExpiryDate",
       width: "300px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.ExpiryDate.localeCompare(b.ExpiryDate),
       render: (text, record) => {
         return (
@@ -1264,6 +1281,7 @@ const GlobalAdminDashboard = () => {
       key: "remaingDate",
       width: "200px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.remaingDate.localeCompare(b.remaingDate),
     },
   ];
@@ -1275,6 +1293,8 @@ const GlobalAdminDashboard = () => {
       className: "random",
       key: "organizationName",
       width: "200px",
+      align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
     {
@@ -1284,6 +1304,7 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionStartDate",
       width: "110px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) =>
         a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
@@ -1301,6 +1322,7 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionEndDate",
       width: "100px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) =>
         a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
       render: (text, record) => {
@@ -1320,6 +1342,8 @@ const GlobalAdminDashboard = () => {
       dataIndex: "organizationName",
       key: "organizationName",
       width: "200px",
+      align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
       render: (text, record) => {
         return (
@@ -1336,6 +1360,7 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionStartDate",
       width: "200px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) =>
         a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
@@ -1353,6 +1378,7 @@ const GlobalAdminDashboard = () => {
       key: "name",
       width: "200px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (text, record) => {
         return (
@@ -1388,6 +1414,8 @@ const GlobalAdminDashboard = () => {
       dataIndex: "OrganizationName",
       key: "OrganizationName",
       width: "200px",
+      align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
     },
     {
@@ -1397,6 +1425,7 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionStartDate",
       width: "200px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) =>
         a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
@@ -1414,6 +1443,7 @@ const GlobalAdminDashboard = () => {
       key: "Name",
       width: "200px",
       align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.Name.localeCompare(b.Name),
       render: (text, record) => {
         return (
@@ -1446,6 +1476,8 @@ const GlobalAdminDashboard = () => {
       dataIndex: "organizationName",
       key: "organizationName",
       width: "200px",
+      align: "center",
+      ellipsis: true,
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
       render: (text, record) => {
         return (
@@ -1462,6 +1494,8 @@ const GlobalAdminDashboard = () => {
       key: "subscriptionStartDate",
       width: "200px",
       align: "center",
+      align: "center",
+      ellipsis: true,
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1477,6 +1511,7 @@ const GlobalAdminDashboard = () => {
       key: "Name",
       width: "200px",
       align: "center",
+      ellipsis: true,
     },
 
     // {
@@ -1668,7 +1703,7 @@ const GlobalAdminDashboard = () => {
                   </div>
                 </Col>
               </Row>
-              <Row className="mt-5">
+              <Row className="mt-3">
                 <Col
                   lg={12}
                   md={12}
@@ -1688,12 +1723,15 @@ const GlobalAdminDashboard = () => {
                 </Col>
               </Row>
 
-              <Row className="mt-5">
+              <Row className="mt-2">
                 <Col lg={12} md={12} sm={12}>
                   <Table
                     column={DashboardGlobalColumn}
                     pagination={false}
                     rows={billDueTable}
+                    scroll={{
+                      x: false,
+                    }}
                     className="Table"
                     locale={{
                       emptyText: (
@@ -1747,7 +1785,8 @@ const GlobalAdminDashboard = () => {
                     {/* <Pie {...config} /> */}
                     <Chart
                       chartType="PieChart"
-                      height={"250px"}
+                      height={"200px"}
+                      width={"250px"}
                       data={exData}
                       options={options}
                     />
@@ -1765,8 +1804,8 @@ const GlobalAdminDashboard = () => {
                     {/* <Pie {...configSecond} /> */}
                     <Chart
                       chartType="PieChart"
-                      width={"330px"}
-                      height={"250px"}
+                      height={"200px"}
+                      width={"250px"}
                       data={userData}
                       options={userOptions}
                     />
@@ -1774,7 +1813,7 @@ const GlobalAdminDashboard = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
-                <Col lg={9} md={9} sm={9} className="d-flex gap-2">
+                <Col lg={10} md={10} sm={12} className="d-flex gap-2">
                   {organizationStatus ? (
                     <>
                       <Button
@@ -1832,18 +1871,24 @@ const GlobalAdminDashboard = () => {
                   ) : null}
                 </Col>
 
-                <Col
-                  lg={3}
-                  md={3}
-                  sm={3}
-                  className="d-flex justify-content-end"
-                >
+                <Col lg={2} md={2} sm={12}>
                   {users === true || organizationStatus === true ? (
-                    <span className={styles["Export_To_Excel_dashboard"]}>
-                      <img src={ExcelIcon} alt="" draggable="false" />
-                      <span>{t("Export")}</span>
-                    </span>
-                  ) : null}
+                    <>
+                      <Button
+                        text={t("Export")}
+                        className={styles["ExportBUtton"]}
+                        icon={
+                          <>
+                            <img src={ExcelIcon} alt="" draggable="false" />
+                          </>
+                        }
+                      />
+                    </>
+                  ) : // <span className={styles["Export_To_Excel_dashboard"]}>
+                  //
+                  //   <span>{t("Export")}</span>
+                  // </span>
+                  null}
                 </Col>
               </Row>
               <Row className="mt-3">

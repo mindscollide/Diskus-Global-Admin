@@ -3,7 +3,8 @@
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
-  height: 80vh !important;
+  height: auto !important;
+  min-height: 80vh !important;
 }
 
 .RightBoxDashboard {
@@ -11,7 +12,8 @@
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
-  height: 80vh !important;
+  height: auto !important;
+  min-height: 80vh !important;
 }
 
 .BillingDueHeading {
@@ -263,6 +265,7 @@ body[dir="rtl"] .dashboard-table-insidetext {
   color: #5a5a5a !important;
   font-size: 12px !important;
   font-family: "montserrat-bold" !important;
+  white-space: nowrap !important;
 }
 
 .dashboard-user-dates {
@@ -341,21 +344,51 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
 }
 
 .send-invoice-button:hover {
-  color: #505050;
-  font-family: "montserrat-500" !important;
-  cursor: pointer !important;
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   border-radius: 4px !important;
-  display: flex !important;
+  color: #505050;
   font-size: 12px !important;
+  font-family: "montserrat-500" !important;
+  cursor: pointer !important;
+  white-space: nowrap;
 }
 
 body[dir="rtl"] .send-invoice-button {
   font-family: "IBMPlexSansArabic-SemiBold" !important;
-  text-wrap: nowrap !important;
+  white-space: nowrap;
 }
 
 .ContainerClass {
   width: 98% !important;
+}
+
+.ExportBUtton {
+  padding: 12px 10px !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+  display: flex !important;
+  gap: 5px !important;
+  align-items: center !important;
+  font-family: "MontserratSemiBold-600" !important;
+}
+
+.ExportBUtton:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 10px !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+  font-family: "MontserratSemiBold-600" !important;
+}
+
+
+body[dir="rtl"] .ExportBUtton {
+  font-family: "IBMPlexSansArabic-SemiBold" !important;
+  white-space: nowrap;
+  padding: 12px 17px !important;
 }
