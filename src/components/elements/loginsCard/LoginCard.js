@@ -39,10 +39,6 @@ const LoginCard = () => {
     dispatch(changeScreen("login"));
   };
 
-  // Function to switch to the twofascreen
-  const onClickSignIn = () => {
-    dispatch(changeScreen("PasswordVerification"));
-  };
 
   // Function to switch to the Enter Password screen
   // const onClickToEnterpassword = () => {
@@ -90,7 +86,6 @@ const LoginCard = () => {
                   {screenName === "login" && (
                     <LoginScreen
                       onClickForgetPasswordText={onClickForgetPasswordText}
-                      onClickSignIn={onClickSignIn}
                     />
                   )}
                   {screenName === "forgotPassword" && (

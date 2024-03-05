@@ -13,6 +13,7 @@ import { enterEmailValidation } from "../../store/Actions/AuthActions";
 import { useTranslation } from "react-i18next";
 import { changeScreen } from "../../store/ActionsSlicers/AuthScreenActionSlicer";
 import { validationEmail } from "../../common/functions/Validate";
+import { async } from "q";
 
 const LoginScreen = ({ onClickForgetPasswordText }) => {
   const navigate = useNavigate();
@@ -112,7 +113,7 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
     }
   }, []);
 
-  const onClickSignIn = (e) => {
+  const onClickSignIn = async(e) => {
     e.preventDefault();
     if (email === "") {
       setOpenNotification({
@@ -145,8 +146,7 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
         });
       }, 3000);
     } else {
-      dispatch(enterEmailValidation({ email, navigate, t }));
-      dispatch(changeScreen("PasswordVerification"));
+    await  dispatch(enterEmailValidation({ email, navigate, t }));
     }
   };
 

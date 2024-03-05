@@ -150,6 +150,7 @@ body {
   background-color: #f6fafd !important;
   font-family: "montserrat-regular" !important;
 }
+
 ::-webkit-scrollbar {
   width: 0.5rem !important;
   border-radius: 20px !important;
@@ -166,19 +167,21 @@ body {
   padding: 3px 10px !important;
 }
 
-.ant-table-thead > tr * {
+.ant-table-thead>tr * {
   color: #6172d6 !important;
   font-family: "MontserratSemiBold-600";
   font-size: 14px !important;
-  padding: 4px 8px !important;
+  /* padding: 20px !important; */
 }
 
-body[dir="rtl"] .ant-table-thead > tr * {
+body[dir="rtl"] .ant-table-thead>tr * {
   color: #6172d6 !important;
   font-family: "IBMPlexSansArabic-Light";
   font-size: 14px !important;
-  padding: 4px 8px !important;
+  /* padding: 20px !important; */
 }
+
+
 
 .datepicker_input {
   padding: 0px 45px !important;
@@ -191,6 +194,7 @@ body[dir="rtl"] .ant-table-thead > tr * {
   font-family: "MontserratSemiBold-600";
   cursor: pointer;
 }
+
 .datepicker_input:is(:hover, :focus, :focus-visible, :visited) {
   outline: none !important;
 }
@@ -200,8 +204,39 @@ body[dir="rtl"] .ant-table-thead > tr * {
   font-family: "MontserratSemiBold-600" !important;
 }
 
-.ant-table-wrapper.userlogin_history_tableP .ant-table-tbody tr td {
+.userlogin_history_tableP.ant-table-wrapper .ant-table-tbody tr td {
   font-weight: 600;
+  border-bottom: 1px solid #e1e1e1 !important;
+}
+
+.Table.ant-table-wrapper .ant-table-tbody tr td {
+  border-bottom: 1px solid #e1e1e1 !important;
+}
+
+td.ant-table-cell.random {
+  padding: 5px 8px !important;
+  text-align: center;
+}
+
+.TrialTableDashboard.ant-table-wrapper .ant-table-tbody tr td {
+  border-bottom: 1px solid #e1e1e1 !important;
+}
+
+.TrialExtendedDashboard.ant-table-wrapper .ant-table-tbody tr td {
+  border-bottom: 1px solid #e1e1e1 !important;
+}
+
+.EssentialTable.ant-table-wrapper .ant-table-tbody tr td {
+  border-bottom: 1px solid #e1e1e1 !important;
+}
+
+.EssentialTable.ant-table-wrapper .ant-table-tbody tr td {
+  border-bottom: 1px solid #e1e1e1 !important;
+}
+
+.userlogin_history_tableP.ant-table-wrapper .ant-table-thead tr {
+  /* border-bottom: 1px solid #ccc !important; */
+  padding: 20px !important;
 }
 
 /* :where(.css-dev-only-do-not-override-dkbvqv)[class^="ant-layout"],
@@ -232,6 +267,7 @@ img.user-img {
 td.ant-table-cell {
   border-bottom: none !important;
 }
+
 span.Main-Title {
   color: #6172d6;
   font-size: 24px;
@@ -373,42 +409,42 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
   background: none !important;
 }
 
-.TrialTableDashboard .ant-table-thead > tr * {
+.TrialTableDashboard .ant-table-thead>tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-body[dir="rtl"] .TrialTableDashboard .ant-table-thead > tr * {
+body[dir="rtl"] .TrialTableDashboard .ant-table-thead>tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-.TrialExtendedDashboard .ant-table-thead > tr * {
+.TrialExtendedDashboard .ant-table-thead>tr * {
   font-size: 12px !important;
   padding: 1px 2px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead > tr * {
+body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead>tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-.EssentialTable .ant-table-thead > tr * {
+.EssentialTable .ant-table-thead>tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
+body[dir="rtl"] .EssentialTable .ant-table-thead>tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
@@ -423,4 +459,12 @@ body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
   background-color: #e1e1e1 !important;
   box-shadow: none !important;
   color: #fff !important;
+}
+
+.ant-table-wrapper table {
+  width: 100%;
+  text-align: start;
+  border-radius: 8px 8px 0 0;
+  /* border-collapse: collapse; */
+  border-spacing: 0;
 }

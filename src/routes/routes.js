@@ -16,9 +16,9 @@ export const router = createHashRouter(
       {/* <Route path="/" element={<Login />} /> */}
       {/* <Route path="/Forgot" element={<ForgotPassword />} /> */}
 
-      <Route exact path="/" element={<LoginCard />}>
-        <Route path="/admin" element={<LoginCard />} />
-      </Route>
+      <Route exact path="/" element={<LoginCard />} />
+      {/* <Route path="/admin" element={<LoginCard />} /> */}
+      {/* </Route> */}
       <Route element={<PrivateRoutes />}>
         <Route exact path="/GlobalAdmin/" element={<DashBoard />}>
           <Route path="" element={<GlobalAdminDashboard />} />

@@ -32,7 +32,10 @@ import {
   getAllOrganizationApi,
 } from "../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
-import { convertUTCDateToLocalDate } from "../../common/functions/dateFormatters";
+import {
+  convertUTCDateToLocalDate,
+  formatDate,
+} from "../../common/functions/dateFormatters";
 import moment from "moment";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import EditOrganizationSubscription from "./EditOrganizationSubscriptionModal/EditOrganizationSubscription";
@@ -69,6 +72,7 @@ const ViewOrganization = () => {
   );
 
   const [organizationData, setOrganizationData] = useState([]);
+  const [aminNameSearch, setAminNameSearch] = useState("");
 
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
@@ -410,21 +414,38 @@ const ViewOrganization = () => {
   };
 
   const HandleopenSearchBox = () => {
-    setShowSearchText(false);
+    if (aminNameSearch !== "") {
+      setAminNameSearch("");
+      let data = {
+        OrganizationID: 0,
+        CountryID: 0,
+        ContactPersonName: "",
+        Email: "",
+        StatusID: 0,
+        PackageID: 0,
+        SubsictionExpiryStart: "",
+        SubscriptionExpiryEnd: "",
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(searchOrganizationApi({ data, navigate, t }));
+    }
     setSearchOrganizationData({
-      userName: "",
-      userEmail: "",
-      DateFrom: "",
-      DateTo: "",
-      DateToView: "",
-      DateFromView: "",
+      ...searchOrganizationData,
+      userName: searchOrganizationData.userName,
+      userEmail: searchOrganizationData.userEmail,
+      DateFrom: searchOrganizationData.DateFrom,
+      DateTo: searchOrganizationData.DateTo,
+      DateToView: searchOrganizationData.DateToView,
+      DateFromView: searchOrganizationData.DateFromView,
       Status: {
-        value: 0,
-        label: "",
+        value: searchOrganizationData.Status.value,
+        label: searchOrganizationData.Status.label,
       },
       OrganizationID: {
-        value: 0,
-        label: "",
+        value: searchOrganizationData.OrganizationID.value,
+        label: searchOrganizationData.OrganizationID.label,
       },
     });
     setSearchBox(!searchBox);
@@ -549,7 +570,6 @@ const ViewOrganization = () => {
   }, [currentLanguage]);
 
   const handleSearches = (Data, fieldName) => {
-    console.log(Data, fieldName, "datadatadatahandleSearches");
     setSearchOrganizationData({
       ...searchOrganizationData,
       [fieldName]: "",
@@ -647,6 +667,47 @@ const ViewOrganization = () => {
   //     }
   //   }
   // }, [Responsemessage]);
+  function onChangeEventForSearch(e) {
+    let value = e.target.value;
+    setSearchBox(false);
+    // Check if the first character is a space and remove it if it is
+    if (value.charAt(0) === " ") {
+      value = value.trimStart();
+    }
+    setAminNameSearch(value);
+    console.log("value", value);
+  }
+  const handleKeyDownSearch = (e) => {
+    if (e.key === "Enter") {
+      if (aminNameSearch !== "") {
+        let data = {
+          OrganizationID: 0,
+          CountryID: 0,
+          ContactPersonName: aminNameSearch,
+          Email: "",
+          StatusID: 0,
+          PackageID: 0,
+          SubsictionExpiryStart: "",
+          SubscriptionExpiryEnd: "",
+          sRow: 0,
+          Length: 10,
+        };
+        dispatch(viewOrganizationLoader(true));
+        dispatch(searchOrganizationApi({ data, navigate, t }));
+        setShowSearchText(true);
+      } else {
+        setTimeout(
+          setOpenNotification({
+            ...openNotification,
+            organizationFlag: true,
+            organizationNotification: t("Please-enter-data-in-inputfield"),
+            severity: "error",
+          }),
+          3000
+        );
+      }
+    }
+  };
 
   return (
     <>
@@ -660,6 +721,10 @@ const ViewOrganization = () => {
           <Col lg={5} md={5} sm={5}>
             <span className="position-relative">
               <TextField
+                onKeyDown={handleKeyDownSearch}
+                change={onChangeEventForSearch}
+                placeholder={t("Admin-name")}
+                value={aminNameSearch}
                 labelClass={"d-none"}
                 applyClass={"NewMeetingFileds"}
                 inputicon={
@@ -729,9 +794,10 @@ const ViewOrganization = () => {
                   {showsearchText && searchOrganizationData.DateFrom !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
-                        {moment
-                          .utc(searchOrganizationData.DateFrom, "YYYYMMDD")
-                          .format("DD-MMM-YYYY")}
+                        {formatDate(
+                          searchOrganizationData.DateFrom,
+                          currentLanguage
+                        )}
                       </span>
                       <img
                         src={Crossicon}
@@ -751,9 +817,10 @@ const ViewOrganization = () => {
                   {showsearchText && searchOrganizationData.DateTo !== "" ? (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
-                        {moment
-                          .utc(searchOrganizationData.DateTo, "YYYYMMDD")
-                          .format("DD-MMM-YYYY")}
+                        {formatDate(
+                          searchOrganizationData.DateTo,
+                          currentLanguage
+                        )}
                       </span>
                       <img
                         src={Crossicon}
@@ -912,12 +979,12 @@ const ViewOrganization = () => {
             </span>
           </Col>
         </Row>
-        <Row className="mt-4">
-          <Col lg={12} md={12} sm={12}>
+        <Row className="mt-2">
+          <Col sm={12} md={12} lg={12} className="py-2  px-4 bg-white">
             <InfiniteScroll
               dataLength={viewOrganizationData.length}
               next={handleScroll}
-              height={"55vh"}
+              height={"70vh"}
               hasMore={
                 viewOrganizationData.length === totalRecords ? false : true
               }
@@ -945,7 +1012,7 @@ const ViewOrganization = () => {
                 rows={viewOrganizationData}
                 footer={false}
                 className={"userlogin_history_tableP"}
-                size={"small"}
+                size={"medium"}
                 // scroll={{
                 //   x: false,
                 // }}
