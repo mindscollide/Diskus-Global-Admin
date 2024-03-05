@@ -932,8 +932,9 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Billing-date"),
       dataIndex: "billingDate",
+      className: "random",
       key: "billingDate",
-      width: "150px",
+      width: "190px",
       render: (text, response) => {
         return (
           <>
@@ -946,9 +947,10 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Amount-due"),
+      className: "random",
       dataIndex: "amountDue",
       key: "amountDue",
-      width: "140px",
+      width: "190px",
       render: (text, response) => {
         const formattedText = formatSessionDurationArabicAndEng(
           text,
@@ -966,9 +968,10 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Month"),
+      className: "random",
       key: "billingMonth",
       dataIndex: "billingMonth",
-      width: "120px",
+      width: "80px",
       render: (text, response) => (
         <span className={styles["dashboard-table-insidetext"]}>{text}</span>
       ),
@@ -976,7 +979,7 @@ const GlobalAdminDashboard = () => {
     {
       title: (
         <span
-          className={styles["Export_To_Excel_dashboard"]}
+          className={styles["Export_To_Excel_dashboardTableButton"]}
           onClick={onClickExport}
         >
           <img src={ExcelIcon} alt="" draggable="false" />
@@ -984,8 +987,9 @@ const GlobalAdminDashboard = () => {
         </span>
       ),
       key: "billingMonth",
+      className: "random",
       dataIndex: "billingMonth",
-      width: "80px",
+      width: "120px",
       render: (text, record) => (
         <span className={styles["dashboard-table-insidetext"]}>
           <Button
@@ -1110,6 +1114,7 @@ const GlobalAdminDashboard = () => {
   const TrialColumn = [
     {
       title: t("Organization-name"),
+      className:"random",
       dataIndex: "organizationName",
       key: "organizationName",
       width: "100px",
@@ -1126,6 +1131,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Trial-start-date"),
       dataIndex: "subscriptionStartDate",
+      className:"random",
       key: "subscriptionStartDate",
       width: "110px",
       align: "center",
@@ -1142,6 +1148,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Trial-end-date"),
       dataIndex: "subscriptionEndDate",
+      className:"random",
       key: "subscriptionEndDate",
       width: "100px",
       align: "center",
@@ -1157,6 +1164,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Remaining-days"),
+      className:"random",
       dataIndex: "TrialEndDate",
       key: "TrialEndDate",
       width: "100px",
@@ -1168,6 +1176,7 @@ const GlobalAdminDashboard = () => {
   const TraiExtendedColumn = [
     {
       title: t("Trial-extended-date"),
+      className: "random",
       dataIndex: "Name",
       key: "Name",
       width: "140px",
@@ -1176,6 +1185,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Trial-extended-date"),
+      className: "random",
       dataIndex: "TrialExtendedDate",
       key: "TrialExtendedDate",
       width: "140px",
@@ -1191,6 +1201,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Trial-extended-end-date"),
       dataIndex: "TrialExtendedEndDate",
+      className: "random",
       key: "TrialExtendedEndDate",
       width: "170px",
       align: "center",
@@ -1206,6 +1217,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Remaining-days"),
+      className: "random",
       dataIndex: "remaingDate",
       key: "remaingDate",
       width: "160px",
@@ -1217,6 +1229,7 @@ const GlobalAdminDashboard = () => {
   const subscriptionColumn = [
     {
       title: t("Organization-name"),
+      className: "random",
       dataIndex: "Name",
       key: "Name",
       width: "200px",
@@ -1231,6 +1244,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Expiration-date"),
       dataIndex: "ExpiryDate",
+      className: "random",
       key: "ExpiryDate",
       width: "300px",
       align: "center",
@@ -1246,6 +1260,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Remaining-days"),
       dataIndex: "remaingDate",
+      className: "random",
       key: "remaingDate",
       width: "200px",
       align: "center",
@@ -1257,6 +1272,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Organization-name"),
       dataIndex: "organizationName",
+      className: "random",
       key: "organizationName",
       width: "200px",
       sorter: (a, b) => a.Name.localeCompare(b.Name),
@@ -1264,6 +1280,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Trial-start-date"),
       dataIndex: "subscriptionStartDate",
+      className: "random",
       key: "subscriptionStartDate",
       width: "110px",
       align: "center",
@@ -1279,6 +1296,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Trial-end-date"),
+      className: "random",
       dataIndex: "subscriptionEndDate",
       key: "subscriptionEndDate",
       width: "100px",
@@ -1298,6 +1316,7 @@ const GlobalAdminDashboard = () => {
   const essentialColumns = [
     {
       title: t("Organization-name"),
+      className: "random",
       dataIndex: "organizationName",
       key: "organizationName",
       width: "200px",
@@ -1312,6 +1331,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Start-date"),
+      className: "random",
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
       width: "200px",
@@ -1328,6 +1348,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Name"),
+      className: "random",
       dataIndex: "name",
       key: "name",
       width: "200px",
@@ -1363,6 +1384,7 @@ const GlobalAdminDashboard = () => {
   const ProfessionalColumns = [
     {
       title: t("Organization-name"),
+      className: "random",
       dataIndex: "OrganizationName",
       key: "OrganizationName",
       width: "200px",
@@ -1370,6 +1392,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Start-date"),
+      className: "random",
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
       width: "200px",
@@ -1387,6 +1410,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Name"),
       dataIndex: "Name",
+      className: "random",
       key: "Name",
       width: "200px",
       align: "center",
@@ -1418,6 +1442,7 @@ const GlobalAdminDashboard = () => {
   const PreimiumColumns = [
     {
       title: t("Organization-name"),
+      className: "random",
       dataIndex: "organizationName",
       key: "organizationName",
       width: "200px",
@@ -1432,6 +1457,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Start-date"),
+      className: "random",
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
       width: "200px",
@@ -1446,6 +1472,7 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Name"),
+      className: "random",
       dataIndex: "Name",
       key: "Name",
       width: "200px",

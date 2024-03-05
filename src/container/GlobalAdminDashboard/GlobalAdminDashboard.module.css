@@ -286,6 +286,36 @@ body[dir="rtl"] .dashboard-table-insidetext {
   cursor: pointer !important;
 }
 
+.Export_To_Excel_dashboardTableButton {
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  padding: 7px 15px !important;
+  height: 39px !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  margin: 0 !important;
+  gap: 5px !important;
+  font-family: "montserrat-500" !important;
+  cursor: pointer !important;
+}
+
+body[dir="rtl"] .Export_To_Excel_dashboardTableButton {
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  padding: 7px 15px !important;
+  height: 39px !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  margin: 0 !important;
+  gap: 5px !important;
+  font-family: "montserrat-500" !important;
+  cursor: pointer !important;
+}
+
 body[dir="rtl"] .Export_To_Excel_dashboard {
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -304,10 +334,10 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   border: 1px solid #e1e1e1 !important;
   border-radius: 4px !important;
   color: #505050;
-  display: flex !important;
   font-size: 12px !important;
   font-family: "montserrat-500" !important;
   cursor: pointer !important;
+  white-space: nowrap;
 }
 
 .send-invoice-button:hover {
