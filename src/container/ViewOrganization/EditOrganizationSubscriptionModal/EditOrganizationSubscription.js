@@ -13,7 +13,7 @@ import EditOrganizationConfirmation from "./EditOrganizationConfirmation/EditOrg
 const EditOrganizationSubscription = ({
   editOrganizationID,
   editOrganzationName,
-  currentSubscriptionName,
+  currentOrganisationSubscriptionName,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
@@ -32,25 +32,25 @@ const EditOrganizationSubscription = ({
   //states
   useEffect(() => {
     setOrganzationStatus({
-      value: currentSubscriptionName.toString(),
+      value: currentOrganisationSubscriptionName.toString(),
       label:
-        currentSubscriptionName.toString() === "1"
+        currentOrganisationSubscriptionName.toString() === "1"
           ? "Active"
-          : currentSubscriptionName.toString() === "2"
+          : currentOrganisationSubscriptionName.toString() === "2"
           ? "InActive"
-          : currentSubscriptionName.toString() === "3"
+          : currentOrganisationSubscriptionName.toString() === "3"
           ? "suspended"
-          : currentSubscriptionName.toString() === "4"
+          : currentOrganisationSubscriptionName.toString() === "4"
           ? "Closed"
-          : currentSubscriptionName.toString() === "5"
+          : currentOrganisationSubscriptionName.toString() === "5"
           ? "Terminated Request"
-          : currentSubscriptionName.toString() === "6"
+          : currentOrganisationSubscriptionName.toString() === "6"
           ? "Deleted"
-          : currentSubscriptionName.toString() === "7"
+          : currentOrganisationSubscriptionName.toString() === "7"
           ? "Archived"
           : "Active",
     });
-  }, [currentSubscriptionName]);
+  }, [currentOrganisationSubscriptionName]);
 
   console.log(organzationStatus.value, "organzationStatusorganzationStatus");
 
