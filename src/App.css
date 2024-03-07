@@ -270,18 +270,18 @@ td.ant-table-cell {
 
 span.Main-Title {
   color: #6172d6;
-  font-size: 24px;
+  font-size: 16px;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
   font-family: "MontserratSemiBold-600";
 }
 
 body[dir="rtl"] span.Main-Title {
   color: #6172d6;
-  font-size: 24px;
+  font-size: 16px;
   text-align: center;
-  margin-top: 20px;
-  font-family: "IBMPlexSansArabic-Medium";
+  margin-top: 10px;
+  font-family: "IBMPlexSansArabic-SemiBold";
 }
 
 span.Sub-Title {

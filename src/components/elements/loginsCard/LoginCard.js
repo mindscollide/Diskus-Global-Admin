@@ -39,7 +39,6 @@ const LoginCard = () => {
     dispatch(changeScreen("login"));
   };
 
-
   // Function to switch to the Enter Password screen
   // const onClickToEnterpassword = () => {
   //   dispatch(changeScreen("EnterPassword"));
@@ -67,13 +66,9 @@ const LoginCard = () => {
                   lg={12}
                   md={12}
                   sm={12}
-                  className="d-flex justify-content-center mt-5"
+                  className="d-flex justify-content-center"
                 >
-                  <img
-                    src={DiskusLogo}
-                    alt="loginLogo"
-                    className={styles["diskus_logo_card"]}
-                  />
+                  <img src={DiskusLogo} alt="loginLogo" />
                 </Col>
               </Row>
               <Row>
@@ -83,13 +78,12 @@ const LoginCard = () => {
                   sm={12}
                   className="d-flex justify-content-center flex-column px-4"
                 >
-                  {screenName === "login" && (
-                    <LoginScreen
+                  {screenName === "login" && <LoginScreen />}
+                  {screenName === "forgotPassword" && (
+                    <ForgotPassword
+                      onClickGoBack={onClickGoBack}
                       onClickForgetPasswordText={onClickForgetPasswordText}
                     />
-                  )}
-                  {screenName === "forgotPassword" && (
-                    <ForgotPassword onClickGoBack={onClickGoBack} />
                   )}
                   {screenName === "TwoFaScreen" && (
                     <TwoFaScreen onClickGoBack={onClickGoBack} />

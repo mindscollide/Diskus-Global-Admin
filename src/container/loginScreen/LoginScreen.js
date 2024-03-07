@@ -15,7 +15,7 @@ import { changeScreen } from "../../store/ActionsSlicers/AuthScreenActionSlicer"
 import { validationEmail } from "../../common/functions/Validate";
 import { async } from "q";
 
-const LoginScreen = ({ onClickForgetPasswordText }) => {
+const LoginScreen = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -113,7 +113,7 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
     }
   }, []);
 
-  const onClickSignIn = async(e) => {
+  const onClickSignIn = async (e) => {
     e.preventDefault();
     if (email === "") {
       setOpenNotification({
@@ -146,7 +146,7 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
         });
       }, 3000);
     } else {
-    await  dispatch(enterEmailValidation({ email, navigate, t }));
+      await dispatch(enterEmailValidation({ email, navigate, t }));
     }
   };
 
@@ -210,22 +210,6 @@ const LoginScreen = ({ onClickForgetPasswordText }) => {
             onClick={onClickSignIn}
             className={"LoginButton"}
           />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col
-          lg={12}
-          md={12}
-          sm={12}
-          className="d-flex justify-content-center mt-4"
-        >
-          <span
-            className="forget-paswword-text"
-            onClick={onClickForgetPasswordText}
-          >
-            {t("Forget-password")}
-          </span>
         </Col>
       </Row>
 

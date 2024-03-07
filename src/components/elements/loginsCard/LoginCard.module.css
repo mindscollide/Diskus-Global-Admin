@@ -1,11 +1,14 @@
 .screens-card {
-  background-color: rgb(255, 255, 255) !important;
-  border: 1px solid #d3d3d3 !important;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 380px !important;
+  background: #fff;
   height: auto;
-  width: 100%;
-  padding: 20px;
-  border-radius: 4px !important;
-  margin: 0 auto;
+  padding: 35px 22px;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  margin: 5px -60px;
 }
 
 body[dir="rtl"] .screens-card {
@@ -23,6 +26,23 @@ body[dir="rtl"] .screens-card {
 
 .heading-2 {
   color: #4adede !important;
+}
+
+.login-screen-headings {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.login-screen-headings h1 {
+  font-size: calc(60px - 20%) !important;
+  font-family: "MontserratSemiBold";
+  margin: 0 !important;
+  width: 100%;
+  white-space: nowrap;
+  z-index: 1;
 }
 
 .column-class-heading-login {
@@ -46,11 +66,11 @@ body[dir="rtl"] .column-class-heading-login {
 
 .round-circle-class {
   position: fixed !important;
-  bottom: -140px !important;
-  right: -100px !important;
+  bottom: -185px !important;
+  right: -101px !important;
   transform: rotate(0deg) !important;
   z-index: 1px !important;
-  width: 35rem;
+  width: 37rem;
   height: auto;
   object-fit: cover;
   overflow: hidden;
@@ -166,14 +186,16 @@ body[dir="rtl"] .language-selector-class {
   align-items: flex-start !important;
   min-height: 90vh !important;
   padding-top: 50px !important;
+  padding-right: 50px !important;
 }
-.login-screen-headings {
-  padding-left: 30px;
-}
+
+
+
 .twoFaScreen_mobileIcon {
   width: 26rem !important;
   margin-left: 200px;
 }
+
 .diskus_logo_card {
-  width: 16rem !important;
+  /* width: 16rem !important; */
 }
