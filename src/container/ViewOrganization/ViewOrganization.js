@@ -97,6 +97,10 @@ const ViewOrganization = () => {
   const [viewOrganizationModal, setViewOrganizationModal] = useState("");
 
   const [currentSubscriptionName, setCurrentSubscriptionName] = useState(0);
+  const [
+    currentOrganisationSubscriptionName,
+    setCurrentOrganisationSubscriptionName,
+  ] = useState(0);
 
   const [organizationID, setOrganizationID] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
@@ -225,7 +229,7 @@ const ViewOrganization = () => {
       title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
-      align: "center",
+      align: "left",
       ellipsis: true,
       width: 220,
       render: (text, record) => (
@@ -243,7 +247,7 @@ const ViewOrganization = () => {
       title: t("Admin-name"),
       dataIndex: "contactPersonName",
       key: "contactPersonName",
-      align: "center",
+      align: "left",
       ellipsis: true,
       width: 220,
       render: (text, record) => (
@@ -333,6 +337,64 @@ const ViewOrganization = () => {
       },
     },
     {
+      title: t("Organization-status"),
+      dataIndex: "organizationStatusID",
+      key: "organizationStatusID",
+      align: "center",
+      ellipsis: true,
+      width: 180,
+      render: (text, record) => {
+        console.log(record, "recordrecordrecord");
+        return (
+          <>
+            {record.organizationStatusID === 1 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Active")}
+                </span>
+              </>
+            ) : record.organizationStatusID === 2 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("In-active")}
+                </span>
+              </>
+            ) : record.organizationStatusID === 3 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Suspended")}
+                </span>
+              </>
+            ) : record.organizationStatusID === 4 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Closed")}
+                </span>
+              </>
+            ) : record.organizationStatusID === 5 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Termination-requested")}
+                </span>
+              </>
+            ) : record.organizationStatusID === 6 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Deleted")}
+                </span>
+              </>
+            ) : record.organizationStatusID === 7 ? (
+              <>
+                <span className={styles["inner-sub-Heading"]}>
+                  {t("Archived")}
+                </span>
+              </>
+            ) : null}
+          </>
+        );
+      },
+    },
+    {
       title: t("Edit-subscription"),
       dataIndex: "editSubscription",
       key: "editSubscription",
@@ -392,10 +454,11 @@ const ViewOrganization = () => {
   ];
 
   const handleEditOrganizationModal = (record) => {
+    console.log(record, "recordrecordrecordrecord");
     // dispatch(editOrganizationModalOpen(true));
     setEditOrganzationName(record.organizationName);
     setEditOrganizationID(record.organizationID);
-    setCurrentSubscriptionName(record.currentSubscrtionStatus);
+    setCurrentOrganisationSubscriptionName(record.organizationStatusID);
     dispatch(editOrganizationSubscriptionModalOpen(true));
   };
 
@@ -1033,7 +1096,9 @@ const ViewOrganization = () => {
       <EditOrganizationSubscription
         editOrganizationID={editOrganizationID}
         editOrganzationName={editOrganzationName}
-        currentSubscriptionName={currentSubscriptionName}
+        currentOrganisationSubscriptionName={
+          currentOrganisationSubscriptionName
+        }
       />
 
       {/* for view Organization Modal */}
