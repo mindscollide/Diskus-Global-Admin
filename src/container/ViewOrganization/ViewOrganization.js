@@ -229,7 +229,7 @@ const ViewOrganization = () => {
       title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
-      align: "center",
+      align: "left",
       ellipsis: true,
       width: 220,
       render: (text, record) => (
@@ -247,7 +247,7 @@ const ViewOrganization = () => {
       title: t("Admin-name"),
       dataIndex: "contactPersonName",
       key: "contactPersonName",
-      align: "center",
+      align: "left",
       ellipsis: true,
       width: 220,
       render: (text, record) => (

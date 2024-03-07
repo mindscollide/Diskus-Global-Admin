@@ -214,7 +214,7 @@ const LoginHistory = () => {
       title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
-      align: "center",
+      align: "left",
       ellipsis: true,
       width: 220,
       render: (text, record) => (
@@ -227,7 +227,7 @@ const LoginHistory = () => {
       title: t("User-name"),
       dataIndex: "userName",
       key: "userName",
-      align: "center",
+      align: "left",
       ellipsis: true,
       width: 220,
       render: (text, record) => (
@@ -328,7 +328,7 @@ const LoginHistory = () => {
   ];
 
   const HandleopenSearchBox = () => {
-    if(userNameSearch!==""){
+    if (userNameSearch !== "") {
       setUserNameSearch("");
       let data = {
         OrganizationID: 0,
