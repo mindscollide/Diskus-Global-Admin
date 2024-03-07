@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PasswordVerificationApi } from "../../store/Actions/AuthActions";
 
-const PasswordVerification = () => {
+const PasswordVerification = ({ onClickForgetPasswordText }) => {
   const { t } = useTranslation();
 
   const passwordRef = useRef();
@@ -224,6 +224,22 @@ const PasswordVerification = () => {
               className={styles["LoginButton"]}
               onClick={loginHandler}
             />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col
+            lg={12}
+            md={12}
+            sm={12}
+            className="d-flex justify-content-center mt-2"
+          >
+            <span
+              className="forget-paswword-text"
+              onClick={onClickForgetPasswordText}
+            >
+              {t("Forget-password")}
+            </span>
           </Col>
         </Row>
       </Form>

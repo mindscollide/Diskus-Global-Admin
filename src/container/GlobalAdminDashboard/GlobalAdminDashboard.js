@@ -1955,10 +1955,10 @@ const GlobalAdminDashboard = () => {
                         locale={{
                           emptyText: (
                             <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <section className="d-flex flex-column align-items-center justify-content-center">
                                 <img
                                   src={NoOrganizationIcon}
-                                  width={"80px"}
+                                  width={"45px"}
                                   alt=""
                                 />
 
@@ -2016,7 +2016,7 @@ const GlobalAdminDashboard = () => {
                               <section className="d-flex flex-column align-items-center justify-content-center ">
                                 <img
                                   src={NoOrganizationIcon}
-                                  width={"80px"}
+                                  width={"45px"}
                                   alt=""
                                 />
 
@@ -2074,7 +2074,7 @@ const GlobalAdminDashboard = () => {
                               <section className="d-flex flex-column align-items-center justify-content-center ">
                                 <img
                                   src={NoOrganizationIcon}
-                                  width={"80px"}
+                                  width={"45px"}
                                   alt=""
                                 />
 
@@ -2134,7 +2134,7 @@ const GlobalAdminDashboard = () => {
                               <section className="d-flex flex-column align-items-center justify-content-center ">
                                 <img
                                   src={NoOrganizationIcon}
-                                  width={"80px"}
+                                  width={"45px"}
                                   alt=""
                                 />
 
@@ -2192,7 +2192,7 @@ const GlobalAdminDashboard = () => {
                               <section className="d-flex flex-column align-items-center justify-content-center ">
                                 <img
                                   src={NoOrganizationIcon}
-                                  width={"80px"}
+                                  width={"45px"}
                                   alt=""
                                 />
 
@@ -2250,7 +2250,7 @@ const GlobalAdminDashboard = () => {
                               <section className="d-flex flex-column align-items-center justify-content-center ">
                                 <img
                                   src={NoOrganizationIcon}
-                                  width={"80px"}
+                                  width={"45px"}
                                   alt=""
                                 />
 
@@ -2306,7 +2306,7 @@ const GlobalAdminDashboard = () => {
                               <section className="d-flex flex-column align-items-center justify-content-center ">
                                 <img
                                   src={NoOrganizationIcon}
-                                  width={"80px"}
+                                  width={"45px"}
                                   alt=""
                                 />
 
