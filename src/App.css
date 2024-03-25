@@ -167,21 +167,19 @@ body {
   padding: 3px 10px !important;
 }
 
-.ant-table-thead>tr * {
+.ant-table-thead > tr * {
   color: #6172d6 !important;
   font-family: "MontserratSemiBold-600";
   font-size: 14px !important;
   /* padding: 20px !important; */
 }
 
-body[dir="rtl"] .ant-table-thead>tr * {
+body[dir="rtl"] .ant-table-thead > tr * {
   color: #6172d6 !important;
   font-family: "IBMPlexSansArabic-Light";
   font-size: 14px !important;
   /* padding: 20px !important; */
 }
-
-
 
 .datepicker_input {
   padding: 0px 45px !important;
@@ -409,42 +407,42 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
   background: none !important;
 }
 
-.TrialTableDashboard .ant-table-thead>tr * {
+.TrialTableDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-body[dir="rtl"] .TrialTableDashboard .ant-table-thead>tr * {
+body[dir="rtl"] .TrialTableDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-.TrialExtendedDashboard .ant-table-thead>tr * {
+.TrialExtendedDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 2px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead>tr * {
+body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-.EssentialTable .ant-table-thead>tr * {
+.EssentialTable .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";
   font-weight: 600;
 }
 
-body[dir="rtl"] .EssentialTable .ant-table-thead>tr * {
+body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
   font-family: "MontserratMedium-500";

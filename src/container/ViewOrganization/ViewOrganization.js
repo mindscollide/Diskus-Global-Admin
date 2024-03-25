@@ -40,6 +40,7 @@ import moment from "moment";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import EditOrganizationSubscription from "./EditOrganizationSubscriptionModal/EditOrganizationSubscription";
 import ViewOrganizationModal from "./ViewOrganizationModal/ViewOrganizationModal";
+import FlagCountryName from "./CountryFlagFunctionality/CountryFlag";
 
 const ViewOrganization = () => {
   const { t } = useTranslation();
@@ -265,7 +266,10 @@ const ViewOrganization = () => {
       width: 200,
       render: (text, record) => (
         <>
-          <span className={styles["inner-sub-Heading"]}>{text}</span>
+          <span className="d-flex gap-2">
+            <FlagCountryName countryCode={record.mobileCode} />
+            <span className={styles["inner-sub-Heading"]}>{text}</span>
+          </span>
         </>
       ),
     },
