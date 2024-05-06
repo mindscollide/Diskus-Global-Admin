@@ -10,7 +10,7 @@ import { Spin } from "antd";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import { Chart } from "react-google-charts";
-import { Calendar } from "react-multi-date-picker";
+import { Calendar, DateObject } from "react-multi-date-picker";
 import {
   OrganizationsByActiveLicenseApi,
   StatsOfActiveLicenseApi,
@@ -31,6 +31,7 @@ import {
 } from "../../common/functions/dateFormatters";
 import SendInvoiceModal from "./SendInvoiceModal/SendInvoiceModal";
 import { dashboardSendInvoiceOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
+import moment from "moment";
 
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
@@ -1112,12 +1113,6 @@ const GlobalAdminDashboard = () => {
     legend: {
       alignment: "center",
     },
-    // pieSliceText: formatSessionDurationArabicAndEng("value", currentLanguage), // Display the values inside the slices
-    // pieSliceTextStyle: {
-    //   color: "#5A5A5A",
-    //   bold: true,
-    //   fontSize: 16,
-    // },
     tooltip: { trigger: "none" },
   };
 
@@ -1620,6 +1615,34 @@ const GlobalAdminDashboard = () => {
     dispatch(dashboardSendInvoiceOpenModal(true));
   };
 
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleDateChange = (date) => {
+    let newDate = new DateObject(date).format("YYYYMMDD");
+    console.log(newDate, "newDatenewDate");
+    if (date.length === 2) {
+      let newStartDate = new DateObject(date[0]).format("YYYYMMDD");
+      setStartDate(newStartDate);
+
+      let newEndDate = new DateObject(date[1]).format("YYYYMMDD");
+      setEndDate(newEndDate);
+    }
+  };
+
+  console.log(startDate, "startDatestartDate");
+  console.log(endDate, "startDatestartDate");
+
+  // const handleDateChange = (dates) => {
+  //   if (dates.length === 2) {
+  //     let newStartDate = new DateObject(dates[0]).format("YYYYMMDD");
+  //     setStartDate(newStartDate);
+
+  //     let newEndDate = new DateObject(dates[1]).format("YYYYMMDD");
+  //     setEndDate(newEndDate);
+  //   }
+  // };
+
   return (
     <>
       <Container>
@@ -1646,6 +1669,17 @@ const GlobalAdminDashboard = () => {
                         <Calendar
                           numberOfMonths={2}
                           style={{ position: "absolute", zIndex: 1000 }}
+                          value={
+                            startDate && endDate
+                              ? [new Date(startDate), new Date(endDate)]
+                              : startDate
+                              ? [new Date(startDate)]
+                              : []
+                          }
+                          // onChange={handleDateChange}
+                          onFocusedDateChange={handleDateChange}
+                          multiple
+                          format="YYYY-MM-DD"
                         />
                       </>
                     )}
