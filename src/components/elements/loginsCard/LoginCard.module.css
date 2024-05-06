@@ -38,7 +38,7 @@ body[dir="rtl"] .screens-card {
 
 .login-screen-headings h1 {
   font-size: calc(60px - 20%) !important;
-  font-family: "MontserratSemiBold";
+  font-weight: 600 !important;
   margin: 0 !important;
   width: 100%;
   white-space: nowrap;
@@ -51,12 +51,12 @@ body[dir="rtl"] .screens-card {
 
 .column-class-heading-login h1 {
   font-size: 57px !important;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] .column-class-heading-login h1 {
   font-size: 57px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 body[dir="rtl"] .column-class-heading-login {
@@ -188,8 +188,6 @@ body[dir="rtl"] .language-selector-class {
   padding-top: 50px !important;
   padding-right: 50px !important;
 }
-
-
 
 .twoFaScreen_mobileIcon {
   width: 26rem !important;

@@ -9,7 +9,7 @@
   align-items: center;
   text-align: center;
   white-space: nowrap;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] .ConfirmationModalHeading {
@@ -18,14 +18,14 @@ body[dir="rtl"] .ConfirmationModalHeading {
   align-items: center;
   text-align: center;
   white-space: nowrap;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .ProceedBtnStyles {
   padding: 12px 30px !important;
   background: #6172d6 !important;
   border: none !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   font-size: 12px !important;
   border-radius: 4px !important;
   color: #fff !important;
@@ -35,7 +35,7 @@ body[dir="rtl"] .ProceedBtnStyles {
   padding: 12px 30px !important;
   background: #6172d6 !important;
   border: none !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   font-size: 12px !important;
   border-radius: 4px !important;
   color: #fff !important;
@@ -44,7 +44,7 @@ body[dir="rtl"] .ProceedBtnStyles {
 .ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
   padding: 12px 30px !important;
   background: #6172d6 !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   border: none !important;
   font-size: 12px !important;
   border-radius: 4px !important;
@@ -54,7 +54,7 @@ body[dir="rtl"] .ProceedBtnStyles {
 body[dir="rtl"] .ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
   padding: 12px 30px !important;
   background: #6172d6 !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   border: none !important;
   font-size: 12px !important;
   border-radius: 4px !important;
@@ -63,7 +63,7 @@ body[dir="rtl"] .ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
 
 .CancelBtnStyles {
   padding: 12px 30px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   font-size: 12px !important;
@@ -73,7 +73,7 @@ body[dir="rtl"] .ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
 
 body[dir="rtl"] .CancelBtnStyles {
   padding: 12px 30px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   font-size: 12px !important;
@@ -83,7 +83,7 @@ body[dir="rtl"] .CancelBtnStyles {
 
 .CancelBtnStyles:is(:hover, :focus, :focus-visible, :active) {
   padding: 12px 30px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   font-size: 12px !important;
@@ -93,7 +93,7 @@ body[dir="rtl"] .CancelBtnStyles {
 
 body[dir="rtl"] .CancelBtnStyles:is(:hover, :focus, :focus-visible, :active) {
   padding: 12px 30px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   font-size: 12px !important;

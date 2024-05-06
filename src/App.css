@@ -1,154 +1,6 @@
-@font-face {
-  font-family: "montserrat-100";
-  src: url("./assets/fonts-new/montserrat-100-webfont.woff"),
-    url("./assets/fonts-new/montserrat-100-webfont.woff2");
-  font-weight: 100;
-}
-
-@font-face {
-  font-family: "montserrat-200";
-  src: url("./assets/fonts-new/montserrat-200-webfont.woff"),
-    url("./assets/fonts-new/montserrat-200-webfont.woff2");
-  font-weight: 200;
-}
-
-@font-face {
-  font-family: "montserrat";
-  src: url("./assets/fonts-new/montserrat-300-webfont.woff"),
-    url("./assets/fonts-new/montserrat-300-webfont.woff2");
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: "montserrat-500";
-  src: url("./assets/fonts-new/montserrat-500-webfont.woff"),
-    url("./assets/fonts-new/montserrat-500-webfont.woff2");
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: "montserrat-bold";
-  src: url("./assets/fonts-new/montserrat-700-webfont.woff"),
-    url("./assets/fonts-new/montserrat-700-webfont.woff2");
-  font-weight: 700;
-}
-
-@font-face {
-  font-family: "montserrat-Boldest";
-  src: url("./assets/fonts-new/montserrat-900-webfont.woff"),
-    url("./assets/fonts-new/montserrat-900-webfont.woff2");
-  font-weight: 900;
-}
-
-@font-face {
-  font-family: "montserrat-italic";
-  src: url("./assets/fonts-new/montserrat-italic-webfont.woff"),
-    url("./assets/fonts-new/montserrat-italic-webfont.woff2");
-}
-
-@font-face {
-  font-family: "montserrat-regular";
-  src: url("./assets/fonts-new/montserrat-regular-webfont.woff"),
-    url("./assets/fonts-new/montserrat-regular-webfont.woff2");
-  font-weight: 400;
-}
-
-/* Arabic style fonts */
-
-@font-face {
-  font-family: "IBMPlexSansArabic-Bold";
-  src: url("./assets/fonts/IBMPlexSansArabic-Bold.ttf");
-}
-
-@font-face {
-  font-family: "IBMPlexSansArabic-ExtraLight";
-  src: url("./assets/fonts/IBMPlexSansArabic-ExtraLight.ttf");
-}
-
-@font-face {
-  font-family: "IBMPlexSansArabic-Light";
-  src: url("./assets/fonts/IBMPlexSansArabic-Light.ttf");
-}
-
-@font-face {
-  font-family: "IBMPlexSansArabic-Medium";
-  src: url("./assets/fonts/IBMPlexSansArabic-Medium.ttf");
-}
-
-@font-face {
-  font-family: "IBMPlexSansArabic-Regular";
-  src: url("./assets/fonts/IBMPlexSansArabic-Regular.ttf");
-}
-
-@font-face {
-  font-family: "IBMPlexSansArabic-SemiBold";
-  src: url("./assets/fonts/IBMPlexSansArabic-SemiBold.ttf");
-}
-
-@font-face {
-  font-family: "IBMPlexSansArabic-Thin";
-  src: url("./assets/fonts/IBMPlexSansArabic-Thin.ttf");
-}
-
-.IBMPlexSansArabic-Bold {
-  font-family: "IBMPlexSansArabic-Bold" !important;
-}
-
-.IBMPlexSansArabic-ExtraLight {
-  font-family: "IBMPlexSansArabic-ExtraLight" !important;
-}
-
-.IBMPlexSansArabic-Light {
-  font-family: "IBMPlexSansArabic-Light" !important;
-}
-
-.IBMPlexSansArabic-Medium {
-  font-family: "IBMPlexSansArabic-Medium" !important;
-}
-
-.IBMPlexSansArabic-Regular {
-  font-family: "IBMPlexSansArabic-Regular" !important;
-}
-
-.IBMPlexSansArabic-SemiBold {
-  font-family: "IBMPlexSansArabic-SemiBold" !important;
-}
-
-.IBMPlexSansArabic-Thin {
-  font-family: "IBMPlexSansArabic-Thin" !important;
-}
-
-.Montserrat {
-  font-family: "montserrat-regular" !important;
-}
-
-.Montserrat-Italic {
-  font-family: "montserrat-italic" !important;
-}
-
-.MontserratThin-100 {
-  font-family: "montserrat-100" !important;
-}
-
-.MontserratLight-300 {
-  font-family: "montserrat" !important;
-}
-
-.MontserratMedium-500 {
-  font-family: "montserrat-500" !important;
-}
-
-.MontserratSemiBold-700 {
-  font-family: "montserrat-bold" !important;
-}
-
-.MontserratBold-900 {
-  font-family: "montserrat-Boldest" !important;
-}
-
 body {
   background-color: #f6fafd !important;
-  font-family: "montserrat-regular" !important;
+  font-weight: 400 !important;
 }
 
 ::-webkit-scrollbar {
@@ -167,21 +19,19 @@ body {
   padding: 3px 10px !important;
 }
 
-.ant-table-thead>tr * {
+.ant-table-thead > tr * {
   color: #6172d6 !important;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
   font-size: 14px !important;
   /* padding: 20px !important; */
 }
 
-body[dir="rtl"] .ant-table-thead>tr * {
+body[dir="rtl"] .ant-table-thead > tr * {
   color: #6172d6 !important;
-  font-family: "IBMPlexSansArabic-Light";
+  font-weight: 300 !important;
   font-size: 14px !important;
   /* padding: 20px !important; */
 }
-
-
 
 .datepicker_input {
   padding: 0px 45px !important;
@@ -191,7 +41,7 @@ body[dir="rtl"] .ant-table-thead>tr * {
   height: 39px !important;
   font-weight: 500;
   font-size: 12px !important;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
   cursor: pointer;
 }
 
@@ -201,7 +51,7 @@ body[dir="rtl"] .ant-table-thead>tr * {
 
 .datePickerTodoCreate2 {
   border: 1px solid #e1e1e1 !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
 }
 
 .userlogin_history_tableP.ant-table-wrapper .ant-table-tbody tr td {
@@ -249,15 +99,15 @@ td.ant-table-cell.random {
 }
 
 .navbar-nav {
-  font-family: "montserrat-regular";
+  font-weight: 400 !important;
 }
 
 body[dir="rtl"] .navbar-nav {
-  font-family: "IBMPlexSansArabic-Medium";
+  font-weight: 500 !important;
 }
 
 p.user-name {
-  font-family: "montserrat-bold";
+  font-weight: 700 !important;
 }
 
 img.user-img {
@@ -273,7 +123,7 @@ span.Main-Title {
   font-size: 16px;
   text-align: center;
   margin-top: 10px;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] span.Main-Title {
@@ -281,11 +131,11 @@ body[dir="rtl"] span.Main-Title {
   font-size: 16px;
   text-align: center;
   margin-top: 10px;
-  font-family: "IBMPlexSansArabic-SemiBold";
+  font-weight: 600 !important;
 }
 
 span.Sub-Title {
-  font-family: "Montserrat";
+  font-weight: 400 !important;
   font-size: 10px;
   color: #5a5a5a;
 }
@@ -299,17 +149,17 @@ span.Main-Title.UserLogin {
   font-size: 30px;
   text-align: center;
   margin-top: 20px;
-  font-family: "MontserratBold-700";
+  font-weight: 700 !important;
 }
 
 span.Sub-Title {
-  font-family: "Montserrat";
+  font-weight: 400 !important;
   font-size: 12px;
   color: #5a5a5a;
 }
 
 body[dir="rtl"] span.Sub-Title {
-  font-family: "IBMPlexSansArabic-Light";
+  font-weight: 300 !important;
   font-size: 12px;
   color: #5a5a5a;
 }
@@ -319,7 +169,7 @@ span.Main-Title.Table {
   font-size: 20px;
   text-align: center;
   margin-top: 20px;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] span.Main-Title.Table {
@@ -327,17 +177,17 @@ body[dir="rtl"] span.Main-Title.Table {
   font-size: 20px;
   text-align: center;
   margin-top: 20px;
-  font-family: "IBMPlexSansArabic-Medium";
+  font-weight: 500 !important;
 }
 
 span.Sub-Title.Table {
-  font-family: "Montserrat";
+  font-weight: 400 !important;
   font-size: 10px;
   color: #5a5a5a;
 }
 
 body[dir="rtl"] span.Sub-Title.Table {
-  font-family: "IBMPlexSansArabic-Light";
+  font-weight: 300 !important;
   font-size: 10px;
   color: #5a5a5a;
 }
@@ -409,46 +259,40 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
   background: none !important;
 }
 
-.TrialTableDashboard .ant-table-thead>tr * {
+.TrialTableDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-family: "MontserratMedium-500";
-  font-weight: 600;
+  font-weight: 500 !important;
 }
 
-body[dir="rtl"] .TrialTableDashboard .ant-table-thead>tr * {
+body[dir="rtl"] .TrialTableDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-family: "MontserratMedium-500";
-  font-weight: 600;
+  font-weight: 500 !important;
 }
 
-.TrialExtendedDashboard .ant-table-thead>tr * {
+.TrialExtendedDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 2px !important;
-  font-family: "MontserratMedium-500";
-  font-weight: 600;
+  font-weight: 500 !important;
 }
 
-body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead>tr * {
+body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-family: "MontserratMedium-500";
-  font-weight: 600;
+  font-weight: 500 !important;
 }
 
-.EssentialTable .ant-table-thead>tr * {
+.EssentialTable .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-family: "MontserratMedium-500";
-  font-weight: 600;
+  font-weight: 500 !important;
 }
 
-body[dir="rtl"] .EssentialTable .ant-table-thead>tr * {
+body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-family: "MontserratMedium-500";
-  font-weight: 600;
+  font-weight: 500 !important;
 }
 
 .rmdp-day.rmdp-today span {

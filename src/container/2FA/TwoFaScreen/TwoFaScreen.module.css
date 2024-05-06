@@ -2,7 +2,7 @@
   color: #5a5a5a !important;
   font-size: 30px !important;
   text-align: left !important;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
   line-height: initial;
 }
 
@@ -11,7 +11,7 @@ body[dir="rtl"] .two-fa-verification-heading {
   font-weight: 500 !important;
   font-size: 30px !important;
   text-align: left !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .two-fa-verification-subheading {
@@ -27,7 +27,7 @@ body[dir="rtl"] .two-fa-verification-subheading {
   font-size: 16px !important;
   text-align: left !important;
   margin-right: 50px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .SendCode-button-color {
@@ -50,7 +50,7 @@ body[dir="rtl"] .SendCode-button-color {
   border-radius: 2px !important;
   font-size: 16px !important;
   border: none !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .textfield-forget-password-class {
