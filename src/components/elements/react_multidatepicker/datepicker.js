@@ -1,11 +1,8 @@
-import React, { useEffect, useRef, useCallback, useState } from "react";
+import React, { useRef, useCallback } from "react";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import moment from "moment";
-import { CalendarFill } from "react-bootstrap-icons";
-import "./datepicker.css"
+import "./datepicker.css";
 import Icon from "react-multi-date-picker/components/icon";
-import EditIcon from "../../../assets/images/Edit-Icon.png";
-import InputIcon from "react-multi-date-picker/components/input_icon"
 
 const MultiDatePicker = ({
   onChange,
@@ -18,23 +15,25 @@ const MultiDatePicker = ({
   locale,
   check,
   refProp,
-  spanClass
+  spanClass,
+  numberOfMonths,
 }) => {
   let dateFormat = "DD/MM/YYYY";
-  const calenderRef = useRef()
-  console.log(calenderRef, "calenderRefcalenderRef")
+  const calenderRef = useRef();
+  console.log(calenderRef, "calenderRefcalenderRef");
+
   const handleClick = useCallback(() => {
     if (calenderRef.current.isOpen) {
-      return calenderRef.current.closeCalendar()
+      return calenderRef.current.closeCalendar();
     } else {
-      return calenderRef.current.openCalendar()
+      return calenderRef.current.openCalendar();
     }
-  }, [calenderRef])
+  }, [calenderRef]);
+
   return (
     <>
       <span className={spanClass}>
         <label className="f-0">
-
           <DatePicker
             render={<Icon />}
             onChange={onChange}
@@ -45,6 +44,7 @@ const MultiDatePicker = ({
             disabled={disabled}
             name={name}
             onOpenPickNewDate={false}
+            numberOfMonths={numberOfMonths}
             inputMode=""
             value={value}
             calendar={calendar}

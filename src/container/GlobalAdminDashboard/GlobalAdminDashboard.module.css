@@ -39,6 +39,7 @@ body[dir="rtl"] .BillingDueHeading {
   -webkit-transform: rotate(-135deg);
   cursor: pointer !important;
   margin-top: 5px;
+  margin-left: 5px;
 }
 
 .down {
@@ -49,14 +50,7 @@ body[dir="rtl"] .BillingDueHeading {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
   cursor: pointer !important;
-}
-
-.dropdown-header {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  align-items: center;
-  user-select: none;
+  margin-left: 5px;
 }
 
 .dropdown-list-item {
@@ -71,10 +65,6 @@ body[dir="rtl"] .BillingDueHeading {
 
 .dropdown-list-item:last-child {
   border-bottom: none !important;
-}
-
-.dropdown-container {
-  max-width: 100% !important;
 }
 
 .dropdown_list {

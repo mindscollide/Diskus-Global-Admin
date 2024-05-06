@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./GlobalAdminDashboard.module.css";
 import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
 import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
@@ -10,7 +10,7 @@ import { Spin } from "antd";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import { Chart } from "react-google-charts";
-
+import { Calendar } from "react-multi-date-picker";
 import {
   OrganizationsByActiveLicenseApi,
   StatsOfActiveLicenseApi,
@@ -27,11 +27,11 @@ import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizat
 import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import {
   convertUTCDateToLocalDate,
-  convertUTCDateToLocalDateDiffFormat,
   formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
 import SendInvoiceModal from "./SendInvoiceModal/SendInvoiceModal";
 import { dashboardSendInvoiceOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
+
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -42,6 +42,8 @@ const GlobalAdminDashboard = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const calenderRef = useRef();
 
   let currentLanguage = localStorage.getItem("currentLanguage");
 
@@ -97,6 +99,14 @@ const GlobalAdminDashboard = () => {
     "November",
     "December",
   ];
+
+  const handleClick = useCallback(() => {
+    if (calenderRef.current.isOpen) {
+      return calenderRef.current.closeCalendar();
+    } else {
+      return calenderRef.current.openCalendar();
+    }
+  }, [calenderRef]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(months[0]);
@@ -807,6 +817,10 @@ const GlobalAdminDashboard = () => {
       setOrganizationID(organziations[0].organizationID);
       let data = {
         OrganizationID: Number(organziations[0].organizationID),
+        FromDate: "",
+        ToDate: "",
+        PageNumber: 1,
+        Length: 15,
       };
       dispatch(TotalThisMonthDueApi({ data, navigate, t }));
       dispatch(GetAllBillingDueApi({ data, navigate, t }));
@@ -851,11 +865,6 @@ const GlobalAdminDashboard = () => {
   const toggling = () => setIsOpen(!isOpen);
 
   const togglingCompany = () => setIsCompnayOpen(!isCompnayOpen);
-
-  const onMonthClick = (month) => () => {
-    setSelectedMonth(month);
-    setIsOpen(false);
-  };
 
   const onCountryClickClick = (Country) => () => {
     setSelectedCompany(Country.organizationName);
@@ -1628,35 +1637,16 @@ const GlobalAdminDashboard = () => {
                     <div
                       className={styles["dropdown-header"]}
                       onClick={toggling}
-                      ref={MonthsRef}
                     >
-                      <span className={styles["MonthName"]}>
-                        {selectedMonth}
-                      </span>
-
-                      <span
-                        className={
-                          isOpen ? ` ${styles["down"]} ` : `${styles["up"]}`
-                        }
-                      ></span>
+                      <span className={styles["MonthName"]}>{t("Month")}</span>
+                      <span className={isOpen ? styles.down : styles.up}></span>
                     </div>
                     {isOpen && (
                       <>
-                        <section className={styles["dropdown_list"]}>
-                          {months.map((month) => {
-                            return (
-                              <>
-                                <div
-                                  className={styles["dropdown-list-item"]}
-                                  onClick={onMonthClick(month)}
-                                  key={month}
-                                >
-                                  {month}
-                                </div>
-                              </>
-                            );
-                          })}
-                        </section>
+                        <Calendar
+                          numberOfMonths={2}
+                          style={{ position: "absolute", zIndex: 1000 }}
+                        />
                       </>
                     )}
                   </div>
