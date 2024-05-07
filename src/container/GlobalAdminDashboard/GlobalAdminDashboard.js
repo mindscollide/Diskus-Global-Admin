@@ -31,7 +31,6 @@ import {
 } from "../../common/functions/dateFormatters";
 import SendInvoiceModal from "./SendInvoiceModal/SendInvoiceModal";
 import { dashboardSendInvoiceOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
-import moment from "moment";
 
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
@@ -43,8 +42,6 @@ const GlobalAdminDashboard = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-
-  const calenderRef = useRef();
 
   let currentLanguage = localStorage.getItem("currentLanguage");
 
@@ -206,7 +203,10 @@ const GlobalAdminDashboard = () => {
   //MultiDate Picker states
   const [currentMonth, setCurrentMonth] = useState(new DateObject().month);
   const [selectingStart, setSelectingStart] = useState(true);
-  const [startDate, setStartDate] = useState(null);
+  const currentDate = new Date(); // Creates a new date object representing now
+  const newDate = new DateObject(currentDate); // Assumes DateObject takes a Date
+  const formattedCurrentDate = newDate.format("YYYYMMDD") + "000000";
+  const [startDate, setStartDate] = useState(formattedCurrentDate);
   const [endDate, setEndDate] = useState(null);
 
   //Clicking outside closing Calender
@@ -249,9 +249,9 @@ const GlobalAdminDashboard = () => {
     setTrialBtn(true);
     setOrganizationStatus(true);
     return () => {
-      setStartDate(null);
       setEndDate(null);
       setSelectingStart(true);
+      setIsOpen(false);
     };
   }, []);
 
@@ -816,8 +816,8 @@ const GlobalAdminDashboard = () => {
       setOrganizationID(organziations[0].organizationID);
       let data = {
         OrganizationID: Number(organziations[0].organizationID),
-        FromDate: "",
-        ToDate: "",
+        FromDate: startDate,
+        ToDate: endDate ? endDate : "",
         PageNumber: 1,
         Length: 15,
       };
@@ -1624,8 +1624,6 @@ const GlobalAdminDashboard = () => {
     let newDate = new DateObject(date);
     let formattedDate = newDate.format("YYYYMMDD") + "000000";
 
-    console.log(formattedDate, "selected"); // Logging the selected date
-
     // Check if we're setting the endDate
     if (!selectingStart) {
       // Compare if the selected endDate is before the startDate
@@ -1645,6 +1643,18 @@ const GlobalAdminDashboard = () => {
       console.log("Setting endDate");
       setEndDate(formattedDate);
       setSelectingStart(true);
+
+      let data = {
+        OrganizationID: Number(organziations[0].organizationID),
+        FromDate: startDate,
+        ToDate: formattedDate,
+        PageNumber: 1,
+        Length: 15,
+      };
+
+      if (startDate && formattedDate) {
+        dispatch(GetAllBillingDueApi({ data, navigate, t }));
+      }
     }
   };
 
