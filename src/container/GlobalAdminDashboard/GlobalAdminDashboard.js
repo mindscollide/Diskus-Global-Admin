@@ -86,31 +86,8 @@ const GlobalAdminDashboard = () => {
       state.globalAdminDashboardReducer.OrganizationSubscriptionStatsGraphData
   );
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const handleClick = useCallback(() => {
-    if (calenderRef.current.isOpen) {
-      return calenderRef.current.closeCalendar();
-    } else {
-      return calenderRef.current.openCalendar();
-    }
-  }, [calenderRef]);
-
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(months[0]);
+  const dropdownRef = useRef(null);
   const [isCompnayOpen, setIsCompnayOpen] = useState(false);
 
   const [organizationStatus, setOrganizationStatus] = useState(false);
@@ -226,10 +203,26 @@ const GlobalAdminDashboard = () => {
   const [totalRecordsPremium, setTotalRecordsPremium] = useState(0);
   const [isRowsDataPremium, setSRowsDataPremium] = useState(0);
 
-  //Lazy Loading States of Billing Due Table (users)
-  const [isScrollBilling, setIsScrollBilling] = useState(false);
-  const [totalRecordsBilling, setTotalRecordsBilling] = useState(0);
-  const [isRowsDataBilling, setSRowsDataBilling] = useState(0);
+  //MultiDate Picker states
+  const [currentMonth, setCurrentMonth] = useState(new DateObject().month);
+  const [selectingStart, setSelectingStart] = useState(true);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  //Clicking outside closing Calender
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   //Calling StatsOfActiveLicenseApi
   useEffect(() => {
@@ -255,6 +248,11 @@ const GlobalAdminDashboard = () => {
 
     setTrialBtn(true);
     setOrganizationStatus(true);
+    return () => {
+      setStartDate(null);
+      setEndDate(null);
+      setSelectingStart(true);
+    };
   }, []);
 
   //StatsOfActiveLicenseApi Data
@@ -1615,33 +1613,40 @@ const GlobalAdminDashboard = () => {
     dispatch(dashboardSendInvoiceOpenModal(true));
   };
 
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-
-  const handleDateChange = (date) => {
-    let newDate = new DateObject(date).format("YYYYMMDD");
-    console.log(newDate, "newDatenewDate");
-    if (date.length === 2) {
-      let newStartDate = new DateObject(date[0]).format("YYYYMMDD");
-      setStartDate(newStartDate);
-
-      let newEndDate = new DateObject(date[1]).format("YYYYMMDD");
-      setEndDate(newEndDate);
-    }
+  //Multi Date Picker Date Pickers Month Function
+  const handleMonthChange = (newMonth) => {
+    console.log(newMonth, "newMonthnewMonthnewMonth");
+    setCurrentMonth(newMonth);
   };
 
-  console.log(startDate, "startDatestartDate");
-  console.log(endDate, "startDatestartDate");
+  //Multi Date Picker Date Pickers Date Function
+  const handleDateChange = (date) => {
+    let newDate = new DateObject(date);
+    let formattedDate = newDate.format("YYYYMMDD") + "000000";
 
-  // const handleDateChange = (dates) => {
-  //   if (dates.length === 2) {
-  //     let newStartDate = new DateObject(dates[0]).format("YYYYMMDD");
-  //     setStartDate(newStartDate);
+    console.log(formattedDate, "selected"); // Logging the selected date
 
-  //     let newEndDate = new DateObject(dates[1]).format("YYYYMMDD");
-  //     setEndDate(newEndDate);
-  //   }
-  // };
+    // Check if we're setting the endDate
+    if (!selectingStart) {
+      // Compare if the selected endDate is before the startDate
+      if (new Date(formattedDate) < new Date(startDate)) {
+        console.log("End Date is before Start Date, swapping dates");
+        setEndDate(startDate);
+        setStartDate(formattedDate);
+        return;
+      }
+    }
+
+    if (selectingStart) {
+      console.log("Setting startDate");
+      setStartDate(formattedDate);
+      setSelectingStart(false);
+    } else {
+      console.log("Setting endDate");
+      setEndDate(formattedDate);
+      setSelectingStart(true);
+    }
+  };
 
   return (
     <>
@@ -1656,7 +1661,10 @@ const GlobalAdminDashboard = () => {
                   </span>
                 </Col>
                 <Col lg={3} md={3} sm={3} className="position-relative">
-                  <div className={styles["dropdown-container"]}>
+                  <div
+                    ref={dropdownRef}
+                    className={styles["dropdown-container"]}
+                  >
                     <div
                       className={styles["dropdown-header"]}
                       onClick={toggling}
@@ -1669,15 +1677,8 @@ const GlobalAdminDashboard = () => {
                         <Calendar
                           numberOfMonths={2}
                           style={{ position: "absolute", zIndex: 1000 }}
-                          value={
-                            startDate && endDate
-                              ? [new Date(startDate), new Date(endDate)]
-                              : startDate
-                              ? [new Date(startDate)]
-                              : []
-                          }
-                          // onChange={handleDateChange}
                           onFocusedDateChange={handleDateChange}
+                          onMonthChange={handleMonthChange}
                           multiple
                           format="YYYY-MM-DD"
                         />
