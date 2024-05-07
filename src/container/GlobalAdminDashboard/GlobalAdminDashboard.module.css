@@ -1,5 +1,5 @@
 .LeftBoxDashboard {
-  padding: 5px 20px !important;
+  padding: 7px 20px !important;
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
@@ -20,6 +20,7 @@
   font-size: 20px !important;
   color: #6172d6 !important;
   font-weight: 600 !important;
+  white-space: nowrap !important;
 }
 
 body[dir="rtl"] .BillingDueHeading {
@@ -44,7 +45,7 @@ body[dir="rtl"] .BillingDueHeading {
 
 .down {
   border: 1px solid black;
-  border-width: 0 3px 3px 0;
+  border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 3px;
   transform: rotate(45deg);
@@ -90,6 +91,23 @@ body[dir="rtl"] .BillingDueHeading {
 }
 
 .dropdown_list::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: #ccc;
+  margin-left: -15px;
+}
+
+.Scroller {
+  height: 58vh !important;
+  overflow-x: hidden !important;
+}
+
+.Scroller::-webkit-scrollbar {
+  width: 0.5rem;
+  border-radius: 20px;
+  background-color: #f2f2f2;
+}
+
+.Scroller::-webkit-scrollbar-thumb {
   border-radius: 20px;
   background: #ccc;
   margin-left: -15px;
@@ -373,4 +391,23 @@ body[dir="rtl"] .ExportBUtton {
   font-weight: 600 !important;
   white-space: nowrap;
   padding: 12px 17px !important;
+}
+
+.SearchDataes {
+  padding: 3px 5px !important;
+  border-radius: 4px !important;
+  background: #6172d6;
+  display: flex;
+  text-align: center !important;
+  gap: 15px !important;
+}
+
+.Searches {
+  font-size: 9px !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+.CrossIcon_Class {
+  cursor: pointer !important;
 }

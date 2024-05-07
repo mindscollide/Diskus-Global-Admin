@@ -5,6 +5,7 @@ import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import ExcelIcon from "../../assets/images/OutletImages/Excel-Icon.png";
+import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { Button, Table, TextField } from "../../components/elements";
@@ -19,6 +20,7 @@ import {
   organziationStatsBySubscriptionApi,
   dashBoardReportApi,
   OrganizationSubscriptionTypeApi,
+  SendInvoiceApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +29,7 @@ import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizat
 import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import {
   convertUTCDateToLocalDate,
+  formatDate,
   formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
 import SendInvoiceModal from "./SendInvoiceModal/SendInvoiceModal";
@@ -83,7 +86,9 @@ const GlobalAdminDashboard = () => {
       state.globalAdminDashboardReducer.OrganizationSubscriptionStatsGraphData
   );
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [isOpenCalender, setIsOpenCalender] = useState(false);
+  const [showSearchedDate, setShowSearchedDate] = useState(false);
   const dropdownRef = useRef(null);
   const [isCompnayOpen, setIsCompnayOpen] = useState(false);
 
@@ -213,7 +218,7 @@ const GlobalAdminDashboard = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
+        setIsOpenCalender(false);
       }
     };
 
@@ -249,9 +254,9 @@ const GlobalAdminDashboard = () => {
     setTrialBtn(true);
     setOrganizationStatus(true);
     return () => {
-      setEndDate(null);
       setSelectingStart(true);
-      setIsOpen(false);
+      setShowSearchedDate(false);
+      setIsOpen(true);
     };
   }, []);
 
@@ -815,9 +820,14 @@ const GlobalAdminDashboard = () => {
       setSelectedCompany(organziations[0].organizationName);
       setOrganizationID(organziations[0].organizationID);
       let data = {
-        OrganizationID: Number(organziations[0].organizationID),
-        FromDate: startDate,
-        ToDate: endDate ? endDate : "",
+        // OrganizationID: Number(organziations[0].organizationID),
+        // FromDate: startDate,
+        // ToDate: endDate ? endDate : "",
+        // PageNumber: 1,
+        // Length: 15,
+        OrganizationID: 0,
+        FromDate: "20230308000000",
+        ToDate: "20230408000000",
         PageNumber: 1,
         Length: 15,
       };
@@ -848,20 +858,13 @@ const GlobalAdminDashboard = () => {
 
   //OutSide Click Functionality handled Both DropDowns
   useEffect(() => {
-    document.addEventListener("click", handleOutsideClick);
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
     document.addEventListener("click", HandleOutSideClickCompany);
     return () => {
       document.removeEventListener("click", HandleOutSideClickCompany);
     };
   }, [isCompnayOpen]);
 
-  const toggling = () => setIsOpen(!isOpen);
+  const toggling = () => setIsOpenCalender(!isOpenCalender);
 
   const togglingCompany = () => setIsCompnayOpen(!isCompnayOpen);
 
@@ -1610,7 +1613,15 @@ const GlobalAdminDashboard = () => {
   };
 
   const openSendInvoiceModal = (record) => {
-    dispatch(dashboardSendInvoiceOpenModal(true));
+    console.log(record, "recordrecordrecordrecord");
+    // dispatch(dashboardSendInvoiceOpenModal(true));
+    let data = {
+      OrganizationID: Number(record.organizationID),
+      InvoiceID: Number(record.invoiceID),
+      SubscriptionID: Number(record.fK_OSID),
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(SendInvoiceApi({ data, navigate, t }));
   };
 
   //Multi Date Picker Date Pickers Month Function
@@ -1653,9 +1664,18 @@ const GlobalAdminDashboard = () => {
       };
 
       if (startDate && formattedDate) {
+        setIsOpen(false);
+        setIsOpenCalender(false);
+        setShowSearchedDate(true);
+        dispatch(globalAdminDashBoardLoader(true));
         dispatch(GetAllBillingDueApi({ data, navigate, t }));
       }
     }
+  };
+
+  const handleCrossIcon = () => {
+    setShowSearchedDate(false);
+    setIsOpen(true);
   };
 
   return (
@@ -1665,12 +1685,21 @@ const GlobalAdminDashboard = () => {
           <Col lg={5} md={5} sm={5}>
             <section className={styles["LeftBoxDashboard"]}>
               <Row>
-                <Col lg={4} md={4} sm={12}>
+                <Col
+                  lg={isOpen ? 4 : 3}
+                  md={isOpen ? 4 : 3}
+                  sm={isOpen ? 4 : 3}
+                >
                   <span className={styles["BillingDueHeading"]}>
                     {t("Billing-due")}
                   </span>
                 </Col>
-                <Col lg={3} md={3} sm={3} className="position-relative">
+                <Col
+                  lg={isOpen ? 3 : 5}
+                  md={isOpen ? 3 : 5}
+                  sm={isOpen ? 3 : 5}
+                  className="position-relative"
+                >
                   <div
                     ref={dropdownRef}
                     className={styles["dropdown-container"]}
@@ -1679,10 +1708,18 @@ const GlobalAdminDashboard = () => {
                       className={styles["dropdown-header"]}
                       onClick={toggling}
                     >
-                      <span className={styles["MonthName"]}>{t("Month")}</span>
-                      <span className={isOpen ? styles.down : styles.up}></span>
+                      {isOpen ? (
+                        <>
+                          <span className={styles["MonthName"]}>
+                            {t("Month")}
+                          </span>
+                          <span
+                            className={isOpen ? styles.down : styles.up}
+                          ></span>
+                        </>
+                      ) : null}
                     </div>
-                    {isOpen && (
+                    {isOpenCalender ? (
                       <>
                         <Calendar
                           numberOfMonths={2}
@@ -1693,10 +1730,27 @@ const GlobalAdminDashboard = () => {
                           format="YYYY-MM-DD"
                         />
                       </>
-                    )}
+                    ) : null}
+                    {showSearchedDate ? (
+                      <>
+                        <div className={styles["SearchDataes"]}>
+                          <span className={styles["Searches"]}>
+                            {formatDate(startDate, currentLanguage)}-
+                            {formatDate(endDate, currentLanguage)}
+                          </span>
+                          <img
+                            src={Crossicon}
+                            alt=""
+                            className={styles["CrossIcon_Class"]}
+                            width={13}
+                            onClick={handleCrossIcon}
+                          />
+                        </div>
+                      </>
+                    ) : null}
                   </div>
                 </Col>
-                <Col lg={5} md={5} sm={5}>
+                <Col lg={4} md={4} sm={4}>
                   <div className={styles["dropdown-container"]}>
                     <div
                       className={styles["dropdown-header"]}
@@ -1759,14 +1813,15 @@ const GlobalAdminDashboard = () => {
               </Row>
 
               <Row className="mt-2">
-                <Col lg={12} md={12} sm={12}>
+                <Col lg={12} md={12} sm={12} className={styles["Scroller"]}>
                   <Table
                     column={DashboardGlobalColumn}
                     pagination={false}
                     rows={billDueTable}
-                    scroll={{
-                      x: false,
-                    }}
+                    // scroll={{
+                    //   y: 300,
+                    //   x: false,
+                    // }}
                     className="Table"
                     locale={{
                       emptyText: (

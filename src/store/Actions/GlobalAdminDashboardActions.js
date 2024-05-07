@@ -512,9 +512,9 @@ export const SendInvoiceApi = createAsyncThunk(
   "SendInvoiceApi/SendInvoiceApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { userData, navigate, t } = requestData;
+    let { data } = requestData;
     let form = new FormData();
-    form.append("RequestData", JSON.stringify(userData));
+    form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", sendInvoice.RequestMethod);
     try {
       const response = await axios({
