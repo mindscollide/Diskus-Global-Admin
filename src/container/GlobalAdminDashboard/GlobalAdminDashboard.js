@@ -1613,7 +1613,6 @@ const GlobalAdminDashboard = () => {
   };
 
   const openSendInvoiceModal = (record) => {
-    console.log(record, "recordrecordrecordrecord");
     // dispatch(dashboardSendInvoiceOpenModal(true));
     let data = {
       OrganizationID: Number(record.organizationID),
