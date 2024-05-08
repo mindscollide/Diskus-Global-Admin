@@ -92,6 +92,11 @@ const ChangePassword = {
   RequestMethod: "ServiceManager.ChangePassword",
 };
 
+//userLogout
+const GlobalAdminLogout = {
+  RequestMethod: "ServiceManager.LogOut",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -114,4 +119,5 @@ export {
   GetSystemConfigurations,
   UpdateAllOrganizationLevelConfiguration,
   ChangePassword,
+  GlobalAdminLogout,
 };

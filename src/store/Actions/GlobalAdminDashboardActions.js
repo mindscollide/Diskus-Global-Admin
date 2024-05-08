@@ -894,9 +894,9 @@ export const ChangePasswordApi = createAsyncThunk(
   "ChangePasswordApi/ChangePasswordApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { userData, navigate, t } = requestData;
+    let { data } = requestData;
     let form = new FormData();
-    form.append("RequestData", JSON.stringify(userData));
+    form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", ChangePassword.RequestMethod);
     try {
       const response = await axios({

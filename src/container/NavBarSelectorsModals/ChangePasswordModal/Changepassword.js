@@ -8,10 +8,15 @@ import PasswordEyeIcon from "../../../assets/images/OutletImages/password.svg";
 import PasswordHideEyeIcon from "../../../assets/images/OutletImages/password_hide.svg";
 import { Col, Container, Row } from "react-bootstrap";
 import PasswordChecklist from "react-password-checklist";
+import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { ChangePasswordApi } from "../../../store/Actions/GlobalAdminDashboardActions";
+import { useNavigate } from "react-router-dom";
 
 const Changepassword = () => {
   const ModalReducer = useSelector((state) => state.modal);
 
+  let userID = localStorage.getItem("userID");
+  let Email = localStorage.getItem("userEmail");
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [shownewPassword, setShownewPassword] = useState(false);
   const [showconfirmPassword, setShowconfirmPassword] = useState(false);
@@ -23,6 +28,8 @@ const Changepassword = () => {
   });
 
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
 
@@ -61,6 +68,18 @@ const Changepassword = () => {
       ConfirmPassword: "",
     });
     setOldPassword("");
+  };
+
+  const handleChangePassword = () => {
+    dispatch(globalAdminDashBoardLoader(true));
+    let data = {
+      UserID: Number(userID),
+      Email: Email,
+      Password: Password.newPassword,
+      ConfirmPassword: Password.ConfirmPassword,
+      DeviceID: "1",
+    };
+    dispatch(ChangePasswordApi({ data, navigate, t }));
   };
 
   return (
@@ -265,8 +284,20 @@ const Changepassword = () => {
                   className="d-flex justify-content-end"
                 >
                   <Button
+                    disableBtn={
+                      oldPassword === ""
+                        ? true
+                        : Password.newPassword === ""
+                        ? true
+                        : Password.ConfirmPassword === ""
+                        ? true
+                        : !isPasswordStrong
+                        ? true
+                        : false
+                    }
                     text={t("Update")}
                     className={styles["UpdateBtnStyles"]}
+                    onClick={handleChangePassword}
                   />
                 </Col>
               </Row>
