@@ -312,3 +312,41 @@ body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
   /* border-collapse: collapse; */
   border-spacing: 0;
 }
+
+.eye_icon.valid-feedback {
+  display: block;
+  position: absolute;
+  top: 89px;
+  font-size: 22px;
+  right: 54% !important;
+  width: 30px !important;
+  cursor: pointer;
+}
+
+.eye_icon_newPassowrd.valid-feedback {
+  display: block;
+  position: absolute;
+  top: 148px;
+  font-size: 22px;
+  right: 54% !important;
+  width: 30px !important;
+  cursor: pointer;
+}
+
+.eye_icon_ConfirmPassword.valid-feedback {
+  display: block;
+  position: absolute;
+  top: 208px;
+  font-size: 22px;
+  right: 54% !important;
+  width: 30px !important;
+  cursor: pointer;
+}
+
+li.valid svg {
+  margin-top: 5px !important;
+}
+
+li.invalid svg {
+  margin-top: 5px !important;
+}

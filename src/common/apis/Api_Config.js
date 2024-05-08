@@ -87,6 +87,11 @@ const UpdateAllOrganizationLevelConfiguration = {
   RequestMethod: "ServiceManager.UpdateAllOrganizationLevelConfiguration",
 };
 
+//Change password GlobalAdmin
+const ChangePassword = {
+  RequestMethod: "ServiceManager.ChangePassword",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -108,4 +113,5 @@ export {
   UpdatePackagePriceGlobalAdmin,
   GetSystemConfigurations,
   UpdateAllOrganizationLevelConfiguration,
+  ChangePassword,
 };

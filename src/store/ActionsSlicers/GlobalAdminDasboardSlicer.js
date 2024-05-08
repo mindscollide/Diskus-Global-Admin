@@ -12,6 +12,7 @@ import {
   UpdatePackagePriceGlobalAdminApi,
   GetSystemConfigurationsApi,
   UpdateAllOrganizationLevelConfigurationApi,
+  ChangePasswordApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
   UpdatePackagePriceGlobalAdminData: null,
   GetSystemConfigurationsData: [],
   UpdateAllOrganizationLevelConfigurationData: null,
+  changePasswordData: null,
   Responsemessage: "",
 };
 
@@ -209,7 +211,20 @@ const globalAdminDashboardReducer = createSlice({
           state.UpdateAllOrganizationLevelConfigurationData = null;
           state.Responsemessage = action.payload || "An error occurred";
         }
-      );
+      )
+
+      //Change Password APi Reducer Data
+      .addCase(ChangePasswordApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(ChangePasswordApi.fulfilled, (state, action) => {
+        state.changePasswordData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(ChangePasswordApi.rejected, (state, action) => {
+        state.changePasswordData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      });
   },
 });
 

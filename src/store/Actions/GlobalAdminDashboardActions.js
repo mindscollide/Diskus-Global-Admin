@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { adminURL, excelURL } from "../../common/apis/Api_endPoints";
+import {
+  adminURL,
+  authenticationURL,
+  excelURL,
+} from "../../common/apis/Api_endPoints";
 import {
   GetAllBillingDue,
   OrganizationsByActiveLicense,
@@ -14,6 +18,7 @@ import {
   UpdatePackagePriceGlobalAdmin,
   GetAllPackagesWithFeaturesGlobalAdmin,
   sendInvoice,
+  ChangePassword,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 
@@ -861,6 +866,90 @@ export const UpdateAllOrganizationLevelConfigurationApi = createAsyncThunk(
               .toLowerCase()
               .includes(
                 "Admin_AdminServiceManager_UpdateAllOrganizationLevelConfiguration_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//Change Password Screen
+
+export const ChangePasswordApi = createAsyncThunk(
+  "ChangePasswordApi/ChangePasswordApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { userData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(userData));
+    form.append("RequestMethod", ChangePassword.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePassword_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "ChangePassword_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePassword_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No-password-updated");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePassword_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No-password-updated");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePassword_04".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
