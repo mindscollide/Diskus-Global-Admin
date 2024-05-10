@@ -60,7 +60,7 @@ const AdminOptionsNavBar = () => {
                   >
                     <NavDropdown.Item
                       as={Link}
-                      to="Organization"
+                      to="OrganizationLevelSettings"
                       eventKey="link-8"
                       className="text-black border-none "
                     >
