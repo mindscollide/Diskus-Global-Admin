@@ -82,6 +82,8 @@ body[dir="rtl"] .DiskusAdminNavBar > .dropdown-menu .dropdown-item:hover {
   justify-content: center;
   align-items: center;
   gap: 20px;
+  color: #5a5a5a !important;
+  font-weight: 700 !important;
 }
 
 .DiskusAdminNavBar .dropdown-toggle::after {
