@@ -236,13 +236,13 @@ a.m-0.p-0.iconSidebar-active-sidebar.nav-link.active rect#Rectangle_831 {
 .Meeting_Side_bar_Tag {
   font-size: 9 px !important;
   color: #5a5a5a !important;
-  font-family: "MontserratSemiBold" !important;
+  font-weight: 600 !important;
 }
 
 .Meeting_Side_bar_Tag_todo {
   font-size: 9px !important;
   color: #5a5a5a !important;
-  font-family: "MontserratSemiBold" !important;
+  font-weight: 600 !important;
   white-space: nowrap !important;
 }
 
@@ -253,13 +253,13 @@ body[dir="rtl"] .Meeting_Side_bar_Tag_todo {
 .Meeting_Side_bar_Tag_active {
   font-size: 8px !important;
   color: #fff !important;
-  font-family: "MontserratSemiBold" !important;
+  font-weight: 600 !important;
 }
 
 .Meeting_Side_bar_Tag_active_active_todo {
   font-size: 8px !important;
   color: #fff !important;
-  font-family: "MontserratSemiBold" !important;
+  font-weight: 600 !important;
   white-space: nowrap !important;
 }
 
@@ -313,13 +313,13 @@ a.iconSidebar span {
   color: #505050 !important;
   font-size: 10px !important;
   white-space: nowrap;
-  font-family: "MontserratSemiBold" !important;
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] a.iconSidebar span {
   color: #505050 !important;
   font-size: 8px !important;
-  font-family: "MontserratSemiBold" !important;
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] a.iconSidebar:hover {

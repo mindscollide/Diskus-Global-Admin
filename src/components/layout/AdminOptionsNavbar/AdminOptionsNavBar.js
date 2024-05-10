@@ -37,21 +37,15 @@ const AdminOptionsNavBar = () => {
                       {t("View-organization")}
                     </NavDropdown.Item>
                   </NavDropdown>
-
-                  <NavDropdown
-                    title={t("Pakages")}
-                    id="collasible-nav-dropdown"
+                  {/* Pakages Global Admin page Link */}
+                  <Nav.Link
+                    as={Link}
+                    to="Pakages"
+                    eventKey="link-8"
                     className="DiskusAdminNavBar"
                   >
-                    <NavDropdown.Item
-                      as={Link}
-                      to="AllMeeting"
-                      eventKey="link-8"
-                      className="text-black border-none"
-                    >
-                      {t("All-meeting")}
-                    </NavDropdown.Item>
-                  </NavDropdown>
+                    {t("Pakages")}
+                  </Nav.Link>
 
                   <NavDropdown
                     title={t("Global-configurations")}
@@ -60,7 +54,7 @@ const AdminOptionsNavBar = () => {
                   >
                     <NavDropdown.Item
                       as={Link}
-                      to="Organization"
+                      to="OrganizationLevelSettings"
                       eventKey="link-8"
                       className="text-black border-none "
                     >
@@ -75,7 +69,6 @@ const AdminOptionsNavBar = () => {
                       {t("User-level-configurations")}
                     </NavDropdown.Item>
                   </NavDropdown>
-
                   <NavDropdown
                     title={t("Reports")}
                     id="collasible-nav-dropdown"

@@ -10,26 +10,26 @@
 
 .send-invoice-heading {
   font-size: 30px;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
   color: #6172d6;
 }
 
 .send-invoice-subHeading {
   font-size: 12px;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
   color: #6172d6;
 }
 
 .send-invoice-subheading-2 {
   font-size: 12px;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
   color: #5a5a5a;
 }
 
 .sendButtonOrganizationEdit {
   padding: 12px 30px !important;
   font-size: 12px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   color: #ffffff !important;
   background: #6172d6 !important;
   border-radius: 4px !important;

@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./GlobalAdminDashboard.module.css";
 import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
 import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import ExcelIcon from "../../assets/images/OutletImages/Excel-Icon.png";
+import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import { Chart } from "react-google-charts";
-
+import { Calendar, DateObject } from "react-multi-date-picker";
 import {
   OrganizationsByActiveLicenseApi,
   StatsOfActiveLicenseApi,
@@ -19,6 +20,7 @@ import {
   organziationStatsBySubscriptionApi,
   dashBoardReportApi,
   OrganizationSubscriptionTypeApi,
+  SendInvoiceApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -27,11 +29,12 @@ import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizat
 import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import {
   convertUTCDateToLocalDate,
-  convertUTCDateToLocalDateDiffFormat,
+  formatDate,
   formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
 import SendInvoiceModal from "./SendInvoiceModal/SendInvoiceModal";
 import { dashboardSendInvoiceOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
+
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
@@ -83,23 +86,10 @@ const GlobalAdminDashboard = () => {
       state.globalAdminDashboardReducer.OrganizationSubscriptionStatsGraphData
   );
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(months[0]);
+  const [isOpen, setIsOpen] = useState(true);
+  const [isOpenCalender, setIsOpenCalender] = useState(false);
+  const [showSearchedDate, setShowSearchedDate] = useState(false);
+  const dropdownRef = useRef(null);
   const [isCompnayOpen, setIsCompnayOpen] = useState(false);
 
   const [organizationStatus, setOrganizationStatus] = useState(false);
@@ -215,10 +205,29 @@ const GlobalAdminDashboard = () => {
   const [totalRecordsPremium, setTotalRecordsPremium] = useState(0);
   const [isRowsDataPremium, setSRowsDataPremium] = useState(0);
 
-  //Lazy Loading States of Billing Due Table (users)
-  const [isScrollBilling, setIsScrollBilling] = useState(false);
-  const [totalRecordsBilling, setTotalRecordsBilling] = useState(0);
-  const [isRowsDataBilling, setSRowsDataBilling] = useState(0);
+  //MultiDate Picker states
+  const [currentMonth, setCurrentMonth] = useState(new DateObject().month);
+  const [selectingStart, setSelectingStart] = useState(true);
+  const currentDate = new Date(); // Creates a new date object representing now
+  const newDate = new DateObject(currentDate); // Assumes DateObject takes a Date
+  const formattedCurrentDate = newDate.format("YYYYMMDD") + "000000";
+  const [startDate, setStartDate] = useState(formattedCurrentDate);
+  const [endDate, setEndDate] = useState(null);
+
+  //Clicking outside closing Calender
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpenCalender(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   //Calling StatsOfActiveLicenseApi
   useEffect(() => {
@@ -244,6 +253,11 @@ const GlobalAdminDashboard = () => {
 
     setTrialBtn(true);
     setOrganizationStatus(true);
+    return () => {
+      setSelectingStart(true);
+      setShowSearchedDate(false);
+      setIsOpen(true);
+    };
   }, []);
 
   //StatsOfActiveLicenseApi Data
@@ -806,7 +820,16 @@ const GlobalAdminDashboard = () => {
       setSelectedCompany(organziations[0].organizationName);
       setOrganizationID(organziations[0].organizationID);
       let data = {
-        OrganizationID: Number(organziations[0].organizationID),
+        // OrganizationID: Number(organziations[0].organizationID),
+        // FromDate: startDate,
+        // ToDate: endDate ? endDate : "",
+        // PageNumber: 1,
+        // Length: 15,
+        OrganizationID: 0,
+        FromDate: "20230308000000",
+        ToDate: "20230408000000",
+        PageNumber: 1,
+        Length: 15,
       };
       dispatch(TotalThisMonthDueApi({ data, navigate, t }));
       dispatch(GetAllBillingDueApi({ data, navigate, t }));
@@ -835,27 +858,15 @@ const GlobalAdminDashboard = () => {
 
   //OutSide Click Functionality handled Both DropDowns
   useEffect(() => {
-    document.addEventListener("click", handleOutsideClick);
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
     document.addEventListener("click", HandleOutSideClickCompany);
     return () => {
       document.removeEventListener("click", HandleOutSideClickCompany);
     };
   }, [isCompnayOpen]);
 
-  const toggling = () => setIsOpen(!isOpen);
+  const toggling = () => setIsOpenCalender(!isOpenCalender);
 
   const togglingCompany = () => setIsCompnayOpen(!isCompnayOpen);
-
-  const onMonthClick = (month) => () => {
-    setSelectedMonth(month);
-    setIsOpen(false);
-  };
 
   const onCountryClickClick = (Country) => () => {
     setSelectedCompany(Country.organizationName);
@@ -1103,12 +1114,6 @@ const GlobalAdminDashboard = () => {
     legend: {
       alignment: "center",
     },
-    // pieSliceText: formatSessionDurationArabicAndEng("value", currentLanguage), // Display the values inside the slices
-    // pieSliceTextStyle: {
-    //   color: "#5A5A5A",
-    //   bold: true,
-    //   fontSize: 16,
-    // },
     tooltip: { trigger: "none" },
   };
 
@@ -1608,7 +1613,68 @@ const GlobalAdminDashboard = () => {
   };
 
   const openSendInvoiceModal = (record) => {
-    dispatch(dashboardSendInvoiceOpenModal(true));
+    // dispatch(dashboardSendInvoiceOpenModal(true));
+    let data = {
+      OrganizationID: Number(record.organizationID),
+      InvoiceID: Number(record.invoiceID),
+      SubscriptionID: Number(record.fK_OSID),
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(SendInvoiceApi({ data, navigate, t }));
+  };
+
+  //Multi Date Picker Date Pickers Month Function
+  const handleMonthChange = (newMonth) => {
+    console.log(newMonth, "newMonthnewMonthnewMonth");
+    setCurrentMonth(newMonth);
+  };
+
+  //Multi Date Picker Date Pickers Date Function
+  const handleDateChange = (date) => {
+    let newDate = new DateObject(date);
+    let formattedDate = newDate.format("YYYYMMDD") + "000000";
+
+    // Check if we're setting the endDate
+    if (!selectingStart) {
+      // Compare if the selected endDate is before the startDate
+      if (new Date(formattedDate) < new Date(startDate)) {
+        console.log("End Date is before Start Date, swapping dates");
+        setEndDate(startDate);
+        setStartDate(formattedDate);
+        return;
+      }
+    }
+
+    if (selectingStart) {
+      console.log("Setting startDate");
+      setStartDate(formattedDate);
+      setSelectingStart(false);
+    } else {
+      console.log("Setting endDate");
+      setEndDate(formattedDate);
+      setSelectingStart(true);
+
+      let data = {
+        OrganizationID: Number(organziations[0].organizationID),
+        FromDate: startDate,
+        ToDate: formattedDate,
+        PageNumber: 1,
+        Length: 15,
+      };
+
+      if (startDate && formattedDate) {
+        setIsOpen(false);
+        setIsOpenCalender(false);
+        setShowSearchedDate(true);
+        dispatch(globalAdminDashBoardLoader(true));
+        dispatch(GetAllBillingDueApi({ data, navigate, t }));
+      }
+    }
+  };
+
+  const handleCrossIcon = () => {
+    setShowSearchedDate(false);
+    setIsOpen(true);
   };
 
   return (
@@ -1618,50 +1684,72 @@ const GlobalAdminDashboard = () => {
           <Col lg={5} md={5} sm={5}>
             <section className={styles["LeftBoxDashboard"]}>
               <Row>
-                <Col lg={4} md={4} sm={12}>
+                <Col
+                  lg={isOpen ? 4 : 3}
+                  md={isOpen ? 4 : 3}
+                  sm={isOpen ? 4 : 3}
+                >
                   <span className={styles["BillingDueHeading"]}>
                     {t("Billing-due")}
                   </span>
                 </Col>
-                <Col lg={3} md={3} sm={3} className="position-relative">
-                  <div className={styles["dropdown-container"]}>
+                <Col
+                  lg={isOpen ? 3 : 5}
+                  md={isOpen ? 3 : 5}
+                  sm={isOpen ? 3 : 5}
+                  className="position-relative"
+                >
+                  <div
+                    ref={dropdownRef}
+                    className={styles["dropdown-container"]}
+                  >
                     <div
                       className={styles["dropdown-header"]}
                       onClick={toggling}
-                      ref={MonthsRef}
                     >
-                      <span className={styles["MonthName"]}>
-                        {selectedMonth}
-                      </span>
-
-                      <span
-                        className={
-                          isOpen ? ` ${styles["down"]} ` : `${styles["up"]}`
-                        }
-                      ></span>
+                      {isOpen ? (
+                        <>
+                          <span className={styles["MonthName"]}>
+                            {t("Month")}
+                          </span>
+                          <span
+                            className={isOpen ? styles.down : styles.up}
+                          ></span>
+                        </>
+                      ) : null}
                     </div>
-                    {isOpen && (
+                    {isOpenCalender ? (
                       <>
-                        <section className={styles["dropdown_list"]}>
-                          {months.map((month) => {
-                            return (
-                              <>
-                                <div
-                                  className={styles["dropdown-list-item"]}
-                                  onClick={onMonthClick(month)}
-                                  key={month}
-                                >
-                                  {month}
-                                </div>
-                              </>
-                            );
-                          })}
-                        </section>
+                        <Calendar
+                          numberOfMonths={2}
+                          style={{ position: "absolute", zIndex: 1000 }}
+                          onFocusedDateChange={handleDateChange}
+                          onMonthChange={handleMonthChange}
+                          multiple
+                          format="YYYY-MM-DD"
+                        />
                       </>
-                    )}
+                    ) : null}
+                    {showSearchedDate ? (
+                      <>
+                        <div className={styles["SearchDataes"]}>
+                          <span className={styles["Searches"]}>
+                            {formatDate(startDate, currentLanguage)}-
+                            {formatDate(endDate, currentLanguage)}
+                          </span>
+                          <img
+                            src={Crossicon}
+                            alt=""
+                            className={styles["CrossIcon_Class"]}
+                            width={13}
+                            onClick={handleCrossIcon}
+                          />
+                        </div>
+                      </>
+                    ) : null}
                   </div>
                 </Col>
-                <Col lg={5} md={5} sm={5}>
+                <Col lg={4} md={4} sm={4}>
                   <div className={styles["dropdown-container"]}>
                     <div
                       className={styles["dropdown-header"]}
@@ -1724,14 +1812,15 @@ const GlobalAdminDashboard = () => {
               </Row>
 
               <Row className="mt-2">
-                <Col lg={12} md={12} sm={12}>
+                <Col lg={12} md={12} sm={12} className={styles["Scroller"]}>
                   <Table
                     column={DashboardGlobalColumn}
                     pagination={false}
                     rows={billDueTable}
-                    scroll={{
-                      x: false,
-                    }}
+                    // scroll={{
+                    //   y: 300,
+                    //   x: false,
+                    // }}
                     className="Table"
                     locale={{
                       emptyText: (

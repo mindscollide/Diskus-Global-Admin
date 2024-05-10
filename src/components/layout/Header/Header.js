@@ -11,6 +11,7 @@ import Changepassword from "../../../container/NavBarSelectorsModals/ChangePassw
 import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { GlobalAdminLogOutApi } from "../../../store/Actions/AuthActions";
 const Header = () => {
   const { t } = useTranslation();
 
@@ -26,8 +27,9 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    navigate("/");
-    localStorage.removeItem("token");
+    dispatch(GlobalAdminLogOutApi({ navigate, t }));
+    // navigate("/");
+    // localStorage.removeItem("token");
   };
 
   return (

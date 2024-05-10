@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { adminURL, excelURL } from "../../common/apis/Api_endPoints";
+import {
+  adminURL,
+  authenticationURL,
+  excelURL,
+} from "../../common/apis/Api_endPoints";
 import {
   GetAllBillingDue,
   OrganizationsByActiveLicense,
@@ -9,6 +13,12 @@ import {
   statOrganizationBySubType,
   dashboardBillingDueReport,
   OrganizationBySubscriptiontype,
+  UpdateAllOrganizationLevelConfiguration,
+  GetSystemConfigurations,
+  UpdatePackagePriceGlobalAdmin,
+  GetAllPackagesWithFeaturesGlobalAdmin,
+  sendInvoice,
+  ChangePassword,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 
@@ -480,6 +490,466 @@ export const OrganizationSubscriptionTypeApi = createAsyncThunk(
               .toLowerCase()
               .includes(
                 "Admin_AdminServiceManager_OrganizationsBySubscriptionType_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//Send Invoice APi
+export const SendInvoiceApi = createAsyncThunk(
+  "SendInvoiceApi/SendInvoiceApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", sendInvoice.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SendInvoice_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "SendInvoice_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SendInvoice_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Failed-to-send-Invoice");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SendInvoice_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//GetAllPackagesWithFeaturesGlobalAdmin Api
+export const GetAllPackagesWithFeaturesGlobalAdminApi = createAsyncThunk(
+  "GetAllPackagesWithFeaturesGlobalAdminApi/GetAllPackagesWithFeaturesGlobalAdminApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { userData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(userData));
+    form.append(
+      "RequestMethod",
+      GetAllPackagesWithFeaturesGlobalAdmin.RequestMethod
+    );
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetAllPackagesWithFeaturesGlobalAdmin_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetAllPackagesWithFeaturesGlobalAdmin_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetAllPackagesWithFeaturesGlobalAdmin_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Failed-to-update");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetAllPackagesWithFeaturesGlobalAdmin_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//UpdatePackagePriceGlobalAdmin Api
+export const UpdatePackagePriceGlobalAdminApi = createAsyncThunk(
+  "UpdatePackagePriceGlobalAdmin/UpdatePackagePriceGlobalAdmin",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { userData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(userData));
+    form.append("RequestMethod", UpdatePackagePriceGlobalAdmin.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_UpdatePackagePriceGlobalAdmin_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "UpdatePackagePriceGlobalAdmin_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_UpdatePackagePriceGlobalAdmin_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Failed-to-update");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_UpdatePackagePriceGlobalAdmin_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//GetSystemConfigurations Api
+export const GetSystemConfigurationsApi = createAsyncThunk(
+  "GetSystemConfigurationsApi/GetSystemConfigurationsApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { userData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(userData));
+    form.append("RequestMethod", GetSystemConfigurations.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetAllOrganizationLevelConfiguration_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetAllOrganizationLevelConfiguration_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetAllOrganizationLevelConfiguration_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No-data-available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetAllOrganizationLevelConfiguration_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//UpdateAllOrganizationLevelConfiguration
+export const UpdateAllOrganizationLevelConfigurationApi = createAsyncThunk(
+  "UpdateAllOrganizationLevelConfigurationApi/UpdateAllOrganizationLevelConfigurationApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { userData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(userData));
+    form.append(
+      "RequestMethod",
+      UpdateAllOrganizationLevelConfiguration.RequestMethod
+    );
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_UpdateAllOrganizationLevelConfiguration_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "UpdateAllOrganizationLevelConfiguration_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_UpdateAllOrganizationLevelConfiguration_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Failed-to-update");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_UpdateAllOrganizationLevelConfiguration_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//Change Password Screen
+
+export const ChangePasswordApi = createAsyncThunk(
+  "ChangePasswordApi/ChangePasswordApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", ChangePassword.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePassword_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "ChangePassword_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePassword_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No-password-updated");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePassword_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No-password-updated");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePassword_04".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
