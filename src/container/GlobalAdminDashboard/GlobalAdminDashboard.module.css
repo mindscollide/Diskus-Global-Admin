@@ -1,5 +1,5 @@
 .LeftBoxDashboard {
-  padding: 5px 20px !important;
+  padding: 7px 20px !important;
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
@@ -19,14 +19,14 @@
 .BillingDueHeading {
   font-size: 20px !important;
   color: #6172d6 !important;
-  font-weight: bold !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
 }
 
 body[dir="rtl"] .BillingDueHeading {
   font-size: 20px !important;
   color: #6172d6 !important;
-  font-family: "IBMPlexSansArabic-SemiBold" !important;
+  font-weight: 600 !important;
 }
 
 /* Dropdown.module.css */
@@ -40,24 +40,18 @@ body[dir="rtl"] .BillingDueHeading {
   -webkit-transform: rotate(-135deg);
   cursor: pointer !important;
   margin-top: 5px;
+  margin-left: 5px;
 }
 
 .down {
   border: 1px solid black;
-  border-width: 0 3px 3px 0;
+  border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 3px;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
   cursor: pointer !important;
-}
-
-.dropdown-header {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  align-items: center;
-  user-select: none;
+  margin-left: 5px;
 }
 
 .dropdown-list-item {
@@ -72,10 +66,6 @@ body[dir="rtl"] .BillingDueHeading {
 
 .dropdown-list-item:last-child {
   border-bottom: none !important;
-}
-
-.dropdown-container {
-  max-width: 100% !important;
 }
 
 .dropdown_list {
@@ -106,6 +96,23 @@ body[dir="rtl"] .BillingDueHeading {
   margin-left: -15px;
 }
 
+.Scroller {
+  height: 58vh !important;
+  overflow-x: hidden !important;
+}
+
+.Scroller::-webkit-scrollbar {
+  width: 0.5rem;
+  border-radius: 20px;
+  background-color: #f2f2f2;
+}
+
+.Scroller::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: #ccc;
+  margin-left: -15px;
+}
+
 .MonthName {
   font-size: 14px !important;
   color: #5a5a5a !important;
@@ -113,49 +120,44 @@ body[dir="rtl"] .BillingDueHeading {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   margin-top: 5px;
 }
 
 .PrizeStyles {
   color: #f16b6b !important;
   font-size: 40px !important;
-  font-weight: bold !important;
-  font-family: "montserrat-bold" !important;
+  font-weight: 700 !important;
 }
 
 body[dir="rtl"] .PrizeStyles {
   color: #f16b6b !important;
   font-size: 40px !important;
-  font-weight: bold !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .PrizeSubHeading {
   color: #5a5a5a !important;
   font-size: 12px !important;
-  font-weight: bold !important;
-  font-family: "montserrat-bold" !important;
+  font-weight: 700 !important;
 }
 
 body[dir="rtl"] .PrizeSubHeading {
   color: #5a5a5a !important;
   font-size: 12px !important;
-  font-weight: bold !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .OrgazationStatusHeading {
   color: #6172d6 !important;
   font-size: 20px !important;
-  font-weight: bold !important;
-  font-family: "montserrat-regular" !important;
+  font-weight: 400 !important;
 }
 
 body[dir="rtl"] .OrgazationStatusHeading {
   color: #6172d6 !important;
   font-size: 20px !important;
-  font-family: "IBMPlexSansArabic-SemiBold" !important;
+  font-weight: 600 !important;
 }
 
 .OuterBoxPieChart {
@@ -198,7 +200,7 @@ body[dir="rtl"] .OrgazationStatusHeading {
   border-radius: 4px !important;
   background: #fff !important;
   color: #5a5a5a !important;
-  font-family: "montserrat-bold" !important;
+  font-weight: 700 !important;
 }
 
 body[dir="rtl"] .ButtonsDashboard {
@@ -208,7 +210,7 @@ body[dir="rtl"] .ButtonsDashboard {
   border-radius: 4px !important;
   background: #fff !important;
   color: #5a5a5a !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
@@ -227,7 +229,7 @@ body[dir="rtl"] .ButtonsDashboard {
   border-radius: 4px !important;
   background: #6172d6 !important;
   color: #fff !important;
-  font-family: "montserrat-bold" !important;
+  font-weight: 700 !important;
 }
 
 body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
@@ -237,7 +239,7 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   border-radius: 4px !important;
   background: #6172d6 !important;
   color: #fff !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .Search_Bar_icon_class {
@@ -251,27 +253,26 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
 .dashboard-table-insidetext {
   color: #5a5a5a !important;
   font-size: 12px !important;
-  font-family: "montserrat-bold" !important;
+  font-weight: 700 !important;
 }
 
 body[dir="rtl"] .dashboard-table-insidetext {
   color: #5a5a5a !important;
   font-size: 12px !important;
-  font-weight: bold !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .dashboard-tabletext {
   color: #5a5a5a !important;
   font-size: 12px !important;
-  font-family: "montserrat-bold" !important;
+  font-weight: 700 !important;
   white-space: nowrap !important;
 }
 
 .dashboard-user-dates {
   color: #505050 !important;
   font-size: 12px !important;
-  font-family: "montserrat-500" !important;
+  font-weight: 500 !important;
 }
 
 .Export_To_Excel_dashboard {
@@ -285,7 +286,7 @@ body[dir="rtl"] .dashboard-table-insidetext {
   align-items: center !important;
   margin: 0 !important;
   gap: 5px !important;
-  font-family: "montserrat-500" !important;
+  font-weight: 500 !important;
   cursor: pointer !important;
 }
 
@@ -300,7 +301,7 @@ body[dir="rtl"] .dashboard-table-insidetext {
   align-items: center !important;
   margin: 0 !important;
   gap: 5px !important;
-  font-family: "montserrat-500" !important;
+  font-weight: 500 !important;
   cursor: pointer !important;
 }
 
@@ -315,7 +316,7 @@ body[dir="rtl"] .Export_To_Excel_dashboardTableButton {
   align-items: center !important;
   margin: 0 !important;
   gap: 5px !important;
-  font-family: "montserrat-500" !important;
+  font-weight: 500 !important;
   cursor: pointer !important;
 }
 
@@ -328,7 +329,7 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   display: flex !important;
   justify-content: center !important;
   gap: 5px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   cursor: pointer !important;
 }
 
@@ -338,7 +339,7 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   border-radius: 4px !important;
   color: #505050;
   font-size: 12px !important;
-  font-family: "montserrat-500" !important;
+  font-weight: 500 !important;
   cursor: pointer !important;
   white-space: nowrap;
 }
@@ -349,13 +350,13 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   border-radius: 4px !important;
   color: #505050;
   font-size: 12px !important;
-  font-family: "montserrat-500" !important;
+  font-weight: 500 !important;
   cursor: pointer !important;
   white-space: nowrap;
 }
 
 body[dir="rtl"] .send-invoice-button {
-  font-family: "IBMPlexSansArabic-SemiBold" !important;
+  font-weight: 600 !important;
   white-space: nowrap;
 }
 
@@ -373,7 +374,7 @@ body[dir="rtl"] .send-invoice-button {
   display: flex !important;
   gap: 5px !important;
   align-items: center !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
 }
 
 .ExportBUtton:is(:hover, :focus, :focus-visible, :active) {
@@ -383,12 +384,30 @@ body[dir="rtl"] .send-invoice-button {
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
   color: #5a5a5a !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
 }
 
-
 body[dir="rtl"] .ExportBUtton {
-  font-family: "IBMPlexSansArabic-SemiBold" !important;
+  font-weight: 600 !important;
   white-space: nowrap;
   padding: 12px 17px !important;
+}
+
+.SearchDataes {
+  padding: 3px 5px !important;
+  border-radius: 4px !important;
+  background: #6172d6;
+  display: flex;
+  text-align: center !important;
+  gap: 15px !important;
+}
+
+.Searches {
+  font-size: 9px !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+.CrossIcon_Class {
+  cursor: pointer !important;
 }

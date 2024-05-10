@@ -2,7 +2,7 @@
   color: #6172d6 !important;
   font-size: 30px !important;
   text-align: center !important;
-  font-family: "MontserratSemiBold-600";
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] .sign-in-text {
@@ -10,7 +10,7 @@ body[dir="rtl"] .sign-in-text {
   font-weight: 500 !important;
   font-size: 28px !important;
   text-align: center !important;
-  font-family: "IBMPlexSansArabic-SemiBold" !important;
+  font-weight: 600 !important;
 }
 
 .LoginButton {
@@ -21,12 +21,9 @@ body[dir="rtl"] .sign-in-text {
   font-size: 14px !important;
   border: none !important;
   width: 100% !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   text-transform: uppercase !important;
 }
-
-
-
 
 body[dir="rtl"] .LoginButton {
   padding: 12px 30px !important;
@@ -36,7 +33,7 @@ body[dir="rtl"] .LoginButton {
   font-size: 14px !important;
   border: none !important;
   width: 100% !important;
-  font-family: "IBMPlexSansArabic-SemiBold";
+  font-weight: 600 !important;
 }
 
 .LoginButton:is(:hover, :active, :focus, :focus-visible) {
@@ -47,7 +44,7 @@ body[dir="rtl"] .LoginButton {
   font-size: 14px !important;
   border: none !important;
   width: 100% !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   text-transform: uppercase !important;
 }
 
@@ -59,7 +56,7 @@ body[dir="rtl"] .LoginButton:is(:hover, :active, :focus, :focus-visible) {
   font-size: 14px !important;
   border: none !important;
   width: 100% !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }
 
 .remember-email {
@@ -67,9 +64,9 @@ body[dir="rtl"] .LoginButton:is(:hover, :active, :focus, :focus-visible) {
   align-items: center !important;
   color: #5a5a5a !important;
   font-size: 16px !important;
-  font-family: "MontserratMedium-500" !important;
+  font-weight: 500 !important;
 }
 
 body[dir="rtl"] .remember-email {
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
 }

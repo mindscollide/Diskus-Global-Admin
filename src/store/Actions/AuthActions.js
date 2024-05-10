@@ -1,13 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { loginAPi, passwordVerify } from "../../common/apis/Api_Config";
+import {
+  GlobalAdminLogout,
+  loginAPi,
+  passwordVerify,
+} from "../../common/apis/Api_Config";
 import { authenticationURL } from "../../common/apis/Api_endPoints";
 import { changeScreen } from "../ActionsSlicers/AuthScreenActionSlicer";
 
+const logoutChannel = new BroadcastChannel("logout");
 //Email Verification
 export const enterEmailValidation = createAsyncThunk(
   "Auth/EmailValidation",
-  async ({ email, navigate, t }, { rejectWithValue,dispatch }) => {
+  async ({ email, navigate, t }, { rejectWithValue, dispatch }) => {
     let data = {
       UserEmail: email,
       Device: "Browser",
@@ -197,6 +202,10 @@ export const PasswordVerificationApi = createAsyncThunk(
           ) {
             console.log(response.data.responseResult, "includesincludes");
             localStorage.setItem(
+              "userEmail",
+              response.data.responseResult.authToken.userName
+            );
+            localStorage.setItem(
               "token",
               response.data.responseResult.authToken.token
             );
@@ -237,6 +246,117 @@ export const PasswordVerificationApi = createAsyncThunk(
               .includes(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_07".toLowerCase()
               )
+          ) {
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//SignOut Function
+const signOut = (navigate, message, dispatch) => {
+  logoutChannel.postMessage("Logout");
+
+  window.location.href = window.location.origin + "/";
+  let RememberEmailLocal = JSON.parse(localStorage.getItem("rememberEmail"));
+  let RememberPasswordLocal = JSON.parse(
+    localStorage.getItem("remeberPassword")
+  );
+  let reLang = localStorage.getItem("i18nextLng");
+  if (RememberEmailLocal === true && RememberPasswordLocal === true) {
+    let RememberEmailLocalValue = localStorage.getItem("rememberEmailValue");
+
+    let RememberPasswordLocalValue = localStorage.getItem(
+      "rememberPasswordValue"
+    );
+    localStorage.clear();
+    if (reLang != undefined && reLang != null) {
+      localStorage.setItem("i18nextLng", reLang);
+    }
+    localStorage.setItem("remeberPassword", RememberPasswordLocal);
+    localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
+    localStorage.setItem("rememberEmail", RememberEmailLocal);
+    localStorage.setItem("rememberEmailValue", RememberEmailLocalValue);
+  } else if (RememberEmailLocal === true) {
+    let RememberEmailLocalValue = localStorage.getItem("rememberEmailValue");
+    localStorage.clear();
+    if (reLang != undefined && reLang != null) {
+      localStorage.setItem("i18nextLng", reLang);
+    }
+    localStorage.setItem("rememberEmail", RememberEmailLocal);
+    localStorage.setItem("rememberEmailValue", RememberEmailLocalValue);
+  } else if (RememberPasswordLocal === true) {
+    let RememberPasswordLocalValue = localStorage.getItem(
+      "rememberPasswordValue"
+    );
+    localStorage.clear();
+    if (reLang != undefined && reLang != null) {
+      localStorage.setItem("i18nextLng", reLang);
+    }
+    localStorage.setItem("remeberPassword", RememberPasswordLocal);
+    localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
+  } else {
+    localStorage.clear();
+    if (reLang != undefined && reLang != null) {
+      localStorage.setItem("i18nextLng", reLang);
+    }
+    localStorage.setItem("rememberEmail", false);
+    localStorage.setItem("rememberEmailValue", "");
+    localStorage.setItem("remeberPassword", false);
+    localStorage.setItem("rememberPasswordValue", "");
+  }
+};
+
+//GlobalAdmin Logout
+export const GlobalAdminLogOutApi = createAsyncThunk(
+  "Auth/GlobalAdminLogOutApi",
+  async ({ RequestData }, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let form = new FormData();
+    form.append("RequestMethod", GlobalAdminLogout.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes("ERM_AuthService_AuthManager_LogOut_01".toLowerCase())
+          ) {
+            signOut();
+            return {
+              result: response.data.responseResult,
+              code: "LogOut_01",
+            };
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes("ERM_AuthService_AuthManager_LogOut_02".toLowerCase())
+          ) {
+            return rejectWithValue("Invalid Token");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes("ERM_AuthService_AuthManager_LogOut_03".toLowerCase())
           ) {
             return rejectWithValue("Something-went-wrong");
           } else {

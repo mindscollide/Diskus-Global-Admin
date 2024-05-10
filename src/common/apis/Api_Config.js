@@ -62,6 +62,41 @@ const dashboardBillingDueReport = {
   RequestMethod: "ServiceManager.BillingDueReport",
 };
 
+//sendInvoice
+const sendInvoice = {
+  RequestMethod: "ServiceManager.SendInvoice",
+};
+
+//GetAllPackagesWithFeaturesGlobalAdmin
+const GetAllPackagesWithFeaturesGlobalAdmin = {
+  RequestMethod: "ServiceManager.GetAllPackagesWithFeaturesGlobalAdmin",
+};
+
+//UpdatePackagePriceGlobalAdmin
+const UpdatePackagePriceGlobalAdmin = {
+  RequestMethod: "ServiceManager.UpdatePackagePriceGlobalAdmin",
+};
+
+//GetSystemConfigurations
+const GetSystemConfigurations = {
+  RequestMethod: "ServiceManager.GetAllOrganizationLevelConfiguration",
+};
+
+//UpdateAllOrganizationLevelConfiguration
+const UpdateAllOrganizationLevelConfiguration = {
+  RequestMethod: "ServiceManager.UpdateAllOrganizationLevelConfiguration",
+};
+
+//Change password GlobalAdmin
+const ChangePassword = {
+  RequestMethod: "ServiceManager.ChangePassword",
+};
+
+//userLogout
+const GlobalAdminLogout = {
+  RequestMethod: "ServiceManager.LogOut",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -78,4 +113,11 @@ export {
   OrganizationBySubscriptiontype,
   billingDueReport,
   dashboardBillingDueReport,
+  sendInvoice,
+  GetAllPackagesWithFeaturesGlobalAdmin,
+  UpdatePackagePriceGlobalAdmin,
+  GetSystemConfigurations,
+  UpdateAllOrganizationLevelConfiguration,
+  ChangePassword,
+  GlobalAdminLogout,
 };

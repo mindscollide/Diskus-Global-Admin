@@ -5,34 +5,31 @@
 
 .EditSubscriptionSubHeading {
   font-size: 10px !important;
-  font-family: "Montserrat" !important;
-  font-weight: bold !important;
+  font-weight: 400 !important;
   color: #6172d6;
 }
 
 body[dir="rtl"] .EditSubscriptionSubHeading {
   font-size: 10px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   color: #6172d6;
 }
 
 .Data {
   font-size: 12px !important;
-  font-family: "Montserrat" !important;
-  font-weight: bold !important;
+  font-weight: 400 !important;
   color: #5a5a5a !important;
 }
 
 .Data {
   font-size: 12px !important;
-  font-family: "MontserratSemiBold-600" !important;
-  font-weight: bold !important;
+  font-weight: 600 !important;
   color: #5a5a5a !important;
 }
 
 .closeButtonSubscriptionEdit {
   padding: 12px 30px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   font-size: 12px !important;
   color: #5a5a5a !important;
   background: #fff !important;
@@ -42,7 +39,7 @@ body[dir="rtl"] .EditSubscriptionSubHeading {
 
 body[dir="rtl"] .closeButtonSubscriptionEdit {
   padding: 12px 30px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   font-size: 12px !important;
   color: #5a5a5a !important;
   background: #fff !important;
@@ -52,7 +49,7 @@ body[dir="rtl"] .closeButtonSubscriptionEdit {
 
 .closeButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   font-size: 12px !important;
   color: #5a5a5a !important;
   background: #fff !important;
@@ -63,7 +60,7 @@ body[dir="rtl"] .closeButtonSubscriptionEdit {
 body[dir="rtl"]
   .closeButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   font-size: 12px !important;
   color: #5a5a5a !important;
   background: #fff !important;
@@ -74,7 +71,7 @@ body[dir="rtl"]
 .UpdateButtonSubscriptionEdit {
   padding: 12px 30px !important;
   font-size: 12px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   color: #fff !important;
   background: #6172d6 !important;
   border: none !important;
@@ -84,7 +81,7 @@ body[dir="rtl"]
 body[dir="rtl"] .UpdateButtonSubscriptionEdit {
   padding: 12px 30px !important;
   font-size: 12px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   color: #fff !important;
   background: #6172d6 !important;
   border: none !important;
@@ -94,7 +91,7 @@ body[dir="rtl"] .UpdateButtonSubscriptionEdit {
 .UpdateButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
   font-size: 12px !important;
-  font-family: "MontserratSemiBold-600" !important;
+  font-weight: 600 !important;
   color: #fff !important;
   background: #6172d6 !important;
   border: none !important;
@@ -105,7 +102,7 @@ body[dir="rtl"]
   .UpdateButtonSubscriptionEdit:is(:hover, :focus, :active, :focus-visible) {
   padding: 12px 30px !important;
   font-size: 12px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
+  font-weight: 500 !important;
   color: #fff !important;
   background: #6172d6 !important;
   border: none !important;
@@ -114,14 +111,12 @@ body[dir="rtl"]
 
 .EditSubscriptionHeadingMain {
   font-size: 30px !important;
-  font-family: "MontserratSemiBold-600" !important;
-  font-weight: bold !important;
+  font-weight: 600 !important;
   color: #6172d6;
 }
 
 body[dir="rtl"] .EditSubscriptionHeadingMain {
   font-size: 30px !important;
-  font-family: "IBMPlexSansArabic-Medium" !important;
-  font-weight: bold !important;
+  font-weight: 400 !important;
   color: #6172d6;
 }

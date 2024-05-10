@@ -1,0 +1,8 @@
+.packagecard {
+  border-radius: 4px;
+  background-color: #fff !important;
+  padding: 0 35px;
+  position: relative;
+  height: 560px;
+  border: 1px solid #e1e1e1 !important;
+}

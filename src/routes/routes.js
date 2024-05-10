@@ -9,6 +9,8 @@ import ViewOrganization from "../container/ViewOrganization/ViewOrganization";
 import LoginHistory from "../container/LoginHistory/LoginHistory";
 import GlobalAdminDashboard from "../container/GlobalAdminDashboard/GlobalAdminDashboard";
 import PrivateRoutes from "./PrivateRoutes";
+import OrganizationLevelSettings from "../container/OrganizationLevelSettings/OrganizationLevelSettings";
+import PakagesGlobalAdmin from "../container/PakagesGlobalAdmin/PakagesGlobalAdmin";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -25,6 +27,11 @@ export const router = createHashRouter(
           <Route path="GlobalDashboard" element={<GlobalAdminDashboard />} />
           <Route path="vieworganization" element={<ViewOrganization />} />
           <Route path="loginHistory" element={<LoginHistory />} />
+          <Route path="Pakages" element={<PakagesGlobalAdmin />} />
+          <Route
+            path="OrganizationLevelSettings"
+            element={<OrganizationLevelSettings />}
+          />
         </Route>
       </Route>
     </>

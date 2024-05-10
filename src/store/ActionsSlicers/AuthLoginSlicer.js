@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  GlobalAdminLogOutApi,
   PasswordVerificationApi,
   enterEmailValidation,
 } from "../Actions/AuthActions";
@@ -9,6 +10,7 @@ const initialState = {
   Authresponse: null,
   Responsemessage: "",
   passwordVerifyData: null,
+  logOutData: null,
 };
 
 const AuthActionsSlice = createSlice({
@@ -47,6 +49,20 @@ const AuthActionsSlice = createSlice({
       .addCase(PasswordVerificationApi.rejected, (state, action) => {
         state.loading = false;
         state.passwordVerifyData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      .addCase(GlobalAdminLogOutApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(GlobalAdminLogOutApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.logOutData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(GlobalAdminLogOutApi.rejected, (state, action) => {
+        state.loading = false;
+        state.logOutData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

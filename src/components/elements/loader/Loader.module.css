@@ -158,10 +158,9 @@
 
 .Messeges_Styles {
   font-size: 20px !important;
-  font-family: "MontserratSemiBold" !important;
+  font-weight: 600 !important;
   color: #5a5a5a !important;
   width: 100% !important;
-
   position: fixed;
   top: 70%;
   left: 50%;
@@ -177,7 +176,7 @@
 
 .Messeges_Styles_Panel {
   font-size: 18px !important;
-  font-family: "MontserratSemiBold" !important;
+  font-weight: 600 !important;
   color: #5a5a5a !important;
   width: 100% !important;
   position: absolute;

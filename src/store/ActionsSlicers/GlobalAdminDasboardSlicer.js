@@ -7,6 +7,12 @@ import {
   dashBoardReportApi,
   organziationStatsBySubscriptionApi,
   OrganizationSubscriptionTypeApi,
+  SendInvoiceApi,
+  GetAllPackagesWithFeaturesGlobalAdminApi,
+  UpdatePackagePriceGlobalAdminApi,
+  GetSystemConfigurationsApi,
+  UpdateAllOrganizationLevelConfigurationApi,
+  ChangePasswordApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -17,6 +23,12 @@ const initialState = {
   GetAllBillingDueApiData: [],
   OrganizationStatsSubscriptionData: null,
   OrganizationSubscriptionStatsGraphData: null,
+  SendInvoiceData: null,
+  GetAllPackagesWithFeaturesGlobalAdminData: [],
+  UpdatePackagePriceGlobalAdminData: null,
+  GetSystemConfigurationsData: [],
+  UpdateAllOrganizationLevelConfigurationData: null,
+  changePasswordData: null,
   Responsemessage: "",
 };
 
@@ -122,6 +134,95 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(OrganizationSubscriptionTypeApi.rejected, (state, action) => {
         state.OrganizationSubscriptionStatsGraphData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //Send Invoice APi Reducer Data
+      .addCase(SendInvoiceApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(SendInvoiceApi.fulfilled, (state, action) => {
+        state.SendInvoiceData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(SendInvoiceApi.rejected, (state, action) => {
+        state.SendInvoiceData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //GetAllPackagesWithFeaturesGlobalAdminApi APi Reducer Data
+      .addCase(GetAllPackagesWithFeaturesGlobalAdminApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(
+        GetAllPackagesWithFeaturesGlobalAdminApi.fulfilled,
+        (state, action) => {
+          state.GetAllPackagesWithFeaturesGlobalAdminData = action.payload;
+          state.Responsemessage = "Success";
+        }
+      )
+      .addCase(
+        GetAllPackagesWithFeaturesGlobalAdminApi.rejected,
+        (state, action) => {
+          state.GetAllPackagesWithFeaturesGlobalAdminData = [];
+          state.Responsemessage = action.payload || "An error occurred";
+        }
+      )
+      //UpdatePackagePriceGlobalAdminApi APi Reducer Data
+      .addCase(UpdatePackagePriceGlobalAdminApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(UpdatePackagePriceGlobalAdminApi.fulfilled, (state, action) => {
+        state.UpdatePackagePriceGlobalAdminData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(UpdatePackagePriceGlobalAdminApi.rejected, (state, action) => {
+        state.UpdatePackagePriceGlobalAdminData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //GetSystemConfigurations APi Reducer Data
+      .addCase(GetSystemConfigurationsApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(GetSystemConfigurationsApi.fulfilled, (state, action) => {
+        state.GetSystemConfigurationsData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(GetSystemConfigurationsApi.rejected, (state, action) => {
+        state.GetSystemConfigurationsData = [];
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //UpdateAllOrganizationLevelConfiguration APi Reducer Data
+      .addCase(UpdateAllOrganizationLevelConfigurationApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(
+        UpdateAllOrganizationLevelConfigurationApi.fulfilled,
+        (state, action) => {
+          state.UpdateAllOrganizationLevelConfigurationData = action.payload;
+          state.Responsemessage = "Success";
+        }
+      )
+      .addCase(
+        UpdateAllOrganizationLevelConfigurationApi.rejected,
+        (state, action) => {
+          state.UpdateAllOrganizationLevelConfigurationData = null;
+          state.Responsemessage = action.payload || "An error occurred";
+        }
+      )
+
+      //Change Password APi Reducer Data
+      .addCase(ChangePasswordApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(ChangePasswordApi.fulfilled, (state, action) => {
+        state.changePasswordData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(ChangePasswordApi.rejected, (state, action) => {
+        state.changePasswordData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },
