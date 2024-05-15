@@ -32,8 +32,15 @@ import {
   formatDate,
   formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
-import SendInvoiceModal from "./SendInvoiceModal/SendInvoiceModal";
-import { dashboardSendInvoiceOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
+import SendInvoiceModal from "./PackageDetailModal/PackageDetailModal";
+import {
+  dashboardSendInvoiceOpenModal,
+  subscriptionRenewOpenModal,
+  trialRenewOpenModal,
+} from "../../store/ActionsSlicers/UIModalsActions";
+import TrialRenewModal from "./TrialRenewModal/TrialRenewModal";
+import SubscriptionRenewModal from "./SubscriptionRenewModal/SubscriptionRenewModal";
+import PackageDetailModal from "./PackageDetailModal/PackageDetailModal";
 
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
@@ -1117,6 +1124,16 @@ const GlobalAdminDashboard = () => {
     tooltip: { trigger: "none" },
   };
 
+  // to open renew modal
+  const onClickRenew = () => {
+    dispatch(trialRenewOpenModal(true));
+  };
+
+  // to open Subscription Renew Modal
+  const onClickSubscriptionRenew = () => {
+    dispatch(subscriptionRenewOpenModal(true));
+  };
+
   const TrialColumn = [
     {
       title: t("Organization-name"),
@@ -1124,7 +1141,7 @@ const GlobalAdminDashboard = () => {
       dataIndex: "organizationName",
       key: "organizationName",
       width: "100px",
-      align: "center",
+      align: "start",
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
@@ -1181,6 +1198,17 @@ const GlobalAdminDashboard = () => {
       align: "center",
       ellipsis: true,
       sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
+      render: (text, record) => {
+        return (
+          <>
+            <Button
+              text={t("Renew")}
+              className={styles["send-invoice-button"]}
+              onClick={onClickRenew}
+            />
+          </>
+        );
+      },
     },
   ];
 
@@ -1191,7 +1219,7 @@ const GlobalAdminDashboard = () => {
       dataIndex: "Name",
       key: "Name",
       width: "140px",
-      align: "center",
+      align: "start",
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
       sorter: (a, b) => a.Name.localeCompare(b.Name),
@@ -1252,7 +1280,7 @@ const GlobalAdminDashboard = () => {
       dataIndex: "Name",
       key: "Name",
       width: "200px",
-      align: "center",
+      align: "start",
       ellipsis: true,
       sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
@@ -1288,6 +1316,17 @@ const GlobalAdminDashboard = () => {
       align: "center",
       ellipsis: true,
       sorter: (a, b) => a.remaingDate.localeCompare(b.remaingDate),
+      render: (text, record) => {
+        return (
+          <>
+            <Button
+              text={t("Renew")}
+              className={styles["send-invoice-button"]}
+              onClick={onClickSubscriptionRenew}
+            />
+          </>
+        );
+      },
     },
   ];
 
@@ -1298,7 +1337,7 @@ const GlobalAdminDashboard = () => {
       className: "random",
       key: "organizationName",
       width: "200px",
-      align: "center",
+      align: "start",
       ellipsis: true,
       sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
@@ -1347,7 +1386,7 @@ const GlobalAdminDashboard = () => {
       dataIndex: "organizationName",
       key: "organizationName",
       width: "200px",
-      align: "center",
+      align: "start",
       ellipsis: true,
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
       render: (text, record) => {
@@ -1419,7 +1458,7 @@ const GlobalAdminDashboard = () => {
       dataIndex: "OrganizationName",
       key: "OrganizationName",
       width: "200px",
-      align: "center",
+      align: "start",
       ellipsis: true,
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
     },
@@ -1481,7 +1520,7 @@ const GlobalAdminDashboard = () => {
       dataIndex: "organizationName",
       key: "organizationName",
       width: "200px",
-      align: "center",
+      align: "start",
       ellipsis: true,
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
       render: (text, record) => {
@@ -1613,14 +1652,14 @@ const GlobalAdminDashboard = () => {
   };
 
   const openSendInvoiceModal = (record) => {
-    // dispatch(dashboardSendInvoiceOpenModal(true));
-    let data = {
-      OrganizationID: Number(record.organizationID),
-      InvoiceID: Number(record.invoiceID),
-      SubscriptionID: Number(record.fK_OSID),
-    };
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(SendInvoiceApi({ data, navigate, t }));
+    dispatch(dashboardSendInvoiceOpenModal(true));
+    // let data = {
+    //   OrganizationID: Number(record.organizationID),
+    //   InvoiceID: Number(record.invoiceID),
+    //   SubscriptionID: Number(record.fK_OSID),
+    // };
+    // dispatch(globalAdminDashBoardLoader(true));
+    // dispatch(SendInvoiceApi({ data, navigate, t }));
   };
 
   //Multi Date Picker Date Pickers Month Function
@@ -1875,7 +1914,7 @@ const GlobalAdminDashboard = () => {
                     <Chart
                       chartType="PieChart"
                       height={"200px"}
-                      width={"250px"}
+                      width={"280px"}
                       data={exData}
                       options={options}
                     />
@@ -1894,7 +1933,7 @@ const GlobalAdminDashboard = () => {
                     <Chart
                       chartType="PieChart"
                       height={"200px"}
-                      width={"250px"}
+                      width={"280px"}
                       data={userData}
                       options={userOptions}
                     />
@@ -1902,7 +1941,7 @@ const GlobalAdminDashboard = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
-                <Col lg={10} md={10} sm={12} className="d-flex gap-2">
+                <Col lg={10} md={10} sm={12} className="d-flex gap-3">
                   {organizationStatus ? (
                     <>
                       <Button
@@ -2420,7 +2459,9 @@ const GlobalAdminDashboard = () => {
         </Row>
       </Container>
 
-      <SendInvoiceModal />
+      <PackageDetailModal />
+      <TrialRenewModal />
+      <SubscriptionRenewModal />
     </>
   );
 };

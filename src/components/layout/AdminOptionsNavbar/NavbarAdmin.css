@@ -82,7 +82,10 @@ body[dir="rtl"] .DiskusAdminNavBar > .dropdown-menu .dropdown-item:hover {
   justify-content: center;
   align-items: center;
   gap: 20px;
+  cursor: pointer;
+  border: none !important;
   color: #5a5a5a !important;
+  font-size: 12px !important;
   font-weight: 700 !important;
 }
 
@@ -96,6 +99,7 @@ body[dir="rtl"] .DiskusAdminNavBar > .dropdown-menu .dropdown-item:hover {
   background-color: transparent;
   cursor: pointer;
   border: none !important;
+  font-size: 12px !important;
   font-weight: 700 !important;
 }
 body[dir="rtl"] .DiskusAdminNavBar a:nth-child(1) {
@@ -130,4 +134,8 @@ body[dir="rtl"] .DiskusAdminNavBar a:nth-child(1) {
   border-bottom: 1px solid #dadada !important;
   white-space: nowrap !important;
   width: 100%;
+}
+
+.selected-class {
+  color: #6172d6 !important;
 }

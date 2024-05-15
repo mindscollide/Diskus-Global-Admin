@@ -790,7 +790,7 @@ const ViewOrganization = () => {
               <TextField
                 onKeyDown={handleKeyDownSearch}
                 change={onChangeEventForSearch}
-                placeholder={t("Admin-name")}
+                placeholder={t("Search")}
                 value={aminNameSearch}
                 labelClass={"d-none"}
                 applyClass={"NewMeetingFileds"}

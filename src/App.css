@@ -1,6 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background-color: #f6fafd !important;
+  font-family: "Montserrat" !important;
   font-weight: 400 !important;
+  font-size: 13px !important;
+  color: #000000;
+  line-height: 1.5;
+  background-color: #f6fafd !important;
+  overflow: hidden auto;
 }
 
 ::-webkit-scrollbar {
@@ -21,8 +32,8 @@ body {
 
 .ant-table-thead > tr * {
   color: #6172d6 !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
   /* padding: 20px !important; */
 }
 
@@ -262,7 +273,7 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
 .TrialTableDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] .TrialTableDashboard .ant-table-thead > tr * {
@@ -274,7 +285,7 @@ body[dir="rtl"] .TrialTableDashboard .ant-table-thead > tr * {
 .TrialExtendedDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 2px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead > tr * {
@@ -286,7 +297,7 @@ body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead > tr * {
 .EssentialTable .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
@@ -356,4 +367,71 @@ span.package-icon-style {
   top: -11px;
   left: auto;
   font-size: 65px;
+}
+
+.ant-input-number-handler-wrap {
+  opacity: 1 !important; /* Make arrow always visible */
+  height: 37px !important;
+}
+
+.ant-input-number-handler-up,
+.ant-input-number-handler-down {
+  background-color: #fff; /* Customize arrow background color */
+  border: 1px solid #d9d9d9; /* Customize arrow border */
+}
+
+/* Customize arrow icon color */
+.ant-input-number-handler-up-icon,
+.ant-input-number-handler-down-icon {
+  color: #6172d6 !important;
+}
+
+/* Customize arrow icon size */
+.ant-input-number-handler-up-icon:before,
+.ant-input-number-handler-down-icon:before {
+  font-size: 10px;
+}
+
+:where(.css-dev-only-do-not-override-1drr2mu).ant-input-number-outlined {
+  background: #ffffff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d9d9d9;
+  height: 39px;
+}
+
+/* for reduce height select */
+.ReactFlagsSelect-module_selectValue__152eS,
+.ReactFlagsSelect-module_selectOption__3pcgW {
+  cursor: pointer;
+  padding: 0 8px;
+  margin: 0px 0 !important;
+  white-space: nowrap;
+}
+.userProfileModal .modal-content {
+  --bs-modal-margin: 0px !important;
+  width: 88% !important;
+}
+
+/* Class for PackageDetails modal */
+.PackageDetails .modal-content {
+  height: 500px !important;
+  width: 650px !important;
+  border-radius: 4px !important;
+  margin-left: 50px;
+}
+
+/* Class for TrialRenew modal */
+.TrialRenewClass .modal-content {
+  height: 320px !important;
+  width: 680px !important;
+  border-radius: 4px !important;
+  margin-left: 50px;
+}
+
+/* class for confirmation modal  */
+.confirmationModal .modal-content {
+  width: 600px !important;
+  height: 170px !important;
+  margin-left: 50px;
 }

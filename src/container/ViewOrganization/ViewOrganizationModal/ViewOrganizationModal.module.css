@@ -5,19 +5,19 @@
 
 .OrganizationDetaisHeading {
   font-size: 30px !important;
-  font-weight: bold !important;
+  font-weight: 600 !important;
   color: #6172d6;
 }
 
 .SubHeadingsOrganizationDetails {
-  font-size: 16px !important;
-  font-weight: bold !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
   color: #6172d6;
 }
 
 .DetialsSubHeading {
   font-size: 12px !important;
-  font-weight: bold !important;
+  font-weight: 400 !important;
   color: #5a5a5a;
 }
 

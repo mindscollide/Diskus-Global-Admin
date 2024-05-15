@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
 //import "./Font.css";
+import "./assets/font-icons/font-icons.css";
 import "@fontsource/montserrat"; // Defaults to weight 400
 import "@fontsource/montserrat/100.css";
 import "@fontsource/montserrat/200.css";

@@ -197,5 +197,22 @@
   "Push-notification-when-group-is-active": "Push Notification When Group becomes Active",
   "Email-when-group-is-active": "Email When Group becomes Active",
   "Email-when-committee-is-active": "Email When a Committee becomes Active",
-  "Push-notification-when-committee-is-active": "Notify when Committee becomes Active"
+  "Push-notification-when-committee-is-active": "Notify when Committee becomes Active",
+  "Global-level-configuration": "Global Level Configurations",
+  "Cash-flow-summary": "Cash Flow Summary",
+  "Invoice": "Invoice #",
+  "Invoice-month": "Invoice Month",
+  "Invoice-year": "Invoice Year",
+  "Subscription": "Subscription",
+  "Amount": "Amount",
+  "Trial-renew": "Trial Renew",
+  "Add-days": "Add Days",
+  "Subscription-renew": "Subscription Renew",
+  "Package-details": "Package Details",
+  "User-Information": "User Information",
+  "Number": "Number",
+  "Create-new-package": "Create New Package",
+  "Package-name": "Package Name",
+  "Add": "Add",
+  "Package-color": "Package Color"
 }

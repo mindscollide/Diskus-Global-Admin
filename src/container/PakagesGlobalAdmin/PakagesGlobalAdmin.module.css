@@ -1,8 +1,116 @@
 .packagecard {
   border-radius: 4px;
   background-color: #fff !important;
-  padding: 0 35px;
+  padding: 0 18px;
   position: relative;
-  height: 560px;
+  height: 570px;
+  min-width: 400px;
+  /* width: 400px; */
+  flex-shrink: 0 !important;
   border: 1px solid #e1e1e1 !important;
+  /* position: relative; */
+}
+
+.package-icon {
+  position: absolute;
+  top: -5px;
+  left: 10px;
+}
+
+.package-card-title {
+  display: flex;
+  justify-content: center !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+  color: #6172d6 !important;
+  margin-top: 60px;
+}
+
+.InputNumber-class {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px !important;
+}
+
+.InputNumber-class-two {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px !important;
+  margin-left: -7px;
+}
+
+.month-year-text {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #a2a2a2 !important;
+  margin-left: 10px !important;
+}
+
+.selected-option-box {
+  position: relative;
+  margin-top: 10px !important;
+  width: 97% !important;
+  height: 37px !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 4px !important;
+  display: flex;
+  justify-content: center;
+  padding: 6px 4px;
+}
+
+.cross-icon {
+  position: absolute;
+  cursor: pointer;
+  right: 10px;
+  top: 9px;
+}
+
+.selected-options-container {
+  margin-top: 5px;
+  max-height: 30vh; /* Set the maximum height */
+  overflow-y: auto; /* Add vertical scrollbar if content overflows */
+}
+
+.create-border {
+  border: 3px dashed #6172d6;
+  border-radius: 8px;
+  padding: 80px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 180px;
+  cursor: pointer;
+}
+
+.Plus-Icon {
+  position: absolute;
+  font-size: 110px;
+  font-weight: 300;
+  color: #6172d6 !important;
+  top: -22px;
+}
+
+.create-heading {
+  position: absolute;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  color: #6172d6 !important;
+  top: 90px;
+  text-align: center;
+}
+
+.card-cross-icon {
+  position: absolute;
+  top: -2px;
+  right: -10px;
+  cursor: pointer;
+}
+
+.Specific-width-scroller {
+  display: flex;
+  width: 100% !important;
+  max-width: 80vw !important;
+  gap: 70px;
+  overflow-x: auto !important;
 }
