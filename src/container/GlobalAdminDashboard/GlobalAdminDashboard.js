@@ -1204,7 +1204,7 @@ const GlobalAdminDashboard = () => {
             <Button
               text={t("Renew")}
               className={styles["send-invoice-button"]}
-              onClick={onClickRenew}
+              onClick={onClickSubscriptionRenew}
             />
           </>
         );

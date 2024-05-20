@@ -28,6 +28,14 @@ const GlobalLevelSettings = () => {
 
   const navigate = useNavigate();
 
+  // const new states for Global Configuration
+  const [mailState, setMailState] = useState(true);
+  const [functionalState, setFunctionalState] = useState(false);
+  const [userAccountState, setUserAccountState] = useState(false);
+  const [organizationAccountState, setOrganizationAccountState] =
+    useState(false);
+  const [smsSettingState, setSmsSettingState] = useState(false);
+
   const [securitystate, setSecuritystate] = useState(true);
   const [todo, setTodo] = useState(false);
   const [meetingsState, setmeetingsState] = useState(false);
@@ -305,6 +313,51 @@ const GlobalLevelSettings = () => {
   //     }
   //   }
   // }, [settingReducer.GetOrganizationLevelSettingResponse]);
+
+  // to open mail Tab
+  const openMailTab = () => {
+    setMailState(true);
+    setFunctionalState(false);
+    setUserAccountState(false);
+    setOrganizationAccountState(false);
+    setSmsSettingState(false);
+  };
+
+  // to Open Functional setting tab
+  const openFunctionalTab = () => {
+    setMailState(false);
+    setFunctionalState(true);
+    setUserAccountState(false);
+    setOrganizationAccountState(false);
+    setSmsSettingState(false);
+  };
+
+  // to Open User Account Setting tab
+  const openAccountSettingTab = () => {
+    setMailState(false);
+    setFunctionalState(false);
+    setUserAccountState(true);
+    setOrganizationAccountState(false);
+    setSmsSettingState(false);
+  };
+
+  // to Open Organization Account Tab
+  const openOrganizationAccountTab = () => {
+    setMailState(false);
+    setFunctionalState(false);
+    setUserAccountState(false);
+    setOrganizationAccountState(true);
+    setSmsSettingState(false);
+  };
+
+  //to Open SMS Settings Tab
+  const openSettingTab = () => {
+    setMailState(false);
+    setFunctionalState(false);
+    setUserAccountState(false);
+    setOrganizationAccountState(false);
+    setSmsSettingState(true);
+  };
 
   const openSecurityTab = () => {
     setSecuritystate(true);
@@ -943,7 +996,7 @@ const GlobalLevelSettings = () => {
         <Col lg={12} md={12} sm={12} className={styles["Padding_around_class"]}>
           <Row className="mt-3">
             <Col lg={3} md={3} sm={3}>
-              <div onClick={openSecurityTab} className="cursor-pointer">
+              <div onClick={openMailTab} className="cursor-pointer">
                 <Row className="mt-3">
                   <Col
                     lg={2}
@@ -967,14 +1020,14 @@ const GlobalLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Security-settings")}
+                      {t("Mail-settings")}
                     </span>
                   </Col>
                 </Row>
               </div>
               <hr />
 
-              <div onClick={opentodo} className="cursor-pointer">
+              <div onClick={openFunctionalTab} className="cursor-pointer">
                 <Row className="mt-3">
                   <Col
                     lg={2}
@@ -998,14 +1051,14 @@ const GlobalLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Todo")}
+                      {t("Functional-settings")}
                     </span>
                   </Col>
                 </Row>
               </div>
               <hr />
 
-              <div onClick={openMeetingTab} className="cursor-pointer">
+              <div onClick={openAccountSettingTab} className="cursor-pointer">
                 <Row className="mt-3">
                   <Col
                     lg={2}
@@ -1029,14 +1082,17 @@ const GlobalLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Meetings")}
+                      {t("User-account-settings")}
                     </span>
                   </Col>
                 </Row>
               </div>
               <hr />
 
-              <div className="cursor-pointer" onClick={openCalenderTab}>
+              <div
+                className="cursor-pointer"
+                onClick={openOrganizationAccountTab}
+              >
                 <Row className="mt-3">
                   <Col
                     lg={2}
@@ -1060,14 +1116,14 @@ const GlobalLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Calender")}
+                      {t("Organization-account-settings")}
                     </span>
                   </Col>
                 </Row>
               </div>
               <hr />
 
-              <div onClick={openCommitteTab} className="cursor-pointer">
+              <div onClick={openSettingTab} className="cursor-pointer">
                 <Row className="mt-3">
                   <Col
                     lg={2}
@@ -1091,104 +1147,12 @@ const GlobalLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Committees")}
+                      {t("Sms-settings")}
                     </span>
                   </Col>
                 </Row>
               </div>
               <hr />
-
-              <div onClick={openGroupTab} className="cursor-pointer">
-                <Row className="mt-3">
-                  <Col
-                    lg={2}
-                    md={2}
-                    sm={12}
-                    className="d-flex align-items-center"
-                  >
-                    <img
-                      draggable="false"
-                      src={GroupIcon}
-                      alt=""
-                      width="29px"
-                      height="26.04px"
-                    />
-                  </Col>
-                  <Col lg={10} md={10} ms={12}>
-                    <span
-                      className={
-                        group
-                          ? styles["Options_headings_active"]
-                          : styles["Options_headings"]
-                      }
-                    >
-                      {t("Groups")}
-                    </span>
-                  </Col>
-                </Row>
-              </div>
-              <hr />
-
-              <div onClick={openResolutionTab} className="cursor-pointer">
-                <Row className="mt-3">
-                  <Col
-                    lg={2}
-                    md={2}
-                    sm={12}
-                    className="d-flex align-items-center"
-                  >
-                    <img
-                      draggable="false"
-                      src={ResolutionIcon}
-                      alt=""
-                      width="30px"
-                      height="31.18px"
-                    />
-                  </Col>
-                  <Col lg={10} md={10} ms={12}>
-                    <span
-                      className={
-                        resolution
-                          ? styles["Options_headings_active"]
-                          : styles["Options_headings"]
-                      }
-                    >
-                      {t("Resolutions")}
-                    </span>
-                  </Col>
-                </Row>
-              </div>
-              <hr />
-
-              <div onClick={openPollsTab} className="cursor-pointer">
-                <Row className="mt-3">
-                  <Col
-                    lg={2}
-                    md={2}
-                    sm={12}
-                    className="d-flex align-items-center"
-                  >
-                    <img
-                      draggable="false"
-                      alt=""
-                      src={pollsIcon}
-                      width="33.52px"
-                      height="34.59px"
-                    />
-                  </Col>
-                  <Col lg={10} md={10} ms={12}>
-                    <span
-                      className={
-                        polls
-                          ? styles["Options_headings_active"]
-                          : styles["Options_headings"]
-                      }
-                    >
-                      {t("Polls")}
-                    </span>
-                  </Col>
-                </Row>
-              </div>
             </Col>
             <Col lg={1} md={1} sm={1} className="d-flex justify-content-center">
               <img

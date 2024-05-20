@@ -9,12 +9,29 @@ import {
 import { Button, Modal } from "../../../components/elements";
 import CrossIcon from "../../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import { Col, Container, Row } from "react-bootstrap";
+import { useState } from "react";
 
 const PackageDetailModal = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  // Reducer for modal in UIModalActions
   const ModalReducer = useSelector((state) => state.modal);
+
+  // state for packageDetail Modal
+  const [packageDetailState, setPackageDetailState] = useState({
+    OrganizationName: {
+      value: "Package Detail Name",
+      errorMessage: "",
+      errorStatus: false,
+    },
+
+    OrganizationEmail: {
+      value: "QasimPatel23@gmail.com",
+      errorMessage: "",
+      errorStatus: false,
+    },
+  });
 
   const handleClose = () => {
     dispatch(dashboardSendInvoiceOpenModal(false));
@@ -70,7 +87,7 @@ const PackageDetailModal = () => {
                         {t("Organization-name")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        Quantum Dynamics Consortium
+                        {packageDetailState.OrganizationName.value}
                       </span>
                     </div>
                   </Col>
@@ -80,13 +97,13 @@ const PackageDetailModal = () => {
                         {t("Email")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        Quantum Dynamics Consortium
+                        {packageDetailState.OrganizationEmail.value}
                       </span>
                     </div>
                   </Col>
                 </Row>
 
-                <Row className="mt-5">
+                <Row className="mt-4">
                   <Col lg={12} md={12} sm={12}>
                     <span className={styles["send-invoice-subHeading"]}>
                       {t("Package-details")}

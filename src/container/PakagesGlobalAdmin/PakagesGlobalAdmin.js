@@ -9,9 +9,14 @@ import { InputNumber } from "antd";
 import Select from "react-select";
 import { useState } from "react";
 import crossIcon from "../../assets/images/OutletImages/Artboard 9.png";
-import { packageCreateOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
+import {
+  deletePackageOpenModal,
+  packageCreateOpenModal,
+} from "../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch } from "react-redux";
 import CreatePackageModal from "../CreatePackageModal/CreatePackageModal";
+import { Button } from "../../components/elements";
+import DeletePackageModal from "../DeletePackageModal/DeletePackageModal";
 
 const PakagesGlobalAdmin = () => {
   const { t } = useTranslation();
@@ -22,20 +27,25 @@ const PakagesGlobalAdmin = () => {
 
   // state for packages name
   const [packageNames, setPackageNames] = useState([
-    { name: t("Essential"), colorCode: "#CCCCCC" },
+    { name: t("Essential"), colorCode: "#CCCCCC", selectedOptions: [] },
   ]);
   console.log(packageNames, "packageNamespackageNamespackageNames");
 
   //handler for Select dropdown
-  const handleSelectChange = (selectedOption) => {
-    setSelectedOptions([...selectedOptions, selectedOption]);
+  const handleSelectChange = (index, selectedOption) => {
+    const updatedPackageNames = [...packageNames];
+    if (!updatedPackageNames[index].selectedOptions) {
+      updatedPackageNames[index].selectedOptions = [];
+    }
+    updatedPackageNames[index].selectedOptions.push(selectedOption);
+    setPackageNames(updatedPackageNames);
   };
 
   // To remove selected Options
-  const removeSelectedOption = (index) => {
-    const updatedOptions = [...selectedOptions];
-    updatedOptions.splice(index, 1);
-    setSelectedOptions(updatedOptions);
+  const removeSelectedOption = (pkgIndex, optionIndex) => {
+    const updatedPackageNames = [...packageNames];
+    updatedPackageNames[pkgIndex].selectedOptions.splice(optionIndex, 1);
+    setPackageNames(updatedPackageNames);
   };
 
   // to open Add Package Modal
@@ -48,6 +58,11 @@ const PakagesGlobalAdmin = () => {
     const updatedOptions = [...packageNames];
     updatedOptions.splice(index, 1);
     setPackageNames(updatedOptions);
+  };
+
+  //To Open Delete Modal In Cross Icon
+  const openDeleteModal = () => {
+    dispatch(deletePackageOpenModal(true));
   };
 
   return (
@@ -115,7 +130,9 @@ const PakagesGlobalAdmin = () => {
                               <Row>
                                 <Col lg={12} md={12} sm={12} className="mt-4">
                                   <Select
-                                    onChange={handleSelectChange}
+                                    onChange={(selectedOption) =>
+                                      handleSelectChange(index, selectedOption)
+                                    }
                                     options={[
                                       { value: "mango", label: "Mango" },
                                       {
@@ -125,31 +142,50 @@ const PakagesGlobalAdmin = () => {
                                       { value: "banana", label: "Banana" },
                                       { value: "orange", label: "Orange" },
                                     ]}
+                                    className="Select-type"
+                                    placeholder="Search Features"
                                   />
                                   <div
                                     className={
                                       styles["selected-options-container"]
                                     }
                                   >
-                                    {selectedOptions.map((option, index) => (
+                                    {pkg.selectedOptions ? (
+                                      pkg.selectedOptions.map(
+                                        (option, optionIndex) => (
+                                          <div
+                                            key={optionIndex}
+                                            className={
+                                              styles["selected-option-box"]
+                                            }
+                                          >
+                                            {option.label}
+                                            <img
+                                              width="15px"
+                                              height="15px"
+                                              src={crossIcon}
+                                              className={styles["cross-icon"]}
+                                              onClick={() =>
+                                                removeSelectedOption(
+                                                  index,
+                                                  optionIndex
+                                                )
+                                              }
+                                            />
+                                          </div>
+                                        )
+                                      )
+                                    ) : (
                                       <div
-                                        key={index}
                                         className={
-                                          styles["selected-option-box"]
+                                          styles["feature-searching-text"]
                                         }
                                       >
-                                        {option.label}
-                                        <img
-                                          width="15px"
-                                          height="15px"
-                                          src={crossIcon}
-                                          className={styles["cross-icon"]}
-                                          onClick={() =>
-                                            removeSelectedOption(index)
-                                          }
-                                        />
+                                        {t("ADD-Features-By")}
+                                        <br />
+                                        {t("SEARCHING")}
                                       </div>
-                                    ))}
+                                    )}
                                   </div>
                                 </Col>
                               </Row>
@@ -160,7 +196,7 @@ const PakagesGlobalAdmin = () => {
                                 width="25px"
                                 height="25px"
                                 src={crossIcon}
-                                onClick={() => removeMainPackage(index)}
+                                onClick={openDeleteModal}
                               />
                             </div>
                           </Card>
@@ -181,9 +217,21 @@ const PakagesGlobalAdmin = () => {
               <span className={styles["Plus-Icon"]}>+</span>
               <br />
               <span className={styles["create-heading"]}>
-                {t("Create-new-package")}
+                {t("create")}
+                <br />
+                {t("New-Package")}
               </span>
             </span>
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            lg={12}
+            md={12}
+            sm={12}
+            className="d-flex justify-content-center mt-3 mb-2"
+          >
+            <Button text={t("Update")} className={styles["update-class-btn"]} />
           </Col>
         </Row>
       </Container>
@@ -191,6 +239,7 @@ const PakagesGlobalAdmin = () => {
         setPackageNames={setPackageNames}
         // setPackageColor={setPackageColor}
       />
+      <DeletePackageModal removeMainPackage={removeMainPackage} />
     </>
   );
 };

@@ -6,15 +6,58 @@ import { trialRenewOpenModal } from "../../../store/ActionsSlicers/UIModalsActio
 import { Button, Modal, TextField } from "../../../components/elements";
 import CrossIcon from "../../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import { Col, Row } from "react-bootstrap";
+import { useState } from "react";
+import { regexOnlyNumbers } from "../../../common/functions/Regex";
 
 const TrialRenewModal = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  //Reducer from UIModalActions
   const ModalReducer = useSelector((state) => state.modal);
 
+  // state for Trial Renew Modal
+  const [trialState, setTrialState] = useState({
+    OrganizationName: {
+      value: "Quantum Dynamics Consortium",
+      errorMessage: "",
+      errorStatus: false,
+    },
+    AddDays: {
+      value: 0,
+      errorMessage: "",
+      errorStatus: false,
+    },
+  });
+
+  const onChangeFields = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    if (name === "adddays" && name !== 0) {
+      let valueCheck = regexOnlyNumbers(value);
+      if (valueCheck !== 0) {
+        setTrialState({
+          ...trialState,
+          AddDays: {
+            value: valueCheck.trimStart(),
+            errorMessage: "",
+            errorStatus: false,
+          },
+        });
+      }
+    }
+  };
+
+  //HandleClose handler for closing modal
   const handleClose = () => {
     dispatch(trialRenewOpenModal(false));
+    setTrialState({
+      ...trialState,
+      AddDays: {
+        value: 0,
+      },
+    });
   };
 
   return (
@@ -60,14 +103,20 @@ const TrialRenewModal = () => {
                   {t("Organization-name")}
                 </label>
                 <label className={styles["main-organization-name"]}>
-                  Quantum Dynamics Consortium
+                  {trialState.OrganizationName.value}
                 </label>
               </Col>
               <Col lg={6} md={6} sm={6} className={styles["flex-columns"]}>
                 <label className={styles["title-Textfiels-name"]}>
                   {t("Add-days")}
                 </label>
-                <TextField placeholder="0" labelClass="d-none" />
+                <TextField
+                  placeholder="0"
+                  labelClass="d-none"
+                  name="adddays"
+                  change={onChangeFields}
+                  value={trialState.AddDays.value}
+                />
               </Col>
             </Row>
           </>

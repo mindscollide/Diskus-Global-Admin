@@ -53,147 +53,39 @@ const CashFlowSummary = () => {
 
   const [subscriptionFilter, setSubscriptionFilter] = useState(false);
 
-  const ViewOrganizationData = useSelector(
-    (state) => state.searchOrganization.searchOrganizationData
-  );
-
-  const organizationIdData = useSelector(
-    (state) => state.searchOrganization.getAllOrganizationData
-  );
-
-  const [organizationData, setOrganizationData] = useState([]);
-  const [aminNameSearch, setAminNameSearch] = useState("");
-
-  const [organizationDataValue, setOrganizationDataValue] = useState(null);
-
-  const [openNotification, setOpenNotification] = useState({
-    organizationFlag: false,
-    organizationNotification: null,
-    severity: "none",
-  });
+  const [searchBox, setSearchBox] = useState(false);
 
   // open edit subscription modal
   // const [editSubModal, setEditSubModal] = useState(false);
   // console.log(editSubModal, "editSubModal");
 
   //States for the component
-  const [showsearchText, setShowSearchText] = useState(false);
 
-  const [isScroll, setIsScroll] = useState(false);
-  const [totalRecords, setTotalRecords] = useState(0);
-  const [isRowsData, setSRowsData] = useState(0);
-  const [searchBox, setSearchBox] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
-  const [viewOrganizationData, setViewOrganizationData] = useState([]);
-  const [searchOrganizationData, setSearchOrganizationData] = useState({
-    userName: "",
-    userEmail: "",
-    DateFrom: "",
-    DateTo: "",
-    DateToView: "",
-    DateFromView: "",
-    Status: {
-      value: 0,
-      label: "",
+
+  // cashFlow Search Box
+  const [cashFlowSearch, setCashFlowSearch] = useState({
+    OrganizationName: {
+      value: "",
+      errorMessage: "",
+      errorStatus: false,
     },
-    OrganizationID: {
-      value: 0,
-      label: "",
+    DateFrom: {
+      value: "",
+      errorMessage: "",
+      errorStatus: false,
+    },
+    DateTo: {
+      value: "",
+      errorMessage: "",
+      errorStatus: false,
     },
   });
 
-  //Calling Organization Api
-  useEffect(() => {
-    let data = {
-      OrganizationID: 0,
-      CountryID: 0,
-      ContactPersonName: "",
-      Email: "",
-      StatusID: 0,
-      PackageID: 0,
-      SubsictionExpiryStart: "",
-      SubscriptionExpiryEnd: "",
-      sRow: 0,
-      Length: 10,
-    };
-    // dispatch(viewOrganizationLoader(true));
-    // dispatch(getAllOrganizationApi({ navigate, t }));
-    // dispatch(searchOrganizationApi({ data, navigate, t }));
-    return () => {
-      setSearchOrganizationData({
-        userName: "",
-        userEmail: "",
-        DateFrom: "",
-        DateTo: "",
-        DateToView: "",
-        DateFromView: "",
-        Status: {
-          value: 0,
-          label: "",
-        },
-        OrganizationID: {
-          value: 0,
-          label: "",
-        },
-      });
-      setShowSearchText(false);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (
-      organizationIdData?.result.getAllOrganizations.length > 0 &&
-      organizationIdData?.result.getAllOrganizations !== null
-    ) {
-      setOrganizationData(
-        organizationIdData.result.getAllOrganizations.map((item) => ({
-          value: item.organizationID,
-          label: item.organizationName,
-        }))
-      );
-    }
-  }, [organizationIdData]);
-
-  useEffect(() => {
-    try {
-      if (ViewOrganizationData !== null && ViewOrganizationData !== undefined) {
-        if (
-          ViewOrganizationData.result.searchOrganizations.length > 0 &&
-          ViewOrganizationData.result.totalCount > 0
-        ) {
-          if (isScroll) {
-            setIsScroll(false);
-            //copy pf the rows of table
-            let copyData = [...viewOrganizationData];
-            ViewOrganizationData.result.searchOrganizations.forEach(
-              (data, index) => {
-                copyData.push(data);
-              }
-            );
-            setViewOrganizationData(copyData);
-            setSRowsData(
-              (prev) =>
-                prev + ViewOrganizationData.result.searchOrganizations.length
-            );
-            setTotalRecords(ViewOrganizationData.result.totalCount);
-          } else {
-            setViewOrganizationData(
-              ViewOrganizationData.result.searchOrganizations
-            );
-            setTotalRecords(ViewOrganizationData.result.totalCount);
-            setSRowsData(
-              ViewOrganizationData.result.userLoginHistoryModel.length
-            );
-          }
-        } else {
-          setViewOrganizationData([]);
-          setTotalRecords(0);
-          setSRowsData(0);
-        }
-      }
-    } catch {}
-  }, [ViewOrganizationData]);
+  const HandleopenSearchBox = () => {
+    setSearchBox(!searchBox);
+  };
 
   const handleMenuClick = (e) => {
     setSelectedMonth(e.key);
@@ -737,87 +629,6 @@ const CashFlowSummary = () => {
     },
   ];
 
-  const HandleopenSearchBox = () => {
-    if (aminNameSearch !== "") {
-      setAminNameSearch("");
-      let data = {
-        OrganizationID: 0,
-        CountryID: 0,
-        ContactPersonName: "",
-        Email: "",
-        StatusID: 0,
-        PackageID: 0,
-        SubsictionExpiryStart: "",
-        SubscriptionExpiryEnd: "",
-        sRow: 0,
-        Length: 10,
-      };
-      //   dispatch(viewOrganizationLoader(true));
-      //   dispatch(searchOrganizationApi({ data, navigate, t }));
-    }
-    setSearchOrganizationData({
-      ...searchOrganizationData,
-      userName: searchOrganizationData.userName,
-      userEmail: searchOrganizationData.userEmail,
-      DateFrom: searchOrganizationData.DateFrom,
-      DateTo: searchOrganizationData.DateTo,
-      DateToView: searchOrganizationData.DateToView,
-      DateFromView: searchOrganizationData.DateFromView,
-      Status: {
-        value: searchOrganizationData.Status.value,
-        label: searchOrganizationData.Status.label,
-      },
-      OrganizationID: {
-        value: searchOrganizationData.OrganizationID.value,
-        label: searchOrganizationData.OrganizationID.label,
-      },
-    });
-    setSearchBox(!searchBox);
-  };
-
-  const handleCancelSearchbox = () => {
-    setSearchBox(false);
-  };
-
-  //onChange for View Orgniazation Search
-
-  const searchViewOrganizationHandler = (event) => {
-    const { name, value } = event.target;
-    if (name === "adminName") {
-      setSearchOrganizationData({
-        ...searchOrganizationData,
-        userName: value,
-      });
-    } else if (name === "adminEmail") {
-      setSearchOrganizationData({
-        ...searchOrganizationData,
-        userEmail: value,
-      });
-    }
-  };
-
-  //onChange Date from
-  const handleChangeFromDate = (date) => {
-    let getDate = new Date(date);
-    let utcDate = getDate.toISOString().slice(0, 10).replace(/-/g, "");
-    setSearchOrganizationData({
-      ...searchOrganizationData,
-      DateFrom: utcDate,
-      DateFromView: getDate,
-    });
-  };
-
-  //onChange Date TO
-  const handleChangeToDate = (date) => {
-    let getDate = new Date(date);
-    let utcDate = getDate.toISOString().slice(0, 10).replace(/-/g, "");
-    setSearchOrganizationData({
-      ...searchOrganizationData,
-      DateTo: utcDate,
-      DateToFrom: getDate,
-    });
-  };
-
   useEffect(() => {
     if (currentLanguage !== undefined && currentLanguage !== null) {
       if (currentLanguage === "en") {
@@ -830,93 +641,6 @@ const CashFlowSummary = () => {
     }
   }, [currentLanguage]);
 
-  const handleSearches = (Data, fieldName) => {
-    setSearchOrganizationData({
-      ...searchOrganizationData,
-      [fieldName]: "",
-    });
-
-    let data = {
-      OrganizationID: 0,
-      CountryID: 0,
-      ContactPersonName:
-        fieldName === "userName" ? "" : searchOrganizationData.userName,
-      Email: fieldName === "userEmail" ? "" : searchOrganizationData.userEmail,
-      StatusID: 0,
-      PackageID: 0,
-      SubsictionExpiryStart:
-        fieldName === "DateFrom" ? "" : searchOrganizationData.DateFrom,
-      SubscriptionExpiryEnd:
-        fieldName === "DateTo" ? "" : searchOrganizationData.DateTo,
-      sRow: 0,
-      Length: 10,
-    };
-    // dispatch(viewOrganizationLoader(true));
-    // dispatch(searchOrganizationApi({ data, navigate, t }));
-  };
-
-  const handleResetButton = () => {
-    setOrganizationDataValue(null);
-    setSearchOrganizationData({
-      userName: "",
-      userEmail: "",
-      DateFrom: "",
-      DateTo: "",
-      DateToView: "",
-      DateFromView: "",
-      Status: {
-        value: 0,
-        label: "",
-      },
-      OrganizationID: {
-        value: 0,
-        label: "",
-      },
-    });
-  };
-
-  function onChangeEventForSearch(e) {
-    let value = e.target.value;
-    setSearchBox(false);
-    // Check if the first character is a space and remove it if it is
-    if (value.charAt(0) === " ") {
-      value = value.trimStart();
-    }
-    setAminNameSearch(value);
-    console.log("value", value);
-  }
-  const handleKeyDownSearch = (e) => {
-    if (e.key === "Enter") {
-      if (aminNameSearch !== "") {
-        let data = {
-          OrganizationID: 0,
-          CountryID: 0,
-          ContactPersonName: aminNameSearch,
-          Email: "",
-          StatusID: 0,
-          PackageID: 0,
-          SubsictionExpiryStart: "",
-          SubscriptionExpiryEnd: "",
-          sRow: 0,
-          Length: 10,
-        };
-        // dispatch(viewOrganizationLoader(true));
-        // dispatch(searchOrganizationApi({ data, navigate, t }));
-        setShowSearchText(true);
-      } else {
-        setTimeout(
-          setOpenNotification({
-            ...openNotification,
-            organizationFlag: true,
-            organizationNotification: t("Please-enter-data-in-inputfield"),
-            severity: "error",
-          }),
-          3000
-        );
-      }
-    }
-  };
-
   const inflowClick = () => {
     setInlowTab(true);
     setOutstandingTab(false);
@@ -925,6 +649,10 @@ const CashFlowSummary = () => {
   const outstandingClick = () => {
     setOutstandingTab(true);
     setInlowTab(false);
+  };
+
+  const handleCancelSearchbox = () => {
+    setSearchBox(false);
   };
 
   return (
@@ -939,10 +667,7 @@ const CashFlowSummary = () => {
           <Col lg={5} md={5} sm={5}>
             <span className="position-relative">
               <TextField
-                onKeyDown={handleKeyDownSearch}
-                change={onChangeEventForSearch}
                 placeholder={t("Search")}
-                value={aminNameSearch}
                 labelClass={"d-none"}
                 applyClass={"NewMeetingFileds"}
                 inputicon={
@@ -967,95 +692,6 @@ const CashFlowSummary = () => {
                 }
                 iconClassName={"d-block"}
               />
-              <Row>
-                <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
-                  {showsearchText && searchOrganizationData.userName !== "" ? (
-                    <div className={styles["SearchablesItems"]}>
-                      <span className={styles["Searches"]}>
-                        {searchOrganizationData.userName}
-                      </span>
-                      <img
-                        src={Crossicon}
-                        alt=""
-                        className={styles["CrossIcon_Class"]}
-                        width={13}
-                        onClick={() =>
-                          handleSearches(
-                            searchOrganizationData.userName,
-                            "userName"
-                          )
-                        }
-                      />
-                    </div>
-                  ) : null}
-
-                  {showsearchText && searchOrganizationData.userEmail !== "" ? (
-                    <div className={styles["SearchablesItems"]}>
-                      <span className={styles["Searches"]}>
-                        {searchOrganizationData.userEmail}
-                      </span>
-                      <img
-                        src={Crossicon}
-                        alt=""
-                        className={styles["CrossIcon_Class"]}
-                        width={13}
-                        onClick={() =>
-                          handleSearches(
-                            searchOrganizationData.userEmail,
-                            "userEmail"
-                          )
-                        }
-                      />
-                    </div>
-                  ) : null}
-
-                  {showsearchText && searchOrganizationData.DateFrom !== "" ? (
-                    <div className={styles["SearchablesItems"]}>
-                      <span className={styles["Searches"]}>
-                        {formatDate(
-                          searchOrganizationData.DateFrom,
-                          currentLanguage
-                        )}
-                      </span>
-                      <img
-                        src={Crossicon}
-                        alt=""
-                        className={styles["CrossIcon_Class"]}
-                        width={13}
-                        onClick={() =>
-                          handleSearches(
-                            searchOrganizationData.DateFrom,
-                            "DateFrom"
-                          )
-                        }
-                      />
-                    </div>
-                  ) : null}
-
-                  {showsearchText && searchOrganizationData.DateTo !== "" ? (
-                    <div className={styles["SearchablesItems"]}>
-                      <span className={styles["Searches"]}>
-                        {formatDate(
-                          searchOrganizationData.DateTo,
-                          currentLanguage
-                        )}
-                      </span>
-                      <img
-                        src={Crossicon}
-                        alt=""
-                        className={styles["CrossIcon_Class"]}
-                        width={13}
-                        onClick={() =>
-                          handleSearches(
-                            searchOrganizationData.DateTo,
-                            "DateTo"
-                          )
-                        }
-                      />
-                    </div>
-                  ) : null}
-                </Col>
-              </Row>
               {searchBox ? (
                 <>
                   <Row>
@@ -1085,18 +721,15 @@ const CashFlowSummary = () => {
                         <Col lg={12} md={12} sm={12}>
                           <TextField
                             labelClass={"d-none"}
-                            value={searchOrganizationData.userName}
                             name={"adminName"}
                             applyClass={"SearchTextFiled"}
                             placeholder={t("Organization-name")}
-                            change={searchViewOrganizationHandler}
                           />
                         </Col>
                       </Row>
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            value={searchOrganizationData.DateFromView}
                             format={"DD/MM/YYYY"}
                             placeholder={t("Date-From")}
                             render={
@@ -1115,12 +748,10 @@ const CashFlowSummary = () => {
                             calendar={calendarValue}
                             locale={localValue}
                             ref={calendRef}
-                            onChange={handleChangeFromDate}
                           />
                         </Col>
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            value={searchOrganizationData.DateToView}
                             format={"DD/MM/YYYY"}
                             placeholder={t("Date-to")}
                             render={
@@ -1139,7 +770,6 @@ const CashFlowSummary = () => {
                             calendar={calendarValue}
                             locale={localValue}
                             ref={calendRef}
-                            onChange={handleChangeToDate}
                           />
                         </Col>
                       </Row>
@@ -1154,7 +784,6 @@ const CashFlowSummary = () => {
                           <Button
                             text={t("Reset")}
                             className={styles["SearchBoxResetButton"]}
-                            onClick={handleResetButton}
                           />
                           <Button
                             text={t("Search")}

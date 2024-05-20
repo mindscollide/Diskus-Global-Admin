@@ -215,5 +215,16 @@
   "Create-new-package": "Create New Package",
   "Package-name": "Package Name",
   "Add": "Add",
-  "Package-color": "Package Color"
+  "Package-color": "Package Color",
+  "Fill-the-number-field": "Fill the number field",
+  "Please-Select-this-field": "Please select this field",
+  "Delete-package": "Delete Package",
+  "ADD-Features-By": "ADD FEATURES BY",
+  "create": "Create",
+  "New-Package": "New Package",
+  "Mail-settings": "Mail Settings",
+  "Functional-settings": "Functional Settings",
+  "User-account-settings": "User Account Setting",
+  "Organization-account-settings": "User Account Settings",
+  "Sms-settings": "SMS Settings"
 }

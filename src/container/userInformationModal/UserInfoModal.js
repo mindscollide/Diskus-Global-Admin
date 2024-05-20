@@ -13,24 +13,107 @@ import CrossIcon from "../../assets/images/OutletImages/Cross-Chat-Icon.png";
 
 import {
   userConifrmationOpenModal,
-  userInfoConfirmationModal,
   userInfoOpenModal,
 } from "../../store/ActionsSlicers/UIModalsActions";
+import { regexOnlyNumbers } from "../../common/functions/Regex";
 
 const UserProfileModal = () => {
   //For Localization
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  // Reducer for modal in UIModalsActions
   const ModalReducer = useSelector((state) => state.modal);
+
+  // error state to show error on empty field
+  const [errorBar, setErrorBar] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  // select for country dropdown
+  const [select, setSelect] = useState("");
+
+  // state for User Information Modal
+  const [userInfoState, setUserInfoState] = useState({
+    OrganizationName: {
+      value: "Quantum Organization Ali",
+      errorMessage: "",
+      errorStatus: false,
+    },
+
+    OrganizationEmail: {
+      value: "OwaisUddin23@gmail.com",
+      errorMessage: "",
+      errorStatus: false,
+    },
+
+    CountryCode: {
+      value: "",
+      errorMessage: "",
+      errorStatus: false,
+    },
+
+    Number: {
+      value: "",
+      errorMessage: "",
+      errorStatus: false,
+    },
+  });
+
+  // onSelect for onChange
+  const onSelect = (code) => setSelect(code);
+
+  // on Change handler
+  const onChangeHandler = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    if (name === "number" && name !== "") {
+      let valueCheck = regexOnlyNumbers(value);
+      if (valueCheck !== 0) {
+        setUserInfoState({
+          ...userInfoState,
+          Number: {
+            value: valueCheck.trimStart(),
+            errorMessage: "",
+            errorStatus: false,
+          },
+        });
+      }
+    }
+  };
+
+  // update handler for userInfo Modal
+  const userInfoUpdate = () => {
+    if (userInfoState.Number.value !== "") {
+      console.log("field is filled");
+      setErrorBar(false);
+    } else {
+      setErrorBar(true);
+    }
+  };
 
   const handleClose = () => {
     dispatch(userInfoOpenModal(false));
+    setUserInfoState({
+      ...userInfoState,
+      Number: {
+        value: "",
+      },
+    });
+    setSelect("");
+    setErrorBar(false);
+    setSubmitted(false);
   };
 
   const openConfirmationModal = () => {
-    dispatch(userInfoOpenModal(false));
-    dispatch(userConifrmationOpenModal(true));
+    setSubmitted(true);
+    if (userInfoState.Number.value !== "" && select !== "") {
+      setErrorBar(false);
+      dispatch(userInfoOpenModal(false));
+      dispatch(userConifrmationOpenModal(true));
+    } else {
+      setErrorBar(true);
+    }
   };
 
   return (
@@ -40,7 +123,6 @@ const UserProfileModal = () => {
           show={ModalReducer.userInfoModal}
           onHide={handleClose}
           closeButton
-          //   ButtonTitle={ModalTitle}
           modalBodyClassName={styles["Modalsize"]}
           centered
           modalFooterClassName={styles["modal-userprofile-footer"]}
@@ -79,7 +161,7 @@ const UserProfileModal = () => {
                       {t("Organization-name")}
                     </label>
                     <label className={styles["main-user-name"]}>
-                      Quantum Dynamics Consortium
+                      {userInfoState.OrganizationName.value}
                     </label>
                   </Col>
                   <Col lg={6} md={6} sm={6} className={styles["flex-columns"]}>
@@ -87,7 +169,7 @@ const UserProfileModal = () => {
                       {t("Email")}
                     </label>
                     <label className={styles["main-user-name"]}>
-                      Quantum Dynamics Consortium
+                      {userInfoState.OrganizationEmail.value}
                     </label>
                   </Col>
                 </Row>
@@ -99,11 +181,30 @@ const UserProfileModal = () => {
                       <span className={styles["aesterick-class"]}> *</span>
                     </label>
                     <ReactFlagsSelect
+                      selected={select}
+                      onSelect={onSelect}
                       fullWidth={false}
                       searchable={true}
                       placeholder={"Select Co...."}
                       className={styles["userProfileFlagSelect"]}
                     />
+                    {errorBar && select === "" && submitted === true ? (
+                      <Row className="mt-4">
+                        <Col>
+                          <p
+                            className={
+                              errorBar && select === "" && submitted === true
+                                ? styles["errorMessage"]
+                                : styles["errorMessage-hidden"]
+                            }
+                          >
+                            {t("Please-Select-this-field")}
+                          </p>
+                        </Col>
+                      </Row>
+                    ) : (
+                      <></>
+                    )}
                   </Col>
 
                   <Col lg={6} md={6} sm={6} className={styles["flex-columns"]}>
@@ -112,9 +213,33 @@ const UserProfileModal = () => {
                       <span className={styles["aesterick-class"]}> *</span>
                     </label>
                     <TextField
+                      name="number"
+                      value={userInfoState.Number.value}
+                      change={onChangeHandler}
                       labelClass="d-none"
                       className={"react-flag-field"}
                     />
+                    {errorBar &&
+                    userInfoState.Number.value === "" &&
+                    submitted === true ? (
+                      <Row className="mt-2">
+                        <Col>
+                          <p
+                            className={
+                              errorBar &&
+                              userInfoState.Number.value === "" &&
+                              submitted === true
+                                ? styles["errorMessage"]
+                                : styles["errorMessage-hidden"]
+                            }
+                          >
+                            {t("Fill-the-number-field")}
+                          </p>
+                        </Col>
+                      </Row>
+                    ) : (
+                      <></>
+                    )}
                   </Col>
                 </Row>
               </Container>
@@ -122,7 +247,7 @@ const UserProfileModal = () => {
           }
           ModalFooter={
             <>
-              <Row className="mb-4 mt-2">
+              <Row className="mb-5 mt-2">
                 <Col lg={6} md={6} sm={6} xs={12}>
                   <Button
                     text={t("Revert")}

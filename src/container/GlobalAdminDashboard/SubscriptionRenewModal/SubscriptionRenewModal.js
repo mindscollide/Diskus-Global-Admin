@@ -6,15 +6,58 @@ import { subscriptionRenewOpenModal } from "../../../store/ActionsSlicers/UIModa
 import { Button, Modal, TextField } from "../../../components/elements";
 import CrossIcon from "../../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import { Col, Row } from "react-bootstrap";
+import { useState } from "react";
+import { regexOnlyNumbers } from "../../../common/functions/Regex";
 
 const SubscriptionRenewModal = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  //Reducer for modal in UIModalsActions
   const ModalReducer = useSelector((state) => state.modal);
+
+  //State for Subscription Modal
+  const [subscriptionState, setSubscriptionState] = useState({
+    OrganizationName: {
+      value: "Quantum Dynamics Consortium",
+      errorMessage: "",
+      errorStatus: false,
+    },
+    AddDays: {
+      value: 0,
+      errorMessage: "",
+      errorStatus: false,
+    },
+  });
+
+  //onChange Handler for handleChange
+  const handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    if (name === "addDays" && name !== 0) {
+      let valueCheck = regexOnlyNumbers(value);
+      if (valueCheck !== 0) {
+        setSubscriptionState({
+          ...subscriptionState,
+          AddDays: {
+            value: valueCheck.trimStart(),
+            errorMessage: "",
+            errorStatus: false,
+          },
+        });
+      }
+    }
+  };
 
   const handleClose = () => {
     dispatch(subscriptionRenewOpenModal(false));
+    setSubscriptionState({
+      ...subscriptionState,
+      AddDays: {
+        value: 0,
+      },
+    });
   };
 
   return (
@@ -60,14 +103,20 @@ const SubscriptionRenewModal = () => {
                   {t("Organization-name")}
                 </label>
                 <label className={styles["main-organization-name"]}>
-                  Quantum Dynamics Consortium
+                  {subscriptionState.OrganizationName.value}
                 </label>
               </Col>
               <Col lg={6} md={6} sm={6} className={styles["flex-columns"]}>
                 <label className={styles["title-Textfield-name"]}>
                   {t("Add-days")}
                 </label>
-                <TextField placeholder="0" labelClass="d-none" />
+                <TextField
+                  placeholder="0"
+                  labelClass="d-none"
+                  name="addDays"
+                  change={handleChange}
+                  value={subscriptionState.AddDays.value}
+                />
               </Col>
             </Row>
           </>
