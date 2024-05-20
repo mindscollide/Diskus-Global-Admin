@@ -11,6 +11,8 @@ import GlobalAdminDashboard from "../container/GlobalAdminDashboard/GlobalAdminD
 import PrivateRoutes from "./PrivateRoutes";
 import OrganizationLevelSettings from "../container/OrganizationLevelSettings/OrganizationLevelSettings";
 import PakagesGlobalAdmin from "../container/PakagesGlobalAdmin/PakagesGlobalAdmin";
+import GlobalLevelSettings from "../container/GlobalLevelSettings/GlobalLevelSettings";
+import CashFlowSummary from "../container/CashFlowSumarry/CashFlowSummary";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -32,8 +34,24 @@ export const router = createHashRouter(
             path="OrganizationLevelSettings"
             element={<OrganizationLevelSettings />}
           />
+          <Route path="GlobalLevelSettings" element={<GlobalLevelSettings />} />
+          <Route path="Summary" element={<CashFlowSummary />} />
         </Route>
       </Route>
+
+      {/* <Route exact path="/GlobalAdmin/" element={<DashBoard />}>
+        <Route path="" element={<GlobalAdminDashboard />} />
+        <Route path="GlobalDashboard" element={<GlobalAdminDashboard />} />
+        <Route path="vieworganization" element={<ViewOrganization />} />
+        <Route path="loginHistory" element={<LoginHistory />} />
+        <Route path="Pakages" element={<PakagesGlobalAdmin />} />
+        <Route
+          path="OrganizationLevelSettings"
+          element={<OrganizationLevelSettings />}
+        />
+        <Route path="GlobalLevelSettings" element={<GlobalLevelSettings />} />
+        <Route path="Summary" element={<CashFlowSummary />} />
+      </Route> */}
     </>
   )
 );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Nav, Container, Navbar, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./NavbarAdmin.css";
@@ -11,9 +11,19 @@ const AdminOptionsNavBar = () => {
   const { t } = useTranslation();
   const ModalReducer = useSelector((state) => state.modal);
   const dispatch = useDispatch();
+  const [selectedItem, setSelectedItem] = useState(
+    t("Organization-level-configurations")
+  );
+
+  // for show select dropdown in navbar
+  const selectHandler = (selectedDropdown) => {
+    setSelectedItem(selectedDropdown);
+  };
+
   const handleOpenModal = () => {
     dispatch(ModalIsOpen(true));
   };
+
   return (
     <>
       <Nav className=" m-0 p-0 d-flex justify-content-center flex-column ">
@@ -23,6 +33,14 @@ const AdminOptionsNavBar = () => {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto d-flex justify-content-evenly w-100 py-1">
+                  <Nav.Link
+                    as={Link}
+                    to="Summary"
+                    className="DiskusAdminNavBar"
+                    id="collasible-nav-dropdown"
+                  >
+                    {t("Summary")}
+                  </Nav.Link>
                   <NavDropdown
                     title={t("Organization")}
                     id="collasible-nav-dropdown"
@@ -48,25 +66,26 @@ const AdminOptionsNavBar = () => {
                   </Nav.Link>
 
                   <NavDropdown
-                    title={t("Global-configurations")}
+                    title={selectedItem}
                     id="collasible-nav-dropdown"
-                    className="DiskusAdminNavBar"
+                    className={"DiskusAdminNavBar"}
+                    onSelect={selectHandler}
                   >
                     <NavDropdown.Item
                       as={Link}
                       to="OrganizationLevelSettings"
-                      eventKey="link-8"
-                      className="text-black border-none "
+                      eventKey={t("Organization-level-configurations")}
+                      className="text-black border-none"
                     >
                       {t("Organization-level-configurations")}
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       as={Link}
-                      to="setting"
-                      eventKey="link-8"
+                      to="GlobalLevelSettings"
+                      eventKey={t("Global-level-configuration")}
                       className="text-black border-none "
                     >
-                      {t("User-level-configurations")}
+                      {t("Global-level-configuration")}
                     </NavDropdown.Item>
                   </NavDropdown>
                   <NavDropdown

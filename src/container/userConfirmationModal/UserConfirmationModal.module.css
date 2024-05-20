@@ -1,0 +1,59 @@
+.modal-header-class {
+  border: none !important;
+  display: none !important;
+}
+
+.modal-confirmation-footer {
+  border: none !important;
+  padding: 5px 25px !important;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Modalsize {
+  padding: 20px 30px;
+}
+
+.confirmation-title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #6172d6 !important;
+}
+
+.reset-User-btn {
+  margin-left: 25px;
+  font-size: 12px !important;
+  background-color: #ffffff !important;
+  color: #5a5a5a !important;
+  font-weight: 600;
+  width: 119px !important;
+  height: 46px !important;
+  border-radius: 4px !important;
+  border-color: #e1e1e1 !important;
+}
+
+body[dir="rtl"] .reset-User-btn {
+  margin-right: 25px !important;
+}
+
+.save-User-btn {
+  font-size: 12px;
+  background-color: #6172d6;
+  border-color: #e1e1e1 !important;
+  width: 119px;
+  height: 46px;
+  border-radius: 4px !important;
+  float: right;
+  margin-right: 25px;
+  /* margin-left: 20px ; */
+}
+
+body[dir="rtl"] .save-User-btn {
+  margin-right: 125px !important;
+}
+
+.save-User-btn:hover {
+  background-color: #6172d6 !important;
+}

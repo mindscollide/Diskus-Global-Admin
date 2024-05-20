@@ -42,7 +42,7 @@ const DashBoard = () => {
           <AdminOptionsNavBar />
         </Layout>
 
-        <Layout>
+        <Layout className="dashboard-background">
           <Content>
             <div className="dashbaord_data">
               <Outlet />

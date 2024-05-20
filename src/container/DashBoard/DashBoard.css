@@ -58,3 +58,7 @@ body[dir="rtl"] .Dashboard-Main-Container.container-fluid {
 .talk_features_home {
   width: 2%;
 }
+
+.dashboard-background {
+  background-color: #f6fafd !important;
+}

@@ -8,10 +8,16 @@ import Profilepicture from "../../../assets/images/OutletImages/newprofile.png";
 import "./Header.css";
 import LanguageSelector from "../../elements/languageSelector/Language-selector";
 import Changepassword from "../../../container/NavBarSelectorsModals/ChangePasswordModal/Changepassword";
-import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
+import {
+  ChangePasswordModalOpen,
+  userConifrmationOpenModal,
+  userInfoOpenModal,
+} from "../../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { GlobalAdminLogOutApi } from "../../../store/Actions/AuthActions";
+import UserProfileModal from "../../../container/userInformationModal/UserInfoModal";
+import UserConfirmationModal from "../../../container/userConfirmationModal/UserConfirmationModal";
 const Header = () => {
   const { t } = useTranslation();
 
@@ -20,6 +26,10 @@ const Header = () => {
 
   const handleChangePasswordModal = () => {
     dispatch(ChangePasswordModalOpen(true));
+  };
+
+  const handleUserModal = () => {
+    dispatch(userInfoOpenModal(true));
   };
 
   const handleDashboard = () => {
@@ -89,9 +99,10 @@ const Header = () => {
               <Dropdown.Menu className="dropdown_menu_admin">
                 <Dropdown.Item className={" text-black"}>
                   <Nav.Link
-                    as={Link}
+                    // as={Link}
                     to="CustomerInformation"
                     className="text-black"
+                    onClick={handleUserModal}
                   >
                     {t("User-information")}
                   </Nav.Link>
@@ -120,6 +131,8 @@ const Header = () => {
         </section>
       </Navbar>
       <Changepassword />
+      <UserProfileModal />
+      <UserConfirmationModal />
     </>
   );
 };

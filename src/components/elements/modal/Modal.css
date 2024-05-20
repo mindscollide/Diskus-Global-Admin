@@ -2,25 +2,8 @@
   background-color: transparent;
 }
 
-/* .label {
-  display: inline-block;
-  margin-top: -19px;
-  margin-right: 22px;
+.modal-backdrop.show {
+  backdrop-filter: blur(12px) !important;
+  background-color: rgba(255, 255, 255, 0.3);
+  opacity: 1 !important;
 }
-
-.d-flex {
-  display: flex !important;
-  align-items: center;
-  height: 48px;
-}
-
-.ant-picker {
-  height: 35px;
-}
-
-.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon
-  .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
-  padding-right: 88px;
-  height: 30px;
-  margin-top: 7px;
-} */

@@ -11,6 +11,12 @@ const initialState = {
   editOraganizationSubscriptionModal: false,
   editOrganizationConfirmationModal: false,
   openSendInvoiceModal: false,
+  openTrialRenewModal: false,
+  openSubscriptionModal: false,
+  userInfoModal: false,
+  ConfirmationInfoModal: false,
+  createPackageModal: false,
+  packageDeleteModal: false,
 };
 
 export const modalSlice = createSlice({
@@ -50,6 +56,36 @@ export const modalSlice = createSlice({
     dashboardSendInvoiceOpenModal: (state, { payload }) => {
       state.openSendInvoiceModal = payload;
     },
+
+    // to open trialRenew modal
+    trialRenewOpenModal: (state, { payload }) => {
+      state.openTrialRenewModal = payload;
+    },
+
+    //to open subscription modal
+    subscriptionRenewOpenModal: (state, { payload }) => {
+      state.openSubscriptionModal = payload;
+    },
+
+    //to open User Info Modal
+    userInfoOpenModal: (state, { payload }) => {
+      state.userInfoModal = payload;
+    },
+
+    // to open confirmation Modal
+    userConifrmationOpenModal: (state, { payload }) => {
+      state.ConfirmationInfoModal = payload;
+    },
+
+    // to open Create Package Modal
+    packageCreateOpenModal: (state, { payload }) => {
+      state.createPackageModal = payload;
+    },
+
+    //to open delete Package Modal
+    deletePackageOpenModal: (state, { payload }) => {
+      state.packageDeleteModal = payload;
+    },
   },
 });
 
@@ -63,6 +99,12 @@ export const {
   editOrganizationSubscriptionModalOpen,
   editOrganizationConfirmation,
   dashboardSendInvoiceOpenModal,
+  trialRenewOpenModal,
+  subscriptionRenewOpenModal,
+  userInfoOpenModal,
+  userConifrmationOpenModal,
+  packageCreateOpenModal,
+  deletePackageOpenModal,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

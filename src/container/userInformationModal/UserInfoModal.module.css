@@ -1,0 +1,346 @@
+body[dir="rtl"] .label-Edit-user-mobile {
+  /* position: fixed !important;
+    right: 883px !important; */
+
+  margin-left: 19px !important;
+}
+
+.user-container {
+  padding: 15px 40px !important;
+}
+
+.label-Edit-user {
+  cursor: pointer !important;
+  color: #6172d6;
+  margin-left: 20px;
+  align-items: center !important;
+  margin-top: 10px;
+  text-decoration: underline;
+}
+.label-Edit-user-mobile {
+  cursor: pointer !important;
+  color: #6172d6;
+  text-decoration: underline;
+}
+
+.User-bottom-line {
+  height: 55px !important;
+  border-bottom: 1px solid #e1e1e1 !important;
+  border-spacing: 10px !important;
+}
+
+.User-bottom-line2 {
+  height: 55px !important;
+  border-bottom: 1px solid #e1e1e1 !important;
+  border-spacing: 10px !important;
+  margin-top: 8px;
+}
+.reset-User-btn {
+  margin-left: 25px;
+  font-size: 12px !important;
+  background-color: #ffffff !important;
+  color: #5a5a5a !important;
+  font-weight: 600;
+  width: 100px !important;
+  height: 40px !important;
+  border-radius: 4px !important;
+  border-color: #e1e1e1 !important;
+}
+
+body[dir="rtl"] .reset-User-btn {
+  margin-right: 25px !important;
+}
+
+.modal-header-class {
+  display: none;
+}
+
+.save-User-btn {
+  font-size: 12px;
+  background-color: #6172d6;
+  border-color: #e1e1e1 !important;
+  width: 100px !important;
+  height: 40px !important;
+  border-radius: 4px !important;
+  float: right;
+  margin-right: 25px;
+}
+
+body[dir="rtl"] .save-User-btn {
+  margin-right: 125px !important;
+}
+
+.save-User-btn:hover {
+  background-color: #6172d6 !important;
+}
+
+.Name-label-User {
+  text-align: start !important;
+  margin-top: 5px;
+  font-size: 16px !important;
+  color: #5a5a5a !important;
+  font-weight: 500;
+}
+
+.Designation-label-User {
+  text-align: start !important;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #5a5a5a !important;
+  font-weight: 500;
+}
+
+.Mobile-label-User {
+  text-align: start !important;
+  font-size: 16px;
+  color: #5a5a5a !important;
+  font-weight: 500;
+}
+
+.text-fields-name {
+  /* margin-top: 20px; */
+  width: 100% !important;
+  height: 39px !important;
+  border-radius: 4px !important;
+  color: #000 !important;
+  border: none !important;
+  background-color: white !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 13px;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: none !important;
+}
+
+.text-fields-name-disabled {
+  height: 39px !important;
+  background-color: transparent !important;
+  border: none !important;
+  background-image: none !important;
+  font-weight: 400;
+  color: #5a5a5a !important;
+}
+
+.text-fields-name:focus {
+  /* border: 1px solid rgb(16, 16, 16) !important; */
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+.text-fields-name:disabled {
+  background-color: transparent !important;
+}
+
+.text-fields-designation {
+  /* margin-top: 20px; */
+  width: 100% !important;
+  height: 39px !important;
+  border-radius: 4px !important;
+  color: #000 !important;
+  border: none !important;
+  background-color: white !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 13px;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: none !important;
+}
+
+.text-fields-designation-disabled {
+  height: 39px !important;
+  background-color: transparent !important;
+  border: none !important;
+  font-weight: 400;
+  color: #5a5a5a !important;
+  background-image: none !important;
+}
+
+.text-fields-designation:focus {
+  /* border: 1px solid rgb(16, 16, 16) !important; */
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+.text-fields-designation:disabled {
+  background-color: transparent !important;
+}
+
+.text-fields-Mobile {
+  /* margin-top: 20px; */
+  width: 100% !important;
+  height: 39px !important;
+  border-radius: 4px !important;
+  color: #000 !important;
+  border: none !important;
+  background-color: white !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 13px;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: none !important;
+  margin-left: 1px !important;
+  height: 30px !important;
+  padding: auto !important;
+  /* margin-top: 4px !important; */
+}
+
+.text-fields-Mobile-disabled {
+  background-color: transparent !important;
+  border: none !important;
+  font-weight: 400;
+  color: #5a5a5a !important;
+  background-image: none !important;
+}
+
+.text-fields-Mobile:focus {
+  /* border: 1px solid rgb(16, 16, 16) !important; */
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+.text-fields-Mobile:disabled {
+  background-color: transparent !important;
+}
+
+.modal-userprofile-footer {
+  display: contents;
+  /* justify-content: /space-around; */
+  margin: 20px 0px !important;
+  padding: 10px 90px !important;
+}
+
+/* For phoneInput number */
+.react-User-Profile {
+  height: 30px !important;
+  padding: auto !important;
+  /* margin-top: 4px !important; */
+}
+.react-User-Profile .ReactFlagsSelect-module_flagsSelectInline__cUnnz button {
+  margin-top: 0px !important;
+}
+.react-User-Profile button {
+  cursor: pointer !important;
+  width: 100% !important;
+  min-height: 39px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0px 3px !important;
+  font-size: 9px !important;
+  color: #4d4d4d !important;
+  border: thin solid rgba(77, 77, 77, 0.3);
+  border-radius: 2px !important;
+  background: transparent;
+}
+
+.react-User-Profile input {
+  cursor: pointer !important;
+  padding: 5px 8px !important;
+  margin: 4px 5px !important;
+  font-size: 10px !important;
+  white-space: nowrap !important;
+}
+
+.react-User-Profile button:after {
+  border-top: 3px solid #4d4d4d;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: 0;
+  margin-left: -3px;
+}
+
+.react-User-Profile button[aria-expanded="true"]:after {
+  border-top: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid #4d4d4d;
+  margin-left: -3px;
+}
+
+.react-User-Profile button:focus {
+  cursor: pointer !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 6px 3px !important;
+  font-size: 9px !important;
+  color: #000000 !important;
+  border: thin solid #e1e1e1 !important;
+  border-radius: 2px !important;
+  background: transparent;
+}
+
+.Modalsize {
+  width: 496px !important;
+  height: 400px !important;
+  padding: 40px 30px;
+}
+
+.span-on-number-on-userprofile {
+  margin-left: 10px !important;
+}
+.userProfileFlagSelect button {
+  margin-top: 4px !important;
+  border-radius: 4px !important;
+}
+
+.User-info-heading {
+  font-size: 30px;
+  font-weight: 600 !important;
+  color: #6172d6;
+}
+
+.title-user-name {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #6172d6 !important;
+}
+
+.flex-columns {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.main-user-name {
+  font-size: 12px !important;
+  color: #5a5a5a !important;
+  font-weight: 400 !important;
+  margin-top: 10px !important;
+}
+
+.userProfileFlagSelect {
+  height: 29px !important;
+  width: 70% !important;
+}
+
+.reactflag-label {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #6172d6 !important;
+  margin-bottom: 5px;
+}
+
+.aesterick-class {
+  color: red !important;
+}
+
+.Cross-X {
+  position: relative;
+  top: -20px !important;
+  right: -20px !important;
+  font-size: 10px !important;
+  cursor: pointer;
+}
+
+.errorMessage {
+  color: #f24a4a !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
