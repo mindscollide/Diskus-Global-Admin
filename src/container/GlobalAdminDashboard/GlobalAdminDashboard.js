@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./GlobalAdminDashboard.module.css";
 import Search_Icon from "../../assets/images/OutletImages/Search_Icon.png";
+import BillingDue from "../../assets/images/OutletImages/BillingDue.png";
 import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -21,6 +22,8 @@ import {
   dashBoardReportApi,
   OrganizationSubscriptionTypeApi,
   SendInvoiceApi,
+  getListTrialSubscription,
+  getListOfExtendedTrailSubscriptions,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -92,6 +95,18 @@ const GlobalAdminDashboard = () => {
     (state) =>
       state.globalAdminDashboardReducer.OrganizationSubscriptionStatsGraphData
   );
+
+  //Reducer for listOfTrialSubscription to Show in trial table
+  const listOfTrialSubscription = useSelector(
+    (state) => state.globalAdminDashboardReducer.listOfTrialSubscription
+  );
+
+  //Reducer for listOfTrialExtendedSubscription to Show in trial Extended table
+  const listOfTrialExtendedSubscription = useSelector(
+    (state) => state.globalAdminDashboardReducer.listOfTrialExtendedSubscription
+  );
+
+  console.log(listOfTrialExtendedSubscription, "TestingTesting");
 
   const [isOpen, setIsOpen] = useState(true);
   const [isOpenCalender, setIsOpenCalender] = useState(false);
@@ -169,6 +184,7 @@ const GlobalAdminDashboard = () => {
   const [selectedCompany, setSelectedCompany] = useState(
     organziations[0]?.organizationName || "Default Company Name"
   );
+  const [searchTerm, setSearchTerm] = useState("");
   const [organizationID, setOrganizationID] = useState(0);
 
   //Billing Dues Table data
@@ -234,6 +250,26 @@ const GlobalAdminDashboard = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, []);
+
+  // useEffect for listOfTrialSubscription Trial Tab
+  useEffect(() => {
+    let data = {
+      OrganizationName: "",
+      PageNumber: 1,
+      length: 15,
+    };
+    dispatch(getListTrialSubscription({ data, navigate, t }));
+  }, []);
+
+  // useEffect for ListOfExtendedTrailSubscriptions Trial Extended Tab
+  useEffect(() => {
+    let data = {
+      OrganizationName: "",
+      PageNumber: 1,
+      length: 15,
+    };
+    dispatch(getListOfExtendedTrailSubscriptions({ data, navigate, t }));
   }, []);
 
   //Calling StatsOfActiveLicenseApi
@@ -350,43 +386,35 @@ const GlobalAdminDashboard = () => {
     }
   }, [OrganizationStatsSubscriptionReducer]);
 
-  //OrganizationSubscriptionGraphTable Data in table to set Row of trial column
+  //listOfTrialSubscription Data in table to set Row of trial column
   useEffect(() => {
     try {
       if (
-        OrganizationStatsTableDataReducer?.result.listOfTrial !== undefined &&
-        OrganizationStatsTableDataReducer?.result.listOfTrial !== null
+        listOfTrialSubscription?.result.listOfTrial !== undefined &&
+        listOfTrialSubscription?.result.listOfTrial !== null
       ) {
         if (
-          OrganizationStatsTableDataReducer?.result.listOfTrial.length > 0 &&
-          OrganizationStatsTableDataReducer?.result.totalCount > 0
+          listOfTrialSubscription?.result.listOfTrial.length > 0 &&
+          listOfTrialSubscription?.result.totalCount > 0
         ) {
           if (isScroll) {
             setIsScroll(false);
             //copy pf the rows of table
             let copyData = [...trialRow];
-            OrganizationStatsTableDataReducer.result.listOfTrial.forEach(
+            listOfTrialSubscription.result.listOfTrial.forEach(
               (data, index) => {
                 copyData.push(data);
               }
             );
             setTrialRow(copyData);
             setSRowsData(
-              (prev) =>
-                prev +
-                OrganizationStatsTableDataReducer.result.listOfTrial.length
+              (prev) => prev + listOfTrialSubscription.result.listOfTrial.length
             );
-            setTotalRecords(
-              OrganizationStatsTableDataReducer.result.totalCount
-            );
+            setTotalRecords(listOfTrialSubscription.result.totalCount);
           } else {
-            setTrialRow(OrganizationStatsTableDataReducer.result.listOfTrial);
-            setTotalRecords(
-              OrganizationStatsTableDataReducer.result.totalCount
-            );
-            setSRowsData(
-              OrganizationStatsTableDataReducer.result.listOfTrial.length
-            );
+            setTrialRow(listOfTrialSubscription.result.listOfTrial);
+            setTotalRecords(listOfTrialSubscription.result.totalCount);
+            setSRowsData(listOfTrialSubscription.result.listOfTrial.length);
           }
         } else {
           setTrialRow([]);
@@ -395,7 +423,7 @@ const GlobalAdminDashboard = () => {
         }
       }
     } catch {}
-  }, [OrganizationStatsTableDataReducer]);
+  }, [listOfTrialSubscription]);
 
   //handle scroll function for lazy loading of Trial Table
   const handleScroll = async (e) => {
@@ -412,24 +440,24 @@ const GlobalAdminDashboard = () => {
     }
   };
 
-  //OrganizationSubscriptionGraphTable Data in table to set Row of trial Extended column
+  //listOfTrialExtendedSubscription Data in table to set Row of trial Extended column
   useEffect(() => {
     try {
       if (
-        OrganizationStatsTableDataReducer?.result.listOfExtendedTrail !==
+        listOfTrialExtendedSubscription?.result.listOfExtendedTrail !==
           undefined &&
-        OrganizationStatsTableDataReducer?.result.listOfExtendedTrail !== null
+        listOfTrialExtendedSubscription?.result.listOfExtendedTrail !== null
       ) {
         if (
-          OrganizationStatsTableDataReducer?.result.listOfExtendedTrail.length >
+          listOfTrialExtendedSubscription?.result.listOfExtendedTrail.length >
             0 &&
-          OrganizationStatsTableDataReducer?.result.totalCount > 0
+          listOfTrialExtendedSubscription?.result.totalCount > 0
         ) {
           if (isScrollTrialExtended) {
             setIsScrollTrialExtended(false);
             //copy pf the rows of table
             let copyData = [...trialExtendedRow];
-            OrganizationStatsTableDataReducer?.result.listOfExtendedTrail.forEach(
+            listOfTrialExtendedSubscription?.result.listOfExtendedTrail.forEach(
               (data, index) => {
                 copyData.push(data);
               }
@@ -438,21 +466,21 @@ const GlobalAdminDashboard = () => {
             setSRowsDataTrialExtended(
               (prev) =>
                 prev +
-                OrganizationStatsTableDataReducer?.result.listOfExtendedTrail
+                listOfTrialExtendedSubscription?.result.listOfExtendedTrail
                   .length
             );
             setTotalRecordsTrialExtended(
-              OrganizationStatsTableDataReducer.result.totalCount
+              listOfTrialExtendedSubscription.result.totalCount
             );
           } else {
             setTrialExtendedRow(
-              OrganizationStatsTableDataReducer.result.listOfExtendedTrail
+              listOfTrialExtendedSubscription.result.listOfExtendedTrail
             );
             setTotalRecordsTrialExtended(
-              OrganizationStatsTableDataReducer.result.totalCount
+              listOfTrialExtendedSubscription.result.totalCount
             );
             setSRowsDataTrialExtended(
-              OrganizationStatsTableDataReducer.result.listOfTrial.length
+              listOfTrialExtendedSubscription.result.listOfExtendedTrail.length
             );
           }
         } else {
@@ -462,7 +490,7 @@ const GlobalAdminDashboard = () => {
         }
       }
     } catch {}
-  }, [OrganizationStatsTableDataReducer]);
+  }, [listOfTrialExtendedSubscription]);
 
   //handle scroll function for lazy loading of Trial Extended Table
   const handleScrollTrialExtended = async (e) => {
@@ -888,6 +916,17 @@ const GlobalAdminDashboard = () => {
       dispatch(GetAllBillingDueApi({ data, navigate, t }));
     }
   };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    setIsCompnayOpen(true);
+  };
+
+  // to filters organization company from dropdown
+  const filteredOrganizations = organziations.filter((org) =>
+    org.organizationName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   //Data for Dues
   useEffect(() => {
     try {
@@ -952,8 +991,8 @@ const GlobalAdminDashboard = () => {
       dataIndex: "billingDate",
       className: "random",
       key: "billingDate",
-      width: "190px",
       ellipses: true,
+      align: "center",
       render: (text, response) => {
         return (
           <>
@@ -969,7 +1008,7 @@ const GlobalAdminDashboard = () => {
       className: "random",
       dataIndex: "amountDue",
       key: "amountDue",
-      width: "190px",
+      align: "center",
       render: (text, response) => {
         const formattedText = formatSessionDurationArabicAndEng(
           text,
@@ -986,11 +1025,11 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Month"),
+      title: t("Organization-name"),
       className: "random",
       key: "billingMonth",
       dataIndex: "billingMonth",
-      width: "80px",
+      align: "center",
       render: (text, response) => (
         <span className={styles["dashboard-table-insidetext"]}>{text}</span>
       ),
@@ -1008,7 +1047,8 @@ const GlobalAdminDashboard = () => {
       key: "billingMonth",
       className: "random",
       dataIndex: "billingMonth",
-      width: "120px",
+      width: "100px",
+      align: "center",
       render: (text, record) => (
         <span className={styles["dashboard-table-insidetext"]}>
           <Button
@@ -1137,11 +1177,9 @@ const GlobalAdminDashboard = () => {
   const TrialColumn = [
     {
       title: t("Organization-name"),
-      className: "random",
       dataIndex: "organizationName",
       key: "organizationName",
-      width: "100px",
-      align: "start",
+      align: "center",
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
@@ -1156,9 +1194,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Trial-start-date"),
       dataIndex: "subscriptionStartDate",
-      className: "random",
       key: "subscriptionStartDate",
-      width: "110px",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
@@ -1174,9 +1210,7 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Trial-end-date"),
       dataIndex: "subscriptionEndDate",
-      className: "random",
       key: "subscriptionEndDate",
-      width: "100px",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
@@ -1191,21 +1225,22 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Remaining-days"),
-      className: "random",
-      dataIndex: "TrialEndDate",
-      key: "TrialEndDate",
-      width: "100px",
+      dataIndex: "remainingDays",
+      key: "remainingDays",
       align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
+      // sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
       render: (text, record) => {
         return (
           <>
-            <Button
+            <div className={styles["dashboard-user-dates"]}>
+              {text} {"Days"}
+            </div>
+            {/* <Button
               text={t("Renew")}
               className={styles["send-invoice-button"]}
               onClick={onClickSubscriptionRenew}
-            />
+            /> */}
           </>
         );
       },
@@ -1214,25 +1249,30 @@ const GlobalAdminDashboard = () => {
 
   const TraiExtendedColumn = [
     {
-      title: t("Trial-extended-date"),
-      className: "random",
-      dataIndex: "Name",
-      key: "Name",
-      width: "140px",
+      title: t("Organization-name"),
+      dataIndex: "organizationName",
+      key: "organizationName",
       align: "start",
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
       sorter: (a, b) => a.Name.localeCompare(b.Name),
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
-      title: t("Trial-extended-date"),
-      className: "random",
-      dataIndex: "TrialExtendedDate",
-      key: "TrialExtendedDate",
-      width: "140px",
+      title: t("Trial-start-date"),
+      // className: "random",
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
       align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.TrialExtendedDate.localeCompare(b.TrialExtendedDate),
+      sorter: (a, b) =>
+        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1242,16 +1282,14 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Trial-extended-end-date"),
-      dataIndex: "TrialExtendedEndDate",
-      className: "random",
-      key: "TrialExtendedEndDate",
-      width: "170px",
+      title: t("Trial-end-date"),
+      dataIndex: "subscriptionEndDate",
+      key: "subscriptionEndDate",
       align: "center",
       ellipsis: true,
       align: "center",
       sorter: (a, b) =>
-        a.TrialExtendedEndDate.localeCompare(b.TrialExtendedEndDate),
+        a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1262,14 +1300,23 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Remaining-days"),
-      className: "random",
-      dataIndex: "remaingDate",
-      key: "remaingDate",
-      width: "160px",
+      dataIndex: "remainingDays",
+      key: "remainingDays",
       align: "center",
       ellipsis: true,
-      align: "center",
-      sorter: (a, b) => a.remaingDate.localeCompare(b.remaingDate),
+      // sorter: (a, b) => a.remainingDays.localeCompare(b.remainingDays),
+      render: (text, record) => {
+        return (
+          <>
+            <div className={styles["dashboard-user-dates"]}>{text}</div>
+            {/* <Button
+              text={t("Renew")}
+              className={styles["send-invoice-button"]}
+              onClick={onClickSubscriptionRenew}
+            /> */}
+          </>
+        );
+      },
     },
   ];
 
@@ -1284,12 +1331,22 @@ const GlobalAdminDashboard = () => {
       ellipsis: true,
       sorter: (a, b) => a.Name.localeCompare(b.Name),
     },
-    // {
-    //   title: t("ExpiryDate"),
-    //   dataIndex: "ExpiryDate",
-    //   key: "ExpiryDate",
-    //   width: "135px",
-    // },
+    {
+      title: "",
+      dataIndex: "ExpiryDate",
+      key: "ExpiryDate",
+      width: "135px",
+      render: (text, record) => {
+        return (
+          <>
+            <Button
+              text={t("Package-details")}
+              className={styles["send-invoice-button"]}
+            />
+          </>
+        );
+      },
+    },
     {
       title: t("Expiration-date"),
       dataIndex: "ExpiryDate",
@@ -1718,25 +1775,21 @@ const GlobalAdminDashboard = () => {
 
   return (
     <>
-      <Container>
+      <Container fluid className={styles["global-admin-dashboard-container"]}>
         <Row className="mt-3">
           <Col lg={5} md={5} sm={5}>
             <section className={styles["LeftBoxDashboard"]}>
               <Row>
-                <Col
-                  lg={isOpen ? 4 : 3}
-                  md={isOpen ? 4 : 3}
-                  sm={isOpen ? 4 : 3}
-                >
+                <Col lg={5} md={5} sm={5}>
                   <span className={styles["BillingDueHeading"]}>
                     {t("Billing-due")}
                   </span>
                 </Col>
                 <Col
-                  lg={isOpen ? 3 : 5}
-                  md={isOpen ? 3 : 5}
-                  sm={isOpen ? 3 : 5}
-                  className="position-relative"
+                  lg={3}
+                  md={3}
+                  sm={3}
+                  className="d-flex justify-content-end"
                 >
                   <div
                     ref={dropdownRef}
@@ -1788,7 +1841,12 @@ const GlobalAdminDashboard = () => {
                     ) : null}
                   </div>
                 </Col>
-                <Col lg={4} md={4} sm={4}>
+                <Col
+                  lg={4}
+                  md={4}
+                  sm={4}
+                  className="d-flex justify-content-end"
+                >
                   <div className={styles["dropdown-container"]}>
                     <div
                       className={styles["dropdown-header"]}
@@ -1810,20 +1868,22 @@ const GlobalAdminDashboard = () => {
                     {isCompnayOpen && (
                       <>
                         <section className={styles["dropdown_list"]}>
-                          {organziations.map((CountryData, index) => {
-                            console.log(CountryData, "CountryDataCountryData");
-                            return (
-                              <>
-                                <div
-                                  className={styles["dropdown-list-item"]}
-                                  onClick={onCountryClickClick(CountryData)}
-                                  key={index}
-                                >
-                                  {CountryData.organizationName}
-                                </div>
-                              </>
-                            );
-                          })}
+                          <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            placeholder="Search..."
+                            className={styles["search-input"]}
+                          />
+                          {filteredOrganizations.map((CountryData, index) => (
+                            <div
+                              className={styles["dropdown-list-item"]}
+                              onClick={onCountryClickClick(CountryData)}
+                              key={index}
+                            >
+                              {CountryData.organizationName}
+                            </div>
+                          ))}
                         </section>
                       </>
                     )}
@@ -1845,7 +1905,8 @@ const GlobalAdminDashboard = () => {
                     $
                   </span>
                   <span className={styles["PrizeSubHeading"]}>
-                    {selectedCompany}
+                    {/* {selectedCompany} */}
+                    {t("Total-due")}
                   </span>
                 </Col>
               </Row>
@@ -1864,18 +1925,14 @@ const GlobalAdminDashboard = () => {
                     locale={{
                       emptyText: (
                         <>
-                          <section className="d-flex flex-column align-items-center justify-content-center ">
-                            <img
-                              src={NoOrganizationIcon}
-                              width={"180px"}
-                              alt=""
-                            />
+                          <section className="d-flex flex-column align-items-center justify-content-center mt-3">
+                            <img src={BillingDue} width={"180px"} alt="" />
 
                             <span className="Main-Title">
-                              {t("No-organization")}
+                              {t("No-billing-due")}
                             </span>
                             <span className="Sub-Title">
-                              {t("No-organization-found-this-month")}
+                              {t("No-payment-due-for-this-organization")}
                             </span>
                           </section>
                         </>
@@ -1941,7 +1998,7 @@ const GlobalAdminDashboard = () => {
                 </Col>
               </Row>
               <Row className="mt-3">
-                <Col lg={10} md={10} sm={12} className="d-flex gap-3">
+                <Col lg={10} md={10} sm={12} className="d-flex gap-3 mt-2">
                   {organizationStatus ? (
                     <>
                       <Button
@@ -1999,7 +2056,7 @@ const GlobalAdminDashboard = () => {
                   ) : null}
                 </Col>
 
-                <Col lg={2} md={2} sm={12}>
+                <Col lg={2} md={2} sm={12} className="mt-2">
                   {users === true || organizationStatus === true ? (
                     <>
                       <Button
@@ -2055,7 +2112,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={trialRow.length}
                       next={handleScroll}
-                      height={"25vh"}
+                      height={"30vh"}
                       hasMore={trialRow.length === totalRecords ? false : true}
                       loader={
                         isRowsData <= totalRecords && isScroll ? (
@@ -2108,7 +2165,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={trialExtendedRow.length}
                       next={handleScrollTrialExtended}
-                      height={"25vh"}
+                      height={"30vh"}
                       hasMore={
                         trialExtendedRow.length === totalRecordsTrialExtended
                           ? false
@@ -2166,7 +2223,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={subscribedRow.length}
                       next={handleScrollSubscribed}
-                      height={"25vh"}
+                      height={"30vh"}
                       hasMore={
                         subscribedRow.length === totalRecordsSubscribed
                           ? false
@@ -2224,7 +2281,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={subscriptionExpiredRow.length}
                       next={handleScrollSubscriptionExpiry}
-                      height={"25vh"}
+                      height={"30vh"}
                       hasMore={
                         subscriptionExpiredRow.length ===
                         totalRecordsSubscriptionExpiry
@@ -2284,7 +2341,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={essentialRow.length}
                       next={handleScrollEssential}
-                      height={"25vh"}
+                      height={"30vh"}
                       hasMore={
                         essentialRow.length === totalRecordsEssential
                           ? false
@@ -2342,7 +2399,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={professionalRow.length}
                       next={handleScrollProfessional}
-                      height={"25vh"}
+                      height={"30vh"}
                       hasMore={
                         professionalRow.length === totalRecordsProfessional
                           ? false
@@ -2400,7 +2457,7 @@ const GlobalAdminDashboard = () => {
                     <InfiniteScroll
                       dataLength={premiumRow.length}
                       next={handleScrollPremium}
-                      height={"25vh"}
+                      height={"30vh"}
                       hasMore={
                         premiumRow.length === totalRecordsPremium ? false : true
                       }

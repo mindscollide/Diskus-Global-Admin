@@ -19,6 +19,10 @@ import {
   GetAllPackagesWithFeaturesGlobalAdmin,
   sendInvoice,
   ChangePassword,
+  cashInFlow,
+  cashOutFlow,
+  trialDashboardApi,
+  trialExtendedDashboardApi,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 
@@ -950,6 +954,302 @@ export const ChangePasswordApi = createAsyncThunk(
               .toLowerCase()
               .includes(
                 "ERM_AuthService_AuthManager_ChangePassword_04".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//get cashInflow API
+export const getCashFlowMainApi = createAsyncThunk(
+  "getCashFlowMainApi/getCashFlowMainApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", cashInFlow.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetCashFlows_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "getCashFlow_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetCashFlows_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetCashFlows_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//get cashOutflow API
+export const getCashOutStandingFlowMainApi = createAsyncThunk(
+  "getCashOutStandingFlowMainApi/getCashOutStandingFlowMainApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", cashOutFlow.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetCashOutFlows_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "getcashOutFlow_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetCashOutFlows_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetCashOutFlows_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//get TrialFlow API
+export const getListTrialSubscription = createAsyncThunk(
+  "getListTrialSubscription/getListTrialSubscription",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", trialDashboardApi.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfTrialSubscriptions_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "ListOfTrialSubscriptions_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfTrialSubscriptions_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfTrialSubscriptions_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// get TrialExtendedFlow API
+export const getListOfExtendedTrailSubscriptions = createAsyncThunk(
+  "getListOfExtendedTrailSubscriptions/getListOfExtendedTrailSubscriptions ",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", trialExtendedDashboardApi.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfExtendedTrailSubscriptions_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "ListOfExtendedTrailSubscriptions_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfExtendedTrailSubscriptions_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfExtendedTrailSubscriptions_03".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));

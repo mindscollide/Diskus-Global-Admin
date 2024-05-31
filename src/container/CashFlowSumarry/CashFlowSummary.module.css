@@ -35,7 +35,7 @@ body[dir="rtl"] .Search_Bar_icon_class {
   background: #ffffff !important;
   position: absolute;
   right: 0;
-  z-index: 1 !important;
+  z-index: 2 !important;
   top: 39px !important;
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
@@ -60,8 +60,9 @@ body[dir="rtl"] .SearchBox {
 }
 
 .SearchBoxResetButton {
-  padding: 12px 30px !important;
-  font-weight: 600 !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
   border-radius: 4px !important;
   background-color: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -69,8 +70,9 @@ body[dir="rtl"] .SearchBox {
 }
 
 body[dir="rtl"] .SearchBoxResetButton {
-  padding: 12px 30px !important;
-  font-weight: 600 !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
   border-radius: 4px !important;
   background-color: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -78,8 +80,9 @@ body[dir="rtl"] .SearchBoxResetButton {
 }
 
 .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
-  padding: 12px 30px !important;
-  font-weight: 600 !important;
+  padding: 10px 25px !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
   background-color: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -88,8 +91,9 @@ body[dir="rtl"] .SearchBoxResetButton {
 
 body[dir="rtl"]
   .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
-  padding: 12px 30px !important;
-  font-weight: 600 !important;
+  padding: 10px 25px !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
   background-color: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -97,34 +101,37 @@ body[dir="rtl"]
 }
 
 .SearchButton {
-  padding: 12px 30px !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   background-color: #6172d6 !important;
   border: none !important;
   color: #fff !important;
 }
 
 body[dir="rtl"] .SearchButton {
-  padding: 12px 30px !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   background-color: #6172d6 !important;
   border: none !important;
   color: #fff !important;
 }
 
 .SearchButton:is(:hover, :focus, :active, :focus-visible) {
-  padding: 12px 30px !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   background-color: #6172d6 !important;
   border: none !important;
   color: #fff !important;
 }
 
 body[dir="rtl"] .SearchButton:is(:hover, :focus, :active, :focus-visible) {
-  padding: 12px 30px !important;
+  padding: 10px 25px !important;
   font-size: 12px !important;
   border: none !important;
   font-weight: 500 !important;
@@ -228,7 +235,14 @@ body[dir="rtl"] .inner-sub-Heading {
   display: flex;
   justify-content: end;
   padding: 16px 0px !important;
-  margin-left: 75px;
+  margin-left: -60px;
+}
+
+body[dir="rtl"] .cashflow-bottom-text {
+  display: flex;
+  justify-content: end;
+  /* flex-direction: column-reverse; */
+  margin-left: 0px;
 }
 
 .total-text {
@@ -236,17 +250,42 @@ body[dir="rtl"] .inner-sub-Heading {
   font-size: 16px !important;
   font-weight: 600 !important;
 }
+body[dir="rtl"] .total-text {
+  color: #5a5a5a;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 40px;
+}
 
 .total-amount-text {
   color: #6172d6;
   font-size: 16px !important;
   font-weight: 600 !important;
+  margin-left: 15px;
+}
+
+body[dir="rtl"] .total-amount-text {
+  color: #6172d6;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin-right: 15px;
 }
 
 .total-amount-outstanding {
   color: #f16b6b;
   font-size: 16px !important;
   font-weight: 600 !important;
+  margin-left: 15px;
+}
+
+body[dir="rtl"] .total-amount-outstanding {
+  color: #f16b6b;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin-right: 15px;
 }
 
 .InflowsButton {

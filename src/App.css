@@ -144,7 +144,7 @@ td.ant-table-cell {
 
 span.Main-Title {
   color: #6172d6;
-  font-size: 16px;
+  font-size: 30px;
   text-align: center;
   margin-top: 10px;
   font-weight: 600 !important;
@@ -508,6 +508,23 @@ span.package-icon-style {
   border-bottom-left-radius: 0;
 }
 
+body[dir="rtl"]
+  :where(.css-dev-only-do-not-override-1drr2mu).ant-input-number
+  .ant-input-number-handler-wrap
+  .ant-input-number-handler {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: auto;
+  margin-right: -14px;
+  padding-right: 3px 10px !important;
+  height: 40%;
+  border: 1px solid #e1e1e1;
+  color: blue !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 :where(.css-dev-only-do-not-override-1drr2mu).ant-input-number
   .ant-input-number-handler-up-inner
   svg,
@@ -521,4 +538,22 @@ span.package-icon-style {
 /* select dropdown border select */
 .Select-type .css-13cymwt-control {
   border: 1px solid #e1e1e1 !important;
+}
+
+.ant-table-wrapper.cashFLowClass
+  .ant-table
+  .ant-table-thead
+  > tr
+  > th
+  .ant-table-column-sorter {
+  display: none;
+}
+
+.ant-table-wrapper.outstandingFlow
+  .ant-table
+  .ant-table-thead
+  > tr
+  > th
+  .ant-table-column-sorter {
+  display: none;
 }

@@ -4,8 +4,21 @@
   background-color: #fff !important;
   padding: 0 14px;
   top: 15px !important;
-  height: 590px;
+  height: 580px;
   min-width: 400px;
+  /* width: 400px; */
+  border: 1px solid #e1e1e1 !important;
+}
+
+body[dir="rtl"] .packagecard {
+  position: relative;
+  border-radius: 4px;
+  background-color: #fff !important;
+  padding: 0 14px;
+  top: 15px !important;
+  height: 580px;
+  min-width: 400px;
+  margin-right: 11px;
   /* width: 400px; */
   border: 1px solid #e1e1e1 !important;
 }
@@ -116,8 +129,8 @@
 
 .Specific-width-scroller {
   display: flex;
-  width: 100% !important;
-  max-width: 80vw !important;
+  width: 120% !important;
+  max-width: 100vw !important;
   gap: 20px;
   height: 620px !important;
   overflow-y: hidden !important;
@@ -149,4 +162,6 @@
 
 .give-zindexing {
   z-index: 1 !important;
+  background: #f6fafd;
+  height: 81.5vh;
 }

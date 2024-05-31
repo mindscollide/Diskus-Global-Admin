@@ -10,12 +10,17 @@ import {
 } from "../../components/elements";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
+import SortAscending from "../../assets/images/OutletImages/SorterIconAscend.png";
+import SortDescending from "../../assets/images/OutletImages/SorterIconDescend.png";
+
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Spin } from "antd";
 import Select from "react-select";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +33,10 @@ import {
 import { Dropdown, Menu, Tag } from "antd";
 import moment from "moment";
 import { DownOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  getCashFlowMainApi,
+  getCashOutStandingFlowMainApi,
+} from "../../store/Actions/GlobalAdminDashboardActions";
 // import FlagCountryName from "./CountryFlagFunctionality/CountryFlag";
 
 const CashFlowSummary = () => {
@@ -39,6 +48,18 @@ const CashFlowSummary = () => {
 
   const calendRef = useRef();
 
+  //Get CashInFLow Reducer Data
+  const cashFlowData = useSelector(
+    (state) => state.globalAdminDashboardReducer.cashFlowData
+  );
+
+  //Get Cash Out Flow Reducer Data
+  const cashOutFlowData = useSelector(
+    (state) => state.globalAdminDashboardReducer.cashOutFlowData
+  );
+
+  console.log(cashOutFlowData, "cashFlowTablecashFlowTable");
+
   let currentLanguage = localStorage.getItem("currentLanguage");
   const local = currentLanguage === "en" ? "en-US" : "ar-SA";
 
@@ -46,12 +67,24 @@ const CashFlowSummary = () => {
   const [inflowTab, setInlowTab] = useState(true);
   const [outstandingTab, setOutstandingTab] = useState(false);
 
-  const [filterVisible, setFilterVisible] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(null);
+  // for cashflow table data state
+  const [cashFlowTable, setCashFlowTable] = useState([]);
 
-  const [yearFilterVisible, setYearFilterVisible] = useState(false);
+  // for total cash Inflow
+  const [totalInflow, setTotalInflow] = useState(0);
 
-  const [subscriptionFilter, setSubscriptionFilter] = useState(false);
+  // for cash OutFLow Table Data state
+  const [cashOutFlowTable, setCashOutFlowTable] = useState([]);
+
+  // for total outstanding cashFlow
+  const [totalOutstanding, setTotalOutstanding] = useState(0);
+
+  // for lazy Loading state
+  const [isRowsData, setSRowsData] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [isScroll, setIsScroll] = useState(false);
+
+  const [cashInFlowData, setCashInFlowData] = useState([]);
 
   const [searchBox, setSearchBox] = useState(false);
 
@@ -83,289 +116,256 @@ const CashFlowSummary = () => {
     },
   });
 
+  // cash flow sorting state
+  const [sortCashFlow, setSortCashFlow] = useState(null);
+
+  // cash Out Flow sorting state
+  const [sortCashOutFlow, setSortCashOutFlow] = useState(null);
+
   const HandleopenSearchBox = () => {
     setSearchBox(!searchBox);
   };
 
-  const handleMenuClick = (e) => {
-    setSelectedMonth(e.key);
-    setFilterVisible(false);
-  };
+  // fetch Data from cashIn flow reducer
+  // useEffect(() => {
+  //   if (cashFlowData !== null) {
+  //     setTotalInflow(cashFlowData.result.totalCashFlows);
+  //     if (cashFlowData.result.cashFlows.length > 0) {
+  //       setCashFlowTable(cashFlowData.result.cashFlows);
+  //     } else {
+  //       console.log("Nothing");
+  //       setCashFlowTable([]);
+  //     }
+  //   } else {
+  //     setCashFlowTable(0);
+  //     console.log("Nothing");
+  //   }
+  // }, [cashFlowData]);
 
-  const handleCloseTag = () => {
-    setSelectedMonth(null);
-  };
+  // To show lazy loading scroller
 
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="January">January</Menu.Item>
-      <Menu.Item key="February">February</Menu.Item>
-      <Menu.Item key="March">March</Menu.Item>
-      <Menu.Item key="April">April</Menu.Item>
-      <Menu.Item key="May">May</Menu.Item>
-      <Menu.Item key="June">June</Menu.Item>
-      <Menu.Item key="July">July</Menu.Item>
-      <Menu.Item key="August">August</Menu.Item>
-      <Menu.Item key="September">September</Menu.Item>
-      <Menu.Item key="October">October</Menu.Item>
-      <Menu.Item key="November">November</Menu.Item>
-      <Menu.Item key="December">December</Menu.Item>
+  useEffect(() => {
+    if (cashFlowData !== null && cashFlowData !== undefined) {
+      if (
+        cashFlowData.result.cashFlows.length > 0 &&
+        cashFlowData.result.totalCount > 0
+      ) {
+        if (isScroll) {
+          setIsScroll(false);
+          let dataCopy = [...cashInFlowData];
+          cashFlowData.result.cashFlows.forEach((data, index) => {
+            dataCopy.push(data);
+          });
+          setCashInFlowData(dataCopy);
+          setSRowsData((prev) => prev + cashFlowData.result.cashFlows.length);
+          setTotalRecords(cashFlowData.result.totalCount);
+        } else {
+          setCashInFlowData(cashFlowData.result.cashFlows);
+          setTotalRecords(cashFlowData.result.totalCount);
+          setSRowsData(cashFlowData.result.cashFlows.length);
+        }
+      } else {
+        setCashInFlowData([]);
+        setTotalRecords(0);
+        setSRowsData(0);
+      }
+      setTotalInflow(cashFlowData.result.totalCashFlows);
+    }
+  }, [cashFlowData]);
 
-      {/* Add other months as needed */}
-    </Menu>
-  );
+  // fetch cashflow Api Data
+  useEffect(() => {
+    let data = {
+      OrganizationName: "",
+      DateFrom: "",
+      DateTo: "",
+      sRow: 1,
+      eRow: 100,
+    };
+    dispatch(getCashFlowMainApi({ data, navigate, t }));
+  }, []);
 
-  const handleMenuYearClick = (e) => {
-    console.log("Selected year:", e.key);
-    setYearFilterVisible(false);
-  };
-
-  const menuYear = (
-    <Menu onClick={handleMenuYearClick}>
-      <Menu.Item key="2010">2010</Menu.Item>
-      <Menu.Item key="2011">2011</Menu.Item>
-      <Menu.Item key="2012">2012</Menu.Item>
-      <Menu.Item key="2013">2013</Menu.Item>
-      <Menu.Item key="2014">2014</Menu.Item>
-      <Menu.Item key="2015">2015</Menu.Item>
-      <Menu.Item key="2016">2016</Menu.Item>
-      <Menu.Item key="2017">2017</Menu.Item>
-      <Menu.Item key="2018">2018</Menu.Item>
-
-      {/* Add other months as needed */}
-    </Menu>
-  );
-
-  const handleSubscriptionClick = () => {
-    setSubscriptionFilter(false);
-  };
-
-  const menuSubscription = (
-    <Menu onClick={handleSubscriptionClick}>
-      <Menu.Item key="Monthly">Monthly</Menu.Item>
-      <Menu.Item key="Quarterly">Quarterly</Menu.Item>
-      <Menu.Item key="Yearly">Yearly</Menu.Item>
-
-      {/* Add other months as needed */}
-    </Menu>
-  );
-
-  //cash flow dummy data
-  const dummyData = [
-    {
-      organizationName: "Organization 1",
-      Invoice: "INV-001",
-      Invoicemonth: "January",
-      Invoiceyear: 2024,
-      Essential: 100,
-      Professional: 200,
-      Premium: 300,
-      Subscription: 600,
-      Amount: t("1200$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1440$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1440$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1440$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1440$"),
-    },
-  ];
-
-  //outsanding dummy data
-  const outstandingDummyData = [
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1440$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1440$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1440$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1840$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1760$"),
-    },
-    {
-      organizationName: "Organization 2",
-      Invoice: "INV-002",
-      Invoicemonth: "February",
-      Invoiceyear: 2024,
-      Essential: 120,
-      Professional: 240,
-      Premium: 360,
-      Subscription: 720,
-      Amount: t("1990$"),
-    },
-  ];
+  // fetch Data from Cash Out Flow Reducer
+  useEffect(() => {
+    if (cashOutFlowData !== null) {
+      setTotalOutstanding(cashOutFlowData.result.totalCashFlows);
+      if (cashOutFlowData.result.cashFlows.length > 0) {
+        setCashOutFlowTable(cashOutFlowData.result.cashFlows);
+      } else {
+        console.log("No Cash Out Flow");
+      }
+    } else {
+      console.log("Nothing");
+    }
+  }, [cashOutFlowData]);
 
   // cash flow column
   const cashFlowColumn = [
     {
-      title: t("Organization-name"),
-      dataIndex: "organizationName",
-      key: "organizationName",
-      align: "left",
-      ellipsis: true,
-      width: 180,
-      render: (text, record) => (
+      title: (
         <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
+          <span>
+            {t("Organization-name")}{" "}
+            {sortCashFlow === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
         </>
       ),
+      dataIndex: "organizationName",
+      key: "organizationName",
+      ellipsis: true,
+      width: "200px",
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      sortCashFlow,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortCashFlow((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Invoice"),
-      dataIndex: "Invoice",
-      key: "Invoice",
-      align: "left",
-      ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
-    },
-    {
-      title: selectedMonth ? (
-        <Tag
-          color="blue"
-          closable
-          // className={styles["selected-class"]}
-          onClose={handleCloseTag}
-          closeIcon={<CloseOutlined />}
-        >
-          {selectedMonth}
-        </Tag>
-      ) : (
-        <Dropdown
-          overlay={menu}
-          trigger={["click"]}
-          visible={filterVisible}
-          onVisibleChange={(visible) => setFilterVisible(visible)}
-          className={styles["dropdown-arrow"]}
-        >
-          <span>
-            {t("Invoice-month")}
-            <span className={styles["arrow-aside"]}>
-              <DownOutlined />
-            </span>
-          </span>
-        </Dropdown>
-      ),
-      dataIndex: "Invoicemonth",
-      key: "Invoicemonth",
+      dataIndex: "invoiceNo",
+      key: "invoiceNo",
       align: "center",
       ellipsis: true,
-      width: 150,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
-      title: (
-        <Dropdown
-          overlay={menuYear}
-          trigger={["click"]}
-          visible={yearFilterVisible}
-          onVisibleChange={(visible) => setYearFilterVisible(visible)}
-          className={styles["dropdown-arrow"]}
-        >
-          <span>
-            {t("Invoice-year")}
-            <span className={styles["arrow-aside"]}>
-              <DownOutlined />
-            </span>
-          </span>
-        </Dropdown>
-      ),
+      title: t("Invoice-month"),
+      dataIndex: "invoiceDate",
+      key: "invoiceDate",
+      align: "center",
+      filters: [
+        {
+          text: "January",
+          value: "January",
+        },
+        {
+          text: "February",
+          value: "February",
+        },
+        {
+          text: "March",
+          value: "March",
+        },
+        {
+          text: "April",
+          value: "April",
+        },
+        {
+          text: "May",
+          value: "May",
+        },
+        {
+          text: "June",
+          value: "June",
+        },
+        {
+          text: "July",
+          value: "July",
+        },
+        {
+          text: "August",
+          value: "August",
+        },
+        {
+          text: "September",
+          value: "September",
+        },
+        {
+          text: "October",
+          value: "October",
+        },
+        {
+          text: "November",
+          value: "November",
+        },
+        {
+          text: "December",
+          value: "December",
+        },
+      ],
+      onFilter: (value, record) => record.Invoicemonth.indexOf(value) === 0,
+      ellipsis: true,
+      sortDirections: ["descend"],
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
+    },
+    {
+      title: t("Invoice-year"),
       dataIndex: "Invoiceyear",
       key: "Invoiceyear",
       align: "center",
-      width: 150,
+      filters: [
+        {
+          text: "2010",
+          value: 2010,
+        },
+        {
+          text: "2011",
+          value: 2011,
+        },
+        {
+          text: "2012",
+          value: 2012,
+        },
+        {
+          text: "2013",
+          value: 2013,
+        },
+        {
+          text: "2014",
+          value: 2014,
+        },
+        {
+          text: "2015",
+          value: 2015,
+        },
+        {
+          text: "2016",
+          value: 2016,
+        },
+        {
+          text: "2017",
+          value: 2017,
+        },
+        {
+          text: "2018",
+          value: 2018,
+        },
+      ],
+      onFilter: (value, record) => record.Invoiceyear === value,
+      ellipsis: true,
+      sortDirections: ["descend"],
       render: (text, record) => (
         <>
           <span className={styles["cashflow-column-title"]}>{text}</span>
@@ -374,173 +374,256 @@ const CashFlowSummary = () => {
     },
     {
       title: t("Essential"),
-      dataIndex: "Essential",
-      key: "Essential",
+      dataIndex: "essential",
+      key: "essential",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Professional"),
-      dataIndex: "Professional",
-      key: "Professional",
+      dataIndex: "professional",
+      key: "professional",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Premium"),
-      dataIndex: "Premium",
-      key: "Premium",
+      dataIndex: "premium",
+      key: "premium",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
-      title: (
-        <Dropdown
-          overlay={menuSubscription}
-          trigger={["click"]}
-          visible={subscriptionFilter}
-          onVisibleChange={(visible) => setSubscriptionFilter(visible)}
-          className={styles["dropdown-arrow"]}
-        >
-          <span>
-            {t("Subscription")}
-            <span className={styles["arrow-aside"]}>
-              <DownOutlined />
-            </span>
-          </span>
-        </Dropdown>
-      ),
-      dataIndex: "Subscription",
-      key: "Subscription",
-      align: "center",
+      title: t("Subscription"),
+      dataIndex: "tenure",
+      key: "tenure",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      filters: [
+        {
+          text: "Yearly",
+          value: "Yearly",
+        },
+        {
+          text: "Monthly",
+          value: "Monthly",
+        },
+        {
+          text: "Quarterly",
+          value: "Quarterly",
+        },
+      ],
+      onFilter: (value, record) => record.tenure.indexOf(value) === 0,
+      align: "center",
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Amount"),
-      dataIndex: "Amount",
-      key: "Amount",
+      dataIndex: "amount",
+      key: "amount",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-amount"]}>{text}</span>
-        </>
-      ),
+
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
   ];
 
   //Outstanding Column
   const OutstandingColumn = [
     {
-      title: t("Organization-name"),
-      dataIndex: "organizationName",
-      key: "organizationName",
-      align: "left",
-      ellipsis: true,
-      width: 180,
-      render: (text, record) => (
+      title: (
         <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
+          <span>
+            {t("Organization-name")}{" "}
+            {sortCashOutFlow === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
         </>
       ),
+      dataIndex: "organizationName",
+      key: "organizationName",
+      ellipsis: true,
+      width: "200px",
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      sortCashOutFlow,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortCashOutFlow((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Invoice"),
-      dataIndex: "Invoice",
-      key: "Invoice",
-      align: "left",
-      ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
-    },
-    {
-      title: selectedMonth ? (
-        <Tag
-          color="blue"
-          closable
-          // className={styles["selected-class"]}
-          onClose={handleCloseTag}
-          closeIcon={<CloseOutlined />}
-        >
-          {selectedMonth}
-        </Tag>
-      ) : (
-        <Dropdown
-          overlay={menu}
-          trigger={["click"]}
-          visible={filterVisible}
-          onVisibleChange={(visible) => setFilterVisible(visible)}
-          className={styles["dropdown-arrow"]}
-        >
-          <span>
-            {t("Invoice-month")}
-            <span className={styles["arrow-aside"]}>
-              <DownOutlined />
-            </span>
-          </span>
-        </Dropdown>
-      ),
-      dataIndex: "Invoicemonth",
-      key: "Invoicemonth",
+      dataIndex: "invoiceNo",
+      key: "invoiceNo",
       align: "center",
       ellipsis: true,
-      width: 150,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
-      title: (
-        <Dropdown
-          overlay={menuYear}
-          trigger={["click"]}
-          visible={yearFilterVisible}
-          onVisibleChange={(visible) => setYearFilterVisible(visible)}
-          className={styles["dropdown-arrow"]}
-        >
-          <span>
-            {t("Invoice-year")}
-            <span className={styles["arrow-aside"]}>
-              <DownOutlined />
-            </span>
-          </span>
-        </Dropdown>
-      ),
+      title: t("Invoice-month"),
+      dataIndex: "invoiceDate",
+      key: "invoiceDate",
+      align: "center",
+      ellipsis: true,
+      filters: [
+        {
+          text: "January",
+          value: "January",
+        },
+        {
+          text: "February",
+          value: "February",
+        },
+        {
+          text: "March",
+          value: "March",
+        },
+        {
+          text: "April",
+          value: "April",
+        },
+        {
+          text: "May",
+          value: "May",
+        },
+        {
+          text: "June",
+          value: "June",
+        },
+        {
+          text: "July",
+          value: "July",
+        },
+        {
+          text: "August",
+          value: "August",
+        },
+        {
+          text: "September",
+          value: "September",
+        },
+        {
+          text: "October",
+          value: "October",
+        },
+        {
+          text: "November",
+          value: "November",
+        },
+        {
+          text: "December",
+          value: "December",
+        },
+      ],
+      onFilter: (value, record) => record.Invoicemonth.indexOf(value) === 0,
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
+    },
+    {
+      title: t("Invoice-year"),
       dataIndex: "Invoiceyear",
       key: "Invoiceyear",
       align: "center",
-      width: 150,
+      filters: [
+        {
+          text: "2010",
+          value: 2010,
+        },
+        {
+          text: "2011",
+          value: 2011,
+        },
+        {
+          text: "2012",
+          value: 2012,
+        },
+        {
+          text: "2013",
+          value: 2013,
+        },
+        {
+          text: "2014",
+          value: 2014,
+        },
+        {
+          text: "2015",
+          value: 2015,
+        },
+        {
+          text: "2022",
+          value: 2022,
+        },
+        {
+          text: "2024",
+          value: 2024,
+        },
+        {
+          text: "2021",
+          value: 2021,
+        },
+      ],
+      onFilter: (value, record) => record.Invoiceyear === value,
       render: (text, record) => (
         <>
           <span className={styles["cashflow-column-title"]}>{text}</span>
@@ -549,83 +632,88 @@ const CashFlowSummary = () => {
     },
     {
       title: t("Essential"),
-      dataIndex: "Essential",
-      key: "Essential",
+      dataIndex: "essential",
+      key: "essential",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Professional"),
-      dataIndex: "Professional",
-      key: "Professional",
+      dataIndex: "professional",
+      key: "professional",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Premium"),
-      dataIndex: "Premium",
-      key: "Premium",
+      dataIndex: "premium",
+      key: "premium",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
-      title: (
-        <Dropdown
-          overlay={menuSubscription}
-          trigger={["click"]}
-          visible={subscriptionFilter}
-          onVisibleChange={(visible) => setSubscriptionFilter(visible)}
-          className={styles["dropdown-arrow"]}
-        >
-          <span>
-            {t("Subscription")}
-            <span className={styles["arrow-aside"]}>
-              <DownOutlined />
-            </span>
-          </span>
-        </Dropdown>
-      ),
-      dataIndex: "Subscription",
-      key: "Subscription",
+      title: t("Subscription"),
+      dataIndex: "tenure",
+      key: "tenure",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      filters: [
+        {
+          text: "Yearly",
+          value: "Yearly",
+        },
+        {
+          text: "Monthly",
+          value: "Monthly",
+        },
+        {
+          text: "Quarterly",
+          value: "Quarterly",
+        },
+      ],
+      onFilter: (value, record) => record.Subscription.indexOf(value) === 0,
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Amount"),
-      dataIndex: "Amount",
-      key: "Amount",
+      dataIndex: "amount",
+      key: "amount",
       align: "center",
       ellipsis: true,
-      width: 100,
-      render: (text, record) => (
-        <>
-          <span className={styles["oustanding-column-amount"]}>{text}</span>
-        </>
-      ),
+      render: (text, response) => {
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{text}</span>
+          </>
+        );
+      },
     },
   ];
 
@@ -641,14 +729,57 @@ const CashFlowSummary = () => {
     }
   }, [currentLanguage]);
 
+  // tab button of cash IN Flow
   const inflowClick = () => {
     setInlowTab(true);
     setOutstandingTab(false);
   };
 
+  // tab button of outstanding cash Flow
   const outstandingClick = () => {
     setOutstandingTab(true);
     setInlowTab(false);
+    let data = {
+      OrganizationName: "",
+      DateFrom: "",
+      DateTo: "",
+      sRow: 1,
+      eRow: 100,
+    };
+    dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
+  };
+
+  // handle scroll for lazy loader
+  const handleScroll = () => {
+    if (isRowsData <= totalRecords) {
+      setIsScroll(true);
+      let data = {
+        OrganizationName: "",
+        DateFrom: "",
+        DateTo: "",
+        sRow: Number(isRowsData),
+        // sRow: 1,
+        eRow: 100,
+      };
+      dispatch(getCashFlowMainApi({ data, navigate, t }));
+    } else {
+      setIsScroll(false);
+    }
+  };
+
+  // handle scroll for lazy loader
+  const handleCashOutScroll = () => {
+    if (isRowsData <= totalRecords) {
+      setIsScroll(true);
+      let data = {
+        OrganizationName: "",
+        DateFrom: "",
+        DateTo: "",
+        sRow: 1,
+        eRow: 100,
+      };
+      dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
+    }
   };
 
   const handleCancelSearchbox = () => {
@@ -832,61 +963,112 @@ const CashFlowSummary = () => {
             </div>
             {inflowTab ? (
               <>
-                <Table
-                  column={cashFlowColumn}
-                  pagination={false}
-                  rows={dummyData}
-                  footer={false}
-                  className={"userlogin_history_tableP"}
-                  size={"medium"}
-                />
-                <div className={styles["top-cashflow-border"]}>
-                  <Row>
-                    <Col
-                      sm={11}
-                      md={11}
-                      lg={11}
-                      className={styles["cashflow-bottom-text"]}
-                    >
-                      <span className={styles["total-text"]}>
-                        Total Cash Inflows:{" "}
-                        <span className={styles["total-amount-text"]}>
-                          10,000$
+                <InfiniteScroll
+                  dataLength={cashInFlowData.length}
+                  next={handleScroll}
+                  height={"60vh"}
+                  hasMore={
+                    cashInFlowData.length === totalRecords ? false : true
+                  }
+                  loader={
+                    isRowsData <= totalRecords && isScroll ? (
+                      <>
+                        <Row>
+                          <Col
+                            sm={12}
+                            md={12}
+                            lg={12}
+                            className="d-flex justify-content-center mt-2"
+                          >
+                            <Spin />
+                          </Col>
+                        </Row>
+                      </>
+                    ) : null
+                  }
+                  // scrollableTarget="scrollableDiv"
+                >
+                  <Table
+                    column={cashFlowColumn}
+                    pagination={false}
+                    rows={cashInFlowData}
+                    footer={false}
+                    className="cashFLowClass"
+                    // scroll={{
+                    //   x: false,
+                    // }}
+                  />
+                  <div className={styles["top-cashflow-border"]}>
+                    <Row>
+                      <Col
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        className={styles["cashflow-bottom-text"]}
+                      >
+                        <span className={styles["total-text"]}>
+                          Total Cash Inflows:{" "}
+                          <span className={styles["total-amount-text"]}>
+                            {`${totalInflow}${"$"}`}
+                          </span>
                         </span>
-                      </span>
-                    </Col>
-                    <Col lg={1} md={1} sm={1} />
-                  </Row>
-                </div>
+                      </Col>
+                    </Row>
+                  </div>
+                </InfiniteScroll>
               </>
             ) : outstandingTab ? (
               <>
-                <Table
-                  column={OutstandingColumn}
-                  pagination={false}
-                  rows={outstandingDummyData}
-                  footer={false}
-                  className={"userlogin_history_tableP"}
-                  size={"medium"}
-                />
-                <div className={styles["top-cashflow-border"]}>
-                  <Row>
-                    <Col
-                      sm={11}
-                      md={11}
-                      lg={11}
-                      className={styles["cashflow-bottom-text"]}
-                    >
-                      <span className={styles["total-text"]}>
-                        Total Outstanding:{" "}
-                        <span className={styles["total-amount-outstanding"]}>
-                          15,000$
+                <InfiniteScroll
+                  dataLength={cashOutFlowTable.length}
+                  next={handleCashOutScroll}
+                  height={"20vh"}
+                  hasMore={
+                    cashOutFlowTable.length === totalRecords ? false : true
+                  }
+                  loader={
+                    isRowsData <= totalRecords && isScroll ? (
+                      <>
+                        <Row>
+                          <Col
+                            sm={12}
+                            md={12}
+                            lg={12}
+                            className="d-flex justify-content-center mt-2"
+                          >
+                            <Spin />
+                          </Col>
+                        </Row>
+                      </>
+                    ) : null
+                  }
+                  // scrollableTarget="scrollableDiv"
+                >
+                  <Table
+                    column={OutstandingColumn}
+                    pagination={false}
+                    rows={cashOutFlowTable}
+                    footer={false}
+                    className={"outstandingFlow"}
+                  />
+                  <div className={styles["top-cashflow-border"]}>
+                    <Row>
+                      <Col
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        className={styles["cashflow-bottom-text"]}
+                      >
+                        <span className={styles["total-text"]}>
+                          Total Outstanding:{" "}
+                          <span className={styles["total-amount-outstanding"]}>
+                            {`${totalOutstanding}${"$"}`}
+                          </span>
                         </span>
-                      </span>
-                    </Col>
-                    <Col lg={1} md={1} sm={1} />
-                  </Row>
-                </div>
+                      </Col>
+                    </Row>
+                  </div>
+                </InfiniteScroll>
               </>
             ) : null}
           </Col>

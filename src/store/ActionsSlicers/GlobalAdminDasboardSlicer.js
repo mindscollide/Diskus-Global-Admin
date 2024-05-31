@@ -13,6 +13,10 @@ import {
   GetSystemConfigurationsApi,
   UpdateAllOrganizationLevelConfigurationApi,
   ChangePasswordApi,
+  getCashFlowMainApi,
+  getCashOutStandingFlowMainApi,
+  getListTrialSubscription,
+  getListOfExtendedTrailSubscriptions,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -29,6 +33,10 @@ const initialState = {
   GetSystemConfigurationsData: [],
   UpdateAllOrganizationLevelConfigurationData: null,
   changePasswordData: null,
+  cashFlowData: null,
+  cashOutFlowData: null,
+  listOfTrialSubscription: null,
+  listOfTrialExtendedSubscription: null,
   Responsemessage: "",
 };
 
@@ -224,7 +232,65 @@ const globalAdminDashboardReducer = createSlice({
       .addCase(ChangePasswordApi.rejected, (state, action) => {
         state.changePasswordData = null;
         state.Responsemessage = action.payload || "An error occurred";
-      });
+      })
+
+      //get cash IN Flow Api Reducer Data
+      .addCase(getCashFlowMainApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(getCashFlowMainApi.fulfilled, (state, action) => {
+        state.cashFlowData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getCashFlowMainApi.rejected, (state, action) => {
+        state.cashFlowData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //get cash OUT Flow Api Reducer Data
+      .addCase(getCashOutStandingFlowMainApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(getCashOutStandingFlowMainApi.fulfilled, (state, action) => {
+        state.cashOutFlowData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getCashOutStandingFlowMainApi.rejected, (state, action) => {
+        state.cashOutFlowData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //get List Of Trial Subscription Trial Api Reducer Data
+      .addCase(getListTrialSubscription.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(getListTrialSubscription.fulfilled, (state, action) => {
+        state.listOfTrialSubscription = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getListTrialSubscription.rejected, (state, action) => {
+        state.listOfTrialSubscription = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //get List Of Trial Extended Subscription Trial Api Reducer Data
+      .addCase(getListOfExtendedTrailSubscriptions.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(
+        getListOfExtendedTrailSubscriptions.fulfilled,
+        (state, action) => {
+          state.listOfTrialExtendedSubscription = action.payload;
+          state.Responsemessage = "Success";
+        }
+      )
+      .addCase(
+        getListOfExtendedTrailSubscriptions.rejected,
+        (state, action) => {
+          state.listOfTrialExtendedSubscription = null;
+          state.Responsemessage = action.payload || "An error occurred";
+        }
+      );
   },
 });
 

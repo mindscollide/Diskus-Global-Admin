@@ -200,11 +200,11 @@
   "Push-notification-when-committee-is-active": "Notify when Committee becomes Active",
   "Global-level-configuration": "Global Level Configurations",
   "Cash-flow-summary": "Cash Flow Summary",
-  "Invoice": "Invoice #",
-  "Invoice-month": "Invoice Month",
-  "Invoice-year": "Invoice Year",
-  "Subscription": "Subscription",
-  "Amount": "Amount",
+  "Invoice": "فاتورة #",
+  "Invoice-month": "شهر الفاتورة",
+  "Invoice-year": "سنة الفاتورة",
+  "Subscription": "الاشتراك",
+  "Amount": "كمية",
   "Trial-renew": "Trial Renew",
   "Add-days": "Add Days",
   "Subscription-renew": "Subscription Renew",
@@ -225,5 +225,8 @@
   "Functional-settings": "Functional Settings",
   "User-account-settings": "User Account Setting",
   "Organization-account-settings": "User Account Settings",
-  "Sms-settings": "SMS Settings"
+  "Sms-settings": "SMS Settings",
+  "No-billing-due": "No Billing Due",
+  "No-payment-due-for-this-organization": "No Payment Due for This Organization",
+  "Total-due": "Total Due"
 }

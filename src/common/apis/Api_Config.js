@@ -97,6 +97,26 @@ const GlobalAdminLogout = {
   RequestMethod: "ServiceManager.LogOut",
 };
 
+// for cashFLow services
+const cashInFlow = {
+  RequestMethod: "ServiceManager.GetCashFlows",
+};
+
+// for cashOutstanding Flow services
+const cashOutFlow = {
+  RequestMethod: "ServiceManager.GetCashOutFlows",
+};
+
+//For listofTrialSubscription on Trial api
+const trialDashboardApi = {
+  RequestMethod: "ServiceManager.ListOfTrialSubscriptions",
+};
+
+//For ListOfExtendedTrailSubscriptions on Trial Extended Api
+const trialExtendedDashboardApi = {
+  RequestMethod: "ServiceManager.ListOfExtendedTrailSubscriptions",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -120,4 +140,8 @@ export {
   UpdateAllOrganizationLevelConfiguration,
   ChangePassword,
   GlobalAdminLogout,
+  cashInFlow,
+  cashOutFlow,
+  trialDashboardApi,
+  trialExtendedDashboardApi,
 };

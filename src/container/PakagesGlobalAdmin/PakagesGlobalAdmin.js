@@ -204,24 +204,23 @@ const PakagesGlobalAdmin = () => {
                       </Row>
                     );
                   })}
+                  <div>
+                    <span
+                      className={styles["create-border"]}
+                      onClick={openAddPackageModal}
+                    >
+                      <span className={styles["Plus-Icon"]}>+</span>
+                      <br />
+                      <span className={styles["create-heading"]}>
+                        {t("create")}
+                        <br />
+                        {t("New-Package")}
+                      </span>
+                    </span>
+                  </div>
                 </div>
               </Col>
             </Row>
-          </Col>
-
-          <Col lg={2} md={2} sm={2}>
-            <span
-              className={styles["create-border"]}
-              onClick={openAddPackageModal}
-            >
-              <span className={styles["Plus-Icon"]}>+</span>
-              <br />
-              <span className={styles["create-heading"]}>
-                {t("create")}
-                <br />
-                {t("New-Package")}
-              </span>
-            </span>
           </Col>
         </Row>
         <Row>

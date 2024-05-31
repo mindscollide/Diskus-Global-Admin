@@ -225,6 +225,9 @@
   "Mail-settings": "Mail Settings",
   "Functional-settings": "Functional Settings",
   "User-account-settings": "User Account Setting",
-  "Organization-account-settings": "User Account Settings",
-  "Sms-settings": "SMS Settings"
+  "Organization-account-settings": "Organization Account Settings",
+  "Sms-settings": "SMS Settings",
+  "No-billing-due": "No Billing Due",
+  "No-payment-due-for-this-organization": "No Payment Due for This Organization",
+  "Total-due": "Total Due"
 }
