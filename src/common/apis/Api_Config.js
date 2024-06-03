@@ -117,6 +117,41 @@ const trialExtendedDashboardApi = {
   RequestMethod: "ServiceManager.ListOfExtendedTrailSubscriptions",
 };
 
+//For ListOfSubscribedSubscriptions on Subscribed Api
+const listOfSubscribedSubscriptionsApi = {
+  RequestMethod: "ServiceManager.ListOfSubscribedSubscriptions",
+};
+
+//For ListOfExpiredSubscriptions on Subscription Expired Api
+const listOfExpiredSubscriptionsApi = {
+  RequestMethod: "ServiceManager.ListOfExpiredSubscriptions",
+};
+
+// Trial Renew Modal
+const trialRenewModal = {
+  RequestMethod: "ServiceManager.TrailRenew",
+};
+
+// for download ListOfExtendedTrailSubscriptions report on subscribe trial
+const downloadTrialExtendedReport = {
+  RequestMethod: "ServiceManager.ListOfExtendedTrailSubscriptions",
+};
+
+// for download ListOfSubscribedSubscriptions report on subscribe trial
+const downloadTrialSubscribedReport = {
+  RequestMethod: "ServiceManager.ListOfSubscribedSubscriptions",
+};
+
+// for download ListOfExpiredTrialSubscriptions report on expired Subscription trial
+const downloadExpiredTrialSubscriptionReport = {
+  RequestMethod: "ServiceManager.ListOfExpiredSubscriptions",
+};
+
+// for Package Details Modal
+const getPackageDetailsModal = {
+  RequestMethod: "ServiceManager.GetPackageDetailsForGlobalAdmin",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -144,4 +179,11 @@ export {
   cashOutFlow,
   trialDashboardApi,
   trialExtendedDashboardApi,
+  listOfSubscribedSubscriptionsApi,
+  listOfExpiredSubscriptionsApi,
+  trialRenewModal,
+  downloadTrialExtendedReport,
+  downloadTrialSubscribedReport,
+  downloadExpiredTrialSubscriptionReport,
+  getPackageDetailsModal,
 };

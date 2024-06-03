@@ -17,6 +17,13 @@ import {
   getCashOutStandingFlowMainApi,
   getListTrialSubscription,
   getListOfExtendedTrailSubscriptions,
+  getListOfSubscribedSubscriptions,
+  getListOfExpiredSubscriptions,
+  trialRenewApi,
+  trialSubscribeReportApi,
+  trialExtendedReportApi,
+  trialSubscribeExpiredReportApi,
+  getPackageDetailGlobalApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -37,6 +44,10 @@ const initialState = {
   cashOutFlowData: null,
   listOfTrialSubscription: null,
   listOfTrialExtendedSubscription: null,
+  listofTrialSubscribeSubscription: null,
+  listOfExpiredSubscriptions: null,
+  trialRenew: null,
+  packageDetailModalData: null,
   Responsemessage: "",
 };
 
@@ -290,7 +301,92 @@ const globalAdminDashboardReducer = createSlice({
           state.listOfTrialExtendedSubscription = null;
           state.Responsemessage = action.payload || "An error occurred";
         }
-      );
+      )
+
+      //get List of Trial Subscribe Subscription Api Reducer Data
+      .addCase(getListOfSubscribedSubscriptions.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(getListOfSubscribedSubscriptions.fulfilled, (state, action) => {
+        state.listofTrialSubscribeSubscription = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getListOfSubscribedSubscriptions.rejected, (state, action) => {
+        state.listofTrialSubscribeSubscription = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //get List of Expired Subscription Api Reducer Data
+      .addCase(getListOfExpiredSubscriptions.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(getListOfExpiredSubscriptions.fulfilled, (state, action) => {
+        state.listOfExpiredSubscriptions = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getListOfExpiredSubscriptions.rejected, (state, action) => {
+        state.listOfExpiredSubscriptions = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //Trial Renew Api
+      .addCase(trialRenewApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(trialRenewApi.fulfilled, (state, action) => {
+        state.trialRenew = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(trialRenewApi.rejected, (state, action) => {
+        state.trialRenew = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      // Trial Extended Download Report Api
+      .addCase(trialExtendedReportApi.pending, (state) => {
+        // state.loading = false;
+      })
+      .addCase(trialExtendedReportApi.fulfilled, (state, action) => {
+        state.Responsemessage = "Success";
+      })
+      .addCase(trialExtendedReportApi.rejected, (state, action) => {
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      // Trial Subscribe Download Report Api
+      .addCase(trialSubscribeReportApi.pending, (state) => {
+        // state.loading = false;
+      })
+      .addCase(trialSubscribeReportApi.fulfilled, (state, action) => {
+        state.Responsemessage = "Success";
+      })
+      .addCase(trialSubscribeReportApi.rejected, (state, action) => {
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      // Trial Subscription Expired Download Report Api
+      .addCase(trialSubscribeExpiredReportApi.pending, (state) => {
+        // state.loading = false;
+      })
+      .addCase(trialSubscribeExpiredReportApi.fulfilled, (state, action) => {
+        state.Responsemessage = "Success";
+      })
+      .addCase(trialSubscribeExpiredReportApi.rejected, (state, action) => {
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //get PackageDetail Modal Api
+      .addCase(getPackageDetailGlobalApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(getPackageDetailGlobalApi.fulfilled, (state, action) => {
+        state.packageDetailModalData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getPackageDetailGlobalApi.rejected, (state, action) => {
+        state.packageDetailModalData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      });
   },
 });
 

@@ -24,6 +24,11 @@ import {
   SendInvoiceApi,
   getListTrialSubscription,
   getListOfExtendedTrailSubscriptions,
+  getListOfSubscribedSubscriptions,
+  getListOfExpiredSubscriptions,
+  trialSubscribeReportApi,
+  trialExtendedReportApi,
+  trialSubscribeExpiredReportApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -106,7 +111,18 @@ const GlobalAdminDashboard = () => {
     (state) => state.globalAdminDashboardReducer.listOfTrialExtendedSubscription
   );
 
-  console.log(listOfTrialExtendedSubscription, "TestingTesting");
+  //Reducer for listofTrialSubscribeSubscription to Show in Subscribed Subscription table
+  const listofTrialSubscribeSubscription = useSelector(
+    (state) =>
+      state.globalAdminDashboardReducer.listofTrialSubscribeSubscription
+  );
+
+  //Reducer for listOfExpiredSubscriptions to Show in Expired Subscription table
+  const listOfExpiredSubscriptions = useSelector(
+    (state) => state.globalAdminDashboardReducer.listOfExpiredSubscriptions
+  );
+
+  console.log(listofTrialSubscribeSubscription, "listofTriallistofTrial");
 
   const [isOpen, setIsOpen] = useState(true);
   const [isOpenCalender, setIsOpenCalender] = useState(false);
@@ -237,6 +253,12 @@ const GlobalAdminDashboard = () => {
   const [startDate, setStartDate] = useState(formattedCurrentDate);
   const [endDate, setEndDate] = useState(null);
 
+  //send trial renew data in modal state
+  const [trialRenewOrganizationId, setTrialRenewOrganizationId] = useState(0);
+  const [trialRenewOrganizationName, setTrialRenewOrganizationName] =
+    useState("");
+  const [trialRenewRemainingDays, setTrialRenewRemainingDays] = useState(0);
+
   //Clicking outside closing Calender
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -270,6 +292,26 @@ const GlobalAdminDashboard = () => {
       length: 15,
     };
     dispatch(getListOfExtendedTrailSubscriptions({ data, navigate, t }));
+  }, []);
+
+  // useEffect for getListOfSubscribedSubscriptions for Subscribed Tab
+  useEffect(() => {
+    let data = {
+      OrganizationName: "",
+      PageNumber: 1,
+      length: 15,
+    };
+    dispatch(getListOfSubscribedSubscriptions({ data, navigate, t }));
+  }, []);
+
+  // useEffect for getListOfExpiredSubscriptions Subscribed Expired Tab
+  useEffect(() => {
+    let data = {
+      OrganizationName: "",
+      PageNumber: 1,
+      length: 15,
+    };
+    dispatch(getListOfExpiredSubscriptions({ data, navigate, t }));
   }, []);
 
   //Calling StatsOfActiveLicenseApi
@@ -511,20 +553,20 @@ const GlobalAdminDashboard = () => {
   useEffect(() => {
     try {
       if (
-        OrganizationStatsTableDataReducer?.result.listOfSubscribed !==
+        listofTrialSubscribeSubscription?.result.listOfSubscribed !==
           undefined &&
-        OrganizationStatsTableDataReducer?.result.listOfSubscribed !== null
+        listofTrialSubscribeSubscription?.result.listOfSubscribed !== null
       ) {
         if (
-          OrganizationStatsTableDataReducer?.result.listOfSubscribed.length >
+          listofTrialSubscribeSubscription?.result.listOfSubscribed.length >
             0 &&
-          OrganizationStatsTableDataReducer?.result.totalCount > 0
+          listofTrialSubscribeSubscription?.result.totalCount > 0
         ) {
           if (isScrollSubscribed) {
             setIsScrollSubscribed(false);
             //copy pf the rows of table
             let copyData = [...subscribedRow];
-            OrganizationStatsTableDataReducer?.result.listOfSubscribed.forEach(
+            listofTrialSubscribeSubscription?.result.listOfSubscribed.forEach(
               (data, index) => {
                 copyData.push(data);
               }
@@ -533,21 +575,20 @@ const GlobalAdminDashboard = () => {
             setSRowsDataSubscribed(
               (prev) =>
                 prev +
-                OrganizationStatsTableDataReducer?.result.listOfSubscribed
-                  .length
+                listofTrialSubscribeSubscription?.result.listOfSubscribed.length
             );
             setTotalRecordsSubscribed(
-              OrganizationStatsTableDataReducer?.result.totalCount
+              listofTrialSubscribeSubscription?.result.totalCount
             );
           } else {
             setSubscribedRow(
-              OrganizationStatsTableDataReducer?.result.listOfSubscribed
+              listofTrialSubscribeSubscription?.result.listOfSubscribed
             );
             setTotalRecordsSubscribed(
-              OrganizationStatsTableDataReducer.result.totalCount
+              listofTrialSubscribeSubscription.result.totalCount
             );
             setSRowsDataSubscribed(
-              OrganizationStatsTableDataReducer?.result.listOfSubscribed.length
+              listofTrialSubscribeSubscription?.result.listOfSubscribed.length
             );
           }
         } else {
@@ -557,7 +598,7 @@ const GlobalAdminDashboard = () => {
         }
       }
     } catch {}
-  }, [OrganizationStatsTableDataReducer]);
+  }, [listofTrialSubscribeSubscription]);
 
   //handle scroll function for lazy loading of Subscribed Table
   const handleScrollSubscribed = async (e) => {
@@ -578,21 +619,20 @@ const GlobalAdminDashboard = () => {
   useEffect(() => {
     try {
       if (
-        OrganizationStatsTableDataReducer?.result.listOfExpiredSubscription !==
+        listOfExpiredSubscriptions?.result.listOfExpiredSubscription !==
           undefined &&
-        OrganizationStatsTableDataReducer?.result.listOfExpiredSubscription !==
-          null
+        listOfExpiredSubscriptions?.result.listOfExpiredSubscription !== null
       ) {
         if (
-          OrganizationStatsTableDataReducer?.result.listOfExpiredSubscription
-            .length > 0 &&
-          OrganizationStatsTableDataReducer?.result.totalCount > 0
+          listOfExpiredSubscriptions?.result.listOfExpiredSubscription.length >
+            0 &&
+          listOfExpiredSubscriptions?.result.totalCount > 0
         ) {
           if (isScrollSubscriptionExpiry) {
             setIsScrollSubscriptionExpiry(false);
             //copy pf the rows of table
             let copyData = [...subscriptionExpiredRow];
-            OrganizationStatsTableDataReducer?.result.listOfExpiredSubscription.forEach(
+            listOfExpiredSubscriptions?.result.listOfExpiredSubscription.forEach(
               (data, index) => {
                 copyData.push(data);
               }
@@ -601,23 +641,22 @@ const GlobalAdminDashboard = () => {
             setSRowsDataSubscriptionExpiry(
               (prev) =>
                 prev +
-                OrganizationStatsTableDataReducer?.result
-                  .listOfExpiredSubscription.length
+                listOfExpiredSubscriptions?.result.listOfExpiredSubscription
+                  .length
             );
             setTotalRecordsSubscriptionExpiry(
-              OrganizationStatsTableDataReducer?.result.totalCount
+              listOfExpiredSubscriptions?.result.totalCount
             );
           } else {
             setSubscriptionExpiredRow(
-              OrganizationStatsTableDataReducer?.result
-                .listOfExpiredSubscription
+              listOfExpiredSubscriptions?.result.listOfExpiredSubscription
             );
             setTotalRecordsSubscriptionExpiry(
-              OrganizationStatsTableDataReducer?.result.totalCount
+              listOfExpiredSubscriptions?.result.totalCount
             );
             setSRowsDataSubscriptionExpiry(
-              OrganizationStatsTableDataReducer?.result
-                .listOfExpiredSubscription.length
+              listOfExpiredSubscriptions?.result.listOfExpiredSubscription
+                .length
             );
           }
         } else {
@@ -627,7 +666,7 @@ const GlobalAdminDashboard = () => {
         }
       }
     } catch {}
-  }, [OrganizationStatsTableDataReducer]);
+  }, [listOfExpiredSubscriptions]);
 
   //handle scroll function for lazy loading of Subscription Expiry Table
   const handleScrollSubscriptionExpiry = async (e) => {
@@ -1053,7 +1092,7 @@ const GlobalAdminDashboard = () => {
         <span className={styles["dashboard-table-insidetext"]}>
           <Button
             text={t("Send-invoice")}
-            onClick={() => openSendInvoiceModal(record)}
+            // onClick={() => openSendInvoiceModal(record)}
             className={styles["send-invoice-button"]}
           />
         </span>
@@ -1165,8 +1204,11 @@ const GlobalAdminDashboard = () => {
   };
 
   // to open renew modal
-  const onClickRenew = () => {
+  const onClickRenew = (record) => {
     dispatch(trialRenewOpenModal(true));
+    setTrialRenewOrganizationId(record.organizationId);
+    setTrialRenewOrganizationName(record.organizationName);
+    setTrialRenewRemainingDays(record.remainingDays);
   };
 
   // to open Subscription Renew Modal
@@ -1231,16 +1273,22 @@ const GlobalAdminDashboard = () => {
       ellipsis: true,
       // sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
       render: (text, record) => {
+        console.log(record, "recorddssstextttt");
         return (
           <>
-            <div className={styles["dashboard-user-dates"]}>
-              {text} {"Days"}
-            </div>
-            {/* <Button
-              text={t("Renew")}
-              className={styles["send-invoice-button"]}
-              onClick={onClickSubscriptionRenew}
-            /> */}
+            {record.remainingDays <= 7 ? (
+              <>
+                <Button
+                  text={t("Renew")}
+                  className={styles["send-invoice-button"]}
+                  onClick={() => onClickRenew(record)}
+                />
+              </>
+            ) : (
+              <div className={styles["dashboard-user-dates"]}>
+                {text} {"Days"}
+              </div>
+            )}
           </>
         );
       },
@@ -1323,25 +1371,31 @@ const GlobalAdminDashboard = () => {
   const subscriptionColumn = [
     {
       title: t("Organization-name"),
-      className: "random",
-      dataIndex: "Name",
-      key: "Name",
-      width: "200px",
-      align: "start",
+      dataIndex: "organizationName",
+      key: "organizationName",
+      align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.Name.localeCompare(b.Name),
+      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
     },
     {
       title: "",
       dataIndex: "ExpiryDate",
       key: "ExpiryDate",
-      width: "135px",
+      align: "right",
       render: (text, record) => {
         return (
           <>
             <Button
               text={t("Package-details")}
               className={styles["send-invoice-button"]}
+              onClick={() => openSendInvoiceModal(record)}
             />
           </>
         );
@@ -1349,61 +1403,8 @@ const GlobalAdminDashboard = () => {
     },
     {
       title: t("Expiration-date"),
-      dataIndex: "ExpiryDate",
-      className: "random",
-      key: "ExpiryDate",
-      width: "300px",
-      align: "center",
-      ellipsis: true,
-      sorter: (a, b) => a.ExpiryDate.localeCompare(b.ExpiryDate),
-      render: (text, record) => {
-        return (
-          <div className={styles["dashboard-user-dates"]}>
-            {convertUTCDateToLocalDate(text + "000000", currentLanguage)}
-          </div>
-        );
-      },
-    },
-    {
-      title: t("Remaining-days"),
-      dataIndex: "remaingDate",
-      className: "random",
-      key: "remaingDate",
-      width: "200px",
-      align: "center",
-      ellipsis: true,
-      sorter: (a, b) => a.remaingDate.localeCompare(b.remaingDate),
-      render: (text, record) => {
-        return (
-          <>
-            <Button
-              text={t("Renew")}
-              className={styles["send-invoice-button"]}
-              onClick={onClickSubscriptionRenew}
-            />
-          </>
-        );
-      },
-    },
-  ];
-
-  const subscriptionExpiry = [
-    {
-      title: t("Organization-name"),
-      dataIndex: "organizationName",
-      className: "random",
-      key: "organizationName",
-      width: "200px",
-      align: "start",
-      ellipsis: true,
-      sorter: (a, b) => a.Name.localeCompare(b.Name),
-    },
-    {
-      title: t("Trial-start-date"),
       dataIndex: "subscriptionStartDate",
-      className: "random",
       key: "subscriptionStartDate",
-      width: "110px",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
@@ -1417,11 +1418,66 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
+      title: t("Remaining-days"),
+      dataIndex: "remainingDays",
+      key: "remainingDays",
+      align: "center",
+      ellipsis: true,
+      // sorter: (a, b) => a.remainingDays.localeCompare(b.remainingDays),
+      render: (text, record) => {
+        return (
+          <>
+            <div className={styles["dashboard-user-dates"]}>
+              {text} {"Days"}
+            </div>
+            {/* <Button
+              text={t("Renew")}
+              className={styles["send-invoice-button"]}
+              onClick={onClickSubscriptionRenew}
+            /> */}
+          </>
+        );
+      },
+    },
+  ];
+
+  const subscriptionExpiry = [
+    {
+      title: t("Organization-name"),
+      dataIndex: "organizationName",
+      key: "organizationName",
+      align: "center",
+      ellipsis: true,
+      sorter: (a, b) => a.Name.localeCompare(b.Name),
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
+    },
+    {
+      title: "",
+      dataIndex: "ExpiryDate",
+      key: "ExpiryDate",
+      align: "center",
+      render: (text, record) => {
+        return (
+          <>
+            <Button
+              text={t("Package-details")}
+              className={styles["send-invoice-button"]}
+              // onClick={() => openSendInvoiceModal(record)}
+            />
+          </>
+        );
+      },
+    },
+    {
       title: t("Trial-end-date"),
-      className: "random",
       dataIndex: "subscriptionEndDate",
       key: "subscriptionEndDate",
-      width: "100px",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
@@ -1512,12 +1568,15 @@ const GlobalAdminDashboard = () => {
     {
       title: t("Organization-name"),
       className: "random",
-      dataIndex: "OrganizationName",
-      key: "OrganizationName",
+      dataIndex: "organizationName",
+      key: "organizationName",
       width: "200px",
       align: "start",
       ellipsis: true,
       sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+      render: (text, record) => {
+        return <span className={styles["dashboard-tabletext"]}>{text}</span>;
+      },
     },
     {
       title: t("Start-date"),
@@ -1771,6 +1830,33 @@ const GlobalAdminDashboard = () => {
   const handleCrossIcon = () => {
     setShowSearchedDate(false);
     setIsOpen(true);
+  };
+
+  // for Download Trial  Subscription Report
+  const downloadSubscriptionReport = () => {
+    let data = {
+      OrganizationName: "",
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(trialSubscribeReportApi({ data, navigate, t }));
+  };
+
+  //for Download Trial extended Report
+  const downloadTrialExtendedReport = () => {
+    let data = {
+      OrganizationName: "",
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(trialExtendedReportApi({ data, navigate, t }));
+  };
+
+  //for Download Trial Expired SUbscription Report
+  const downloadTrialExpireSubscriptionReport = () => {
+    let data = {
+      OrganizationName: "",
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(trialSubscribeExpiredReportApi({ data, navigate, t }));
   };
 
   return (
@@ -2059,15 +2145,58 @@ const GlobalAdminDashboard = () => {
                 <Col lg={2} md={2} sm={12} className="mt-2">
                   {users === true || organizationStatus === true ? (
                     <>
-                      <Button
-                        text={t("Export")}
-                        className={styles["ExportBUtton"]}
-                        icon={
-                          <>
-                            <img src={ExcelIcon} alt="" draggable="false" />
-                          </>
-                        }
-                      />
+                      {subscription === true ? (
+                        <>
+                          <Button
+                            text={t("Export")}
+                            className={styles["ExportBUtton"]}
+                            onClick={downloadSubscriptionReport}
+                            icon={
+                              <>
+                                <img src={ExcelIcon} alt="" draggable="false" />
+                              </>
+                            }
+                          />
+                        </>
+                      ) : trialExtended === true ? (
+                        <>
+                          <Button
+                            text={t("Export")}
+                            className={styles["ExportBUtton"]}
+                            onClick={downloadTrialExtendedReport}
+                            icon={
+                              <>
+                                <img src={ExcelIcon} alt="" draggable="false" />
+                              </>
+                            }
+                          />
+                        </>
+                      ) : subsExpiry === true ? (
+                        <>
+                          <Button
+                            text={t("Export")}
+                            className={styles["ExportBUtton"]}
+                            onClick={downloadTrialExpireSubscriptionReport}
+                            icon={
+                              <>
+                                <img src={ExcelIcon} alt="" draggable="false" />
+                              </>
+                            }
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            text={t("Export")}
+                            className={styles["ExportBUtton"]}
+                            icon={
+                              <>
+                                <img src={ExcelIcon} alt="" draggable="false" />
+                              </>
+                            }
+                          />
+                        </>
+                      )}
                     </>
                   ) : // <span className={styles["Export_To_Excel_dashboard"]}>
                   //
@@ -2517,7 +2646,11 @@ const GlobalAdminDashboard = () => {
       </Container>
 
       <PackageDetailModal />
-      <TrialRenewModal />
+      <TrialRenewModal
+        trialRenewOrganizationId={trialRenewOrganizationId}
+        trialRenewOrganizationName={trialRenewOrganizationName}
+        trialRenewRemainingDays={trialRenewRemainingDays}
+      />
       <SubscriptionRenewModal />
     </>
   );

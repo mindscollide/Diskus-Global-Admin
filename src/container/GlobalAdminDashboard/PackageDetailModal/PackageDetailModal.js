@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./PackageDetailModal.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import {
   dashboardSendInvoiceOpenModal,
   editOrganizationModalOpen,
@@ -10,28 +11,59 @@ import { Button, Modal } from "../../../components/elements";
 import CrossIcon from "../../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useState } from "react";
+import { getPackageDetailGlobalApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 
 const PackageDetailModal = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { t } = useTranslation();
 
   // Reducer for modal in UIModalActions
   const ModalReducer = useSelector((state) => state.modal);
 
+  // Reducer for getting Data
+  const packageDetailModalData = useSelector(
+    (state) => state.globalAdminDashboardReducer.packageDetailModalData
+  );
+  console.log(packageDetailModalData, "packageDetailStatepackageDetailState");
+
   // state for packageDetail Modal
   const [packageDetailState, setPackageDetailState] = useState({
     OrganizationName: {
-      value: "Package Detail Name",
+      value: "",
       errorMessage: "",
       errorStatus: false,
     },
 
     OrganizationEmail: {
-      value: "QasimPatel23@gmail.com",
+      value: "",
       errorMessage: "",
       errorStatus: false,
     },
   });
+
+  console.log(packageDetailState, "packageDetailStatepackageDetailState");
+
+  // api for getting data in PackageDetail
+  useEffect(() => {
+    let data = {
+      OrganizationID: 798,
+    };
+    dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
+  }, []);
+
+  // useEffect to getData from reducer
+
+  useEffect(() => {
+    if (
+      packageDetailModalData &&
+      packageDetailModalData.details !== null &&
+      packageDetailModalData.packageDetails.length > 0
+    ) {
+      setPackageDetailState(packageDetailModalData.details);
+    }
+  }, [packageDetailModalData]);
 
   const handleClose = () => {
     dispatch(dashboardSendInvoiceOpenModal(false));

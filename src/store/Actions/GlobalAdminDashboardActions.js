@@ -23,8 +23,16 @@ import {
   cashOutFlow,
   trialDashboardApi,
   trialExtendedDashboardApi,
+  listOfSubscribedSubscriptionsApi,
+  listOfExpiredSubscriptionsApi,
+  trialRenewModal,
+  downloadTrialSubscribedReport,
+  downloadTrialExtendedReport,
+  downloadExpiredTrialSubscriptionReport,
+  getPackageDetailsModal,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
+import { trialRenewOpenModal } from "../ActionsSlicers/UIModalsActions";
 
 //StatsOfActiveLicense  Api
 export const StatsOfActiveLicenseApi = createAsyncThunk(
@@ -1250,6 +1258,450 @@ export const getListOfExtendedTrailSubscriptions = createAsyncThunk(
               .toLowerCase()
               .includes(
                 "Admin_AdminServiceManager_ListOfExtendedTrailSubscriptions_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// get TrialExtendedFlow API
+export const getListOfSubscribedSubscriptions = createAsyncThunk(
+  "getListOfSubscribedSubscriptions/getListOfSubscribedSubscriptions ",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append(
+      "RequestMethod",
+      listOfSubscribedSubscriptionsApi.RequestMethod
+    );
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfSubscribedSubscriptions_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "ListOfSubscribedSubscriptions_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfSubscribedSubscriptions_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfSubscribedSubscriptions_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// get TrialExtendedFlow API
+export const getListOfExpiredSubscriptions = createAsyncThunk(
+  "getListOfExpiredSubscriptions/getListOfExpiredSubscriptions ",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", listOfExpiredSubscriptionsApi.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfExpiredSubscriptions_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "ListOfExpiredSubscriptions_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfExpiredSubscriptions_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_ListOfExpiredSubscriptions_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// get TrialExtendedFlow API
+export const trialRenewApi = createAsyncThunk(
+  "trialRenewApi/trialRenewApi ",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", trialRenewModal.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes("Admin_AdminServiceManager_TrailRenew_01".toLowerCase())
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            dispatch(trialRenewOpenModal(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "TrailRenew_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes("Admin_AdminServiceManager_TrailRenew_02".toLowerCase())
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes("Admin_AdminServiceManager_TrailRenew_03".toLowerCase())
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// for downlaod extended Trial Report
+export const trialExtendedReportApi = createAsyncThunk(
+  "trialExtendedReportApi/trialExtendedReportApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    try {
+      let token = localStorage.getItem("token");
+      let { data } = requestData;
+      let form = new FormData();
+      form.append("RequestMethod", downloadTrialExtendedReport.RequestMethod);
+      form.append("RequestData", JSON.stringify(data));
+
+      const response = await axios({
+        method: "post",
+        url: excelURL,
+        data: form,
+        headers: {
+          _token: token,
+          "Content-Disposition": "attachment; filename=template.xlsx",
+          "Content-Type":
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+        responseType: "blob",
+      });
+
+      if (response.status === 200) {
+        // Create a temporary URL for the blob data
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Create a link element and simulate a click to trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "download-Extented-reports.xlsx");
+        document.body.appendChild(link);
+        link.click();
+
+        // Dispatch action to update loading state or handle other logic
+        dispatch(globalAdminDashBoardLoader(false));
+      } else {
+        // Handle other status codes if needed
+        return rejectWithValue("Error downloading file");
+      }
+    } catch (error) {
+      // Handle errors
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// for download Subscribe Trial Report
+export const trialSubscribeReportApi = createAsyncThunk(
+  "trialSubscribeReportApi/trialSubscribeReportApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    try {
+      let token = localStorage.getItem("token");
+      let { data } = requestData;
+      let form = new FormData();
+      form.append("RequestMethod", downloadTrialSubscribedReport.RequestMethod);
+      form.append("RequestData", JSON.stringify(data));
+
+      const response = await axios({
+        method: "post",
+        url: excelURL,
+        data: form,
+        headers: {
+          _token: token,
+          "Content-Disposition": "attachment; filename=template.xlsx",
+          "Content-Type":
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+        responseType: "blob",
+      });
+
+      if (response.status === 200) {
+        // Create a temporary URL for the blob data
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Create a link element and simulate a click to trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "download-Subscribe-reports.xlsx");
+        document.body.appendChild(link);
+        link.click();
+
+        // Dispatch action to update loading state or handle other logic
+        dispatch(globalAdminDashBoardLoader(false));
+      } else {
+        // Handle other status codes if needed
+        return rejectWithValue("Error downloading file");
+      }
+    } catch (error) {
+      // Handle errors
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// for download Expired Subscription Trial Report
+export const trialSubscribeExpiredReportApi = createAsyncThunk(
+  "trialSubscribeExpiredReportApi/trialSubscribeExpiredReportApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    try {
+      let token = localStorage.getItem("token");
+      let { data } = requestData;
+      let form = new FormData();
+      form.append(
+        "RequestMethod",
+        downloadExpiredTrialSubscriptionReport.RequestMethod
+      );
+      form.append("RequestData", JSON.stringify(data));
+
+      const response = await axios({
+        method: "post",
+        url: excelURL,
+        data: form,
+        headers: {
+          _token: token,
+          "Content-Disposition": "attachment; filename=template.xlsx",
+          "Content-Type":
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+        responseType: "blob",
+      });
+
+      if (response.status === 200) {
+        // Create a temporary URL for the blob data
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Create a link element and simulate a click to trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download",
+          "download-Subscription-Expired-reports.xlsx"
+        );
+        document.body.appendChild(link);
+        link.click();
+
+        // Dispatch action to update loading state or handle other logic
+        dispatch(globalAdminDashBoardLoader(false));
+      } else {
+        // Handle other status codes if needed
+        return rejectWithValue("Error downloading file");
+      }
+    } catch (error) {
+      // Handle errors
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// for getPackageDetailModal Api
+export const getPackageDetailGlobalApi = createAsyncThunk(
+  "getPackageDetailGlobalApi/getPackageDetailGlobalApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", getPackageDetailsModal.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetPackageDetailsForGlobalAdmin_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetPackageDetailsForGlobalAdmin",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetPackageDetailsForGlobalAdmin_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetPackageDetailsForGlobalAdmin_03".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
