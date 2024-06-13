@@ -72,11 +72,17 @@ const Changepassword = () => {
 
   const handleChangePassword = () => {
     dispatch(globalAdminDashBoardLoader(true));
+    // let data = {
+    //   UserID: Number(userID),
+    //   Email: Email,
+    //   Password: Password.newPassword,
+    //   ConfirmPassword: Password.ConfirmPassword,
+    //   DeviceID: "1",
+    // };
     let data = {
       UserID: Number(userID),
-      Email: Email,
-      Password: Password.newPassword,
-      ConfirmPassword: Password.ConfirmPassword,
+      OldPassword: oldPassword,
+      NewPassword: Password.newPassword,
       DeviceID: "1",
     };
     dispatch(ChangePasswordApi({ data, navigate, t }));
@@ -87,11 +93,13 @@ const Changepassword = () => {
       <Modal
         show={ModalReducer.ChangepasswordModal}
         onHide={handleClose}
-        closeButton={false}
+        closeButton={true}
+        modalHeaderClassName={styles["modalHeader-className"]}
         modalFooterClassName={styles["modalFooterClassName"]}
-        modalHeaderClassName={styles["modalFooterClassName"]}
+        modalBodyClassName={styles["modalChangeBody-class-Name"]}
+        className="changePassword"
         centered
-        size={"md"}
+        size={"lg"}
         ModalBody={
           <>
             <Container>
@@ -113,6 +121,7 @@ const Changepassword = () => {
                     >
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("Old-password")}
+                        <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
                         labelClass={"d-none"}
@@ -146,10 +155,11 @@ const Changepassword = () => {
                       lg={12}
                       md={12}
                       sm={12}
-                      className="d-flex flex-column flex-wrap"
+                      className="d-flex flex-column flex-wrap mt-2"
                     >
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("New-password")}
+                        <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
                         labelClass={"d-none"}
@@ -184,10 +194,11 @@ const Changepassword = () => {
                       lg={12}
                       md={12}
                       sm={12}
-                      className="d-flex flex-column flex-wrap"
+                      className="d-flex flex-column flex-wrap mt-2"
                     >
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("Confirm-password")}
+                        <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
                         labelClass={"d-none"}

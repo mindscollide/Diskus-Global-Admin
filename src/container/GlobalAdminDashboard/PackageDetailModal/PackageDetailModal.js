@@ -12,12 +12,17 @@ import CrossIcon from "../../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useState } from "react";
 import { getPackageDetailGlobalApi } from "../../../store/Actions/GlobalAdminDashboardActions";
+import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const PackageDetailModal = () => {
+const PackageDetailModal = ({ subscribedPackageDetail }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { t } = useTranslation();
+  console.log(
+    subscribedPackageDetail,
+    "subscribedPackageDetailsubscribedPackageDetail"
+  );
 
   // Reducer for modal in UIModalActions
   const ModalReducer = useSelector((state) => state.modal);
@@ -46,24 +51,26 @@ const PackageDetailModal = () => {
   console.log(packageDetailState, "packageDetailStatepackageDetailState");
 
   // api for getting data in PackageDetail
-  useEffect(() => {
-    let data = {
-      OrganizationID: 798,
-    };
-    dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
-  }, []);
+  // useEffect(() => {
+  //   let data = {
+  //     OrganizationID: subscribedPackageDetail.organizationName,
+  //     SubscriptionID: 347,
+  //   };
+  //   dispatch(globalAdminDashBoardLoader(true));
+  //   dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
+  // }, []);
 
   // useEffect to getData from reducer
 
-  useEffect(() => {
-    if (
-      packageDetailModalData &&
-      packageDetailModalData.details !== null &&
-      packageDetailModalData.packageDetails.length > 0
-    ) {
-      setPackageDetailState(packageDetailModalData.details);
-    }
-  }, [packageDetailModalData]);
+  // useEffect(() => {
+  //   if (
+  //     packageDetailModalData &&
+  //     packageDetailModalData.details !== null &&
+  //     packageDetailModalData.packageDetails.length > 0
+  //   ) {
+  //     setPackageDetailState(packageDetailModalData.details);
+  //   }
+  // }, [packageDetailModalData]);
 
   const handleClose = () => {
     dispatch(dashboardSendInvoiceOpenModal(false));
@@ -119,7 +126,7 @@ const PackageDetailModal = () => {
                         {t("Organization-name")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        {packageDetailState.OrganizationName.value}
+                        {subscribedPackageDetail.organizationName}
                       </span>
                     </div>
                   </Col>
@@ -129,7 +136,7 @@ const PackageDetailModal = () => {
                         {t("Email")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        {packageDetailState.OrganizationEmail.value}
+                        {subscribedPackageDetail.type}
                       </span>
                     </div>
                   </Col>

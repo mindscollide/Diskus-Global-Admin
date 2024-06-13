@@ -10,6 +10,7 @@ import { useState } from "react";
 import { regexOnlyNumbers } from "../../../common/functions/Regex";
 import { trialRenewApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useNavigate } from "react-router-dom";
+import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
 const TrialRenewModal = ({
   trialRenewOrganizationId,
@@ -78,6 +79,7 @@ const TrialRenewModal = ({
       OrganizationID: Number(trialRenewOrganizationId),
       NumberOfExtensionDays: Number(trialState.AddDays.value),
     };
+    dispatch(globalAdminDashBoardLoader(true));
     dispatch(trialRenewApi({ data, navigate, t }));
   };
 
@@ -114,7 +116,7 @@ const TrialRenewModal = ({
             <Row>
               <Col lg={12} md={12} sm={12}>
                 <span className={styles["trial-invoice-heading"]}>
-                  {t("Trial-renew")}
+                  {t("Extend-Trial-for-No-of-days")}
                 </span>
               </Col>
             </Row>

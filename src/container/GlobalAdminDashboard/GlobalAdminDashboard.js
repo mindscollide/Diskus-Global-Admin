@@ -8,6 +8,9 @@ import { useTranslation } from "react-i18next";
 import ExcelIcon from "../../assets/images/OutletImages/Excel-Icon.png";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SortAscending from "../../assets/images/OutletImages/SorterIconAscend.png";
+import SortDescending from "../../assets/images/OutletImages/SorterIconDescend.png";
+import descendingArrow from "../../assets/images/OutletImages/DownArrow.png";
 import { Spin } from "antd";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
@@ -29,6 +32,9 @@ import {
   trialSubscribeReportApi,
   trialExtendedReportApi,
   trialSubscribeExpiredReportApi,
+  trialReportExportApi,
+  getInvoiceHtmlApi,
+  getPackageDetailGlobalApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -49,6 +55,7 @@ import {
 import TrialRenewModal from "./TrialRenewModal/TrialRenewModal";
 import SubscriptionRenewModal from "./SubscriptionRenewModal/SubscriptionRenewModal";
 import PackageDetailModal from "./PackageDetailModal/PackageDetailModal";
+import { includes } from "lodash";
 
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
@@ -120,6 +127,11 @@ const GlobalAdminDashboard = () => {
   //Reducer for listOfExpiredSubscriptions to Show in Expired Subscription table
   const listOfExpiredSubscriptions = useSelector(
     (state) => state.globalAdminDashboardReducer.listOfExpiredSubscriptions
+  );
+
+  // Reducer for htmlStringData to show
+  const htmlStringData = useSelector(
+    (state) => state.globalAdminDashboardReducer.htmlStringData
   );
 
   console.log(listofTrialSubscribeSubscription, "listofTriallistofTrial");
@@ -253,6 +265,30 @@ const GlobalAdminDashboard = () => {
   const [startDate, setStartDate] = useState(formattedCurrentDate);
   const [endDate, setEndDate] = useState(null);
 
+  // Trial Btn sorting state
+  const [sortTrial, setSortTrial] = useState(null);
+  const [sortTrialDate, setSortTrialDate] = useState(null);
+  const [sortTrialEndDate, setSortTrialEndDate] = useState(null);
+  const [sortTrialRemaining, setSortTrialRemaining] = useState(null);
+
+  // Essential Sorting State
+  const [essentialSort, setEssentialSort] = useState(null);
+  const [essentialSortDate, setEssentialSortDate] = useState(null);
+
+  // Professional Sorting state
+  const [professionalSort, setProfessionalSort] = useState(null);
+  const [professionalSortDate, setProfessionalSortDate] = useState(null);
+
+  // Premium Sorting State
+  const [premiumSort, setPremiumSort] = useState(null);
+  const [premiumSortDate, setPremiumSortDate] = useState(null);
+
+  // Search Box for search data in trials, essential, Professional and Premium table
+  const [searchData, setSearchData] = useState("");
+
+  // send data of subscribed Trial through this state in package detail Modal
+  const [subscribedPackageDetail, setSubscribedPackageDetail] = useState("");
+
   //send trial renew data in modal state
   const [trialRenewOrganizationId, setTrialRenewOrganizationId] = useState(0);
   const [trialRenewOrganizationName, setTrialRenewOrganizationName] =
@@ -334,7 +370,16 @@ const GlobalAdminDashboard = () => {
     dispatch(OrganizationsByActiveLicenseApi({ data, navigate, t }));
     //Getting All Organizations
     dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ navigate, t }));
+
+    let newData = {
+      OrganizationContactName: "",
+      OrganizationContactEmail: "",
+      OrganizationDateTo: "",
+      OrganizationDateFrom: "",
+      OrganizationSubscriptionStatus: 0,
+      OrganizationName: "",
+    };
+    dispatch(getAllOrganizationApi({ newData, navigate, t }));
 
     setTrialBtn(true);
     setOrganizationStatus(true);
@@ -873,9 +918,13 @@ const GlobalAdminDashboard = () => {
   useEffect(() => {
     let newarr = [];
     try {
-      if (organizationIdData !== null && organizationIdData !== undefined) {
+      if (
+        organizationIdData?.result !== null &&
+        organizationIdData?.result !== undefined &&
+        organizationIdData?.result.length > 0
+      ) {
         console.log(organizationIdData, "organizationIdData");
-        let organizations = organizationIdData.result.getAllOrganizations;
+        let organizations = organizationIdData.result;
         organizations.map((data, index) => {
           console.log(data, "datadatadatadata");
           newarr.push(data);
@@ -894,16 +943,16 @@ const GlobalAdminDashboard = () => {
       setSelectedCompany(organziations[0].organizationName);
       setOrganizationID(organziations[0].organizationID);
       let data = {
-        // OrganizationID: Number(organziations[0].organizationID),
-        // FromDate: startDate,
-        // ToDate: endDate ? endDate : "",
-        // PageNumber: 1,
-        // Length: 15,
-        OrganizationID: 0,
-        FromDate: "20230308000000",
-        ToDate: "20230408000000",
+        OrganizationID: Number(organziations[0].organizationID),
+        FromDate: startDate,
+        ToDate: endDate ? endDate : "",
         PageNumber: 1,
         Length: 15,
+        // OrganizationID: 0,
+        // FromDate: "20230308000000",
+        // ToDate: "20230408000000",
+        // PageNumber: 1,
+        // Length: 15,
       };
       dispatch(TotalThisMonthDueApi({ data, navigate, t }));
       dispatch(GetAllBillingDueApi({ data, navigate, t }));
@@ -1024,6 +1073,39 @@ const GlobalAdminDashboard = () => {
     dispatch(dashBoardReportApi({ data, navigate, t }));
   };
 
+  const onClickSendInvoice = () => {
+    let data = {
+      OrganizationID: 689,
+      InvoiceID: 1566,
+      SubscriptionID: 216,
+    };
+
+    dispatch(getInvoiceHtmlApi({ data, navigate, t }));
+  };
+
+  const dataDashBoard = [
+    {
+      billingDate: "02-1-2020",
+      amountDue: "688$",
+      billingMonth: "Nexsis",
+    },
+    {
+      billingDate: "01-1-2025",
+      amountDue: "188$",
+      billingMonth: "Mantis",
+    },
+    {
+      billingDate: "03-4-2021",
+      amountDue: "448$",
+      billingMonth: "Pinglora",
+    },
+    {
+      billingDate: "10-9-2023",
+      amountDue: "668$",
+      billingMonth: "Mingoraa",
+    },
+  ];
+
   const DashboardGlobalColumn = [
     {
       title: t("Billing-date"),
@@ -1093,6 +1175,7 @@ const GlobalAdminDashboard = () => {
           <Button
             text={t("Send-invoice")}
             // onClick={() => openSendInvoiceModal(record)}
+            onClick={onClickSendInvoice}
             className={styles["send-invoice-button"]}
           />
         </span>
@@ -1218,13 +1301,36 @@ const GlobalAdminDashboard = () => {
 
   const TrialColumn = [
     {
-      title: t("Organization-name"),
+      title: (
+        <>
+          <span>
+            {t("Organization-name")}{" "}
+            {sortTrial === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "organizationName",
       key: "organizationName",
       align: "center",
       ellipsis: true,
-      sortDirections: ["descend", "ascend"],
-      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      sortTrial,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrial((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <>
@@ -1234,13 +1340,36 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Trial-start-date"),
+      title: (
+        <>
+          <span>
+            {t("Trial-start-date")}{" "}
+            {sortTrialDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
-        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+        a.subscriptionStartDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionStartDate.toLowerCase()),
+      sortTrialDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1250,13 +1379,36 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Trial-end-date"),
+      title: (
+        <>
+          <span>
+            {t("Trial-end-date")}{" "}
+            {sortTrialEndDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "subscriptionEndDate",
       key: "subscriptionEndDate",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
-        a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
+        a.subscriptionEndDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionEndDate.toLowerCase()),
+      sortTrialEndDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialEndDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1266,28 +1418,49 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Remaining-days"),
+      title: (
+        <>
+          <span>
+            {t("Remaining-days")}{" "}
+            {sortTrialRemaining === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "remainingDays",
       key: "remainingDays",
       align: "center",
       ellipsis: true,
-      // sorter: (a, b) => a.TrialEndDate.localeCompare(b.TrialEndDate),
+      sorter: (a, b) => a.remainingDays - b.remainingDays,
+      sortTrialRemaining,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialRemaining((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
-        console.log(record, "recorddssstextttt");
+        console.log(record, "aadadadadadada");
         return (
           <>
-            {record.remainingDays <= 7 ? (
-              <>
-                <Button
-                  text={t("Renew")}
-                  className={styles["send-invoice-button"]}
-                  onClick={() => onClickRenew(record)}
-                />
-              </>
+            {record.remainingDays < 44 ? (
+              <Button
+                text={t("Extend-trial")}
+                className={styles["Extend-trial-btn"]}
+                onClick={() => onClickRenew(record)}
+              />
             ) : (
-              <div className={styles["dashboard-user-dates"]}>
-                {text} {"Days"}
-              </div>
+              <>
+                <div className={styles["dashboard-user-dates"]}>
+                  {text} {"Days"}
+                </div>
+              </>
             )}
           </>
         );
@@ -1297,13 +1470,36 @@ const GlobalAdminDashboard = () => {
 
   const TraiExtendedColumn = [
     {
-      title: t("Organization-name"),
+      title: (
+        <>
+          <span>
+            {t("Organization-name")}{" "}
+            {sortTrial === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "organizationName",
       key: "organizationName",
       align: "start",
       ellipsis: true,
-      sortDirections: ["descend", "ascend"],
-      sorter: (a, b) => a.Name.localeCompare(b.Name),
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      sortTrial,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrial((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <>
@@ -1313,14 +1509,36 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Trial-start-date"),
-      // className: "random",
+      title: (
+        <>
+          <span>
+            {t("Trial-extend-date")}{" "}
+            {sortTrialDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
-        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+        a.subscriptionStartDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionStartDate.toLowerCase()),
+      sortTrialDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1330,14 +1548,37 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Trial-end-date"),
+      title: (
+        <>
+          <span>
+            {t("Trial-extend-end-date")}{" "}
+            {sortTrialDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "subscriptionEndDate",
       key: "subscriptionEndDate",
       align: "center",
       ellipsis: true,
       align: "center",
       sorter: (a, b) =>
-        a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
+        a.subscriptionEndDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionEndDate.toLowerCase()),
+      sortTrialEndDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialEndDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1347,12 +1588,33 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Remaining-days"),
+      title: (
+        <>
+          <span>
+            {t("Remaining-days")}{" "}
+            {sortTrialRemaining === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "remainingDays",
       key: "remainingDays",
       align: "center",
       ellipsis: true,
-      // sorter: (a, b) => a.remainingDays.localeCompare(b.remainingDays),
+      sorter: (a, b) => a.remainingDays - b.remainingDays,
+      sortTrialRemaining,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialRemaining((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <>
@@ -1370,12 +1632,36 @@ const GlobalAdminDashboard = () => {
 
   const subscriptionColumn = [
     {
-      title: t("Organization-name"),
+      title: (
+        <>
+          <span>
+            {t("Organization-name")}{" "}
+            {sortTrial === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "organizationName",
       key: "organizationName",
       align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      sortTrial,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrial((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <>
@@ -1402,13 +1688,36 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Expiration-date"),
+      title: (
+        <>
+          <span>
+            {t("Expiration-date")}{" "}
+            {sortTrialDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
-        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+        a.subscriptionStartDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionStartDate.toLowerCase()),
+      sortTrialDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1418,23 +1727,37 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Remaining-days"),
+      title: (
+        <>
+          <span>
+            {t("Remaining-days")}{" "}
+            {sortTrialRemaining === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "remainingDays",
       key: "remainingDays",
       align: "center",
       ellipsis: true,
-      // sorter: (a, b) => a.remainingDays.localeCompare(b.remainingDays),
+      sorter: (a, b) => a.remainingDays - b.remainingDays,
+      sortTrialRemaining,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialRemaining((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <>
-            <div className={styles["dashboard-user-dates"]}>
-              {text} {"Days"}
-            </div>
-            {/* <Button
-              text={t("Renew")}
-              className={styles["send-invoice-button"]}
-              onClick={onClickSubscriptionRenew}
-            /> */}
+            <div className={styles["dashboard-user-dates"]}>{text}</div>
           </>
         );
       },
@@ -1443,12 +1766,36 @@ const GlobalAdminDashboard = () => {
 
   const subscriptionExpiry = [
     {
-      title: t("Organization-name"),
+      title: (
+        <>
+          <span>
+            {t("Organization-name")}{" "}
+            {sortTrial === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "organizationName",
       key: "organizationName",
       align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.Name.localeCompare(b.Name),
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      sortTrial,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrial((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <>
@@ -1475,13 +1822,36 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Trial-end-date"),
+      title: (
+        <>
+          <span>
+            {t("Expiration-date")}{" "}
+            {sortTrialDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "subscriptionEndDate",
       key: "subscriptionEndDate",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
-        a.subscriptionEndDate.localeCompare(b.subscriptionEndDate),
+        a.subscriptionStartDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionStartDate.toLowerCase()),
+      sortTrialDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setSortTrialDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1490,18 +1860,41 @@ const GlobalAdminDashboard = () => {
         );
       },
     },
+    ,
   ];
 
   const essentialColumns = [
     {
-      title: t("Organization-name"),
-      className: "random",
+      title: (
+        <>
+          <span>
+            {t("Organization-name")}{" "}
+            {essentialSort === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "organizationName",
       key: "organizationName",
-      width: "200px",
-      align: "start",
+      align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      essentialSort,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setEssentialSort((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <>
@@ -1511,15 +1904,36 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Start-date"),
-      className: "random",
+      title: (
+        <>
+          <span>
+            {t("Start-date")}
+            {sortTrialDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
-      width: "200px",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
-        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+        a.subscriptionStartDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionStartDate.toLowerCase()),
+      essentialSortDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setEssentialSortDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1529,18 +1943,15 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Name"),
-      className: "random",
-      dataIndex: "name",
-      key: "name",
-      width: "200px",
+      title: t("No-of-licenses"),
+      dataIndex: "headCount",
+      key: "headCount",
       align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.name.localeCompare(b.name),
       render: (text, record) => {
         return (
           <>
-            <span className={styles["dashboard-table-insidetext"]}>{text}</span>
+            <span className={styles["dashboard-user-dates"]}>{text}</span>
           </>
         );
       },
@@ -1566,28 +1977,75 @@ const GlobalAdminDashboard = () => {
 
   const ProfessionalColumns = [
     {
-      title: t("Organization-name"),
-      className: "random",
+      title: (
+        <>
+          <span>
+            {t("Organization-name")}{" "}
+            {professionalSort === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "organizationName",
       key: "organizationName",
-      width: "200px",
-      align: "start",
-      ellipsis: true,
-      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
-      render: (text, record) => {
-        return <span className={styles["dashboard-tabletext"]}>{text}</span>;
-      },
-    },
-    {
-      title: t("Start-date"),
-      className: "random",
-      dataIndex: "subscriptionStartDate",
-      key: "subscriptionStartDate",
-      width: "200px",
       align: "center",
       ellipsis: true,
       sorter: (a, b) =>
-        a.subscriptionStartDate.localeCompare(b.subscriptionStartDate),
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      professionalSort,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setProfessionalSort((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
+      render: (text, record) => {
+        return (
+          <>
+            <span className={styles["dashboard-tabletext"]}>{text}</span>
+          </>
+        );
+      },
+    },
+    {
+      title: (
+        <>
+          <span>
+            {t("Start-date")}
+            {professionalSortDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
+      dataIndex: "subscriptionStartDate",
+      key: "subscriptionStartDate",
+      align: "center",
+      ellipsis: true,
+      sorter: (a, b) =>
+        a.subscriptionStartDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionStartDate.toLowerCase()),
+      professionalSortDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setProfessionalSortDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1597,18 +2055,15 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Name"),
-      dataIndex: "Name",
-      className: "random",
-      key: "Name",
-      width: "200px",
+      title: t("No-of-licenses"),
+      dataIndex: "headCount",
+      key: "headCount",
       align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.Name.localeCompare(b.Name),
       render: (text, record) => {
         return (
           <>
-            <span className={styles["dashboard-tabletext"]}>{text}</span>
+            <span className={styles["dashboard-user-dates"]}>{text}</span>
           </>
         );
       },
@@ -1631,14 +2086,36 @@ const GlobalAdminDashboard = () => {
 
   const PreimiumColumns = [
     {
-      title: t("Organization-name"),
-      className: "random",
+      title: (
+        <>
+          <span>
+            {t("Organization-name")}{" "}
+            {premiumSort === "descend" ? (
+              <img src={SortDescending} alt="" />
+            ) : (
+              <img src={SortAscending} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "organizationName",
       key: "organizationName",
-      width: "200px",
-      align: "start",
+      align: "center",
       ellipsis: true,
-      sorter: (a, b) => a.organizationName.localeCompare(b.organizationName),
+      sorter: (a, b) =>
+        a.organizationName
+          .toLowerCase()
+          .localeCompare(b.organizationName.toLowerCase()),
+      premiumSort,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setPremiumSort((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <>
@@ -1648,14 +2125,36 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Start-date"),
-      className: "random",
+      title: (
+        <>
+          <span>
+            {t("Start-date")}
+            {premiumSortDate === "descend" ? (
+              <img src={descendingArrow} alt="" />
+            ) : (
+              <img src={descendingArrow} alt="" />
+            )}
+          </span>
+        </>
+      ),
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
-      width: "200px",
-      align: "center",
       align: "center",
       ellipsis: true,
+      sorter: (a, b) =>
+        a.subscriptionStartDate
+          .toLowerCase()
+          .localeCompare(b.subscriptionStartDate.toLowerCase()),
+      premiumSortDate,
+      onHeaderCell: () => ({
+        onClick: () => {
+          setPremiumSortDate((order) => {
+            if (order === "descend") return "ascend";
+            if (order === "ascend") return null;
+            return "descend";
+          });
+        },
+      }),
       render: (text, record) => {
         return (
           <div className={styles["dashboard-user-dates"]}>
@@ -1665,28 +2164,15 @@ const GlobalAdminDashboard = () => {
       },
     },
     {
-      title: t("Name"),
-      className: "random",
-      dataIndex: "Name",
-      key: "Name",
-      width: "200px",
+      title: t("No-of-licenses"),
+      dataIndex: "headCount",
+      key: "headCount",
       align: "center",
       ellipsis: true,
+      render: (text, record) => {
+        return <div className={styles["dashboard-user-dates"]}>{text}</div>;
+      },
     },
-
-    // {
-    //   title: t("End-date"),
-    //   dataIndex: "subscriptionEndDate",
-    //   key: "subscriptionEndDate",
-    //   width: "115px",
-    //   render: (text, record) => {
-    //     const formattedDate = convertUTCDateToLocalDateDiffFormat(text);
-
-    //     return (
-    //       <div className={styles["dashboard-user-dates"]}>{formattedDate}</div>
-    //     );
-    //   },
-    // },
   ];
 
   const handleTrailButton = () => {
@@ -1768,7 +2254,15 @@ const GlobalAdminDashboard = () => {
   };
 
   const openSendInvoiceModal = (record) => {
-    dispatch(dashboardSendInvoiceOpenModal(true));
+    console.log(record, "daadsdasdasdas");
+    let data = {
+      OrganizationID: record.organizationId,
+      SubscriptionID: 0,
+    };
+    setSubscribedPackageDetail(record);
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
+
     // let data = {
     //   OrganizationID: Number(record.organizationID),
     //   InvoiceID: Number(record.invoiceID),
@@ -1832,6 +2326,15 @@ const GlobalAdminDashboard = () => {
     setIsOpen(true);
   };
 
+  // for Download Trial Report Only
+  const downloadTrialReport = () => {
+    let data = {
+      OrganizationName: "",
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(trialReportExportApi({ data, navigate, t }));
+  };
+
   // for Download Trial  Subscription Report
   const downloadSubscriptionReport = () => {
     let data = {
@@ -1857,6 +2360,131 @@ const GlobalAdminDashboard = () => {
     };
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(trialSubscribeExpiredReportApi({ data, navigate, t }));
+  };
+
+  // Search Bar conditioning on both graphs
+  const onClickSearchHandler = () => {
+    if (trialBtn === true) {
+      if (
+        listOfTrialSubscription?.result?.listOfTrial !== undefined &&
+        listOfTrialSubscription?.result?.listOfTrial !== null
+      ) {
+        const filteredTrial =
+          listOfTrialSubscription?.result.listOfTrial.filter(
+            (trialFilter, index) =>
+              trialFilter.organizationName
+                .toLowerCase()
+                .includes(searchData.toLowerCase())
+          );
+        setTrialRow(filteredTrial);
+      } else {
+        setTrialRow([]); // Clear rows if there's no data
+      }
+    } else if (trialExtended === true) {
+      if (
+        listOfTrialExtendedSubscription?.result?.listOfExtendedTrail !==
+          undefined &&
+        listOfTrialExtendedSubscription?.result?.listOfExtendedTrail !== null
+      ) {
+        const filterTrialExtend =
+          listOfTrialExtendedSubscription.result.listOfExtendedTrail.filter(
+            (extendTrial, index) =>
+              extendTrial.organizationName
+                .toLowerCase()
+                .includes(searchData.toLowerCase())
+          );
+        setTrialExtendedRow(filterTrialExtend);
+      } else {
+        setTrialExtendedRow([]); // Clear rows if there's no data
+      }
+    } else if (subscription === true) {
+      if (
+        listofTrialSubscribeSubscription?.result?.listOfSubscribed !==
+          undefined &&
+        listofTrialSubscribeSubscription?.result?.listOfSubscribed !== null
+      ) {
+        const filterSubscribe =
+          listofTrialSubscribeSubscription?.result.listOfSubscribed.filter(
+            (trialSubscribe, index) =>
+              trialSubscribe.organizationName
+                .toLowerCase()
+                .includes(searchData.toLowerCase())
+          );
+        setSubscribedRow(filterSubscribe);
+      } else {
+        setSubscribedRow([]); // Clear rows if there's no data
+      }
+    } else if (subsExpiry === true) {
+      if (
+        listOfExpiredSubscriptions?.result?.listOfExpiredSubscription !==
+          null &&
+        listOfExpiredSubscriptions?.result.listOfExpiredSubscription !==
+          undefined
+      ) {
+        const trialExpire =
+          listOfExpiredSubscriptions?.result.listOfExpiredSubscription.filter(
+            (expireData, index) =>
+              expireData.organizationName
+                .toLowerCase()
+                .includes(searchData.toLowerCase())
+          );
+        setSubscriptionExpiredRow(trialExpire);
+      } else {
+        setSubscriptionExpiredRow([]);
+      }
+    } else if (essentialTbl === true) {
+      if (
+        OrganizationLicenseReducer?.result?.listOfEssential !== undefined &&
+        OrganizationLicenseReducer?.result?.listOfEssential !== null
+      ) {
+        const essentialFilter =
+          OrganizationLicenseReducer?.result.listOfEssential.filter(
+            (essentialData, index) =>
+              essentialData.organizationName
+                .toLowerCase()
+                .includes(searchData.toLowerCase())
+          );
+        setEssentialRow(essentialFilter);
+      } else {
+        setEssentialRow([]);
+      }
+    } else if (professionalTbl === true) {
+      if (
+        OrganizationLicenseReducer?.result?.listOfProfessional !== undefined &&
+        OrganizationLicenseReducer?.result?.listOfProfessional !== null
+      ) {
+        const professionalFilter =
+          OrganizationLicenseReducer?.result.listOfProfessional.filter(
+            (professionalData, index) =>
+              professionalData.organizationName
+                .toLowerCase()
+                .includes(searchData.toLowerCase())
+          );
+        setProfessionalRow(professionalFilter);
+      } else {
+        setProfessionalRow([]);
+      }
+    } else if (premiumTbl === true) {
+      if (
+        OrganizationLicenseReducer?.result?.listOfPremium !== undefined &&
+        OrganizationLicenseReducer?.result?.listOfPremium !== null
+      ) {
+        const premiumFilter =
+          OrganizationLicenseReducer?.result.listOfPremium.filter(
+            (premiumData, index) =>
+              premiumData.organizationName
+                .toLowerCase()
+                .includes(searchData.toLowerCase())
+          );
+        setPremiumRow(premiumFilter);
+      } else {
+        setPremiumRow([]);
+      }
+    }
+  };
+
+  const onChangeSearchHandler = (e) => {
+    setSearchData(e.target.value);
   };
 
   return (
@@ -2003,6 +2631,7 @@ const GlobalAdminDashboard = () => {
                     column={DashboardGlobalColumn}
                     pagination={false}
                     rows={billDueTable}
+                    // rows={dataDashBoard}
                     // scroll={{
                     //   y: 300,
                     //   x: false,
@@ -2184,6 +2813,19 @@ const GlobalAdminDashboard = () => {
                             }
                           />
                         </>
+                      ) : trialBtn === true ? (
+                        <>
+                          <Button
+                            text={t("Export")}
+                            className={styles["ExportBUtton"]}
+                            onClick={downloadTrialReport}
+                            icon={
+                              <>
+                                <img src={ExcelIcon} alt="" draggable="false" />
+                              </>
+                            }
+                          />
+                        </>
                       ) : (
                         <>
                           <Button
@@ -2211,6 +2853,8 @@ const GlobalAdminDashboard = () => {
                     <TextField
                       labelClass={"d-none"}
                       applyClass={"NewMeetingFileds"}
+                      value={searchData}
+                      change={onChangeSearchHandler}
                       inputicon={
                         <>
                           <Row>
@@ -2223,6 +2867,7 @@ const GlobalAdminDashboard = () => {
                               <img
                                 src={Search_Icon}
                                 alt=""
+                                onClick={onClickSearchHandler}
                                 className={styles["Search_Bar_icon_class"]}
                                 draggable="false"
                               />
@@ -2645,7 +3290,7 @@ const GlobalAdminDashboard = () => {
         </Row>
       </Container>
 
-      <PackageDetailModal />
+      <PackageDetailModal subscribedPackageDetail={subscribedPackageDetail} />
       <TrialRenewModal
         trialRenewOrganizationId={trialRenewOrganizationId}
         trialRenewOrganizationName={trialRenewOrganizationName}

@@ -59,6 +59,11 @@ const LoginHistory = () => {
 
   const [organizationData, setOrganizationData] = useState([]);
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
+  console.log(
+    organizationDataValue,
+    "organizationDataValueorganizationDataValue"
+  );
+  const [organizationID, setOrganizationID] = useState(0);
 
   const UserLoginHistoryData = useSelector(
     (state) => state.loginHistory.loginHistoryData
@@ -131,13 +136,20 @@ const LoginHistory = () => {
       setTotalRecords(0);
       setSRowsData(0);
       setTablerows([]);
-      setOrganizationDataValue(null);
     };
   }, []);
 
   useEffect(() => {
     dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ navigate, t }));
+    let newData = {
+      OrganizationContactName: "",
+      OrganizationContactEmail: "",
+      OrganizationDateTo: "",
+      OrganizationDateFrom: "",
+      OrganizationSubscriptionStatus: 0,
+      OrganizationName: "",
+    };
+    dispatch(getAllOrganizationApi({ newData, navigate, t }));
   }, []);
 
   useEffect(() => {
@@ -153,20 +165,28 @@ const LoginHistory = () => {
   }, [currentLanguage]);
 
   useEffect(() => {
-    if (
-      organizationIdData?.result.getAllOrganizations.length > 0 &&
-      organizationIdData?.result.getAllOrganizations !== null
-    ) {
-      setOrganizationData(
-        organizationIdData.result.getAllOrganizations.map((item) => ({
-          value: item.organizationID,
-          label: item.organizationName,
-        }))
-      );
+    let newarr = [];
+    try {
+      if (
+        organizationIdData?.result !== null &&
+        organizationIdData?.result !== undefined &&
+        organizationIdData?.result.length > 0
+      ) {
+        setOrganizationData(
+          organizationIdData.result.map((item) => ({
+            value: item.organizationID,
+            label: item.organizationName,
+          }))
+        );
+      } else {
+      }
+    } catch (error) {
+      console.log(error, "error");
     }
   }, [organizationIdData]);
-  const [organizationID, setOrganizationID] = useState(0);
+
   const organizerChangeHandler = (selectedOrganizer) => {
+    console.log(selectedOrganizer, "selectedOrganizerselectedOrganizer");
     setOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
   };
@@ -359,7 +379,6 @@ const LoginHistory = () => {
       },
       Title: userLoginHistorySearch.Title,
     });
-    setOrganizationDataValue(null);
     setSearchBox(!searchBox);
   };
 
@@ -452,7 +471,7 @@ const LoginHistory = () => {
   const handleSearh = () => {
     try {
       let data = {
-        OrganizationID: 0,
+        OrganizationID: Number(organizationID),
         Username: userLoginHistorySearch.userName,
         UserEmail: userLoginHistorySearch.userEmail,
         IpAddress: userLoginHistorySearch.IpAddress,
@@ -625,6 +644,7 @@ const LoginHistory = () => {
     setUserNameSearch(value);
     console.log("value", value);
   }
+
   const handleKeyDownSearch = (e) => {
     if (e.key === "Enter") {
       if (userNameSearch !== "") {
@@ -948,8 +968,8 @@ const LoginHistory = () => {
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <Select
-                            placeholder={t("Organization")}
                             value={organizationDataValue}
+                            placeholder={t("Organization")}
                             options={organizationData}
                             onChange={organizerChangeHandler}
                           />

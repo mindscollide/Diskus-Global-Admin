@@ -30,9 +30,15 @@ import {
   downloadTrialExtendedReport,
   downloadExpiredTrialSubscriptionReport,
   getPackageDetailsModal,
+  UpdateGlobalAdminUser,
+  downloadTrialReport,
+  getInvoiceHtmlOrganization,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
-import { trialRenewOpenModal } from "../ActionsSlicers/UIModalsActions";
+import {
+  dashboardSendInvoiceOpenModal,
+  trialRenewOpenModal,
+} from "../ActionsSlicers/UIModalsActions";
 
 //StatsOfActiveLicense  Api
 export const StatsOfActiveLicenseApi = createAsyncThunk(
@@ -754,9 +760,8 @@ export const GetSystemConfigurationsApi = createAsyncThunk(
   "GetSystemConfigurationsApi/GetSystemConfigurationsApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { userData, navigate, t } = requestData;
+    let { navigate, t } = requestData;
     let form = new FormData();
-    form.append("RequestData", JSON.stringify(userData));
     form.append("RequestMethod", GetSystemConfigurations.RequestMethod);
     try {
       const response = await axios({
@@ -927,7 +932,7 @@ export const ChangePasswordApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_ChangePassword_01".toLowerCase()
+                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_01".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
@@ -943,16 +948,16 @@ export const ChangePasswordApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_ChangePassword_02".toLowerCase()
+                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_02".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No-password-updated");
+            return rejectWithValue("Failed to update");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_ChangePassword_03".toLowerCase()
+                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_02".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
@@ -1460,6 +1465,12 @@ export const trialRenewApi = createAsyncThunk(
           ) {
             dispatch(globalAdminDashBoardLoader(false));
             dispatch(trialRenewOpenModal(false));
+            // let data = {
+            //   OrganizationName: "",
+            //   PageNumber: 1,
+            //   length: 15,
+            // };
+            // dispatch(getListTrialSubscription({ data, navigate, t }));
             try {
               return {
                 result: response.data.responseResult,
@@ -1680,6 +1691,8 @@ export const getPackageDetailGlobalApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
+            dispatch(dashboardSendInvoiceOpenModal(true));
+
             try {
               return {
                 result: response.data.responseResult,
@@ -1702,6 +1715,202 @@ export const getPackageDetailGlobalApi = createAsyncThunk(
               .toLowerCase()
               .includes(
                 "Admin_AdminServiceManager_GetPackageDetailsForGlobalAdmin_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// for update User Modal Api
+export const UpdateGlobalAdminUserApi = createAsyncThunk(
+  "UpdateGlobalAdminUserApi/UpdateGlobalAdminUserApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify());
+    form.append("RequestMethod", UpdateGlobalAdminUser.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "ChangePasswordGlobalAdmin",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// for download  Trial Report
+export const trialReportExportApi = createAsyncThunk(
+  "trialReportExportApi/trialReportExportApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    try {
+      let token = localStorage.getItem("token");
+      let { data } = requestData;
+      let form = new FormData();
+      form.append("RequestMethod", downloadTrialReport.RequestMethod);
+      form.append("RequestData", JSON.stringify(data));
+
+      const response = await axios({
+        method: "post",
+        url: excelURL,
+        data: form,
+        headers: {
+          _token: token,
+          "Content-Disposition": "attachment; filename=template.xlsx",
+          "Content-Type":
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+        responseType: "blob",
+      });
+
+      if (response.status === 200) {
+        // Create a temporary URL for the blob data
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Create a link element and simulate a click to trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "download-Trial-reports.xlsx");
+        document.body.appendChild(link);
+        link.click();
+
+        // Dispatch action to update loading state or handle other logic
+        dispatch(globalAdminDashBoardLoader(false));
+      } else {
+        // Handle other status codes if needed
+        return rejectWithValue("Error downloading file");
+      }
+    } catch (error) {
+      // Handle errors
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// for Html modal on dashboard in sendInvoice
+export const getInvoiceHtmlApi = createAsyncThunk(
+  "getInvoiceHtmlApi/getInvoiceHtmlApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", getInvoiceHtmlOrganization.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetInvoiceHtmlByOrganizationID_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetInvoiceHtmlByOrganizationID",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetInvoiceHtmlByOrganizationID_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Failed to create string");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_GetInvoiceHtmlByOrganizationID_03".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));

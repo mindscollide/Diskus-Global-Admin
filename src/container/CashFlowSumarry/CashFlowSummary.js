@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   convertUTCDateToLocalDate,
+  ExtractMonthAndYear,
   formatDate,
 } from "../../common/functions/dateFormatters";
 import { Dropdown, Menu, Tag } from "antd";
@@ -37,6 +38,7 @@ import {
   getCashFlowMainApi,
   getCashOutStandingFlowMainApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
+import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 // import FlagCountryName from "./CountryFlagFunctionality/CountryFlag";
 
 const CashFlowSummary = () => {
@@ -97,23 +99,17 @@ const CashFlowSummary = () => {
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
 
+  // to show Search text below the seacrh Field
+  const [showsearchText, setShowSearchText] = useState(false);
+
+  // for organization Name
+  const [organizationNameSearch, setOrganizationNameSearch] = useState("");
+
   // cashFlow Search Box
-  const [cashFlowSearch, setCashFlowSearch] = useState({
-    OrganizationName: {
-      value: "",
-      errorMessage: "",
-      errorStatus: false,
-    },
-    DateFrom: {
-      value: "",
-      errorMessage: "",
-      errorStatus: false,
-    },
-    DateTo: {
-      value: "",
-      errorMessage: "",
-      errorStatus: false,
-    },
+  const [flowsSearch, setFlowsSearch] = useState({
+    organizationName: "",
+    DateFrom: "",
+    DateTo: "",
   });
 
   // cash flow sorting state
@@ -121,26 +117,6 @@ const CashFlowSummary = () => {
 
   // cash Out Flow sorting state
   const [sortCashOutFlow, setSortCashOutFlow] = useState(null);
-
-  const HandleopenSearchBox = () => {
-    setSearchBox(!searchBox);
-  };
-
-  // fetch Data from cashIn flow reducer
-  // useEffect(() => {
-  //   if (cashFlowData !== null) {
-  //     setTotalInflow(cashFlowData.result.totalCashFlows);
-  //     if (cashFlowData.result.cashFlows.length > 0) {
-  //       setCashFlowTable(cashFlowData.result.cashFlows);
-  //     } else {
-  //       console.log("Nothing");
-  //       setCashFlowTable([]);
-  //     }
-  //   } else {
-  //     setCashFlowTable(0);
-  //     console.log("Nothing");
-  //   }
-  // }, [cashFlowData]);
 
   // To show lazy loading scroller
 
@@ -183,6 +159,20 @@ const CashFlowSummary = () => {
       eRow: 100,
     };
     dispatch(getCashFlowMainApi({ data, navigate, t }));
+
+    return () => {
+      setFlowsSearch({
+        ...flowsSearch,
+        organizationName: "",
+        DateFrom: "",
+        DateTo: "",
+      });
+      setShowSearchText(false);
+      setIsScroll(false);
+      setTotalRecords(0);
+      setSRowsData(0);
+      setCashOutFlowTable([]);
+    };
   }, []);
 
   // fetch Data from Cash Out Flow Reducer
@@ -309,13 +299,18 @@ const CashFlowSummary = () => {
           value: "December",
         },
       ],
-      onFilter: (value, record) => record.Invoicemonth.indexOf(value) === 0,
+      onFilter: (value, record) => {
+        let { Month } = ExtractMonthAndYear(record.invoiceDate);
+        return Month === value;
+      },
       ellipsis: true,
       sortDirections: ["descend"],
       render: (text, response) => {
+        let { Month } = ExtractMonthAndYear(response.invoiceDate);
+        console.log(Month, "recordrecord");
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>{Month}</span>
           </>
         );
       },
@@ -362,15 +357,45 @@ const CashFlowSummary = () => {
           text: "2018",
           value: 2018,
         },
+        {
+          text: "2019",
+          value: 2019,
+        },
+        {
+          text: "2020",
+          value: 2020,
+        },
+        {
+          text: "2021",
+          value: 2021,
+        },
+        {
+          text: "2022",
+          value: 2022,
+        },
+        {
+          text: "2023",
+          value: 2023,
+        },
+        {
+          text: "2024",
+          value: 2024,
+        },
       ],
-      onFilter: (value, record) => record.Invoiceyear === value,
+      onFilter: (value, record) => {
+        let { Year } = ExtractMonthAndYear(record.invoiceDate);
+        return Year === value;
+      },
       ellipsis: true,
       sortDirections: ["descend"],
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      render: (text, record) => {
+        let { Year } = ExtractMonthAndYear(record.invoiceDate);
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{Year}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Essential"),
@@ -571,11 +596,15 @@ const CashFlowSummary = () => {
           value: "December",
         },
       ],
-      onFilter: (value, record) => record.Invoicemonth.indexOf(value) === 0,
+      onFilter: (value, record) => {
+        let { Month } = ExtractMonthAndYear(record.invoiceDate);
+        return Month === value;
+      },
       render: (text, response) => {
+        let { Month } = ExtractMonthAndYear(response.invoiceDate);
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>{Month}</span>
           </>
         );
       },
@@ -611,24 +640,54 @@ const CashFlowSummary = () => {
           value: 2015,
         },
         {
-          text: "2022",
-          value: 2022,
+          text: "2016",
+          value: 2016,
         },
         {
-          text: "2024",
-          value: 2024,
+          text: "2017",
+          value: 2017,
+        },
+        {
+          text: "2018",
+          value: 2018,
+        },
+        {
+          text: "2019",
+          value: 2019,
+        },
+        {
+          text: "2020",
+          value: 2020,
         },
         {
           text: "2021",
           value: 2021,
         },
+        {
+          text: "2022",
+          value: 2022,
+        },
+        {
+          text: "2023",
+          value: 2023,
+        },
+        {
+          text: "2024",
+          value: 2024,
+        },
       ],
-      onFilter: (value, record) => record.Invoiceyear === value,
-      render: (text, record) => (
-        <>
-          <span className={styles["cashflow-column-title"]}>{text}</span>
-        </>
-      ),
+      onFilter: (value, record) => {
+        let { Year } = ExtractMonthAndYear(record.invoiceDate);
+        return Year === value;
+      },
+      render: (text, record) => {
+        let { Year } = ExtractMonthAndYear(record.invoiceDate);
+        return (
+          <>
+            <span className={styles["cashflow-column-title"]}>{Year}</span>
+          </>
+        );
+      },
     },
     {
       title: t("Essential"),
@@ -749,6 +808,53 @@ const CashFlowSummary = () => {
     dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
   };
 
+  const handleChangeSearchBoxValues = (e) => {
+    setShowSearchText(false);
+    let name = e.target.name;
+    let value = e.target.value;
+
+    // For organizationName ensure only letters and whitespace are allowed
+    if (name === "organizationName") {
+      if (value !== "") {
+        let valueCheck = /^[A-Za-z\s]*$/i.test(value);
+        if (valueCheck) {
+          setFlowsSearch((prevState) => ({
+            ...prevState,
+            [name]: value.trim(),
+          }));
+        }
+      } else {
+        setFlowsSearch((prevState) => ({
+          ...prevState,
+          organizationName: "",
+        }));
+      }
+    }
+  };
+
+  // For Open Search Box
+  const HandleopenSearchBox = () => {
+    if (organizationNameSearch !== "") {
+      setOrganizationNameSearch("");
+      let data = {
+        OrganizationName: "",
+        DateFrom: "",
+        DateTo: "",
+        sRow: 1,
+        eRow: 100,
+      };
+      dispatch(getCashFlowMainApi({ data, navigate, t }));
+    }
+
+    setFlowsSearch({
+      ...flowsSearch,
+      OrganizationName: flowsSearch.organizationName,
+      DateFrom: flowsSearch.DateFrom,
+      DateTo: flowsSearch.DateTo,
+    });
+    setSearchBox(!searchBox);
+  };
+
   // handle scroll for lazy loader
   const handleScroll = () => {
     if (isRowsData <= totalRecords) {
@@ -782,8 +888,86 @@ const CashFlowSummary = () => {
     }
   };
 
+  // on close Icon to close search box
   const handleCancelSearchbox = () => {
     setSearchBox(false);
+  };
+
+  // when Show search data below the search Box
+  const handleSearches = (Data, fieldName) => {
+    if (inflowTab === true) {
+      setFlowsSearch({
+        ...flowsSearch,
+        [fieldName]: "",
+      });
+      let data = {
+        OrganizationName:
+          fieldName === "organizationName" ? "" : flowsSearch.organizationName,
+        DateFrom: "",
+        DateTo: "",
+        sRow: 1,
+        eRow: 100,
+      };
+      dispatch(globalAdminDashBoardLoader(true));
+      dispatch(getCashFlowMainApi({ data, navigate, t }));
+    } else {
+      setFlowsSearch({
+        ...flowsSearch,
+        [fieldName]: "",
+      });
+      let data = {
+        OrganizationName:
+          fieldName === "organizationName" ? "" : flowsSearch.organizationName,
+        DateFrom: "",
+        DateTo: "",
+        sRow: 1,
+        eRow: 100,
+      };
+      console.log(data, "consoleconsole");
+      dispatch(globalAdminDashBoardLoader(true));
+      dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
+    }
+  };
+
+  // onClick to search from search box
+  const handleSearch = () => {
+    try {
+      if (inflowTab === true) {
+        let data = {
+          OrganizationName: flowsSearch.organizationName,
+          DateFrom: "",
+          DateTo: "",
+          sRow: 1,
+          eRow: 100,
+        };
+        dispatch(globalAdminDashBoardLoader(true));
+        // Clear previous results
+        setCashInFlowData([]);
+        setTotalRecords(0);
+        setSRowsData(0);
+        dispatch(getCashFlowMainApi({ data, navigate, t }));
+        setSearchBox(false);
+        setShowSearchText(true);
+      } else {
+        let data = {
+          OrganizationName: flowsSearch.organizationName,
+          DateFrom: "",
+          DateTo: "",
+          sRow: 1,
+          eRow: 100,
+        };
+        dispatch(globalAdminDashBoardLoader(true));
+        // Clear previous results
+        setCashOutFlowTable([]);
+        setTotalRecords(0);
+        setSRowsData(0);
+        dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
+        setSearchBox(false);
+        setShowSearchText(true);
+      }
+    } catch (error) {
+      console.error("Error during search:", error);
+    }
   };
 
   return (
@@ -817,6 +1001,35 @@ const CashFlowSummary = () => {
                           draggable="false"
                           onClick={HandleopenSearchBox}
                         />
+                        <Row>
+                          <Col
+                            lg={12}
+                            md={12}
+                            sm={12}
+                            className="d-flex gap-2 flex-wrap"
+                          >
+                            {showsearchText &&
+                            flowsSearch.organizationName !== "" ? (
+                              <div className={styles["SearchablesItems"]}>
+                                <span className={styles["Searches"]}>
+                                  {flowsSearch.organizationName}
+                                </span>
+                                <img
+                                  src={Crossicon}
+                                  alt=""
+                                  className={styles["CrossIcon_Class"]}
+                                  width={13}
+                                  onClick={() =>
+                                    handleSearches(
+                                      flowsSearch.organizationName,
+                                      "organizationName"
+                                    )
+                                  }
+                                />
+                              </div>
+                            ) : null}
+                          </Col>
+                        </Row>
                       </Col>
                     </Row>
                   </>
@@ -852,9 +1065,11 @@ const CashFlowSummary = () => {
                         <Col lg={12} md={12} sm={12}>
                           <TextField
                             labelClass={"d-none"}
-                            name={"adminName"}
+                            name={"organizationName"}
                             applyClass={"SearchTextFiled"}
                             placeholder={t("Organization-name")}
+                            value={flowsSearch.organizationName}
+                            change={handleChangeSearchBoxValues}
                           />
                         </Col>
                       </Row>
@@ -915,10 +1130,12 @@ const CashFlowSummary = () => {
                           <Button
                             text={t("Reset")}
                             className={styles["SearchBoxResetButton"]}
+                            // onClick={handleReset}
                           />
                           <Button
                             text={t("Search")}
                             className={styles["SearchButton"]}
+                            onClick={handleSearch}
                           />
                         </Col>
                       </Row>
@@ -1022,7 +1239,7 @@ const CashFlowSummary = () => {
                 <InfiniteScroll
                   dataLength={cashOutFlowTable.length}
                   next={handleCashOutScroll}
-                  height={"20vh"}
+                  height={"60vh"}
                   hasMore={
                     cashOutFlowTable.length === totalRecords ? false : true
                   }

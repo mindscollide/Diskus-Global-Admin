@@ -24,6 +24,9 @@ import {
   trialExtendedReportApi,
   trialSubscribeExpiredReportApi,
   getPackageDetailGlobalApi,
+  UpdateGlobalAdminUserApi,
+  trialReportExportApi,
+  getInvoiceHtmlApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -31,13 +34,13 @@ const initialState = {
   StatsOfActiveLicenseApiData: null,
   OrganizationsByActiveLicenseApiData: null,
   TotalThisMonthDueApiData: null,
-  GetAllBillingDueApiData: [],
+  GetAllBillingDueApiData: null,
   OrganizationStatsSubscriptionData: null,
   OrganizationSubscriptionStatsGraphData: null,
   SendInvoiceData: null,
   GetAllPackagesWithFeaturesGlobalAdminData: [],
   UpdatePackagePriceGlobalAdminData: null,
-  GetSystemConfigurationsData: [],
+  GetSystemConfigurationsData: null,
   UpdateAllOrganizationLevelConfigurationData: null,
   changePasswordData: null,
   cashFlowData: null,
@@ -48,6 +51,9 @@ const initialState = {
   listOfExpiredSubscriptions: null,
   trialRenew: null,
   packageDetailModalData: null,
+  updateGlobalUser: null,
+  listOfTrialSubscriptions: null,
+  htmlStringData: null,
   Responsemessage: "",
 };
 
@@ -111,8 +117,9 @@ const globalAdminDashboardReducer = createSlice({
         state.GetAllBillingDueApiData = action.payload;
         state.Responsemessage = "Success";
       })
+
       .addCase(GetAllBillingDueApi.rejected, (state, action) => {
-        state.GetAllBillingDueApiData = [];
+        state.GetAllBillingDueApiData = null;
         state.Responsemessage = action.payload || "An error occurred";
       })
 
@@ -209,7 +216,7 @@ const globalAdminDashboardReducer = createSlice({
         state.Responsemessage = "Success";
       })
       .addCase(GetSystemConfigurationsApi.rejected, (state, action) => {
-        state.GetSystemConfigurationsData = [];
+        state.GetSystemConfigurationsData = null;
         state.Responsemessage = action.payload || "An error occurred";
       })
 
@@ -385,6 +392,43 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getPackageDetailGlobalApi.rejected, (state, action) => {
         state.packageDetailModalData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //get PackageDetail Modal Api
+      .addCase(UpdateGlobalAdminUserApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(UpdateGlobalAdminUserApi.fulfilled, (state, action) => {
+        state.updateGlobalUser = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(UpdateGlobalAdminUserApi.rejected, (state, action) => {
+        state.updateGlobalUser = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      // Trial Subscription Expired Download Report Api
+      .addCase(trialReportExportApi.pending, (state) => {
+        // state.loading = false;
+      })
+      .addCase(trialReportExportApi.fulfilled, (state, action) => {
+        state.Responsemessage = "Success";
+      })
+      .addCase(trialReportExportApi.rejected, (state, action) => {
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      // for html modal dashboard sendInvoice Api
+      .addCase(getInvoiceHtmlApi.pending, (state) => {
+        // state.loading = false;
+      })
+      .addCase(getInvoiceHtmlApi.fulfilled, (state, action) => {
+        state.htmlStringData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getInvoiceHtmlApi.rejected, (state, action) => {
+        state.htmlStringData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

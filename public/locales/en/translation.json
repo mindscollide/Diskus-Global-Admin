@@ -229,5 +229,10 @@
   "Sms-settings": "SMS Settings",
   "No-billing-due": "No Billing Due",
   "No-payment-due-for-this-organization": "No Payment Due for This Organization",
-  "Total-due": "Total Due"
+  "Total-due": "Total Due",
+  "Trial-extend-date": "Trial Extend Date",
+  "Trial-extend-end-date": "Trial Extend End Date",
+  "No-of-licenses": "No. of licenses ",
+  "Extend-Trial-for-No-of-days": "Extend Trial for No of days",
+  "Extend-trial": "Extend Trial"
 }

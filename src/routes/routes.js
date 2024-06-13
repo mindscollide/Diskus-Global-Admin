@@ -13,6 +13,7 @@ import OrganizationLevelSettings from "../container/OrganizationLevelSettings/Or
 import PakagesGlobalAdmin from "../container/PakagesGlobalAdmin/PakagesGlobalAdmin";
 import GlobalLevelSettings from "../container/GlobalLevelSettings/GlobalLevelSettings";
 import CashFlowSummary from "../container/CashFlowSumarry/CashFlowSummary";
+import NewViewOrganization from "../container/NewViewOrganization/NewViewOrganization";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -52,6 +53,7 @@ export const router = createHashRouter(
         <Route path="GlobalLevelSettings" element={<GlobalLevelSettings />} />
         <Route path="Summary" element={<CashFlowSummary />} />
       </Route> */}
+
     </>
   )
 );

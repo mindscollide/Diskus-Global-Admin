@@ -76,6 +76,10 @@ const ViewOrganization = () => {
   const [aminNameSearch, setAminNameSearch] = useState("");
 
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
+  console.log(
+    organizationDataValue,
+    "organizationDataValueorganizationDataValue"
+  );
 
   const [openNotification, setOpenNotification] = useState({
     organizationFlag: false,
@@ -143,7 +147,15 @@ const ViewOrganization = () => {
       Length: 10,
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ navigate, t }));
+    let newData = {
+      OrganizationContactName: "",
+      OrganizationContactEmail: "",
+      OrganizationDateTo: "",
+      OrganizationDateFrom: "",
+      OrganizationSubscriptionStatus: 0,
+      OrganizationName: "",
+    };
+    dispatch(getAllOrganizationApi({ newData, navigate, t }));
     dispatch(searchOrganizationApi({ data, navigate, t }));
     return () => {
       setSearchOrganizationData({
@@ -167,12 +179,17 @@ const ViewOrganization = () => {
   }, []);
 
   useEffect(() => {
+    console.log(
+      organizationIdData,
+      "getAllOrganizationDatagetAllOrganizationData"
+    );
     if (
-      organizationIdData?.result.getAllOrganizations.length > 0 &&
-      organizationIdData?.result.getAllOrganizations !== null
+      organizationIdData?.result !== null &&
+      organizationIdData?.result !== undefined &&
+      organizationIdData?.result.length > 0
     ) {
       setOrganizationData(
-        organizationIdData.result.getAllOrganizations.map((item) => ({
+        organizationIdData.result.map((item) => ({
           value: item.organizationID,
           label: item.organizationName,
         }))
@@ -181,6 +198,7 @@ const ViewOrganization = () => {
   }, [organizationIdData]);
 
   const organizerChangeHandler = (selectedOrganizer) => {
+    console.log(selectedOrganizer, "selectedOrganizerselectedOrganizer");
     setSearchOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
   };

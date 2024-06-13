@@ -436,3 +436,14 @@ body[dir="rtl"] .ExportBUtton {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+.Extend-trial-btn {
+  padding: 4px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+  font-weight: 400 !important;
+  height: 34px !important;
+}

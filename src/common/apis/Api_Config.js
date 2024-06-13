@@ -89,7 +89,7 @@ const UpdateAllOrganizationLevelConfiguration = {
 
 //Change password GlobalAdmin
 const ChangePassword = {
-  RequestMethod: "ServiceManager.ChangePassword",
+  RequestMethod: "ServiceManager.ChangePasswordGlobalAdmin",
 };
 
 //userLogout
@@ -152,6 +152,21 @@ const getPackageDetailsModal = {
   RequestMethod: "ServiceManager.GetPackageDetailsForGlobalAdmin",
 };
 
+// for user Update Modal Api
+const UpdateGlobalAdminUser = {
+  RequestMethod: "ServiceManager.UpdateGlobalAdminUser",
+};
+
+// for download ListOfTrialSubscriptions report on Trial Api
+const downloadTrialReport = {
+  RequestMethod: "ServiceManager.ExportListOfTrialSubscriptions",
+};
+
+// for getInvoiceHTMLbyorganizationID modal on sendInvoice Button
+const getInvoiceHtmlOrganization = {
+  RequestMethod: "ServiceManager.GetInvoiceHtmlByOrganizationID",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -186,4 +201,7 @@ export {
   downloadTrialSubscribedReport,
   downloadExpiredTrialSubscriptionReport,
   getPackageDetailsModal,
+  UpdateGlobalAdminUser,
+  downloadTrialReport,
+  getInvoiceHtmlOrganization,
 };

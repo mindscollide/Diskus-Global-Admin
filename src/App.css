@@ -340,9 +340,9 @@ body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
 .eye_icon.valid-feedback {
   display: block;
   position: absolute;
-  top: 89px;
+  top: 85px;
   font-size: 22px;
-  right: 54% !important;
+  right: 53% !important;
   width: 30px !important;
   cursor: pointer;
 }
@@ -350,9 +350,9 @@ body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
 .eye_icon_newPassowrd.valid-feedback {
   display: block;
   position: absolute;
-  top: 148px;
+  top: 153px;
   font-size: 22px;
-  right: 54% !important;
+  right: 53% !important;
   width: 30px !important;
   cursor: pointer;
 }
@@ -360,9 +360,9 @@ body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
 .eye_icon_ConfirmPassword.valid-feedback {
   display: block;
   position: absolute;
-  top: 208px;
+  top: 221px;
   font-size: 22px;
-  right: 54% !important;
+  right: 53% !important;
   width: 30px !important;
   cursor: pointer;
 }
@@ -556,4 +556,39 @@ body[dir="rtl"]
   > th
   .ant-table-column-sorter {
   display: none;
+}
+
+.ant-table-wrapper.TrialTableDashboard
+  .ant-table
+  .ant-table-thead
+  > tr
+  > th
+  .ant-table-column-sorter {
+  display: none;
+}
+
+.ant-table-wrapper.TrialExtendedDashboard
+  .ant-table
+  .ant-table-thead
+  > tr
+  > th
+  .ant-table-column-sorter {
+  display: none;
+}
+
+.ant-table-wrapper.EssentialTable
+  .ant-table
+  .ant-table-thead
+  > tr
+  > th
+  .ant-table-column-sorter {
+  display: none;
+}
+
+/* Class for changePassword modal */
+.changePassword .modal-content {
+  height: 471px !important;
+  width: 704px !important;
+  border-radius: 4px !important;
+  margin-left: 50px;
 }

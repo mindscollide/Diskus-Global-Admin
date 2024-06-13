@@ -268,9 +268,10 @@ export const getAllOrganizationApi = createAsyncThunk(
   "getAllOrganization/getAllOrganization",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { navigate, t } = requestData;
+    let { newData, navigate, t } = requestData;
     let form = new FormData();
     form.append("RequestMethod", getAllOrganization.RequestMethod);
+    form.append("RequestData", JSON.stringify(newData));
     try {
       const response = await axios({
         method: "post",
@@ -294,7 +295,7 @@ export const getAllOrganizationApi = createAsyncThunk(
             dispatch(viewOrganizationLoader(false));
             try {
               return {
-                result: response.data.responseResult,
+                result: response.data.responseResult.getAllOrganizations,
                 code: "GetAllOrganization_01",
               };
             } catch (error) {
