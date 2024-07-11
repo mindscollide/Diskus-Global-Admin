@@ -13,7 +13,7 @@ import OrganizationLevelSettings from "../container/OrganizationLevelSettings/Or
 import PakagesGlobalAdmin from "../container/PakagesGlobalAdmin/PakagesGlobalAdmin";
 import GlobalLevelSettings from "../container/GlobalLevelSettings/GlobalLevelSettings";
 import CashFlowSummary from "../container/CashFlowSumarry/CashFlowSummary";
-import NewViewOrganization from "../container/NewViewOrganization/NewViewOrganization";
+// import NewViewOrganization from "../container/NewViewOrganization/NewViewOrganization";
 import ViewOrganizations from "../container/ViewOrganizations/ViewOrganizations";
 
 export const router = createHashRouter(
