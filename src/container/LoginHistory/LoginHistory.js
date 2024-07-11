@@ -72,9 +72,6 @@ const LoginHistory = () => {
     (state) => state.loginHistory.loginHistoryData
   );
 
-  // device ID seletor state
-  const [selectedInterface, setSelectedInterface] = useState(null);
-
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
     historyNotification: null,
@@ -109,20 +106,6 @@ const LoginHistory = () => {
     Title: "",
   });
 
-  // search Organizer State
-  const [searchOrganizationData, setSearchOrganizationData] = useState({
-    OrganizationContactName: "",
-    OrganizationContactEmail: "",
-    OrganizationDateFrom: "",
-    OrganizationDateTo: "",
-    OrganizationName: "",
-    OrganizationSubscriptionStatus: {
-      value: 0,
-      label: "",
-    },
-    OrganizationDateToView: "",
-    OrganizationDateFromView: "",
-  });
   const [isIpAddressValid, setIsIpAddressValid] = useState(false);
 
   //Login history Api calling
@@ -193,7 +176,6 @@ const LoginHistory = () => {
   }, [currentLanguage]);
 
   useEffect(() => {
-    let newarr = [];
     try {
       if (
         organizationIdData?.result !== null &&
@@ -217,10 +199,6 @@ const LoginHistory = () => {
     console.log(selectedOrganizer, "selectedOrganizerselectedOrganizer");
     setOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
-    // setSearchOrganizationData((prevState) => ({
-    //   ...prevState,
-    //   OrganizationName: selectedOrganizer.label,
-    // }));
   };
 
   useEffect(() => {
@@ -292,7 +270,7 @@ const LoginHistory = () => {
       title: t("User-email"),
       dataIndex: "emailAddress",
       key: "emailAddress",
-      align: "center",
+      className: "class-table-loginhistory",
       ellipsis: true,
       width: 200,
       render: (text, record) => (

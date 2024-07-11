@@ -7,7 +7,7 @@ const countryCodeMap = {
   "+971": "AE", // United Arab Emirates
   "+93": "AF", // Afghanistan
   "+1": "AG", // Antigua and Barbuda
-  "+1": "AI", // Anguilla
+  "+1-264": "AI", // Anguilla
   "+355": "AL", // Albania
   "+374": "AM", // Armenia
   "+244": "AO", // Angola
@@ -253,11 +253,23 @@ const countryCodeMap = {
 
 const FlagCountryName = ({ countryCode }) => {
   const { t } = useTranslation();
-
   const [SvgComponent, setSvgComponent] = useState(null);
-  let countryCode2 = countryCodeMap[countryCode];
+
   useEffect(() => {
     const loadSvg = async () => {
+      if (!countryCode) {
+        console.error("countryCode is undefined");
+        setSvgComponent(null);
+        return;
+      }
+
+      let countryCode2 = countryCodeMap[countryCode];
+      if (!countryCode2) {
+        console.error(`countryCode ${countryCode} not found in countryCodeMap`);
+        setSvgComponent(null);
+        return;
+      }
+
       try {
         // Dynamically import the SVG file based on the country code
         const countryIcon = await import(

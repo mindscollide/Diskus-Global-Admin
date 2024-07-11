@@ -61,10 +61,6 @@ import TrialRenewModal from "./TrialRenewModal/TrialRenewModal";
 import SubscriptionRenewModal from "./SubscriptionRenewModal/SubscriptionRenewModal";
 import PackageDetailModal from "./PackageDetailModal/PackageDetailModal";
 import InvoiceHtmlModal from "./InvoiceHtmlModal/InvoiceHtmlModal";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
 
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();

@@ -3,7 +3,6 @@ import styles from "./GlobalLevelSettings.module.css";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select";
 import { Col, Row } from "react-bootstrap";
 import line from "../../assets/images/OutletImages/Line 27.svg";
 import MeetingIcon from "../../assets/images/OutletImages/MeetingSetting.svg";
@@ -14,8 +13,10 @@ import TodoIcon from "../../assets/images/OutletImages/Todo_icon.svg";
 import { Button, TextField } from "../../components/elements";
 import Profilepicture from "../../assets/images/OutletImages/newprofile.png";
 
-import { Checkbox, InputNumber } from "antd";
+import { Checkbox } from "antd";
 import {
+  onlyCharactersPattern,
+  onlyNumbersPattern,
   regexOnlyCharacters,
   regexOnlyForNumberNCharacters,
   regexOnlyNumbers,
@@ -402,22 +403,22 @@ const GlobalLevelSettings = () => {
   };
 
   const regexPatterns = {
-    numberOnlyState: /^[0-9]+$/,
-    Meeting_Started_Minutes_Ago: /^[0-9]+$/,
-    Join_Meeting_Before_Minutes: /^[0-9]+$/,
-    Meeting_Extra_Time_Active: /^[0-9]+$/,
-    MaxAllowedFailedLoginAttempts: /^[0-9]+$/,
-    IdleTimeout: /^[0-9]+$/,
-    AccountDormantDays: /^[0-9]+$/,
-    MaxOTPFailedAttemptCount: /^[0-9]+$/,
-    OTP_RECREATION_TIME_LEFT: /^[0-9]+$/,
-    DATA_ARCHIVING_GRACE_DAY: /^[0-9]+$/,
-    Invoice_Clearance_Days_Margin: /^[0-9]+$/,
-    Late_Fees_Days_Margin: /^[0-9]+$/,
-    Days_Before_Expiry_For_Invoice: /^[0-9]+$/,
-    SMS_SERVICE_PASSWORD: /^[0-9]+$/,
-    SMS_SERVICE_BUNDLE_ID: /^[0-9]+$/,
-    MailDisplayName: /^[a-zA-Z\s]+$/,
+    numberOnlyState: onlyNumbersPattern,
+    Meeting_Started_Minutes_Ago: onlyNumbersPattern,
+    Join_Meeting_Before_Minutes: onlyNumbersPattern,
+    Meeting_Extra_Time_Active: onlyNumbersPattern,
+    MaxAllowedFailedLoginAttempts: onlyNumbersPattern,
+    IdleTimeout: onlyNumbersPattern,
+    AccountDormantDays: onlyNumbersPattern,
+    MaxOTPFailedAttemptCount: onlyNumbersPattern,
+    OTP_RECREATION_TIME_LEFT: onlyNumbersPattern,
+    DATA_ARCHIVING_GRACE_DAY: onlyNumbersPattern,
+    Invoice_Clearance_Days_Margin: onlyNumbersPattern,
+    Late_Fees_Days_Margin: onlyNumbersPattern,
+    Days_Before_Expiry_For_Invoice: onlyNumbersPattern,
+    SMS_SERVICE_PASSWORD: onlyNumbersPattern,
+    SMS_SERVICE_BUNDLE_ID: onlyNumbersPattern,
+    MailDisplayName: onlyCharactersPattern,
   };
 
   // Single onChange Handler for Global Admin
@@ -426,7 +427,6 @@ const GlobalLevelSettings = () => {
       regexPatterns[key.configKey] &&
       !regexPatterns[key.configKey].test(value)
     ) {
-      console.error(`Invalid value for ${key.configKey}`);
       return;
     }
 
@@ -439,7 +439,6 @@ const GlobalLevelSettings = () => {
         };
         return updatedData;
       } else {
-        console.error(`Key "${key}" does not exist in the state.`);
         return prevData;
       }
     });
@@ -461,7 +460,6 @@ const GlobalLevelSettings = () => {
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(UpdateGlobalLevelConfigurationApi({ data, navigate, t }));
     // Log the payload to the console
-    // console.log("Payload:", JSON.stringify(payload, null, 2));
   };
 
   return (
@@ -1038,14 +1036,20 @@ const GlobalLevelSettings = () => {
                         {t("Default-organizer-name")}
                       </span>
                       <br />
-                      <img src={Profilepicture} width={50} />
+                      <img
+                        src={newData.DEFAULT_PROFILE_PICTURE_ORIGINAL_NAME}
+                        width={50}
+                      />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Default-profile-name")}
                       </span>
                       <br />
-                      <img src={Profilepicture} width={50} />
+                      <img
+                        src={newData.DEFAULT_PROFILE_PICTURE_DISPLAY_NAME}
+                        width={50}
+                      />
                     </Col>
                   </Row>
                 </>
