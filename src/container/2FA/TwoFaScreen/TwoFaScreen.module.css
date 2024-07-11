@@ -11,7 +11,6 @@ body[dir="rtl"] .two-fa-verification-heading {
   font-weight: 500 !important;
   font-size: 30px !important;
   text-align: left !important;
-  font-weight: 500 !important;
 }
 
 .two-fa-verification-subheading {
@@ -27,7 +26,6 @@ body[dir="rtl"] .two-fa-verification-subheading {
   font-size: 16px !important;
   text-align: left !important;
   margin-right: 50px !important;
-  font-weight: 500 !important;
 }
 
 .SendCode-button-color {

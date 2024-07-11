@@ -81,6 +81,15 @@
   cursor: pointer;
 }
 
+body[dir="rtl"] .Cross-X {
+  position: relative;
+  top: -20px !important;
+  left: -20px !important;
+  right: auto !important;
+  font-size: 10px !important;
+  cursor: pointer;
+}
+
 .input-color {
   width: 100px !important;
   height: 30px !important;
@@ -100,4 +109,18 @@
   color: #5a5a5a;
   margin-right: 60px;
   font-weight: 600;
+}
+
+body[dir="rtl"] .package-color-text {
+  font-size: 12px !important;
+  color: #5a5a5a;
+  margin-right: 0px !important;
+  margin-left: 60px !important;
+  font-weight: 600;
+}
+
+.Error-message-class {
+  font-size: 10px;
+  font-weight: 700;
+  color: crimson;
 }

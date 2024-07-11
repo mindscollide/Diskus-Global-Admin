@@ -38,6 +38,8 @@ import { Spin } from "antd";
 import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
+import { getAllOrganizationNameMainApi } from "../../store/Actions/GlobalAdminDashboardActions";
+import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
 const LoginHistory = () => {
   const { t } = useTranslation();
@@ -54,21 +56,33 @@ const LoginHistory = () => {
   console.log({ currentLanguage, local }, "currentLanguagecurrentLanguage");
 
   const organizationIdData = useSelector(
-    (state) => state.searchOrganization.getAllOrganizationData
+    (state) => state.globalAdminDashboardReducer.getOrganizationNames
   );
 
   const [organizationData, setOrganizationData] = useState([]);
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
+  console.log(
+    organizationDataValue,
+    "organizationDataValueorganizationDataValue"
+  );
+  const [organizationID, setOrganizationID] = useState(0);
+  console.log(organizationIdData, "organizationIDorganizationID");
 
   const UserLoginHistoryData = useSelector(
     (state) => state.loginHistory.loginHistoryData
   );
+
+  // device ID seletor state
+  const [selectedInterface, setSelectedInterface] = useState(null);
 
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
     historyNotification: null,
     severity: "none",
   });
+
+  // for dropdown lazy loading state:
+  const [organization, setOrganization] = useState([]);
 
   //states for the component
   const [searchBox, setSearchBox] = useState(false);
@@ -87,11 +101,27 @@ const LoginHistory = () => {
     DateTo: "",
     DateToView: "",
     IpAddress: "",
+    deviceID: { value: "", label: "" },
     InterFaceType: {
       value: 0,
       label: "",
     },
     Title: "",
+  });
+
+  // search Organizer State
+  const [searchOrganizationData, setSearchOrganizationData] = useState({
+    OrganizationContactName: "",
+    OrganizationContactEmail: "",
+    OrganizationDateFrom: "",
+    OrganizationDateTo: "",
+    OrganizationName: "",
+    OrganizationSubscriptionStatus: {
+      value: 0,
+      label: "",
+    },
+    OrganizationDateToView: "",
+    OrganizationDateFromView: "",
   });
   const [isIpAddressValid, setIsIpAddressValid] = useState(false);
 
@@ -110,6 +140,8 @@ const LoginHistory = () => {
     };
     dispatch(loginHistoryLoader(true));
     dispatch(LoginHistoryAPI({ data, navigate, t }));
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(getAllOrganizationNameMainApi({ navigate, t }));
     return () => {
       setUserLoginHistorySearch({
         userName: "",
@@ -119,6 +151,7 @@ const LoginHistory = () => {
         DateTo: "",
         DateToView: "",
         IpAddress: "",
+        deviceID: { value: "", label: "" },
         InterFaceType: {
           value: 0,
           label: "",
@@ -131,14 +164,21 @@ const LoginHistory = () => {
       setTotalRecords(0);
       setSRowsData(0);
       setTablerows([]);
-      setOrganizationDataValue(null);
     };
   }, []);
 
+  // for get ALl organizationName API
   useEffect(() => {
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ navigate, t }));
-  }, []);
+    if (
+      organizationIdData !== null &&
+      organizationIdData !== undefined &&
+      organizationIdData?.result?.organizations.length > 0
+    ) {
+      setOrganization(organizationIdData.result.organizations);
+    } else {
+      setOrganization([]);
+    }
+  }, [organizationIdData]);
 
   useEffect(() => {
     if (currentLanguage !== undefined) {
@@ -153,22 +193,34 @@ const LoginHistory = () => {
   }, [currentLanguage]);
 
   useEffect(() => {
-    if (
-      organizationIdData?.result.getAllOrganizations.length > 0 &&
-      organizationIdData?.result.getAllOrganizations !== null
-    ) {
-      setOrganizationData(
-        organizationIdData.result.getAllOrganizations.map((item) => ({
-          value: item.organizationID,
-          label: item.organizationName,
-        }))
-      );
+    let newarr = [];
+    try {
+      if (
+        organizationIdData?.result !== null &&
+        organizationIdData?.result !== undefined &&
+        organizationIdData?.result.length > 0
+      ) {
+        setOrganizationData(
+          organizationIdData.result.map((item) => ({
+            value: item.organizationID,
+            label: item.organizationName,
+          }))
+        );
+      } else {
+      }
+    } catch (error) {
+      console.log(error, "error");
     }
   }, [organizationIdData]);
-  const [organizationID, setOrganizationID] = useState(0);
+
   const organizerChangeHandler = (selectedOrganizer) => {
+    console.log(selectedOrganizer, "selectedOrganizerselectedOrganizer");
     setOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
+    // setSearchOrganizationData((prevState) => ({
+    //   ...prevState,
+    //   OrganizationName: selectedOrganizer.label,
+    // }));
   };
 
   useEffect(() => {
@@ -214,7 +266,7 @@ const LoginHistory = () => {
       title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
-      align: "left",
+      className: "class-table-loginhistory",
       ellipsis: true,
       width: 220,
       render: (text, record) => (
@@ -227,7 +279,7 @@ const LoginHistory = () => {
       title: t("User-name"),
       dataIndex: "userName",
       key: "userName",
-      align: "left",
+      className: "class-table-loginhistory",
       ellipsis: true,
       width: 220,
       render: (text, record) => (
@@ -273,12 +325,19 @@ const LoginHistory = () => {
       align: "center",
       width: 200,
       render: (text, record) => {
+        console.log(record, "recordrecord");
         return (
           <span className={styles["inner-sub-Heading"]}>
-            {convertUtcDateAndTimeToCurrentTimeZone(
+            {record.dateLogOut === "-"
+              ? "-"
+              : convertUtcDateAndTimeToCurrentTimeZone(
+                  record.dateLogOut,
+                  currentLanguage
+                )}
+            {/* {convertUtcDateAndTimeToCurrentTimeZone(
               record.dateLogOut,
               currentLanguage
-            )}
+            )} */}
           </span>
         );
       },
@@ -346,12 +405,14 @@ const LoginHistory = () => {
     }
     setUserLoginHistorySearch({
       ...userLoginHistorySearch,
+      organizationID: organizationID,
       userName: userLoginHistorySearch.userName,
       userEmail: userLoginHistorySearch.userEmail,
       DateFrom: userLoginHistorySearch.DateFrom,
       DateForView: userLoginHistorySearch.DateForView,
       DateTo: userLoginHistorySearch.DateTo,
       DateToView: userLoginHistorySearch.DateToView,
+      DeviceID: userLoginHistorySearch.deviceID.value,
       IpAddress: userLoginHistorySearch.IpAddress,
       InterFaceType: {
         value: 0,
@@ -359,8 +420,14 @@ const LoginHistory = () => {
       },
       Title: userLoginHistorySearch.Title,
     });
-    setOrganizationDataValue(null);
     setSearchBox(!searchBox);
+  };
+
+  const handleInterfaceChange = (selectedOption) => {
+    setUserLoginHistorySearch((prevState) => ({
+      ...prevState,
+      deviceID: selectedOption, // Store the entire selected option object
+    }));
   };
 
   const handleCancelSearchbox = () => {
@@ -375,6 +442,7 @@ const LoginHistory = () => {
   const handleChangeFromDate = (date) => {
     let getDate = new Date(date);
     let utcDate = getDate.toISOString().slice(0, 10).replace(/-/g, "");
+    console.log(utcDate, "ajvajdvjhvdadv");
     setUserLoginHistorySearch({
       ...userLoginHistorySearch,
       DateFrom: utcDate,
@@ -444,21 +512,25 @@ const LoginHistory = () => {
   };
 
   const InterfaceOptions = [
-    { value: "Web", label: "Web" },
-    { value: "Mobile", label: "Mobile" },
-    { value: "Tablet", label: "Tablet" },
+    { value: "1", label: "Web" },
+    { value: "2", label: "Mobile" },
+    { value: "3", label: "Tablet" },
   ];
 
   const handleSearh = () => {
     try {
       let data = {
-        OrganizationID: 0,
+        OrganizationID: Number(organizationID),
         Username: userLoginHistorySearch.userName,
         UserEmail: userLoginHistorySearch.userEmail,
         IpAddress: userLoginHistorySearch.IpAddress,
-        DeviceID: "1",
-        DateLogin: userLoginHistorySearch.DateFrom,
-        DateLogOut: userLoginHistorySearch.DateTo,
+        DeviceID: userLoginHistorySearch.deviceID.value,
+        DateLogin: userLoginHistorySearch.DateFrom
+          ? `${userLoginHistorySearch.DateFrom}000000`
+          : "",
+        DateLogOut: userLoginHistorySearch.DateTo
+          ? `${userLoginHistorySearch.DateTo}000000`
+          : "",
         sRow: 0,
         Length: 10,
       };
@@ -466,60 +538,47 @@ const LoginHistory = () => {
       dispatch(LoginHistoryAPI({ data, navigate, t }));
       setSearchBox(false);
       setShowSearchText(true);
-
-      // if (
-      //   Responsemessage !== null &&
-      //   Responsemessage !== undefined &&
-      //   Responsemessage !== ""
-      // ) {
-      //   if (Responsemessage === "Success") {
-      //     setTimeout(
-      //       setOpenNotification({
-      //         ...openNotification,
-      //         historyFlag: true,
-      //         historyNotification: t("Data Available"),
-      //         severity: "success",
-      //       }),
-      //       10000
-      //     );
-      //   } else {
-      //     setTimeout(
-      //       setOpenNotification({
-      //         ...openNotification,
-      //         historyFlag: true,
-      //         historyNotification: t("No Data Available"),
-      //         severity: "error",
-      //       }),
-      //       3000
-      //     );
-      //   }
-      // }
     } catch {}
   };
 
-  const handleSearches = (Data, fieldName) => {
-    console.log(Data, fieldName, "datadatadatahandleSearches");
-    setUserLoginHistorySearch({
-      ...userLoginHistorySearch,
-      [fieldName]: "",
-    });
+  const handleSearches = (fieldName) => {
+    let updatedData = { ...userLoginHistorySearch };
+    if (fieldName === "userName") {
+      updatedData.userName = "";
+    } else if (fieldName === "userEmail") {
+      updatedData.userEmail = "";
+    } else if (fieldName === "IpAddress") {
+      updatedData.IpAddress = "";
+    } else if (fieldName === "IpAddress") {
+      updatedData.IpAddress = "";
+    } else if (fieldName === "DateFrom") {
+      updatedData.DateFrom = "";
+      updatedData.DateForView = "";
+    } else if (fieldName === "DateTo") {
+      updatedData.DateTo = "";
+      updatedData.DateToView = "";
+    } else if (fieldName === "organizationID") {
+      updatedData.organizationID = 0;
+      setOrganizationDataValue(null);
+    } else if (fieldName === "deviceID") {
+      updatedData.deviceID = { value: "", label: "" };
+    } else {
+      updatedData[fieldName] = "";
+    }
+    setUserLoginHistorySearch(updatedData);
 
     let data = {
-      Username: fieldName === "userName" ? "" : userLoginHistorySearch.userName,
-      UserEmail:
-        fieldName === "userEmail" ? "" : userLoginHistorySearch.userEmail,
-      IpAddress:
-        fieldName === "IpAddress" ? "" : userLoginHistorySearch.IpAddress,
-      DeviceID: "",
-      DateLogin:
-        fieldName === "DateFrom" ? "" : userLoginHistorySearch.DateFrom,
-      DateLogOut: fieldName === "DateTo" ? "" : userLoginHistorySearch.DateTo,
+      OrganizationID: updatedData.organizationID,
+      Username: updatedData.userName,
+      UserEmail: updatedData.userEmail,
+      IpAddress: updatedData.IpAddress,
+      DeviceID: updatedData.deviceID.value,
+      DateLogin: updatedData.DateFrom ? `${updatedData.DateFrom}000000` : "",
+      DateLogOut: updatedData.DateTo ? `${updatedData.DateTo}000000` : "",
       sRow: 0,
       Length: 10,
     };
-    console.log(data, "consoleconsole");
     dispatch(loginHistoryLoader(true));
-
     dispatch(LoginHistoryAPI({ data, navigate, t }));
   };
 
@@ -535,6 +594,7 @@ const LoginHistory = () => {
         DateForView: "",
         DateTo: "",
         DateToView: "",
+        deviceID: "",
         IpAddress: "",
         InterFaceType: {
           value: 0,
@@ -551,13 +611,23 @@ const LoginHistory = () => {
     if (isRowsData <= totalRecords) {
       setIsScroll(true);
       let data = {
-        OrganizationID: 0,
-        Username: "",
-        UserEmail: "",
-        IpAddress: "",
+        OrganizationID: Number(organizationID) ? organizationID : 0,
+        Username: userLoginHistorySearch.userName
+          ? userLoginHistorySearch.userName
+          : "",
+        UserEmail: userLoginHistorySearch.userEmail
+          ? userLoginHistorySearch.userEmail
+          : "",
+        IpAddress: userLoginHistorySearch.IpAddress
+          ? userLoginHistorySearch.IpAddress
+          : "",
         DeviceID: "",
-        DateLogin: "",
-        DateLogOut: "",
+        DateLogin: userLoginHistorySearch.DateFrom
+          ? `${userLoginHistorySearch.DateFrom}000000`
+          : "",
+        DateLogOut: userLoginHistorySearch.DateTo
+          ? `${userLoginHistorySearch.DateTo}000000`
+          : "",
         sRow: Number(isRowsData),
         Length: 10,
       };
@@ -583,37 +653,6 @@ const LoginHistory = () => {
     dispatch(LogingHistoryReportApi({ data, navigate, t }));
   };
 
-  // USEEFFECT FOR SHOW NOTIFICATION
-
-  // useEffect(() => {
-  //   if (
-  //     Responsemessage !== null &&
-  //     Responsemessage !== undefined &&
-  //     Responsemessage !== ""
-  //   ) {
-  //     if (Responsemessage === "Success") {
-  //       setTimeout(
-  //         setOpenNotification({
-  //           ...openNotification,
-  //           historyFlag: true,
-  //           historyNotification: t("Data Available"),
-  //           severity: "success",
-  //         }),
-  //         10000
-  //       );
-  //     } else {
-  //       setTimeout(
-  //         setOpenNotification({
-  //           ...openNotification,
-  //           historyFlag: true,
-  //           historyNotification: t("No Data Available"),
-  //           severity: "error",
-  //         }),
-  //         3000
-  //       );
-  //     }
-  //   }
-  // }, [Responsemessage]);
   function onChangeEventForSearch(e) {
     let value = e.target.value;
     setShowSearchText(false);
@@ -625,6 +664,7 @@ const LoginHistory = () => {
     setUserNameSearch(value);
     console.log("value", value);
   }
+
   const handleKeyDownSearch = (e) => {
     if (e.key === "Enter") {
       if (userNameSearch !== "") {
@@ -707,7 +747,7 @@ const LoginHistory = () => {
               />
               <Row>
                 <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
-                  {showsearchText && userLoginHistorySearch.userName !== "" ? (
+                  {showsearchText && userLoginHistorySearch.userName && (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
                         {userLoginHistorySearch.userName}
@@ -717,32 +757,27 @@ const LoginHistory = () => {
                         alt=""
                         className={styles["CrossIcon_Class"]}
                         width={13}
-                        onClick={() =>
-                          handleSearches(
-                            userLoginHistorySearch.userName,
-                            "userName"
-                          )
-                        }
+                        onClick={() => handleSearches("userName")}
                       />
                     </div>
-                  ) : null}
-                  {showsearchText && userLoginHistorySearch.Title !== "" ? (
+                  )}
+                  {showsearchText && organizationDataValue && (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
-                        {userLoginHistorySearch.Title}
+                        {organizationDataValue.label}{" "}
+                        {/* Display the label here */}
                       </span>
                       <img
                         src={Crossicon}
                         alt=""
                         className={styles["CrossIcon_Class"]}
                         width={13}
-                        onClick={() =>
-                          handleSearches(userLoginHistorySearch.Title, "Title")
-                        }
+                        onClick={() => handleSearches("organizationID")}
                       />
                     </div>
-                  ) : null}
-                  {showsearchText && userLoginHistorySearch.userEmail !== "" ? (
+                  )}
+
+                  {showsearchText && userLoginHistorySearch.userEmail && (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
                         {userLoginHistorySearch.userEmail}
@@ -752,16 +787,11 @@ const LoginHistory = () => {
                         alt=""
                         className={styles["CrossIcon_Class"]}
                         width={13}
-                        onClick={() =>
-                          handleSearches(
-                            userLoginHistorySearch.userEmail,
-                            "userEmail"
-                          )
-                        }
+                        onClick={() => handleSearches("userEmail")}
                       />
                     </div>
-                  ) : null}
-                  {showsearchText && userLoginHistorySearch.IpAddress !== "" ? (
+                  )}
+                  {showsearchText && userLoginHistorySearch.IpAddress && (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
                         {userLoginHistorySearch.IpAddress}
@@ -771,16 +801,11 @@ const LoginHistory = () => {
                         alt=""
                         className={styles["CrossIcon_Class"]}
                         width={13}
-                        onClick={() =>
-                          handleSearches(
-                            userLoginHistorySearch.IpAddress,
-                            "IpAddress"
-                          )
-                        }
+                        onClick={() => handleSearches("IpAddress")}
                       />
                     </div>
-                  ) : null}
-                  {showsearchText && userLoginHistorySearch.DateFrom !== "" ? (
+                  )}
+                  {showsearchText && userLoginHistorySearch.DateFrom && (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
                         {formatDate(
@@ -793,16 +818,11 @@ const LoginHistory = () => {
                         alt=""
                         className={styles["CrossIcon_Class"]}
                         width={13}
-                        onClick={() =>
-                          handleSearches(
-                            userLoginHistorySearch.DateFrom,
-                            "DateFrom"
-                          )
-                        }
+                        onClick={() => handleSearches("DateFrom")}
                       />
                     </div>
-                  ) : null}
-                  {showsearchText && userLoginHistorySearch.DateTo !== "" ? (
+                  )}
+                  {showsearchText && userLoginHistorySearch.DateTo && (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
                         {formatDate(
@@ -815,15 +835,25 @@ const LoginHistory = () => {
                         alt=""
                         className={styles["CrossIcon_Class"]}
                         width={13}
-                        onClick={() =>
-                          handleSearches(
-                            userLoginHistorySearch.DateTo,
-                            "DateTo"
-                          )
-                        }
+                        onClick={() => handleSearches("DateTo")}
                       />
                     </div>
-                  ) : null}
+                  )}
+
+                  {showsearchText && userLoginHistorySearch.deviceID.label && (
+                    <div className={styles["SearchablesItems"]}>
+                      <span className={styles["Searches"]}>
+                        {userLoginHistorySearch.deviceID.label}
+                      </span>
+                      <img
+                        src={Crossicon}
+                        alt=""
+                        className={styles["CrossIcon_Class"]}
+                        width={13}
+                        onClick={() => handleSearches("deviceID")}
+                      />
+                    </div>
+                  )}
                 </Col>
               </Row>
               {searchBox ? (
@@ -942,16 +972,21 @@ const LoginHistory = () => {
                           <Select
                             options={InterfaceOptions}
                             placeholder={t("Interface")}
+                            value={userLoginHistorySearch.deviceID}
+                            onChange={handleInterfaceChange}
                           />
                         </Col>
                       </Row>
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <Select
-                            placeholder={t("Organization")}
                             value={organizationDataValue}
-                            options={organizationData}
+                            placeholder={t("Organization")}
                             onChange={organizerChangeHandler}
+                            options={organization.map((item) => ({
+                              value: item.organizationID,
+                              label: item.organizationName,
+                            }))}
                           />
                         </Col>
                         <Col

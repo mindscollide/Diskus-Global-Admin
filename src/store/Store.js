@@ -5,6 +5,7 @@ import AuthActions from "./ActionsSlicers/AuthLoginSlicer";
 import loginHistory from "./ActionsSlicers/LoginHistorySlicer";
 import searchOrganization from "./ActionsSlicers/ViewOrganizationActionSlicer";
 import globalAdminDashboardReducer from "./ActionsSlicers/GlobalAdminDasboardSlicer";
+import packageAdminReducer from "./ActionsSlicers/PackageSlicer";
 
 const rootReducer = combineReducers({
   Auth: AuthAction,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   loginHistory: loginHistory,
   searchOrganization: searchOrganization,
   globalAdminDashboardReducer: globalAdminDashboardReducer,
+  packageAdminReducer: packageAdminReducer,
 });
 
 const store = configureStore({

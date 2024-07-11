@@ -30,27 +30,27 @@ const EditOrganizationSubscription = ({
   console.log(organzationStatus, "khhdskfdmacbwdhc");
 
   //states
-  useEffect(() => {
-    setOrganzationStatus({
-      value: currentOrganisationSubscriptionName.toString(),
-      label:
-        currentOrganisationSubscriptionName.toString() === "1"
-          ? "Active"
-          : currentOrganisationSubscriptionName.toString() === "2"
-          ? "InActive"
-          : currentOrganisationSubscriptionName.toString() === "3"
-          ? "suspended"
-          : currentOrganisationSubscriptionName.toString() === "4"
-          ? "Closed"
-          : currentOrganisationSubscriptionName.toString() === "5"
-          ? "Terminated Request"
-          : currentOrganisationSubscriptionName.toString() === "6"
-          ? "Deleted"
-          : currentOrganisationSubscriptionName.toString() === "7"
-          ? "Archived"
-          : "Active",
-    });
-  }, [currentOrganisationSubscriptionName]);
+  //   useEffect(() => {
+  //     setOrganzationStatus({
+  //       value: currentOrganisationSubscriptionName.toString(),
+  //       label:
+  //         currentOrganisationSubscriptionName.toString() === "1"
+  //           ? "Active"
+  //           : currentOrganisationSubscriptionName.toString() === "2"
+  //           ? "InActive"
+  //           : currentOrganisationSubscriptionName.toString() === "3"
+  //           ? "suspended"
+  //           : currentOrganisationSubscriptionName.toString() === "4"
+  //           ? "Closed"
+  //           : currentOrganisationSubscriptionName.toString() === "5"
+  //           ? "Terminated Request"
+  //           : currentOrganisationSubscriptionName.toString() === "6"
+  //           ? "Deleted"
+  //           : currentOrganisationSubscriptionName.toString() === "7"
+  //           ? "Archived"
+  //           : "Active",
+  //     });
+  //   }, [currentOrganisationSubscriptionName]);
 
   console.log(organzationStatus.value, "organzationStatusorganzationStatus");
 

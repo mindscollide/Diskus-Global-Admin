@@ -115,20 +115,18 @@ export const EditSubscriptionAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationSubscriptionStatus_01".toLowerCase()
               )
           ) {
-            let data = {
-              OrganizationID: 0,
-              CountryID: 0,
-              ContactPersonName: "",
-              Email: "",
-              StatusID: 0,
-              PackageID: 0,
-              SubsictionExpiryStart: "",
-              SubscriptionExpiryEnd: "",
+            let newData = {
+              OrganizationContactName: "",
+              OrganizationContactEmail: "",
+              OrganizationDateTo: "",
+              OrganizationDateFrom: "",
+              OrganizationSubscriptionStatus: 0,
+              OrganizationName: "",
               sRow: 0,
-              Length: 10,
+              eRow: 10,
             };
-            dispatch(viewOrganizationLoader(false));
-            dispatch(searchOrganizationApi({ data, navigate, t }));
+            dispatch(viewOrganizationLoader(true));
+            dispatch(getAllOrganizationApi({ newData, navigate, t }));
             try {
               return {
                 result: response.data.responseResult,
@@ -204,20 +202,18 @@ export const EditOrganizationAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationStatus_01".toLowerCase()
               )
           ) {
-            let data = {
-              OrganizationID: 0,
-              CountryID: 0,
-              ContactPersonName: "",
-              Email: "",
-              StatusID: 0,
-              PackageID: 0,
-              SubsictionExpiryStart: "",
-              SubscriptionExpiryEnd: "",
+            let newData = {
+              OrganizationContactName: "",
+              OrganizationContactEmail: "",
+              OrganizationDateTo: "",
+              OrganizationDateFrom: "",
+              OrganizationSubscriptionStatus: 0,
+              OrganizationName: "",
               sRow: 0,
-              Length: 10,
+              eRow: 10,
             };
-            dispatch(viewOrganizationLoader(false));
-            dispatch(searchOrganizationApi({ data, navigate, t }));
+            dispatch(viewOrganizationLoader(true));
+            dispatch(getAllOrganizationApi({ newData, navigate, t }));
             try {
               return {
                 result: response.data.responseResult,
@@ -268,9 +264,10 @@ export const getAllOrganizationApi = createAsyncThunk(
   "getAllOrganization/getAllOrganization",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { navigate, t } = requestData;
+    let { newData, navigate, t } = requestData;
     let form = new FormData();
     form.append("RequestMethod", getAllOrganization.RequestMethod);
+    form.append("RequestData", JSON.stringify(newData));
     try {
       const response = await axios({
         method: "post",

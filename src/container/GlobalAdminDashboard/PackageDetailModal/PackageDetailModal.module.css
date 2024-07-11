@@ -51,6 +51,8 @@
 
 .custom-table-row {
   display: flex;
+  width: max-content;
+
   /* Add margin between rows if needed */
 }
 
@@ -58,10 +60,14 @@
   padding: 10px; /* Add padding for better appearance */
   border: 1px solid #ddd; /* Add border styling */
   margin-left: -1px;
+  width: 130px;
+  min-width: 100px; /* Ensure minimum width for cells */
+  text-align: center;
 }
 
 .custom-table-header {
-  font-weight: bold;
+  font-weight: 700;
+  color: #5a5a5a;
 }
 
 .column-container {
@@ -70,13 +76,30 @@
 }
 
 .all-cells {
-  margin-left: 12px;
+  margin-left: -20px;
+  padding: 5px 20px;
+  overflow-x: auto;
+  max-width: 489px; /* Fixed width */
 }
 
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 415px; /* Minimum width to match the fixed width */
+}
 .Cross-X {
   position: relative;
   top: -20px !important;
   right: -40px !important;
   font-size: 10px !important;
+  cursor: pointer;
+}
+
+body[dir="rtl"] .Cross-X {
+  position: relative;
+  top: -20px !important;
+  left: -10px !important;
+  font-size: 10px !important;
+  right: auto !important;
   cursor: pointer;
 }

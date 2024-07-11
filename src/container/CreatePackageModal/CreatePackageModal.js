@@ -6,11 +6,15 @@ import { packageCreateOpenModal } from "../../store/ActionsSlicers/UIModalsActio
 import CrossIcon from "../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import { Button, TextField, Modal } from "../../components/elements";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import InputColor from "react-input-color";
 import { useState } from "react";
+import { addUpdatePackagesMainApi } from "../../store/Actions/PackageAction";
+import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const CreatePackageModal = ({ setPackageNames }) => {
+const CreatePackageModal = ({ setNewPackageNames, allPackages }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const ModalReducer = useSelector((state) => state.modal);
@@ -18,8 +22,11 @@ const CreatePackageModal = ({ setPackageNames }) => {
   const [createPackages, setCreatePackages] = useState({
     packageName: "",
   });
-  console.log(color.hex, "hdhwevdjhev");
 
+  const [errorMessage, setErrorMessage] = useState(false);
+  console.log(allPackages, "allPackagesallPackages");
+
+  // this is handle close handler of add Modal
   const handleClose = () => {
     dispatch(packageCreateOpenModal(false));
     setCreatePackages({
@@ -28,6 +35,7 @@ const CreatePackageModal = ({ setPackageNames }) => {
     });
   };
 
+  // this is my Onchange Handler for Add Package modal
   const handleOnchange = (e) => {
     let { name, value } = e.target;
 
@@ -36,22 +44,36 @@ const CreatePackageModal = ({ setPackageNames }) => {
         ...createPackages,
         packageName: value,
       });
+      setErrorMessage(false);
     }
   };
 
+  // this is my addHandler in which I add from FrontEnd
   const addHandler = () => {
-    let getPackage = createPackages.packageName;
-    let getColor = color.hex.slice(0, 7);
-    setPackageNames((packagesData) => {
-      const newData = {
-        name: getPackage, // Assuming getPackage is a function that returns the name
-        colorCode: getColor.toUpperCase(), // Assuming getColor is a function that returns the color code
+    // some array method do if packageName and createPackages name is equal it return boolean which is true
+    const packageExists = allPackages.some(
+      (pkg) => pkg.packageName === createPackages.packageName
+    );
+    if (!packageExists) {
+      let getPackage = createPackages.packageName;
+      let getColor = color.hex.slice(0, 7);
+      const newPackage = {
+        packageID: Math.random(),
+        price: 0,
+        packageName: getPackage,
+        badgeColor: getColor,
+        packageFeatures: [],
+        isApiComing: false,
       };
-
-      return [...packagesData, newData];
-    });
-
-    handleClose();
+      setErrorMessage(false);
+      setNewPackageNames((packagesData) => [...packagesData, newPackage]);
+      // after this i'll close my add modal here
+      handleClose();
+      console.log("Package Name is Not Same");
+    } else {
+      setErrorMessage(true);
+      console.log("Package Name is Same");
+    }
   };
 
   return (
@@ -103,6 +125,13 @@ const CreatePackageModal = ({ setPackageNames }) => {
                   labelClass="d-none"
                   change={handleOnchange}
                 />
+                {errorMessage ? (
+                  <>
+                    <span className={styles["Error-message-class"]}>
+                      {t("You Enter the same Package Name")}
+                    </span>
+                  </>
+                ) : null}
               </Col>
               <Col lg={6} md={6} sm={6} className="mt-3">
                 <div className={styles["color-input-border"]}>

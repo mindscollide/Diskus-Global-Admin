@@ -34,25 +34,25 @@ const EditSubscriptionModal = ({
   console.log(subsciptionStatus, "subsciptionStatussubsciptionSt");
 
   //states
-  useEffect(() => {
-    setSubsciptionStatus({
-      value: currentSubscriptionName.toString(),
-      label:
-        currentSubscriptionName.toString() === "1"
-          ? "Active"
-          : currentSubscriptionName.toString() === "2"
-          ? "InActive"
-          : currentSubscriptionName.toString() === "3"
-          ? "suspended"
-          : currentSubscriptionName.toString() === "4"
-          ? "Closed"
-          : currentSubscriptionName.toString() === "5"
-          ? "Terminated Request"
-          : currentSubscriptionName.toString() === "6"
-          ? "Cancelled"
-          : "Active",
-    });
-  }, [currentSubscriptionName]);
+  // useEffect(() => {
+  //   setSubsciptionStatus({
+  //     value: currentSubscriptionName.toString(),
+  //     label:
+  //       currentSubscriptionName.toString() === "1"
+  //         ? "Active"
+  //         : currentSubscriptionName.toString() === "2"
+  //         ? "InActive"
+  //         : currentSubscriptionName.toString() === "3"
+  //         ? "suspended"
+  //         : currentSubscriptionName.toString() === "4"
+  //         ? "Closed"
+  //         : currentSubscriptionName.toString() === "5"
+  //         ? "Terminated Request"
+  //         : currentSubscriptionName.toString() === "6"
+  //         ? "Cancelled"
+  //         : "Active",
+  //   });
+  // }, [currentSubscriptionName]);
 
   const handleChange = (option) => {
     setSubsciptionStatus(option);
