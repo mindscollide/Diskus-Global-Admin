@@ -46,9 +46,17 @@ const AdminOptionsNavBar = () => {
                     id="collasible-nav-dropdown"
                     className="DiskusAdminNavBar"
                   >
-                    <NavDropdown.Item
+                    {/* <NavDropdown.Item
                       as={Link}
                       to="vieworganization"
+                      eventKey="link-7"
+                      className="text-black border-none"
+                    >
+                      {t("View-organization")}
+                    </NavDropdown.Item> */}
+                    <NavDropdown.Item
+                      as={Link}
+                      to="ViewOrganizations"
                       eventKey="link-7"
                       className="text-black border-none"
                     >
@@ -66,10 +74,10 @@ const AdminOptionsNavBar = () => {
                   </Nav.Link>
 
                   <NavDropdown
-                    title={selectedItem}
+                    title={t("Configurations")}
                     id="collasible-nav-dropdown"
                     className={"DiskusAdminNavBar"}
-                    onSelect={selectHandler}
+                    // onSelect={selectHandler}
                   >
                     <NavDropdown.Item
                       as={Link}

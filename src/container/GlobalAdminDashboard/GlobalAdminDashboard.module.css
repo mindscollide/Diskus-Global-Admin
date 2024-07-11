@@ -1,3 +1,7 @@
+.global-admin-dashboard-container {
+  padding: 0px 50px !important;
+}
+
 .LeftBoxDashboard {
   padding: 7px 20px !important;
   border-radius: 4px !important;
@@ -13,7 +17,7 @@
   border: 1px solid #e1e1e1 !important;
   background: #fff !important;
   height: auto !important;
-  min-height: 80vh !important;
+  min-height: 81.8vh !important;
 }
 
 .BillingDueHeading {
@@ -70,7 +74,7 @@ body[dir="rtl"] .BillingDueHeading {
 
 .dropdown_list {
   background: #fff !important;
-  z-index: 1 !important;
+  z-index: 5 !important;
   padding: 10px;
   position: absolute;
   border: 1px solid #e1e1e1;
@@ -161,6 +165,7 @@ body[dir="rtl"] .OrgazationStatusHeading {
 }
 
 .OuterBoxPieChart {
+  position: relative;
   height: auto !important;
   width: 100% !important;
   border: 1px solid #e1e1e1 !important;
@@ -170,6 +175,7 @@ body[dir="rtl"] .OrgazationStatusHeading {
 }
 
 .OuterBoxPieChart:is(:hover) {
+  position: relative;
   height: auto !important;
   width: 100% !important;
   border: 1px solid #e1e1e1 !important;
@@ -182,6 +188,7 @@ body[dir="rtl"] .OrgazationStatusHeading {
 }
 
 .OuterBoxPieChartActive {
+  position: relative;
   height: auto !important;
   width: 100% !important;
   border: 1px solid #e1e1e1 !important;
@@ -201,6 +208,7 @@ body[dir="rtl"] .OrgazationStatusHeading {
   background: #fff !important;
   color: #5a5a5a !important;
   font-weight: 700 !important;
+  height: 37px !important;
 }
 
 body[dir="rtl"] .ButtonsDashboard {
@@ -210,7 +218,8 @@ body[dir="rtl"] .ButtonsDashboard {
   border-radius: 4px !important;
   background: #fff !important;
   color: #5a5a5a !important;
-  font-weight: 500 !important;
+  font-weight: 700 !important;
+  height: 37px !important;
 }
 
 .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
@@ -220,6 +229,8 @@ body[dir="rtl"] .ButtonsDashboard {
   border-radius: 4px !important;
   background: #6172d6 !important;
   color: #fff !important;
+  font-weight: 700 !important;
+  height: 37px !important;
 }
 
 .activeEssentialButton {
@@ -230,6 +241,7 @@ body[dir="rtl"] .ButtonsDashboard {
   background: #6172d6 !important;
   color: #fff !important;
   font-weight: 700 !important;
+  height: 37px !important;
 }
 
 body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
@@ -239,7 +251,36 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   border-radius: 4px !important;
   background: #6172d6 !important;
   color: #fff !important;
-  font-weight: 500 !important;
+  font-weight: 700 !important;
+  height: 37px !important;
+}
+
+.ButtonsDashboard-Licenses {
+  padding: 8px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+  font-weight: 700 !important;
+  height: 37px !important;
+  white-space: nowrap; /* Ensure text is on one line */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis if text is too long */
+}
+
+.activeEssentialButton-Licenses {
+  padding: 8px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  height: 37px !important;
+  white-space: nowrap; /* Ensure text is on one line */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis if text is too long */
 }
 
 .Search_Bar_icon_class {
@@ -248,6 +289,14 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   position: absolute;
   left: auto;
   right: 10px;
+}
+
+body[dir="rtl"] .Search_Bar_icon_class {
+  cursor: pointer;
+  top: 10px;
+  position: absolute;
+  right: auto;
+  left: 10px;
 }
 
 .dashboard-table-insidetext {
@@ -267,6 +316,8 @@ body[dir="rtl"] .dashboard-table-insidetext {
   font-size: 12px !important;
   font-weight: 700 !important;
   white-space: nowrap !important;
+  text-align: left !important;
+  margin-left: -13px;
 }
 
 .dashboard-user-dates {
@@ -294,12 +345,14 @@ body[dir="rtl"] .dashboard-table-insidetext {
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   border-radius: 4px !important;
-  padding: 7px 15px !important;
-  height: 39px !important;
+  /* padding: 7px 15px !important; */
+  height: 34px !important;
+  width: 120px !important;
   display: flex !important;
-  justify-content: flex-end !important;
+  margin-left: 15px !important;
+  margin-bottom: 8px;
+  justify-content: center !important;
   align-items: center !important;
-  margin: 0 !important;
   gap: 5px !important;
   font-weight: 500 !important;
   cursor: pointer !important;
@@ -312,9 +365,9 @@ body[dir="rtl"] .Export_To_Excel_dashboardTableButton {
   padding: 7px 15px !important;
   height: 39px !important;
   display: flex !important;
-  justify-content: flex-end !important;
+  justify-content: center !important;
   align-items: center !important;
-  margin: 0 !important;
+  margin-right: 15px !important;
   gap: 5px !important;
   font-weight: 500 !important;
   cursor: pointer !important;
@@ -362,12 +415,27 @@ body[dir="rtl"] .send-invoice-button {
   white-space: nowrap;
 }
 
+.send-invoice-button-disable {
+  background: #fff !important;
+  border: none;
+  color: #a2a2a2;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  cursor: pointer !important;
+  white-space: nowrap;
+}
+
+body[dir="rtl"] .send-invoice-button-disable {
+  font-weight: 600 !important;
+  white-space: nowrap;
+}
+
 .ContainerClass {
   width: 98% !important;
 }
 
 .ExportBUtton {
-  padding: 12px 10px !important;
+  padding: 7px 10px !important;
   font-size: 12px !important;
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
@@ -380,7 +448,7 @@ body[dir="rtl"] .send-invoice-button {
 }
 
 .ExportBUtton:is(:hover, :focus, :focus-visible, :active) {
-  padding: 12px 10px !important;
+  padding: 7px 10px !important;
   font-size: 12px !important;
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
@@ -395,21 +463,261 @@ body[dir="rtl"] .ExportBUtton {
   padding: 12px 17px !important;
 }
 
+.ExportBUtton-essential {
+  padding: 7px 10px !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  margin-top: 10px;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+  display: flex !important;
+  gap: 5px !important;
+  align-items: center !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.ExportBUtton-essential:is(:hover, :focus, :focus-visible, :active) {
+  padding: 7px 10px !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+  background: #fff !important;
+  color: #5a5a5a !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+body[dir="rtl"] .ExportBUtton-essential {
+  font-weight: 600 !important;
+  white-space: nowrap;
+  padding: 12px 17px !important;
+  cursor: pointer !important;
+}
+
 .SearchDataes {
-  padding: 3px 5px !important;
+  padding: 7px 12px !important;
   border-radius: 4px !important;
   background: #6172d6;
   display: flex;
+  font-weight: 700 !important;
+  font-size: 9px !important;
   text-align: center !important;
   gap: 15px !important;
+  width: 220px !important;
 }
 
 .Searches {
-  font-size: 9px !important;
+  font-size: 12px !important;
   color: #fff !important;
   font-weight: 700 !important;
 }
 
+.Search-Company {
+  padding: 7px 12px !important;
+  border-radius: 4px !important;
+  background: #6172d6;
+  display: flex;
+  align-items: center; /* Center items vertically */
+  gap: 5px; /* Adjust gap as needed */
+  min-width: 50px; /* Minimum width */
+  max-width: 100%; /* Allow maximum width based on content */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Search-Company-Searches {
+  flex: 1; /* Allow text to stretch */
+  font-size: 12px !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.CrossIcon_Class-company {
+  cursor: pointer !important;
+  color: #505050 !important;
+  margin-left: 5px;
+}
+
+.CrossIcon_Class-users {
+  cursor: pointer;
+  top: 15px;
+  position: absolute;
+  left: auto;
+  right: 10px;
+}
+
+body[dir="rtl"] .CrossIcon_Class-users {
+  cursor: pointer;
+  top: 15px;
+  position: absolute;
+  right: auto;
+  left: 10px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.Extend-trial-btn {
+  padding: 4px 20px !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+  font-weight: 400 !important;
+  height: 34px !important;
+}
+
+.dropdown-header-content {
+  display: flex;
+  align-items: center;
+  width: 150px; /* Adjust as needed */
+}
+
 .CrossIcon_Class {
   cursor: pointer !important;
+  color: #505050 !important;
+}
+
+.dropdown-container-companyName {
+  width: 200px; /* Adjust as needed */
+  position: relative; /* Ensure relative positioning */
+}
+
+.CompanyName-select {
+  font-size: 16px !important;
+  color: #5a5a5a !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-weight: 600 !important;
+  display: block;
+}
+
+.up {
+  border: 1px solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  cursor: pointer !important;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.down {
+  border: 1px solid black;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  cursor: pointer !important;
+  margin-left: 5px;
+}
+
+body[dir="rtl"] .down {
+  border: 1px solid black;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  cursor: pointer !important;
+  margin-right: 10px;
+}
+
+.infinite-hidden-class {
+  overflow-x: hidden !important;
+}
+
+.dynamic-Tabs-scroller {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.dynamic-Tabs-swipper-class {
+  display: flex;
+  justify-content: center !important;
+}
+
+.class-billing-table {
+  text-align: left !important;
+}
+
+body[dir="rtl"] .class-billing-table {
+  text-align: right !important;
+}
+
+.inside-pie-chart {
+  position: absolute !important;
+  top: 43% !important;
+  left: 24% !important;
+  /* transform: translate(-50%, -50%) !important; */
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"] .inside-pie-chart {
+  position: absolute !important;
+  top: 43% !important;
+  left: 35% !important;
+  /* transform: translate(-50%, -50%) !important; */
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #5a5a5a !important;
+}
+
+.scrollContainer {
+  /* display: flex;
+  align-items: center;
+  position: relative;
+  width: 60vw; */
+  display: flex;
+  align-items: center;
+  width: 60vw;
+}
+
+.scrollButton {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10; /* Ensure buttons are above the scroll content */
+}
+
+.scrollContent {
+  display: flex;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  width: 50%;
+  padding: 10px 0;
+  margin: 0px 7px;
+  position: relative;
+}
+
+.scrollItem {
+  flex: 0 0 auto;
+  margin: 0 10px;
 }

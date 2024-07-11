@@ -10,7 +10,10 @@ import arabic_ar from "react-date-object/locales/arabic_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import { useDispatch, useSelector } from "react-redux";
 import CrossIcon from "../../assets/images/OutletImages/Cross-Chat-Icon.png";
-
+import {
+  countryName,
+  countryNameforPhoneNumber,
+} from "../../common/functions/CountryJson";
 import {
   userConifrmationOpenModal,
   userInfoOpenModal,
@@ -32,6 +35,9 @@ const UserProfileModal = () => {
   // select for country dropdown
   const [select, setSelect] = useState("");
 
+  const [selected, setSelected] = useState("US");
+  const [selectedCountry, setSelectedCountry] = useState({});
+
   // state for User Information Modal
   const [userInfoState, setUserInfoState] = useState({
     OrganizationName: {
@@ -47,7 +53,7 @@ const UserProfileModal = () => {
     },
 
     CountryCode: {
-      value: "",
+      value: 0,
       errorMessage: "",
       errorStatus: false,
     },
@@ -103,6 +109,21 @@ const UserProfileModal = () => {
     setSelect("");
     setErrorBar(false);
     setSubmitted(false);
+  };
+
+  const handleSelect = (country) => {
+    setSelected(country);
+    setSelectedCountry(country);
+    let a = Object.values(countryNameforPhoneNumber).find((obj) => {
+      return obj.primary === country;
+    });
+
+    setUserInfoState({
+      ...userInfoState,
+      CountryCode: {
+        value: a.id,
+      },
+    });
   };
 
   const openConfirmationModal = () => {
@@ -181,11 +202,12 @@ const UserProfileModal = () => {
                       <span className={styles["aesterick-class"]}> *</span>
                     </label>
                     <ReactFlagsSelect
-                      selected={select}
-                      onSelect={onSelect}
+                      selected={selected}
+                      onSelect={handleSelect}
                       fullWidth={false}
                       searchable={true}
                       placeholder={"Select Co...."}
+                      customLabels={countryNameforPhoneNumber}
                       className={styles["userProfileFlagSelect"]}
                     />
                     {errorBar && select === "" && submitted === true ? (

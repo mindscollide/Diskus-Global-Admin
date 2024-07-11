@@ -1,0 +1,366 @@
+.view-organization {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.organization-table {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.organization-collapse .ant-collapse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff !important;
+  margin-top: 20px !important;
+  /* border-radius: 16px !important; */
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
+}
+
+.organization-collapse .ant-collapse-content-box {
+  background-color: #fff !important;
+  padding-right: 80px !important;
+}
+
+.organization-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.organization-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-item {
+  font-size: 14px;
+}
+
+.edit-button,
+.update-button {
+  padding: 7px 20px;
+  background-color: #6172d6;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.update-button {
+  align-self: flex-end;
+}
+
+.update-button:hover,
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.custom-icon {
+  font-size: 30px !important; /* Adjust the size as needed */
+  color: #5a5a5a !important;
+}
+
+.custom-table {
+  max-height: 150px !important;
+  overflow-y: auto !important;
+}
+
+.above-table {
+  /* margin-top: 30px !important; */
+}
+
+.custom-table .ant-table-thead > tr > th {
+  border: none !important;
+}
+
+.custom-table .ant-table-thead tr {
+  border: none !important;
+}
+
+/* for arrow css */
+:where(.css-dev-only-do-not-override-1drr2mu).ant-collapse
+  > .ant-collapse-item
+  > .ant-collapse-header
+  .ant-collapse-expand-icon {
+  height: 100px;
+  display: flex;
+  align-items: end;
+  padding-inline-end: 12px;
+}
+
+/* for decrease padding from top and bottom and increase right to left */
+:where(.css-dev-only-do-not-override-1drr2mu).ant-collapse
+  > .ant-collapse-item
+  > .ant-collapse-header {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  padding-right: 40px;
+  color: rgba(0, 0, 0, 0.88);
+  line-height: 1.5714285714285714;
+  cursor: pointer;
+  transition: all 0.3s, visibility 0s;
+}
+
+.HeadingViewORganization {
+  font-weight: bold !important;
+  font-size: 30px !important;
+  color: #6172d6 !important;
+  font-weight: 700 !important;
+}
+
+body[dir="rtl"] .HeadingViewORganization {
+  font-weight: bold !important;
+  font-size: 26px !important;
+  color: #6172d6 !important;
+  font-weight: 500 !important;
+}
+
+.Search_Bar_icon_class {
+  cursor: pointer;
+  top: 13px;
+  position: absolute;
+  left: auto;
+  right: 10px;
+}
+
+body[dir="rtl"] .Search_Bar_icon_class {
+  cursor: pointer;
+  top: 10px;
+  position: absolute;
+  left: 10px !important;
+  right: auto !important;
+}
+
+.SearchablesItems {
+  padding: 5px 20px !important;
+  border-radius: 4px !important;
+  background: #6172d6;
+  display: flex;
+  text-align: center !important;
+  gap: 35px !important;
+}
+
+.Searches {
+  font-size: 12px !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+.CrossIcon_Class {
+  cursor: pointer !important;
+}
+
+.SearchBox {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 260px !important;
+  background: #ffffff !important;
+  position: absolute;
+  right: 0;
+  z-index: 1 !important;
+  top: 39px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+}
+
+body[dir="rtl"] .SearchBox {
+  width: 523px !important;
+  height: auto !important;
+  min-height: 260px !important;
+  background: #ffffff !important;
+  position: absolute;
+  right: auto !important;
+  left: 0 !important;
+  z-index: 1 !important;
+  top: 39px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e1e1e1 !important;
+}
+
+.UserLoginHistory_datePicker {
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  height: 39px !important;
+  border-radius: 4px !important;
+  padding: 0 10px;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+}
+
+.UserLoginHistory_datePicker:is(:focus, :focus-visible) {
+  outline: none !important;
+}
+.datePicker_Container {
+  width: 100% !important;
+  border-radius: 4px !important;
+  display: block !important;
+}
+
+.SearchBoxResetButton {
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  background-color: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"] .SearchBoxResetButton {
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  background-color: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #5a5a5a !important;
+}
+
+.SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  background-color: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"]
+  .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  background-color: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #5a5a5a !important;
+}
+
+.SearchButton {
+  padding: 12px 30px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  background-color: #6172d6 !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+body[dir="rtl"] .SearchButton {
+  padding: 12px 30px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  background-color: #6172d6 !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+.SearchButton:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  background-color: #6172d6 !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+body[dir="rtl"] .SearchButton:is(:hover, :focus, :active, :focus-visible) {
+  padding: 12px 30px !important;
+  border: none !important;
+  font-weight: 600 !important;
+  background: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 4px !important;
+}
+
+.inner-organization-heading-view-modal {
+  font-size: 16px !important;
+  color: #6172d6 !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+
+.inner-sub-Heading {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-weight: 500 !important;
+}
+
+body[dir="rtl"] .inner-sub-Heading {
+  color: #5a5a5a !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-weight: 500 !important;
+}
+
+.Search_Bar_icon_class {
+  cursor: pointer;
+  top: 13px;
+  position: absolute;
+  left: auto;
+  right: 10px;
+}
+
+body[dir="rtl"] .Search_Bar_icon_class {
+  cursor: pointer;
+  top: 10px;
+  position: absolute;
+  left: 10px !important;
+  right: auto !important;
+}
+
+.SearchablesItems {
+  padding: 5px 20px !important;
+  border-radius: 4px !important;
+  background: #6172d6;
+  display: flex;
+  text-align: center !important;
+  gap: 35px !important;
+}
+
+.Searches {
+  font-size: 12px !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+.UserLoginHistory_datePicker {
+  width: 100% !important;
+  border: 1px solid #e1e1e1 !important;
+  height: 39px !important;
+  border-radius: 4px !important;
+  padding: 0 10px;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+}
+
+.UserLoginHistory_datePicker:is(:focus, :focus-visible) {
+  outline: none !important;
+}
+.datePicker_Container {
+  width: 100% !important;
+  border-radius: 4px !important;
+  display: block !important;
+}
+
+.cashFLowClass-infinite {
+  overflow-x: hidden !important;
+}
+
+.class-main-headerColumn {
+  text-align: left !important;
+}
+
+body[dir="rtl"] .class-main-headerColumn {
+  text-align: right !important;
+}

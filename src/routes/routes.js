@@ -13,6 +13,8 @@ import OrganizationLevelSettings from "../container/OrganizationLevelSettings/Or
 import PakagesGlobalAdmin from "../container/PakagesGlobalAdmin/PakagesGlobalAdmin";
 import GlobalLevelSettings from "../container/GlobalLevelSettings/GlobalLevelSettings";
 import CashFlowSummary from "../container/CashFlowSumarry/CashFlowSummary";
+// import NewViewOrganization from "../container/NewViewOrganization/NewViewOrganization";
+import ViewOrganizations from "../container/ViewOrganizations/ViewOrganizations";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -23,21 +25,22 @@ export const router = createHashRouter(
       <Route exact path="/" element={<LoginCard />} />
       {/* <Route path="/admin" element={<LoginCard />} /> */}
       {/* </Route> */}
-      <Route element={<PrivateRoutes />}>
-        <Route exact path="/GlobalAdmin/" element={<DashBoard />}>
-          <Route path="" element={<GlobalAdminDashboard />} />
-          <Route path="GlobalDashboard" element={<GlobalAdminDashboard />} />
-          <Route path="vieworganization" element={<ViewOrganization />} />
-          <Route path="loginHistory" element={<LoginHistory />} />
-          <Route path="Pakages" element={<PakagesGlobalAdmin />} />
-          <Route
-            path="OrganizationLevelSettings"
-            element={<OrganizationLevelSettings />}
-          />
-          <Route path="GlobalLevelSettings" element={<GlobalLevelSettings />} />
-          <Route path="Summary" element={<CashFlowSummary />} />
-        </Route>
+      {/* <Route element={<PrivateRoutes />}> */}
+      <Route exact path="/GlobalAdmin/" element={<DashBoard />}>
+        <Route path="" element={<GlobalAdminDashboard />} />
+        <Route path="GlobalDashboard" element={<GlobalAdminDashboard />} />
+        {/* <Route path="vieworganization" element={<ViewOrganization />} /> */}
+        <Route path="ViewOrganizations" element={<ViewOrganizations />} />
+        <Route path="loginHistory" element={<LoginHistory />} />
+        <Route path="Pakages" element={<PakagesGlobalAdmin />} />
+        <Route
+          path="OrganizationLevelSettings"
+          element={<OrganizationLevelSettings />}
+        />
+        <Route path="GlobalLevelSettings" element={<GlobalLevelSettings />} />
+        <Route path="Summary" element={<CashFlowSummary />} />
       </Route>
+      {/* </Route> */}
 
       {/* <Route exact path="/GlobalAdmin/" element={<DashBoard />}>
         <Route path="" element={<GlobalAdminDashboard />} />

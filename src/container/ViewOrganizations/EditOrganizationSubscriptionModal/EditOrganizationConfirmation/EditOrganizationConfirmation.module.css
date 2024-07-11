@@ -1,0 +1,102 @@
+.modalFooterClassName {
+  border: none !important;
+  display: block !important;
+}
+
+.ConfirmationModalHeading {
+  font-size: 18px !important;
+  color: #6172d6 !important;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 600 !important;
+}
+
+body[dir="rtl"] .ConfirmationModalHeading {
+  font-size: 18px !important;
+  color: #6172d6 !important;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 500 !important;
+}
+
+.ProceedBtnStyles {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  border: none !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+body[dir="rtl"] .ProceedBtnStyles {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  border: none !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+.ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  font-weight: 600 !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+body[dir="rtl"] .ProceedBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  background: #6172d6 !important;
+  font-weight: 500 !important;
+  border: none !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #fff !important;
+}
+
+.CancelBtnStyles {
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"] .CancelBtnStyles {
+  padding: 12px 30px !important;
+  font-weight: 500 !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+.CancelBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"] .CancelBtnStyles:is(:hover, :focus, :focus-visible, :active) {
+  padding: 12px 30px !important;
+  font-weight: 500 !important;
+  background: #fff !important;
+  border: 1px solid #e1e1e1 !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #5a5a5a !important;
+}

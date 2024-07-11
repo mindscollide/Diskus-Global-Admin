@@ -8,13 +8,26 @@ import CrossIcon from "../../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import { Col, Row } from "react-bootstrap";
 import { useState } from "react";
 import { regexOnlyNumbers } from "../../../common/functions/Regex";
+import { trialRenewApi } from "../../../store/Actions/GlobalAdminDashboardActions";
+import { useNavigate } from "react-router-dom";
+import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const TrialRenewModal = () => {
+const TrialRenewModal = ({
+  trialRenewOrganizationId,
+  trialRenewOrganizationName,
+  trialRenewRemainingDays,
+}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   //Reducer from UIModalActions
   const ModalReducer = useSelector((state) => state.modal);
+
+  console.log(
+    { trialRenewOrganizationName, trialRenewOrganizationId },
+    "trialRenewOrganizationName"
+  );
 
   // state for Trial Renew Modal
   const [trialState, setTrialState] = useState({
@@ -60,6 +73,16 @@ const TrialRenewModal = () => {
     });
   };
 
+  // onsave handler modal
+  const saveHandlerRenewTrial = () => {
+    let data = {
+      OrganizationID: Number(trialRenewOrganizationId),
+      NumberOfExtensionDays: Number(trialState.AddDays.value),
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(trialRenewApi({ data, navigate, t }));
+  };
+
   return (
     <>
       <Modal
@@ -93,7 +116,7 @@ const TrialRenewModal = () => {
             <Row>
               <Col lg={12} md={12} sm={12}>
                 <span className={styles["trial-invoice-heading"]}>
-                  {t("Trial-renew")}
+                  {t("Extend-Trial-for-No-of-days")}
                 </span>
               </Col>
             </Row>
@@ -103,7 +126,7 @@ const TrialRenewModal = () => {
                   {t("Organization-name")}
                 </label>
                 <label className={styles["main-organization-name"]}>
-                  {trialState.OrganizationName.value}
+                  {trialRenewOrganizationName}
                 </label>
               </Col>
               <Col lg={6} md={6} sm={6} className={styles["flex-columns"]}>
@@ -137,6 +160,7 @@ const TrialRenewModal = () => {
                 />
                 <Button
                   text={t("Save")}
+                  onClick={saveHandlerRenewTrial}
                   className={styles["sendButtonOrganizationEdit"]}
                 />
               </Col>

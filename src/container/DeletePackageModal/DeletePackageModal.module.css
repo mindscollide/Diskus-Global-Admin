@@ -38,7 +38,7 @@ body[dir="rtl"] .reset-User-btn {
   margin-right: 25px !important;
 }
 
-.save-User-btn {
+.Delete-User-btn {
   font-size: 12px;
   background-color: #6172d6;
   border-color: #e1e1e1 !important;
@@ -50,10 +50,10 @@ body[dir="rtl"] .reset-User-btn {
   /* margin-left: 20px ; */
 }
 
-body[dir="rtl"] .save-User-btn {
-  margin-right: 125px !important;
+body[dir="rtl"] .Delete-User-btn {
+  /* margin-right: 125px !important;  */
 }
 
-.save-User-btn:hover {
+.Delete-User-btn:hover {
   background-color: #6172d6 !important;
 }

@@ -37,6 +37,7 @@ const TextField = ({
   onDoubleClick,
   onClick,
   onKeyDown,
+  onKeyPress,
 }) => {
   return (
     <>
@@ -74,6 +75,7 @@ const TextField = ({
           onDoubleClick={onDoubleClick}
           onClick={onClick}
           onKeyDown={onKeyDown}
+          onKeyPress={onKeyPress}
         />
         <FormControl.Feedback className={iconClassName} onClick={clickIcon}>
           {inputicon}

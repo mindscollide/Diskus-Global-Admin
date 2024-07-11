@@ -141,7 +141,9 @@ export function formatDate(dateString, locale) {
     day: "2-digit",
   };
 
-  const formattedDate = new Intl.DateTimeFormat(locale, options).format(new Date(`${year}-${month}-${day}`));
+  const formattedDate = new Intl.DateTimeFormat(locale, options).format(
+    new Date(`${year}-${month}-${day}`)
+  );
 
   if (locale === "ar") {
     return convertNumbersToArabic(formattedDate);
@@ -151,7 +153,7 @@ export function formatDate(dateString, locale) {
 }
 
 function convertNumbersToArabic(value) {
-  const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
   return String(value).replace(/\d/g, (digit) => arabicNumbers[digit]);
 }
 // ================================== function which support end arabic both ======================================== //
@@ -204,4 +206,75 @@ const convertToEasternArabicNumerals = (number) => {
   return number.replace(/[0-9]/g, (digit) =>
     String.fromCharCode(digit.charCodeAt(0) + 1584)
   );
+};
+
+export const ExtractMonthAndYear = (fullDate) => {
+  let Month = "";
+  let Year = "";
+  try {
+    let fullDateyear =
+      fullDate.slice(0, 4) +
+      "-" +
+      fullDate.slice(4, 6) +
+      "-" +
+      fullDate.slice(6, 8) +
+      "T" +
+      fullDate.slice(8, 10) +
+      ":" +
+      fullDate.slice(10, 12) +
+      ":" +
+      fullDate.slice(12, 14) +
+      ".000Z";
+    let convertIntoGMT = new Date(fullDateyear);
+    console.log(convertIntoGMT, "convertIntoGMTconvertIntoGMT");
+    if (localStorage.getItem("currentLanguage") === "ar") {
+      Month = new Intl.DateTimeFormat("ar", { month: "long" }).format(
+        convertIntoGMT
+      );
+    } else {
+      Month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(
+        convertIntoGMT
+      );
+    }
+    // Month = convertIntoGMT.getMonth();
+    Year = convertIntoGMT.getFullYear();
+  } catch (error) {
+    console.log(error);
+  }
+
+  return { Month, Year };
+};
+
+// currently using in Session Duration in Organization List
+export const convertUTCDateToLocalDateView = (utcDateTime, locale) => {
+  try {
+    const date = new Date(
+      Date.UTC(
+        parseInt(utcDateTime.slice(0, 4)),
+        parseInt(utcDateTime.slice(4, 6)) - 1,
+        parseInt(utcDateTime.slice(6, 8)),
+        parseInt(utcDateTime.slice(8, 10)),
+        parseInt(utcDateTime.slice(10, 12)),
+        parseInt(utcDateTime.slice(12, 14))
+      )
+    );
+
+    const day = date.toLocaleString(locale, {
+      day: "2-digit",
+      numberingSystem: locale === "ar" ? "arab" : "latn",
+    });
+    const month = date.toLocaleString(locale, {
+      month: "long",
+      numberingSystem: locale === "ar" ? "arab" : "latn",
+    });
+    const year = date.toLocaleString(locale, {
+      year: "numeric",
+      numberingSystem: locale === "ar" ? "arab" : "latn",
+    });
+
+    return `${day} ${month} ${year}`;
+  } catch (error) {
+    console.error("Error converting UTC date:", error);
+    return null;
+  }
 };

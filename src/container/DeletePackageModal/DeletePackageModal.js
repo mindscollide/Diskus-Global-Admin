@@ -4,11 +4,21 @@ import { Row, Col, Container } from "react-bootstrap";
 import styles from "./DeletePackageModal.module.css";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { deletePackageOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
+import { deleteMainPackageApi } from "../../store/Actions/PackageAction";
+import { packageAdminLoader } from "../../store/ActionsSlicers/PackageSlicer";
+import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const DeletePackageModal = ({ removeMainPackage }) => {
+const DeletePackageModal = ({
+  packageID,
+  removeMainPackage,
+  onClickDelete,
+}) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log(packageID, "javjsvjavsja");
 
   const ModalReducer = useSelector((state) => state.modal);
 
@@ -16,10 +26,19 @@ const DeletePackageModal = ({ removeMainPackage }) => {
     dispatch(deletePackageOpenModal(false));
   };
 
-  const onClickDelete = () => {
-    removeMainPackage();
-    dispatch(deletePackageOpenModal(false));
-  };
+  // const onClickDelete = () => {
+  //   let data = {
+  //     PackageID: Number(packageID),
+  //   };
+  //   // dispatch(packageAdminLoader(true));
+  //   dispatch(globalAdminDashBoardLoader(true));
+  //   dispatch(deleteMainPackageApi({ data, navigate, t }));
+  // };
+
+  // const onClickDelete = () => {
+  //   removeMainPackage();
+  //   dispatch(deletePackageOpenModal(false));
+  // };
   return (
     <>
       <Modal
@@ -64,7 +83,7 @@ const DeletePackageModal = ({ removeMainPackage }) => {
               <Col lg={6} md={6} sm={6} xs={12}>
                 <Button
                   text={t("Delete")}
-                  className={styles["save-User-btn"]}
+                  className={styles["Delete-User-btn"]}
                   onClick={onClickDelete}
                 />
               </Col>

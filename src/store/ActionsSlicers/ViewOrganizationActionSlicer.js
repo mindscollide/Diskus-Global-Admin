@@ -11,7 +11,7 @@ const initialState = {
   searchOrganizationData: null,
   editSubscriptionData: null,
   editOrganizationData: null,
-  getAllOrganizationData: null,
+  getAllOrganizationData: [],
   Responsemessage: "",
 };
 
@@ -71,7 +71,7 @@ const searchOrganization = createSlice({
         state.Responsemessage = "Success";
       })
       .addCase(getAllOrganizationApi.rejected, (state, action) => {
-        state.getAllOrganizationData = null;
+        state.getAllOrganizationData = [];
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

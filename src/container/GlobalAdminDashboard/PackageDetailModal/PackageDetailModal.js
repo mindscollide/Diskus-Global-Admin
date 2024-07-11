@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./PackageDetailModal.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import {
   dashboardSendInvoiceOpenModal,
   editOrganizationModalOpen,
@@ -10,28 +11,69 @@ import { Button, Modal } from "../../../components/elements";
 import CrossIcon from "../../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import { Col, Container, Row } from "react-bootstrap";
 import { useState } from "react";
+import { getPackageDetailGlobalApi } from "../../../store/Actions/GlobalAdminDashboardActions";
+import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const PackageDetailModal = () => {
+const PackageDetailModal = ({ subscribedPackageDetail }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { t } = useTranslation();
+  console.log(
+    subscribedPackageDetail,
+    "subscribedPackageDetailsubscribedPackageDetail"
+  );
 
   // Reducer for modal in UIModalActions
   const ModalReducer = useSelector((state) => state.modal);
 
+  // Reducer for getting Data
+  const packageDetailModalData = useSelector(
+    (state) => state.globalAdminDashboardReducer.packageDetailModalData
+  );
+  console.log(packageDetailModalData, "packageDetailStatepackageDetailState");
+
+  const packageDetails =
+    packageDetailModalData?.result?.details?.packageDetails || [];
+
+  console.log(packageDetails, "daadadadadadda");
+
   // state for packageDetail Modal
   const [packageDetailState, setPackageDetailState] = useState({
     OrganizationName: {
-      value: "Package Detail Name",
+      value: "",
       errorMessage: "",
       errorStatus: false,
     },
 
     OrganizationEmail: {
-      value: "QasimPatel23@gmail.com",
+      value: "",
       errorMessage: "",
       errorStatus: false,
     },
   });
+
+  // api for getting data in PackageDetail
+  // useEffect(() => {
+  //   let data = {
+  //     OrganizationID: subscribedPackageDetail.organizationName,
+  //     SubscriptionID: 347,
+  //   };
+  //   dispatch(globalAdminDashBoardLoader(true));
+  //   dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
+  // }, []);
+
+  // useEffect to getData from reducer
+
+  // useEffect(() => {
+  //   if (
+  //     packageDetailModalData &&
+  //     packageDetailModalData.details !== null &&
+  //     packageDetailModalData.packageDetails.length > 0
+  //   ) {
+  //     setPackageDetailState(packageDetailModalData.details);
+  //   }
+  // }, [packageDetailModalData]);
 
   const handleClose = () => {
     dispatch(dashboardSendInvoiceOpenModal(false));
@@ -87,7 +129,7 @@ const PackageDetailModal = () => {
                         {t("Organization-name")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        {packageDetailState.OrganizationName.value}
+                        {subscribedPackageDetail.organizationName}
                       </span>
                     </div>
                   </Col>
@@ -97,7 +139,20 @@ const PackageDetailModal = () => {
                         {t("Email")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        {packageDetailState.OrganizationEmail.value}
+                        {subscribedPackageDetail.type}
+                      </span>
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row className="mt-4">
+                  <Col lg={12} md={12} sm={12}>
+                    <div className={styles["column-container"]}>
+                      <span className={styles["send-invoice-subHeading"]}>
+                        {t("Subscription")}
+                      </span>
+                      <span className={styles["send-invoice-subheading-2"]}>
+                        {subscribedPackageDetail.subscriptionID}
                       </span>
                     </div>
                   </Col>
@@ -112,92 +167,45 @@ const PackageDetailModal = () => {
                 </Row>
 
                 <div className={styles["all-cells"]}>
-                  <Row className={`${styles["custom-table-row"]} ${"mt-3 "}`}>
-                    <Col
-                      lg={3}
-                      md={3}
-                      sm={3}
-                      className={styles["custom-table-cell"]}
-                    >
-                      <span className={styles["custom-table-header"]}>
-                        Column 1
-                      </span>
-                    </Col>
-                    <Col
-                      lg={3}
-                      md={3}
-                      sm={3}
-                      className={styles["custom-table-cell"]}
-                    >
-                      <span className={styles["custom-table-header"]}>
-                        Column 2
-                      </span>
-                    </Col>
-                    <Col
-                      lg={3}
-                      md={3}
-                      sm={3}
-                      className={styles["custom-table-cell"]}
-                    >
-                      <span className={styles["custom-table-header"]}>
-                        Column 3
-                      </span>
-                    </Col>
-                    <Col
-                      lg={3}
-                      md={3}
-                      sm={3}
-                      className={styles["custom-table-cell"]}
-                    >
-                      <span className={styles["custom-table-header"]}>
-                        Column 4
-                      </span>
-                    </Col>
-                  </Row>
+                  <div className={styles["table-wrapper"]}>
+                    {/* Header Row */}
+                    <div className={styles["custom-table-row"]}>
+                      <div className={styles["custom-table-cell"]}>
+                        <span className={styles["custom-table-header"]}>
+                          License Name
+                        </span>
+                      </div>
+                      {packageDetails.map((detail, index) => (
+                        <div
+                          key={index}
+                          className={styles["custom-table-cell"]}
+                        >
+                          <span className={styles["custom-table-header"]}>
+                            {detail.packageName}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
 
-                  {/* Custom Table - Second Row with Data */}
-                  <Row className={styles["custom-table-row"]}>
-                    <Col
-                      lg={3}
-                      md={3}
-                      sm={3}
-                      className={styles["custom-table-cell"]}
-                    >
-                      <span className={styles["custom-table-data"]}>
-                        Data 1
-                      </span>
-                    </Col>
-                    <Col
-                      lg={3}
-                      md={3}
-                      sm={3}
-                      className={styles["custom-table-cell"]}
-                    >
-                      <span className={styles["custom-table-data"]}>
-                        Data 2
-                      </span>
-                    </Col>
-                    <Col
-                      lg={3}
-                      md={3}
-                      sm={3}
-                      className={styles["custom-table-cell"]}
-                    >
-                      <span className={styles["custom-table-data"]}>
-                        Data 3
-                      </span>
-                    </Col>
-                    <Col
-                      lg={3}
-                      md={3}
-                      sm={3}
-                      className={styles["custom-table-cell"]}
-                    >
-                      <span className={styles["custom-table-data"]}>
-                        Data 4
-                      </span>
-                    </Col>
-                  </Row>
+                    {/* Data Row */}
+                    <div className={styles["custom-table-row"]}>
+                      <div className={styles["custom-table-cell"]}>
+                        <span className={styles["custom-table-header"]}>
+                          No. of Licenses
+                        </span>
+                      </div>
+                      {packageDetails.map((detail, index) => (
+                        <div
+                          key={index}
+                          className={styles["custom-table-cell"]}
+                        >
+                          <span className={styles["custom-table-data"]}>
+                            {detail.headCount}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </>
             }
