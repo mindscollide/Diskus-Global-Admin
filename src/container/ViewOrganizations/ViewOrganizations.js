@@ -7,7 +7,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import Select from "react-select";
-import Spinner from "react-bootstrap/Spinner";
+import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
@@ -65,19 +65,13 @@ const ViewOrganization = () => {
   const [searchBox, setSearchBox] = useState(false);
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
-  // state for search Organizer
-  const [searchorganizationID, setSearchOrganizationID] = useState(null);
-
   // state for view Organizer Table data
   const [viewOrganizationData, setViewOrganizationData] = useState([]);
+  console.log(viewOrganizationData, "viewOrganizationDatatatatat");
   const [viewOrganizationInsideData, setOrganizationInsideData] = useState([]);
 
   // for dropdown lazy loading state:
   const [organization, setOrganization] = useState([]);
-  const [organizationLabel, setOrganizationLabel] = useState({
-    value: 0,
-    label: "",
-  });
 
   // for lazy Loading state
   const [isRowsData, setSRowsData] = useState(0);
@@ -239,7 +233,9 @@ const ViewOrganization = () => {
     if (isRowsData <= totalRecords) {
       setIsScroll(true);
       let newData = {
-        OrganizationContactName: "",
+        OrganizationContactName: searchOrganizationData.OrganizationContactName
+          ? searchOrganizationData.OrganizationContactName
+          : "",
         OrganizationContactEmail: "",
         OrganizationDateTo: searchOrganizationData.OrganizationDateTo
           ? `${searchOrganizationData.OrganizationDateTo}000000`
@@ -247,8 +243,13 @@ const ViewOrganization = () => {
         OrganizationDateFrom: searchOrganizationData.OrganizationDateFrom
           ? `${searchOrganizationData.OrganizationDateFrom}000000`
           : "",
-        OrganizationSubscriptionStatus: 0,
-        OrganizationName: "",
+        OrganizationSubscriptionStatus: searchOrganizationData
+          .OrganizationSubscriptionStatus.value
+          ? searchOrganizationData.OrganizationSubscriptionStatus.value
+          : 0,
+        OrganizationName: organizationDataValue
+          ? organizationDataValue.label
+          : "",
         sRow: Number(isRowsData),
         eRow: 10,
       };
@@ -576,13 +577,7 @@ const ViewOrganization = () => {
 
   // onChange Handler for organizer Dropdown
   const organizerChangeHandler = (selectedOrganizer) => {
-    setSearchOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
-    setOrganizationLabel((prevState) => ({
-      ...prevState,
-      value: selectedOrganizer.value,
-      label: selectedOrganizer.label,
-    }));
   };
   //onChange for View Orgniazation Search
   const searchViewOrganizationHandler = (event) => {
@@ -1075,66 +1070,93 @@ const ViewOrganization = () => {
 
       <Row>
         <Col lg={12} md={12} sm={12}>
-          <InfiniteScroll
-            dataLength={viewOrganizationData.length}
-            next={handleScroll}
-            height={"75vh"} // Adjust height as needed
-            className={"cashFLowClass-infinite"}
-            hasMore={viewOrganizationData.length < totalRecords} // Simplified condition
-            loader={
-              isRowsData <= totalRecords && isScroll ? (
-                <Row>
-                  <Col
-                    sm={12}
-                    md={12}
-                    lg={12}
-                    className="d-flex justify-content-center mt-2"
-                  >
-                    <Spin />
-                  </Col>
-                </Row>
-              ) : null
-            }
-          >
-            {viewOrganizationData.map((org) => (
-              <Collapse
-                key={org.organizationId}
-                bordered={false}
-                expandIconPosition="end"
-                expandIcon={({ isActive }) => (
-                  <UpOutlined
-                    className="custom-icon"
-                    rotate={isActive ? 180 : 0}
-                  />
-                )}
-                className="organization-collapse"
+          {viewOrganizationData !== null &&
+          viewOrganizationData !== undefined &&
+          viewOrganizationData.length > 0 ? (
+            <>
+              <InfiniteScroll
+                dataLength={viewOrganizationData.length}
+                next={handleScroll}
+                height={"75vh"} // Adjust height as needed
+                className={"cashFLowClass-infinite"}
+                hasMore={viewOrganizationData.length < totalRecords} // Simplified condition
+                loader={
+                  isRowsData <= totalRecords && isScroll ? (
+                    <Row>
+                      <Col
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        className="d-flex justify-content-center mt-2"
+                      >
+                        <Spin />
+                      </Col>
+                    </Row>
+                  ) : null
+                }
               >
-                <Panel
-                  key={org.organizationId}
-                  className="Panel-Class"
-                  header={
-                    <>
+                {viewOrganizationData.map((org) => (
+                  <Collapse
+                    key={org.organizationId}
+                    bordered={false}
+                    expandIconPosition="end"
+                    expandIcon={({ isActive }) => (
+                      <UpOutlined
+                        className="custom-icon"
+                        rotate={isActive ? 180 : 0}
+                      />
+                    )}
+                    className="organization-collapse"
+                  >
+                    <Panel
+                      key={org.organizationId}
+                      className="Panel-Class"
+                      header={
+                        <>
+                          <Table
+                            rows={[org]}
+                            column={headerColumn}
+                            pagination={false}
+                            className="custom-table"
+                          />
+                        </>
+                      }
+                    >
                       <Table
-                        rows={[org]}
-                        column={headerColumn}
+                        rows={viewOrganizationInsideData.filter(
+                          (data) => data.organizationId === org.organizationID
+                        )}
+                        column={columns}
                         pagination={false}
                         className="custom-table"
                       />
-                    </>
-                  }
+                    </Panel>
+                  </Collapse>
+                ))}
+              </InfiniteScroll>
+            </>
+          ) : (
+            <>
+              <Row className="mt-5">
+                <Col
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  className="view-organization-section"
                 >
-                  <Table
-                    rows={viewOrganizationInsideData.filter(
-                      (data) => data.organizationId === org.organizationID
-                    )}
-                    column={columns}
-                    pagination={false}
-                    className="custom-table"
+                  <img
+                    src={NoOrganizationIcon}
+                    width={"110px"}
+                    alt="View Organization"
                   />
-                </Panel>
-              </Collapse>
-            ))}
-          </InfiniteScroll>
+
+                  <span className="Main-Title-ViewOrganization">
+                    {t("No-View-Organization")}
+                  </span>
+                </Col>
+              </Row>
+            </>
+          )}
         </Col>
       </Row>
       <EditOrganizationSubscriptions

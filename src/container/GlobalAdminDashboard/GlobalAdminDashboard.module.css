@@ -721,3 +721,7 @@ body[dir="rtl"] .inside-pie-chart {
   flex: 0 0 auto;
   margin: 0 10px;
 }
+.button-slides-class {
+  font-size: 23px !important;
+  cursor: pointer;
+}

@@ -12,6 +12,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import SortAscending from "../../assets/images/OutletImages/SorterIconAscend.png";
 import SortDescending from "../../assets/images/OutletImages/SorterIconDescend.png";
 import descendingArrow from "../../assets/images/OutletImages/DownArrow.png";
+import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
@@ -2653,12 +2654,11 @@ const GlobalAdminDashboard = () => {
                   ) : users ? (
                     <>
                       <div className={styles.scrollContainer}>
-                        <button
-                          className={styles.scrollButton}
-                          onClick={scrollLeft}
-                        >
-                          &lt;
-                        </button>
+                        <span onClick={scrollLeft}>
+                          <CaretLeftOutlined
+                            className={styles["button-slides-class"]}
+                          />
+                        </span>
                         <div
                           className={styles["scrollContent"]}
                           ref={containerRef}
@@ -2686,12 +2686,11 @@ const GlobalAdminDashboard = () => {
                               </div>
                             ))}
                         </div>
-                        <button
-                          className={styles.scrollButton}
-                          onClick={scrollRight}
-                        >
-                          &gt;
-                        </button>
+                        <span onClick={scrollRight}>
+                          <CaretRightOutlined
+                            className={styles["button-slides-class"]}
+                          />
+                        </span>
                       </div>
                     </>
                   ) : null}

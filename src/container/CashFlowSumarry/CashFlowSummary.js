@@ -102,6 +102,7 @@ const CashFlowSummary = () => {
 
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
+  console.log(localValue, "localValuelocalValue");
 
   // to show Search text below the seacrh Field
   const [showsearchText, setShowSearchText] = useState(false);
@@ -812,7 +813,11 @@ const CashFlowSummary = () => {
       if (currentLanguage === "en") {
         setCalendarValue(gregorian);
         setLocalValue(gregorian_en);
+        setInFlowTab(true);
+        setOutstandingTab(false);
       } else if (currentLanguage === "ar") {
+        setInFlowTab(true);
+        setOutstandingTab(false);
         setCalendarValue(gregorian);
         setLocalValue(gregorian_ar);
       }
