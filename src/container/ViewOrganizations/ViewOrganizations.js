@@ -102,6 +102,8 @@ const ViewOrganization = () => {
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
 
+  const [userNameSearch, setUserNameSearch] = useState("");
+
   // search Organizer State
   const [searchOrganizationData, setSearchOrganizationData] = useState({
     OrganizationContactName: "",
@@ -539,7 +541,7 @@ const ViewOrganization = () => {
   const handleEditOrganizationModal = (record) => {
     console.log(record, "acasgjasgjdvasjgvd");
     setEditOrganzationName(record.organizationName);
-    setEditOrganizationID(record.organizationId);
+    setEditOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationStatus);
     dispatch(editOrganizationSubscriptionModalOpen(true));
     // setEditSubModal(true);
@@ -630,7 +632,7 @@ const ViewOrganization = () => {
 
   // handler searched button
   const handleSearches = (fieldName) => {
-    let updatedData = { ...searchOrganizationData };
+    let updatedData = { ...searchOrganizationData, userNameSearch };
     let updatedOrganizationDataValue = organizationDataValue;
     console.log(
       updatedOrganizationDataValue,
@@ -651,6 +653,8 @@ const ViewOrganization = () => {
       setOrganizationDataValue(null);
     } else if (fieldName === "OrganizationSubscriptionStatus") {
       updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
+    } else if (fieldName === "userNameSearch") {
+      updatedData.userNameSearch = "";
     } else {
       updatedData[fieldName] = "";
     }
@@ -674,7 +678,8 @@ const ViewOrganization = () => {
       sRow: 0,
       eRow: 10,
     };
-
+    setShowSearchText(false);
+    setUserNameSearch("");
     dispatch(viewOrganizationLoader(true));
     dispatch(getAllOrganizationApi({ newData, navigate, t }));
   };
@@ -770,6 +775,38 @@ const ViewOrganization = () => {
     }
   };
 
+  const onChangeEventForSearch = (e) => {
+    let value = e.target.value;
+    setShowSearchText(false);
+
+    // Check if the first character is a space and remove it if it is
+    if (value.charAt(0) === " ") {
+      value = value.trimStart();
+    }
+    setUserNameSearch(value);
+    console.log("value", value);
+  };
+
+  const handleKeyDownSearch = (e) => {
+    if (e.key === "Enter") {
+      if (userNameSearch !== "") {
+        let newData = {
+          OrganizationContactName: "",
+          OrganizationContactEmail: "",
+          OrganizationDateTo: "",
+          OrganizationDateFrom: "",
+          OrganizationSubscriptionStatus: 0,
+          OrganizationName: userNameSearch,
+          sRow: 0,
+          eRow: 10,
+        };
+        dispatch(viewOrganizationLoader(true));
+        dispatch(getAllOrganizationApi({ newData, navigate, t }));
+      }
+      setShowSearchText(true);
+    }
+  };
+
   return (
     <>
       <Row className="mt-3">
@@ -781,10 +818,10 @@ const ViewOrganization = () => {
         <Col lg={5} md={5} sm={5}>
           <span className="position-relative">
             <TextField
-              // onKeyDown={handleKeyDownSearch}
-              // change={onChangeEventForSearch}
+              onKeyDown={handleKeyDownSearch}
+              change={onChangeEventForSearch}
               placeholder={t("Search")}
-              value={aminNameSearch}
+              value={userNameSearch}
               labelClass={"d-none"}
               applyClass={"NewMeetingFileds"}
               inputicon={
@@ -809,6 +846,24 @@ const ViewOrganization = () => {
               }
               iconClassName={"d-block"}
             />
+            <Row>
+              <Col lg={3} md={3} sm={3}>
+                {showsearchText && userNameSearch !== "" ? (
+                  <div className={"SearchablesItems"}>
+                    <span className={"Searches"}>{userNameSearch}</span>
+                    <img
+                      src={Crossicon}
+                      alt=""
+                      className={"CrossIcon_Class"}
+                      width={13}
+                      onClick={() =>
+                        handleSearches(userNameSearch, "userNameSearch")
+                      }
+                    />
+                  </div>
+                ) : null}
+              </Col>
+            </Row>
             <Row>
               <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
                 {showsearchText &&

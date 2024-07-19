@@ -9,17 +9,32 @@ import { useTranslation } from "react-i18next";
 import arabic_ar from "react-date-object/locales/arabic_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userConifrmationOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
+import { UpdateGlobalAdminUserApi } from "../../store/Actions/GlobalAdminDashboardActions";
+import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const UserConfirmationModal = () => {
+const UserConfirmationModal = ({ userInfoState }) => {
   //For Localization
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const ModalReducer = useSelector((state) => state.modal);
+  console.log(userInfoState, "userInfoStateuserInfoState");
 
   const handleClose = () => {
     dispatch(userConifrmationOpenModal(false));
+  };
+
+  const handleProceedUpdate = () => {
+    let data = {
+      CountryCodeID: Number(userInfoState.CountryCode),
+      MobileNumber: userInfoState.Number,
+    };
+
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(UpdateGlobalAdminUserApi({ data, navigate, t }));
   };
 
   return (
@@ -66,6 +81,7 @@ const UserConfirmationModal = () => {
                 <Col lg={6} md={6} sm={6} xs={12}>
                   <Button
                     text={t("Proceed")}
+                    onClick={handleProceedUpdate}
                     className={styles["save-User-btn"]}
                   />
                 </Col>

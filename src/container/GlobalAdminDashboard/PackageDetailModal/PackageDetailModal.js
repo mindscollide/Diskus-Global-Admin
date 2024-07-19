@@ -38,6 +38,8 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
 
   console.log(packageDetails, "daadadadadadda");
 
+  const emailState = packageDetailModalData?.result?.details.organizationEmail;
+
   // state for packageDetail Modal
   const [packageDetailState, setPackageDetailState] = useState({
     OrganizationName: {
@@ -139,7 +141,7 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
                         {t("Email")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        {subscribedPackageDetail.type}
+                        {emailState}
                       </span>
                     </div>
                   </Col>
