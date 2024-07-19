@@ -51,6 +51,7 @@ import {
   dashboardSendInvoiceOpenModal,
   htmlInvoiceModalOpen,
   trialRenewOpenModal,
+  userConifrmationOpenModal,
 } from "../ActionsSlicers/UIModalsActions";
 
 //StatsOfActiveLicense  Api
@@ -1757,7 +1758,7 @@ export const UpdateGlobalAdminUserApi = createAsyncThunk(
     let token = localStorage.getItem("token");
     let { data, navigate, t } = requestData;
     let form = new FormData();
-    form.append("RequestData", JSON.stringify());
+    form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", UpdateGlobalAdminUser.RequestMethod);
     try {
       const response = await axios({
@@ -1776,11 +1777,13 @@ export const UpdateGlobalAdminUserApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_01".toLowerCase()
+                "ERM_AuthService_AuthManager_UpdateGlobalAdminUser_01".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
             try {
+              dispatch(userConifrmationOpenModal(false));
+
               return {
                 result: response.data.responseResult,
                 code: "ChangePasswordGlobalAdmin",
@@ -1792,7 +1795,7 @@ export const UpdateGlobalAdminUserApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_02".toLowerCase()
+                "ERM_AuthService_AuthManager_UpdateGlobalAdminUser_02".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
@@ -1801,7 +1804,7 @@ export const UpdateGlobalAdminUserApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_03".toLowerCase()
+                "ERM_AuthService_AuthManager_UpdateGlobalAdminUser_03".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));

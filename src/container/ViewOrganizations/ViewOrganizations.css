@@ -52,7 +52,7 @@ h1 {
   border: none;
   border-radius: 5px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
 }
 
@@ -62,7 +62,7 @@ h1 {
 
 .update-button:hover,
 .edit-button:hover {
-  background-color: #0056b3;
+  background-color: #6172d6;
 }
 
 .custom-icon {
@@ -209,8 +209,9 @@ body[dir="rtl"] .SearchBox {
 }
 
 .SearchBoxResetButton {
-  padding: 12px 30px !important;
-  font-weight: 600 !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
   border-radius: 4px !important;
   background-color: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -218,8 +219,9 @@ body[dir="rtl"] .SearchBox {
 }
 
 body[dir="rtl"] .SearchBoxResetButton {
-  padding: 12px 30px !important;
-  font-weight: 600 !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
   border-radius: 4px !important;
   background-color: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -227,8 +229,9 @@ body[dir="rtl"] .SearchBoxResetButton {
 }
 
 .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
-  padding: 12px 30px !important;
-  font-weight: 600 !important;
+  padding: 10px 25px !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
   background-color: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -237,8 +240,9 @@ body[dir="rtl"] .SearchBoxResetButton {
 
 body[dir="rtl"]
   .SearchBoxResetButton:is(:hover, :focus, :active, :focus-visible) {
-  padding: 12px 30px !important;
-  font-weight: 600 !important;
+  padding: 10px 25px !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
   background-color: #fff !important;
   border: 1px solid #e1e1e1 !important;
@@ -246,36 +250,40 @@ body[dir="rtl"]
 }
 
 .SearchButton {
-  padding: 12px 30px !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   background-color: #6172d6 !important;
   border: none !important;
   color: #fff !important;
 }
 
 body[dir="rtl"] .SearchButton {
-  padding: 12px 30px !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   background-color: #6172d6 !important;
   border: none !important;
   color: #fff !important;
 }
 
 .SearchButton:is(:hover, :focus, :active, :focus-visible) {
-  padding: 12px 30px !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
   border-radius: 4px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   background-color: #6172d6 !important;
   border: none !important;
   color: #fff !important;
 }
 
 body[dir="rtl"] .SearchButton:is(:hover, :focus, :active, :focus-visible) {
-  padding: 12px 30px !important;
+  padding: 10px 25px !important;
+  font-size: 12px !important;
   border: none !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   background: #6172d6 !important;
   color: #fff !important;
   border-radius: 4px !important;
@@ -284,21 +292,38 @@ body[dir="rtl"] .SearchButton:is(:hover, :focus, :active, :focus-visible) {
 .inner-organization-heading-view-modal {
   font-size: 16px !important;
   color: #6172d6 !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
+  cursor: pointer !important;
+}
+
+body[dir="rtl"] .inner-organization-heading-view-modal {
+  font-size: 16px !important;
+  color: #6172d6 !important;
+  font-weight: 400 !important;
   cursor: pointer !important;
 }
 
 .inner-sub-Heading {
   color: #5a5a5a !important;
-  font-size: 12px !important;
-  font-weight: bold !important;
-  font-weight: 500 !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
 }
 
 body[dir="rtl"] .inner-sub-Heading {
   color: #5a5a5a !important;
-  font-size: 12px !important;
-  font-weight: bold !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+.inner-sub-Heading-insidetable {
+  color: #5a5a5a !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+
+body[dir="rtl"] .inner-sub-Heading-insidetable {
+  color: #5a5a5a !important;
+  font-size: 16px !important;
   font-weight: 500 !important;
 }
 
@@ -363,4 +388,27 @@ body[dir="rtl"] .Search_Bar_icon_class {
 
 body[dir="rtl"] .class-main-headerColumn {
   text-align: right !important;
+}
+
+span.Main-Title-ViewOrganization {
+  color: #6172d6;
+  font-size: 35px;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 600 !important;
+}
+
+body[dir="rtl"] span.Main-Title-ViewOrganization {
+  color: #6172d6;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 600 !important;
+}
+
+.view-organization-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 80px;
 }

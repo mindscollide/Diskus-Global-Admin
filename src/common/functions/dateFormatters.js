@@ -259,20 +259,26 @@ export const convertUTCDateToLocalDateView = (utcDateTime, locale) => {
       )
     );
 
-    const day = date.toLocaleString(locale, {
-      day: "2-digit",
-      numberingSystem: locale === "ar" ? "arab" : "latn",
-    });
-    const month = date.toLocaleString(locale, {
-      month: "long",
-      numberingSystem: locale === "ar" ? "arab" : "latn",
-    });
-    const year = date.toLocaleString(locale, {
-      year: "numeric",
-      numberingSystem: locale === "ar" ? "arab" : "latn",
-    });
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
-    return `${day} ${month} ${year}`;
+    const day = date.getUTCDate();
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+
+    return `${day}-${month}-${year}`;
   } catch (error) {
     console.error("Error converting UTC date:", error);
     return null;

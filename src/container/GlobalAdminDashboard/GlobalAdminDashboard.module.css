@@ -390,7 +390,7 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   border-radius: 4px !important;
-  color: #505050;
+  color: #505050 !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   padding: 5px 18px;
@@ -402,7 +402,7 @@ body[dir="rtl"] .Export_To_Excel_dashboard {
   background: #fff !important;
   border: 1px solid #e1e1e1 !important;
   border-radius: 4px !important;
-  color: #505050;
+  color: #505050 !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   padding: 5px 18px;
@@ -720,4 +720,8 @@ body[dir="rtl"] .inside-pie-chart {
 .scrollItem {
   flex: 0 0 auto;
   margin: 0 10px;
+}
+.button-slides-class {
+  font-size: 23px !important;
+  cursor: pointer;
 }

@@ -12,6 +12,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import SortAscending from "../../assets/images/OutletImages/SorterIconAscend.png";
 import SortDescending from "../../assets/images/OutletImages/SorterIconDescend.png";
 import descendingArrow from "../../assets/images/OutletImages/DownArrow.png";
+import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
@@ -61,15 +62,11 @@ import TrialRenewModal from "./TrialRenewModal/TrialRenewModal";
 import SubscriptionRenewModal from "./SubscriptionRenewModal/SubscriptionRenewModal";
 import PackageDetailModal from "./PackageDetailModal/PackageDetailModal";
 import InvoiceHtmlModal from "./InvoiceHtmlModal/InvoiceHtmlModal";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
 
 const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
-  const CompanyRef = useRef();
+  const CompanyRef = useRef(null);
   const containerRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -205,7 +202,7 @@ const GlobalAdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSelectedCompany, setShowSelectedCompany] = useState(false);
   const [organizationID, setOrganizationID] = useState(0);
-  console.log(selectedCompany, "selectedCompanyselectedCompany");
+  console.log({ isCompnayOpen, isOpenCom }, "selectedCompanyselectedCompany");
 
   //Billing Dues Table data
   const [billDueTable, setBillDueTable] = useState([]);
@@ -425,11 +422,12 @@ const GlobalAdminDashboard = () => {
 
     setTrialBtn(true);
     setOrganizationStatus(true);
+
     return () => {
       setSelectingStart(true);
       setShowSearchedDate(false);
       // setShowSelectedCompany(false);
-      // setIsCompnayOpen(true);
+      setIsCompnayOpen(false);
       // setIsOpen(true);
       // setIsOpenCom(false);
     };
@@ -946,16 +944,13 @@ const GlobalAdminDashboard = () => {
       isCompnayOpen
     ) {
       setIsCompnayOpen(false);
+      setSearchTerm("");
     }
   };
 
   // Effect to add click event listener when dropdown is open
   useEffect(() => {
-    if (isCompnayOpen) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    }
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
@@ -2114,9 +2109,10 @@ const GlobalAdminDashboard = () => {
 
   // handler cross for company
   const handleCompanyCrossIcon = () => {
+    setSearchTerm("");
     setIsCompnayOpen(false);
     setShowSelectedCompany(false);
-    setIsOpenCom(true);
+    setIsOpenCom(false);
     setSelectedCompany("");
     setOrganizationID(0);
     let fromDateParam = startDate ? `${startDate}000000` : "";
@@ -2399,9 +2395,21 @@ const GlobalAdminDashboard = () => {
                     <div
                       className={styles["dropdown-header"]}
                       onClick={togglingCompany}
-                      // ref={CompanyRef}
                     >
-                      {isOpenCom ? (
+                      {showSelectedCompany ? (
+                        <div className={styles["Search-Company"]}>
+                          <span className={styles["Search-Company-Searches"]}>
+                            {selectedCompany}
+                          </span>
+                          <img
+                            src={Crossicon}
+                            alt=""
+                            className={styles["CrossIcon_Class-company"]}
+                            width={13}
+                            onClick={handleCompanyCrossIcon}
+                          />
+                        </div>
+                      ) : (
                         <>
                           <span className={styles["MonthName"]}>
                             {t("Company")}
@@ -2409,56 +2417,38 @@ const GlobalAdminDashboard = () => {
                           <span
                             className={isOpenCom ? styles.down : styles.up}
                           ></span>
+                          {isCompnayOpen && (
+                            <section className={styles["dropdown_list"]}>
+                              <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                                placeholder="Search..."
+                                className={styles["search-input"]}
+                                onClick={(event) => event.stopPropagation()}
+                              />
+                              {filteredOrganizations.map(
+                                (CountryData, index) => (
+                                  <div
+                                    className={styles["dropdown-list-item"]}
+                                    onClick={onCountryClickClick(CountryData)}
+                                    key={index}
+                                  >
+                                    {CountryData.organizationName}
+                                  </div>
+                                )
+                              )}
+                              {isLoading && (
+                                <div className={styles["loading-spinner"]}>
+                                  <Spin>
+                                    <span className="sr-only">Loading...</span>
+                                  </Spin>
+                                </div>
+                              )}
+                            </section>
+                          )}
                         </>
-                      ) : null}
-
-                      {isCompnayOpen ? (
-                        <>
-                          <section className={styles["dropdown_list"]}>
-                            <input
-                              type="text"
-                              value={searchTerm}
-                              onChange={handleSearchChange}
-                              placeholder="Search..."
-                              className={styles["search-input"]}
-                              onClick={(event) => event.stopPropagation()}
-                            />
-                            {filteredOrganizations.map((CountryData, index) => (
-                              <div
-                                className={styles["dropdown-list-item"]}
-                                onClick={onCountryClickClick(CountryData)}
-                                key={index}
-                              >
-                                {CountryData.organizationName}
-                              </div>
-                            ))}
-                            {isLoading && (
-                              <div className={styles["loading-spinner"]}>
-                                <Spin>
-                                  <span className="sr-only">Loading...</span>
-                                </Spin>
-                              </div>
-                            )}
-                          </section>
-                        </>
-                      ) : null}
-
-                      {showSelectedCompany ? (
-                        <>
-                          <div className={styles["Search-Company"]}>
-                            <span className={styles["Search-Company-Searches"]}>
-                              {selectedCompany}
-                            </span>
-                            <img
-                              src={Crossicon}
-                              alt=""
-                              className={styles["CrossIcon_Class-company"]}
-                              width={13}
-                              onClick={handleCompanyCrossIcon}
-                            />
-                          </div>
-                        </>
-                      ) : null}
+                      )}
                     </div>
                   </div>
                 </Col>
@@ -2475,7 +2465,7 @@ const GlobalAdminDashboard = () => {
                       totalDue,
                       currentLanguage
                     )}
-                    $
+                    <span> $</span>
                   </span>
                   <span className={styles["PrizeSubHeading"]}>
                     {/* {selectedCompany} */}
@@ -2657,12 +2647,11 @@ const GlobalAdminDashboard = () => {
                   ) : users ? (
                     <>
                       <div className={styles.scrollContainer}>
-                        <button
-                          className={styles.scrollButton}
-                          onClick={scrollLeft}
-                        >
-                          &lt;
-                        </button>
+                        <span onClick={scrollLeft}>
+                          <CaretLeftOutlined
+                            className={styles["button-slides-class"]}
+                          />
+                        </span>
                         <div
                           className={styles["scrollContent"]}
                           ref={containerRef}
@@ -2690,12 +2679,11 @@ const GlobalAdminDashboard = () => {
                               </div>
                             ))}
                         </div>
-                        <button
-                          className={styles.scrollButton}
-                          onClick={scrollRight}
-                        >
-                          &gt;
-                        </button>
+                        <span onClick={scrollRight}>
+                          <CaretRightOutlined
+                            className={styles["button-slides-class"]}
+                          />
+                        </span>
                       </div>
                     </>
                   ) : null}
@@ -2870,7 +2858,7 @@ const GlobalAdminDashboard = () => {
                                   {t("No-organization")}
                                 </span>
                                 <span className="Sub-Title">
-                                  {t("No-organization-found-this-month")}
+                                  {t("No-organization-found")}
                                 </span>
                               </section>
                             </>
@@ -2929,7 +2917,7 @@ const GlobalAdminDashboard = () => {
                                   {t("No-organization")}
                                 </span>
                                 <span className="Sub-Title">
-                                  {t("No-organization-found-this-month")}
+                                  {t("No-organization-found")}
                                 </span>
                               </section>
                             </>
@@ -2988,7 +2976,7 @@ const GlobalAdminDashboard = () => {
                                   {t("No-organization")}
                                 </span>
                                 <span className="Sub-Title">
-                                  {t("No-organization-found-this-month")}
+                                  {t("No-organization-found")}
                                 </span>
                               </section>
                             </>
@@ -3049,7 +3037,7 @@ const GlobalAdminDashboard = () => {
                                   {t("No-organization")}
                                 </span>
                                 <span className="Sub-Title">
-                                  {t("No-organization-found-this-month")}
+                                  {t("No-organization-found")}
                                 </span>
                               </section>
                             </>
@@ -3108,7 +3096,7 @@ const GlobalAdminDashboard = () => {
                                   {t("No-organization")}
                                 </span>
                                 <span className="Sub-Title">
-                                  {t("No-organization-found-this-month")}
+                                  {t("No-organization-found")}
                                 </span>
                               </section>
                             </>

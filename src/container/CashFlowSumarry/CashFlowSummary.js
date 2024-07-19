@@ -94,6 +94,8 @@ const CashFlowSummary = () => {
 
   const [searchBox, setSearchBox] = useState(false);
 
+  const [userNameSearch, setUserNameSearch] = useState("");
+
   // open edit subscription modal
   // const [editSubModal, setEditSubModal] = useState(false);
   // console.log(editSubModal, "editSubModal");
@@ -102,6 +104,7 @@ const CashFlowSummary = () => {
 
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
+  console.log(localValue, "localValuelocalValue");
 
   // to show Search text below the seacrh Field
   const [showsearchText, setShowSearchText] = useState(false);
@@ -477,16 +480,16 @@ const CashFlowSummary = () => {
       ellipsis: true,
       filters: [
         {
-          text: "Yearly",
-          value: "Yearly",
+          text: "Annual",
+          value: "Annual",
         },
         {
           text: "Monthly",
           value: "Monthly",
         },
         {
-          text: "Quarterly",
-          value: "Quarterly",
+          text: "Quaterly",
+          value: "Quaterly",
         },
       ],
       onFilter: (value, record) => record.tenure.indexOf(value) === 0,
@@ -770,19 +773,19 @@ const CashFlowSummary = () => {
       ellipsis: true,
       filters: [
         {
-          text: "Yearly",
-          value: "Yearly",
+          text: "Annual",
+          value: "Annual",
         },
         {
           text: "Monthly",
           value: "Monthly",
         },
         {
-          text: "Quarterly",
-          value: "Quarterly",
+          text: "Quaterly",
+          value: "Quaterly",
         },
       ],
-      onFilter: (value, record) => record.Subscription.indexOf(value) === 0,
+      onFilter: (value, record) => record.tenure.indexOf(value) === 0,
       render: (text, response) => {
         return (
           <>
@@ -812,7 +815,11 @@ const CashFlowSummary = () => {
       if (currentLanguage === "en") {
         setCalendarValue(gregorian);
         setLocalValue(gregorian_en);
+        setInFlowTab(true);
+        setOutstandingTab(false);
       } else if (currentLanguage === "ar") {
+        setInFlowTab(true);
+        setOutstandingTab(false);
         setCalendarValue(gregorian);
         setLocalValue(gregorian_ar);
       }
@@ -956,17 +963,25 @@ const CashFlowSummary = () => {
 
   // when Show search data below the search Box
   const handleSearches = (data, fieldName) => {
-    const updatedFlowsSearch = { ...flowsSearch, [fieldName]: "" };
+    const updatedFlowsSearch = {
+      ...flowsSearch,
+      [fieldName]: "",
+    };
+
+    const updateSearch = { userNameSearch, [fieldName]: "" };
     setFlowsSearch(updatedFlowsSearch);
 
     if (inflowTab) {
       let data = {
-        OrganizationName: updatedFlowsSearch.organizationName,
+        OrganizationName:
+          updatedFlowsSearch.organizationName || updateSearch.userNameSearch,
         DateFrom: updatedFlowsSearch.DateFrom,
         DateTo: updatedFlowsSearch.DateTo,
         sRow: 0,
         eRow: 8,
       };
+      setShowSearchText(false);
+      setUserNameSearch("");
       dispatch(globalAdminDashBoardLoader(true));
       dispatch(
         getCashFlowMainApi({
@@ -977,12 +992,15 @@ const CashFlowSummary = () => {
       );
     } else {
       let data = {
-        OrganizationName: updatedFlowsSearch.organizationName,
+        OrganizationName:
+          updatedFlowsSearch.organizationName || updateSearch.userNameSearch,
         DateFrom: updatedFlowsSearch.DateFrom,
         DateTo: updatedFlowsSearch.DateTo,
         sRow: 0,
         eRow: 8,
       };
+      setShowSearchText(false);
+      setUserNameSearch("");
       dispatch(globalAdminDashBoardLoader(true));
       dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
     }
@@ -1065,6 +1083,47 @@ const CashFlowSummary = () => {
     });
   };
 
+  const onChangeEventForSearch = (e) => {
+    let value = e.target.value;
+    setShowSearchText(false);
+
+    // Check if the first character is a space and remove it if it is
+    if (value.charAt(0) === " ") {
+      value = value.trimStart();
+    }
+    setUserNameSearch(value);
+    console.log("value", value);
+  };
+
+  const handleKeyDownSearch = (e) => {
+    if (e.key === "Enter") {
+      if (userNameSearch !== "") {
+        if (inflowTab === true) {
+          let data = {
+            OrganizationName: userNameSearch,
+            DateFrom: "",
+            DateTo: "",
+            sRow: 0, // index
+            eRow: 8, // length
+          };
+          dispatch(globalAdminDashBoardLoader(true));
+          dispatch(getCashFlowMainApi({ data, navigate, t }));
+        } else if (outstandingTab === true && inflowTab === false) {
+          let data = {
+            OrganizationName: userNameSearch,
+            DateFrom: "",
+            DateTo: "",
+            sRow: 0, // index
+            eRow: 8, // length
+          };
+          dispatch(globalAdminDashBoardLoader(true));
+          dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
+        }
+      }
+      setShowSearchText(true);
+    }
+  };
+
   return (
     <>
       <Container fluid>
@@ -1077,9 +1136,13 @@ const CashFlowSummary = () => {
           <Col lg={5} md={5} sm={5}>
             <span className="position-relative">
               <TextField
+                onKeyDown={handleKeyDownSearch}
                 placeholder={t("Search")}
                 labelClass={"d-none"}
                 applyClass={"NewMeetingFileds"}
+                name={"organizationName"}
+                change={onChangeEventForSearch}
+                value={userNameSearch}
                 inputicon={
                   <>
                     <Row>
@@ -1174,6 +1237,28 @@ const CashFlowSummary = () => {
                 }
                 iconClassName={"d-block"}
               />
+
+              <Row>
+                <Col lg={3} md={3} sm={3}>
+                  {showsearchText && userNameSearch !== "" ? (
+                    <div className={styles["SearchablesItems"]}>
+                      <span className={styles["Searches"]}>
+                        {userNameSearch}
+                      </span>
+                      <img
+                        src={Crossicon}
+                        alt=""
+                        className={styles["CrossIcon_Class"]}
+                        width={13}
+                        onClick={() =>
+                          handleSearches(userNameSearch, "userNameSearch")
+                        }
+                      />
+                    </div>
+                  ) : null}
+                </Col>
+              </Row>
+
               {searchBox ? (
                 <>
                   <Row>

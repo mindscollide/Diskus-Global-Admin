@@ -19,7 +19,7 @@ const EditOrganizationConfirmations = ({
   editOrganizationID,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
-  console.log(ModalReducer, "ModalReducerModalReducerModalReducer");
+  console.log(editOrganizationID, "ModalReducerModalReducerModalReducer");
 
   const dispatch = useDispatch();
 

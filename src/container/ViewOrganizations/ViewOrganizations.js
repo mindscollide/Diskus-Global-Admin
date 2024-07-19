@@ -7,14 +7,11 @@ import { Col, Container, Row } from "react-bootstrap";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import Select from "react-select";
-import Spinner from "react-bootstrap/Spinner";
+import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
-import {
-  searchOrganizationApi,
-  getAllOrganizationApi,
-} from "../../store/Actions/ViewOrganizationActions";
+import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import "./ViewOrganizations.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +31,6 @@ import {
   editOrganizationSubscriptionModalOpen,
   editSubscriptionModalOpen,
 } from "../../store/ActionsSlicers/UIModalsActions";
-import EditSubscriptionModal from "../ViewOrganization/EditSubscriptionModal/EditSubscriptionModal";
 import EditOrganizationSubscriptions from "./EditOrganizationSubscriptionModal/EditOrganizationSubscription";
 import EditSubscriptionModals from "./EditSubscriptionModal/EditSubscriptionModal";
 import {
@@ -56,11 +52,6 @@ const ViewOrganization = () => {
   let currentLanguage = localStorage.getItem("currentLanguage");
   const local = currentLanguage === "en" ? "en-US" : "ar-SA";
 
-  // reducer for get Search Organization data
-  const ViewOrganizationDataReducer = useSelector(
-    (state) => state.searchOrganization.searchOrganizationData
-  );
-
   // reducer for get All Organization In Organization Dropdown
   const organizationIdData = useSelector(
     (state) => state.searchOrganization.getAllOrganizationData
@@ -71,47 +62,21 @@ const ViewOrganization = () => {
     (state) => state.globalAdminDashboardReducer.getOrganizationNames
   );
 
-  console.log(
-    organizationIdDataDropdown,
-    "organizationIdDataorganizationIdData"
-  );
-
   const [searchBox, setSearchBox] = useState(false);
-  console.log(searchBox, "setvjvjvajvajsvdasd");
-  const [organizationData, setOrganizationData] = useState([]);
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
-  console.log(
-    organizationDataValue,
-    "organizationDataValueorganizationDataValue"
-  );
-
-  // state for search Organizer
-  const [searchorganizationID, setSearchOrganizationID] = useState(null);
 
   // state for view Organizer Table data
   const [viewOrganizationData, setViewOrganizationData] = useState([]);
-
+  console.log(viewOrganizationData, "viewOrganizationDatatatatat");
   const [viewOrganizationInsideData, setOrganizationInsideData] = useState([]);
-  console.log(
-    viewOrganizationInsideData,
-    "viewOrganizationInsideDataviewOrganizationInsideData"
-  );
 
   // for dropdown lazy loading state:
   const [organization, setOrganization] = useState([]);
-  const [organizationLabel, setOrganizationLabel] = useState({
-    value: 0,
-    label: "",
-  });
-
-  console.log(organizationLabel, "organizationLabelorganizationLabel");
 
   // for lazy Loading state
   const [isRowsData, setSRowsData] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
-
-  console.log(totalRecords, "totalRecords");
 
   // view organization modal
   const [viewOrganizationsModal, setViewOrganizationsModal] = useState("");
@@ -137,6 +102,8 @@ const ViewOrganization = () => {
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
 
+  const [userNameSearch, setUserNameSearch] = useState("");
+
   // search Organizer State
   const [searchOrganizationData, setSearchOrganizationData] = useState({
     OrganizationContactName: "",
@@ -151,7 +118,6 @@ const ViewOrganization = () => {
     OrganizationDateToView: "",
     OrganizationDateFromView: "",
   });
-  console.log(searchOrganizationData.OrganizationName, "OrganizationName");
 
   //Calling Organization Api
   useEffect(() => {
@@ -186,6 +152,7 @@ const ViewOrganization = () => {
     };
   }, []);
 
+  // useEffect for dropdown select organization Names
   useEffect(() => {
     if (
       organizationIdDataDropdown !== null &&
@@ -229,53 +196,29 @@ const ViewOrganization = () => {
       const { getAllOrganizations, totalCount } = organizationIdData.result;
 
       if (getAllOrganizations && getAllOrganizations.length > 0) {
-        if (isScroll) {
-          setIsScroll(false);
-          setViewOrganizationData((prevData) => [
-            ...prevData,
-            ...getAllOrganizations,
-          ]);
+        const newOrganizations = isScroll
+          ? [...viewOrganizationData, ...getAllOrganizations]
+          : getAllOrganizations;
 
-          const newSubscriptions = getAllOrganizations.flatMap((org) =>
-            org.organizationSubscriptions.map((sub) => ({
-              organizationId: org.organizationID,
-              subscriptionStartDate: sub.subscriptionStartDate,
-              subscriptionExpiryDate: sub.subscriptionExpiryDate,
-              duration: sub.fK_TenureOfSubscriptionID,
-              fK_SubscriptionStatusID: sub.fK_SubscriptionStatusID,
-              pK_OrganizationsSubscriptionID:
-                sub.pK_OrganizationsSubscriptionID,
-              uniqueKey: `${org.organizationID}-${sub.pK_OrganizationsSubscriptionID}-${sub.subscriptionStartDate}-${sub.subscriptionExpiryDate}`,
-            }))
-          );
+        const subscriptions = newOrganizations.flatMap((org) =>
+          org.organizationSubscriptions.map((sub) => ({
+            organizationId: org.organizationID,
+            subscriptionStartDate: sub.subscriptionStartDate,
+            subscriptionExpiryDate: sub.subscriptionExpiryDate,
+            fK_TenureOfSubscriptionID: sub.fK_TenureOfSubscriptionID,
+            fK_SubscriptionStatusID: sub.fK_SubscriptionStatusID,
+            pK_OrganizationsSubscriptionID: sub.pK_OrganizationsSubscriptionID,
+            uniqueKey: `${org.organizationID}-${sub.pK_OrganizationsSubscriptionID}`,
+          }))
+        );
 
-          setOrganizationInsideData((prevData) => {
-            const mergedData = [...prevData, ...newSubscriptions];
-            const uniqueData = mergedData.filter(
-              (sub, index, self) =>
-                index === self.findIndex((s) => s.uniqueKey === sub.uniqueKey)
-            );
-            return uniqueData;
-          });
-          setSRowsData((prev) => prev + getAllOrganizations.length);
-        } else {
-          setViewOrganizationData(getAllOrganizations);
-          const subscriptions = getAllOrganizations.flatMap((org) =>
-            org.organizationSubscriptions.map((sub) => ({
-              organizationId: org.organizationID,
-              subscriptionStartDate: sub.subscriptionStartDate,
-              subscriptionExpiryDate: sub.subscriptionExpiryDate,
-              fK_TenureOfSubscriptionID: sub.fK_TenureOfSubscriptionID,
-              fK_SubscriptionStatusID: sub.fK_SubscriptionStatusID,
-              pK_OrganizationsSubscriptionID:
-                sub.pK_OrganizationsSubscriptionID,
-              uniqueKey: `${org.organizationID}-${sub.pK_OrganizationsSubscriptionID}-${sub.subscriptionStartDate}-${sub.subscriptionExpiryDate}`,
-            }))
-          );
+        const uniqueSubscriptions = Array.from(
+          new Set(subscriptions.map((sub) => sub.uniqueKey))
+        ).map((key) => subscriptions.find((sub) => sub.uniqueKey === key));
 
-          setOrganizationInsideData(subscriptions);
-          setSRowsData(getAllOrganizations.length);
-        }
+        setViewOrganizationData(newOrganizations);
+        setOrganizationInsideData(uniqueSubscriptions);
+        setSRowsData(newOrganizations.length);
         setTotalRecords(totalCount);
       } else {
         // Handle empty response
@@ -290,10 +233,11 @@ const ViewOrganization = () => {
   // handle scroll for lazy loader
   const handleScroll = () => {
     if (isRowsData <= totalRecords) {
-      console.log(isRowsData, "jgavjavajvja");
       setIsScroll(true);
       let newData = {
-        OrganizationContactName: "",
+        OrganizationContactName: searchOrganizationData.OrganizationContactName
+          ? searchOrganizationData.OrganizationContactName
+          : "",
         OrganizationContactEmail: "",
         OrganizationDateTo: searchOrganizationData.OrganizationDateTo
           ? `${searchOrganizationData.OrganizationDateTo}000000`
@@ -301,8 +245,13 @@ const ViewOrganization = () => {
         OrganizationDateFrom: searchOrganizationData.OrganizationDateFrom
           ? `${searchOrganizationData.OrganizationDateFrom}000000`
           : "",
-        OrganizationSubscriptionStatus: 0,
-        OrganizationName: "",
+        OrganizationSubscriptionStatus: searchOrganizationData
+          .OrganizationSubscriptionStatus.value
+          ? searchOrganizationData.OrganizationSubscriptionStatus.value
+          : 0,
+        OrganizationName: organizationDataValue
+          ? organizationDataValue.label
+          : "",
         sRow: Number(isRowsData),
         eRow: 10,
       };
@@ -315,7 +264,7 @@ const ViewOrganization = () => {
 
   const columns = [
     {
-      title: "Subscription Date",
+      title: t("Subscription-date"),
       dataIndex: "subscriptionStartDate",
       key: "subscriptionStartDate",
       className: "class-main-headerColumn",
@@ -323,7 +272,7 @@ const ViewOrganization = () => {
       render: (text, record) => {
         return (
           <>
-            <span className="inner-sub-Heading">
+            <span className="inner-sub-Heading-insidetable">
               {text && convertUTCDateToLocalDateView(text + "201320")}
             </span>
           </>
@@ -331,7 +280,7 @@ const ViewOrganization = () => {
       },
     },
     {
-      title: "Expiry Date",
+      title: t("Expiry-date"),
       dataIndex: "subscriptionExpiryDate",
       key: "subscriptionExpiryDate",
       className: "class-main-headerColumn",
@@ -339,7 +288,7 @@ const ViewOrganization = () => {
         console.log(record, "recordrecord");
         return (
           <>
-            <span className="inner-sub-Heading">
+            <span className="inner-sub-Heading-insidetable">
               {text && convertUTCDateToLocalDateView(text + "201320")}
             </span>
           </>
@@ -347,7 +296,7 @@ const ViewOrganization = () => {
       },
     },
     {
-      title: "Duration",
+      title: t("Duration"),
       dataIndex: "fK_TenureOfSubscriptionID",
       key: "fK_TenureOfSubscriptionID",
       className: "class-main-headerColumn",
@@ -356,27 +305,39 @@ const ViewOrganization = () => {
           <>
             {record.fK_TenureOfSubscriptionID === 1 ? (
               <>
-                <span className="inner-sub-Heading">{t("Annual")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Annual")}
+                </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 2 ? (
               <>
-                <span className="inner-sub-Heading">{t("Monthly")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Monthly")}
+                </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 3 ? (
               <>
-                <span className="inner-sub-Heading">{t("Quarterly")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Quarterly")}
+                </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 4 ? (
               <>
-                <span className="inner-sub-Heading">{t("HalfYearly")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("HalfYearly")}
+                </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 5 ? (
               <>
-                <span className="inner-sub-Heading">{t("Trial")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Trial")}
+                </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 6 ? (
               <>
-                <span className="inner-sub-Heading">{t("Trial-extended")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Trial-extended")}
+                </span>
               </>
             ) : null}
           </>
@@ -384,7 +345,7 @@ const ViewOrganization = () => {
       },
     },
     {
-      title: "Status",
+      title: t("Status"),
       dataIndex: "fK_SubscriptionStatusID",
       key: "fK_SubscriptionStatusID",
       className: "class-main-headerColumn",
@@ -393,29 +354,39 @@ const ViewOrganization = () => {
           <>
             {record.fK_SubscriptionStatusID === 1 ? (
               <>
-                <span className="inner-sub-Heading">{t("Active")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Active")}
+                </span>
               </>
             ) : record.fK_SubscriptionStatusID === 2 ? (
               <>
-                <span className="inner-sub-Heading">{t("In-active")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("In-active")}
+                </span>
               </>
             ) : record.fK_SubscriptionStatusID === 3 ? (
               <>
-                <span className="inner-sub-Heading">{t("Suspended")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Suspended")}
+                </span>
               </>
             ) : record.fK_SubscriptionStatusID === 4 ? (
               <>
-                <span className="inner-sub-Heading">{t("Closed")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Closed")}
+                </span>
               </>
             ) : record.fK_SubscriptionStatusID === 5 ? (
               <>
-                <span className="inner-sub-Heading">
+                <span className="inner-sub-Heading-insidetable">
                   {t("Termination-requested")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 6 ? (
               <>
-                <span className="inner-sub-Heading">{t("Cancelled")}</span>
+                <span className="inner-sub-Heading-insidetable">
+                  {t("Cancelled")}
+                </span>
               </>
             ) : null}
           </>
@@ -443,7 +414,7 @@ const ViewOrganization = () => {
 
   const headerColumn = [
     {
-      title: "Organization Name",
+      title: t("Organization-name"),
       dataIndex: "organizationName",
       key: "organizationName",
       className: "class-main-headerColumn",
@@ -461,7 +432,7 @@ const ViewOrganization = () => {
       ),
     },
     {
-      title: "Admin Name",
+      title: t("Admin-name"),
       dataIndex: "contactPersonName",
       key: "contactPersonName",
       className: "class-main-headerColumn",
@@ -472,21 +443,24 @@ const ViewOrganization = () => {
       ),
     },
     {
-      title: "Contact Number",
+      title: t("Contact-number"),
       dataIndex: "contactPersonNumber",
       key: "contactPersonNumber",
       className: "class-main-headerColumn",
-      render: (text, record) => (
-        <>
-          <span className="d-flex gap-2">
-            <FlagCountryName countryCode={record.mobileCode} />
-            <span className="inner-sub-Heading">{text}</span>
-          </span>
-        </>
-      ),
+      render: (text, record) => {
+        const countryCode = record.mobileCode;
+        return (
+          <>
+            <span className="d-flex gap-2">
+              <FlagCountryName countryCode={countryCode} />
+              <span className="inner-sub-Heading">{text}</span>
+            </span>
+          </>
+        );
+      },
     },
     {
-      title: "Organization Status",
+      title: t("Organization-status"),
       dataIndex: "organizationStatus",
       key: "organizationStatus",
       className: "class-main-headerColumn",
@@ -567,7 +541,7 @@ const ViewOrganization = () => {
   const handleEditOrganizationModal = (record) => {
     console.log(record, "acasgjasgjdvasjgvd");
     setEditOrganzationName(record.organizationName);
-    setEditOrganizationID(record.organizationId);
+    setEditOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationStatus);
     dispatch(editOrganizationSubscriptionModalOpen(true));
     // setEditSubModal(true);
@@ -605,13 +579,7 @@ const ViewOrganization = () => {
 
   // onChange Handler for organizer Dropdown
   const organizerChangeHandler = (selectedOrganizer) => {
-    setSearchOrganizationID(selectedOrganizer.value);
     setOrganizationDataValue(selectedOrganizer);
-    setOrganizationLabel((prevState) => ({
-      ...prevState,
-      value: selectedOrganizer.value,
-      label: selectedOrganizer.label,
-    }));
   };
   //onChange for View Orgniazation Search
   const searchViewOrganizationHandler = (event) => {
@@ -664,7 +632,7 @@ const ViewOrganization = () => {
 
   // handler searched button
   const handleSearches = (fieldName) => {
-    let updatedData = { ...searchOrganizationData };
+    let updatedData = { ...searchOrganizationData, userNameSearch };
     let updatedOrganizationDataValue = organizationDataValue;
     console.log(
       updatedOrganizationDataValue,
@@ -685,6 +653,8 @@ const ViewOrganization = () => {
       setOrganizationDataValue(null);
     } else if (fieldName === "OrganizationSubscriptionStatus") {
       updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
+    } else if (fieldName === "userNameSearch") {
+      updatedData.userNameSearch = "";
     } else {
       updatedData[fieldName] = "";
     }
@@ -708,7 +678,8 @@ const ViewOrganization = () => {
       sRow: 0,
       eRow: 10,
     };
-
+    setShowSearchText(false);
+    setUserNameSearch("");
     dispatch(viewOrganizationLoader(true));
     dispatch(getAllOrganizationApi({ newData, navigate, t }));
   };
@@ -804,6 +775,38 @@ const ViewOrganization = () => {
     }
   };
 
+  const onChangeEventForSearch = (e) => {
+    let value = e.target.value;
+    setShowSearchText(false);
+
+    // Check if the first character is a space and remove it if it is
+    if (value.charAt(0) === " ") {
+      value = value.trimStart();
+    }
+    setUserNameSearch(value);
+    console.log("value", value);
+  };
+
+  const handleKeyDownSearch = (e) => {
+    if (e.key === "Enter") {
+      if (userNameSearch !== "") {
+        let newData = {
+          OrganizationContactName: "",
+          OrganizationContactEmail: "",
+          OrganizationDateTo: "",
+          OrganizationDateFrom: "",
+          OrganizationSubscriptionStatus: 0,
+          OrganizationName: userNameSearch,
+          sRow: 0,
+          eRow: 10,
+        };
+        dispatch(viewOrganizationLoader(true));
+        dispatch(getAllOrganizationApi({ newData, navigate, t }));
+      }
+      setShowSearchText(true);
+    }
+  };
+
   return (
     <>
       <Row className="mt-3">
@@ -815,10 +818,10 @@ const ViewOrganization = () => {
         <Col lg={5} md={5} sm={5}>
           <span className="position-relative">
             <TextField
-              // onKeyDown={handleKeyDownSearch}
-              // change={onChangeEventForSearch}
+              onKeyDown={handleKeyDownSearch}
+              change={onChangeEventForSearch}
               placeholder={t("Search")}
-              value={aminNameSearch}
+              value={userNameSearch}
               labelClass={"d-none"}
               applyClass={"NewMeetingFileds"}
               inputicon={
@@ -843,6 +846,24 @@ const ViewOrganization = () => {
               }
               iconClassName={"d-block"}
             />
+            <Row>
+              <Col lg={3} md={3} sm={3}>
+                {showsearchText && userNameSearch !== "" ? (
+                  <div className={"SearchablesItems"}>
+                    <span className={"Searches"}>{userNameSearch}</span>
+                    <img
+                      src={Crossicon}
+                      alt=""
+                      className={"CrossIcon_Class"}
+                      width={13}
+                      onClick={() =>
+                        handleSearches(userNameSearch, "userNameSearch")
+                      }
+                    />
+                  </div>
+                ) : null}
+              </Col>
+            </Row>
             <Row>
               <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
                 {showsearchText &&
@@ -1104,65 +1125,93 @@ const ViewOrganization = () => {
 
       <Row>
         <Col lg={12} md={12} sm={12}>
-          <InfiniteScroll
-            dataLength={viewOrganizationData.length}
-            next={handleScroll}
-            height={"75vh"} // Adjust height as needed
-            className={"cashFLowClass-infinite"}
-            hasMore={viewOrganizationData.length < totalRecords} // Simplified condition
-            loader={
-              isRowsData <= totalRecords && isScroll ? (
-                <Row>
-                  <Col
-                    sm={12}
-                    md={12}
-                    lg={12}
-                    className="d-flex justify-content-center mt-2"
-                  >
-                    <Spin />
-                  </Col>
-                </Row>
-              ) : null
-            }
-          >
-            {viewOrganizationData.map((org) => (
-              <Collapse
-                key={org.organizationId}
-                bordered={false}
-                expandIconPosition="end"
-                expandIcon={({ isActive }) => (
-                  <UpOutlined
-                    className="custom-icon"
-                    rotate={isActive ? 180 : 0}
-                  />
-                )}
-                className="organization-collapse"
+          {viewOrganizationData !== null &&
+          viewOrganizationData !== undefined &&
+          viewOrganizationData.length > 0 ? (
+            <>
+              <InfiniteScroll
+                dataLength={viewOrganizationData.length}
+                next={handleScroll}
+                height={"75vh"} // Adjust height as needed
+                className={"cashFLowClass-infinite"}
+                hasMore={viewOrganizationData.length < totalRecords} // Simplified condition
+                loader={
+                  isRowsData <= totalRecords && isScroll ? (
+                    <Row>
+                      <Col
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        className="d-flex justify-content-center mt-2"
+                      >
+                        <Spin />
+                      </Col>
+                    </Row>
+                  ) : null
+                }
               >
-                <Panel
-                  className="Panel-Class"
-                  header={
-                    <>
+                {viewOrganizationData.map((org) => (
+                  <Collapse
+                    key={org.organizationId}
+                    bordered={false}
+                    expandIconPosition="end"
+                    expandIcon={({ isActive }) => (
+                      <UpOutlined
+                        className="custom-icon"
+                        rotate={isActive ? 180 : 0}
+                      />
+                    )}
+                    className="organization-collapse"
+                  >
+                    <Panel
+                      key={org.organizationId}
+                      className="Panel-Class"
+                      header={
+                        <>
+                          <Table
+                            rows={[org]}
+                            column={headerColumn}
+                            pagination={false}
+                            className="custom-table"
+                          />
+                        </>
+                      }
+                    >
                       <Table
-                        rows={[org]}
-                        column={headerColumn}
+                        rows={viewOrganizationInsideData.filter(
+                          (data) => data.organizationId === org.organizationID
+                        )}
+                        column={columns}
                         pagination={false}
                         className="custom-table"
                       />
-                    </>
-                  }
+                    </Panel>
+                  </Collapse>
+                ))}
+              </InfiniteScroll>
+            </>
+          ) : (
+            <>
+              <Row className="mt-5">
+                <Col
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  className="view-organization-section"
                 >
-                  <Table
-                    rows={viewOrganizationInsideData.filter(
-                      (data) => data.organizationId === org.organizationID
-                    )}
-                    column={columns}
-                    pagination={false}
-                    className="custom-table"
+                  <img
+                    src={NoOrganizationIcon}
+                    width={"110px"}
+                    alt="View Organization"
                   />
-                </Panel>
-              </Collapse>
-            ))}
-          </InfiniteScroll>
+
+                  <span className="Main-Title-ViewOrganization">
+                    {t("No-View-Organization")}
+                  </span>
+                </Col>
+              </Row>
+            </>
+          )}
         </Col>
       </Row>
       <EditOrganizationSubscriptions

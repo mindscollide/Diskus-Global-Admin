@@ -10,7 +10,7 @@ import {
 } from "../../../store/ActionsSlicers/UIModalsActions";
 import { Col, Row } from "react-bootstrap";
 import EditSubscriptionConfirmationModal from "./EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
-import { convertUTCDateToLocalDate } from "../../../common/functions/dateFormatters";
+import { convertUTCDateToLocalDateView } from "../../../common/functions/dateFormatters";
 const EditSubscriptionModals = ({
   editSubscriptionOrgID,
   subcriptionStartDate,
@@ -178,10 +178,10 @@ const EditSubscriptionModals = ({
                 className="d-flex flex-column flex-wrap"
               >
                 <span className={styles["EditSubscriptionSubHeading"]}>
-                  {t("Subscription-Date")}
+                  {t("Subscription-date")}
                 </span>
                 <span className={styles["Data"]}>
-                  {convertUTCDateToLocalDate(subcriptionStartDate)}
+                  {convertUTCDateToLocalDateView(subcriptionStartDate)}
                 </span>
               </Col>
             </Row>
@@ -193,10 +193,10 @@ const EditSubscriptionModals = ({
                 className="d-flex flex-column flex-wrap"
               >
                 <span className={styles["EditSubscriptionSubHeading"]}>
-                  {t("Expiry-Date")}
+                  {t("Expiry-date")}
                 </span>
                 <span className={styles["Data"]}>
-                  {convertUTCDateToLocalDate(subcriptionExpiry)}
+                  {convertUTCDateToLocalDateView(subcriptionExpiry)}
                 </span>
               </Col>
               <Col
@@ -211,33 +211,27 @@ const EditSubscriptionModals = ({
                 <span className={styles["Data"]}>
                   {duration === 1 ? (
                     <>
-                      <span className="inner-sub-Heading">{t("Annual")}</span>
+                      <span className="Data">{t("Annual")}</span>
                     </>
                   ) : duration === 2 ? (
                     <>
-                      <span className="inner-sub-Heading">{t("Monthly")}</span>
+                      <span className="Data">{t("Monthly")}</span>
                     </>
                   ) : duration === 3 ? (
                     <>
-                      <span className="inner-sub-Heading">
-                        {t("Quarterly")}
-                      </span>
+                      <span className="Data">{t("Quarterly")}</span>
                     </>
                   ) : duration === 4 ? (
                     <>
-                      <span className="inner-sub-Heading">
-                        {t("HalfYearly")}
-                      </span>
+                      <span className="Data">{t("HalfYearly")}</span>
                     </>
                   ) : duration === 5 ? (
                     <>
-                      <span className="inner-sub-Heading">{t("Trial")}</span>
+                      <span className="Data">{t("Trial")}</span>
                     </>
                   ) : duration === 6 ? (
                     <>
-                      <span className="inner-sub-Heading">
-                        {t("Trial-extended")}
-                      </span>
+                      <span className="Data">{t("Trial-extended")}</span>
                     </>
                   ) : null}
                 </span>

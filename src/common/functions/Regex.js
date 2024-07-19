@@ -12,3 +12,8 @@ export const regexOnlyForNumberNCharacters = (data) => {
 export const regexOnlyCharacters = (data) => {
   return data.replace(/^\s/, "").replace(/[^a-zA-Z\s]/g, "");
 };
+
+// for global level setting
+export const onlyNumbersPattern = /^[0-9]+$/;
+export const onlyNumberNCharactersPattern = /^\s*|[^\u0600-\u06FFa-zA-Z0-9\s]/g;
+export const onlyCharactersPattern = /^\s*|[^a-zA-Z\s]/g;
