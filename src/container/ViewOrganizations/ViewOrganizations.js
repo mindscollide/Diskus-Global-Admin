@@ -847,7 +847,7 @@ const ViewOrganization = () => {
               iconClassName={"d-block"}
             />
             <Row>
-              <Col lg={3} md={3} sm={3}>
+              <Col lg={4} md={4} sm={4}>
                 {showsearchText && userNameSearch !== "" ? (
                   <div className={"SearchablesItems"}>
                     <span className={"Searches"}>{userNameSearch}</span>

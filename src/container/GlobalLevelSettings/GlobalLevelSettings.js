@@ -35,6 +35,8 @@ const GlobalLevelSettings = () => {
     (state) => state.globalAdminDashboardReducer.getGlobalLevelConfigData
   );
 
+  console.log(getGlobalLevelConfigData, "ajgvajsvjavjavsjv");
+
   // const new states for Global Configuration
   const [mailState, setMailState] = useState(true);
   const [functionalState, setFunctionalState] = useState(false);
@@ -193,6 +195,14 @@ const GlobalLevelSettings = () => {
     Join_Meeting_Before_Minutes: {
       configKey: "Join_Meeting_Before_Minutes",
       configValue: "15",
+    },
+    DATA_ROOM_LAZY_LOADING_LENGTH: {
+      configKey: "DATA_ROOM_LAZY_LOADING_LENGTH",
+      configValue: "10",
+    },
+    Video_Call_Ringer_Timeout_Seconds: {
+      configKey: "Video_Call_Ringer_Timeout_Seconds",
+      configValue: "30",
     },
     Share_Folder_Base_Link: {
       configKey: "Share_Folder_Base_Link",
@@ -406,6 +416,8 @@ const GlobalLevelSettings = () => {
     numberOnlyState: onlyNumbersPattern,
     Meeting_Started_Minutes_Ago: onlyNumbersPattern,
     Join_Meeting_Before_Minutes: onlyNumbersPattern,
+    DATA_ROOM_LAZY_LOADING_LENGTH: onlyNumbersPattern,
+    Video_Call_Ringer_Timeout_Seconds: onlyNumbersPattern,
     Meeting_Extra_Time_Active: onlyNumbersPattern,
     MaxAllowedFailedLoginAttempts: onlyNumbersPattern,
     IdleTimeout: onlyNumbersPattern,
@@ -823,8 +835,15 @@ const GlobalLevelSettings = () => {
                       <TextField
                         labelClass="d-none"
                         name="dataroom"
-                        // change={changeHandler}
-                        // value={functionalSettingState.dataroomlength.value}
+                        change={(e) =>
+                          onChangeHandlerGlobal(
+                            newData.DATA_ROOM_LAZY_LOADING_LENGTH,
+                            e.target.value
+                          )
+                        }
+                        value={
+                          newData.DATA_ROOM_LAZY_LOADING_LENGTH.configValue
+                        }
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -833,8 +852,15 @@ const GlobalLevelSettings = () => {
                       </span>
                       <TextField
                         name="videoringer"
-                        // change={changeHandler}
-                        // value={functionalSettingState.videoRinger.value}
+                        change={(e) =>
+                          onChangeHandlerGlobal(
+                            newData.Video_Call_Ringer_Timeout_Seconds,
+                            e.target.value
+                          )
+                        }
+                        value={
+                          newData.Video_Call_Ringer_Timeout_Seconds.configValue
+                        }
                         labelClass="d-none"
                       />
                     </Col>
@@ -1030,7 +1056,7 @@ const GlobalLevelSettings = () => {
                     </Col>
                   </Row>
 
-                  <Row className="mt-4">
+                  {/* <Row className="mt-4">
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Default-organizer-name")}
@@ -1051,7 +1077,7 @@ const GlobalLevelSettings = () => {
                         width={50}
                       />
                     </Col>
-                  </Row>
+                  </Row> */}
                 </>
               ) : null}
               {organizationAccountState ? (

@@ -45,6 +45,7 @@ import {
   listOfPackageLisences,
   getAllOrganizationNamesApi,
   dynamicallyReportOfActivePackageLicensesApi,
+  downloadInvoiceApi,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
@@ -549,7 +550,7 @@ export const SendInvoiceApi = createAsyncThunk(
   "SendInvoiceApi/SendInvoiceApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { data } = requestData;
+    let { data, navigate, t } = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", sendInvoice.RequestMethod);
@@ -1880,7 +1881,7 @@ export const getInvoiceHtmlApi = createAsyncThunk(
   "getInvoiceHtmlApi/getInvoiceHtmlApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { data, navigate, t } = requestData;
+    let { data, navigate, t, setSendInvoiceData } = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", getInvoiceHtmlOrganization.RequestMethod);
@@ -1904,6 +1905,7 @@ export const getInvoiceHtmlApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetInvoiceHtmlByOrganizationID_01".toLowerCase()
               )
           ) {
+            setSendInvoiceData(data);
             dispatch(htmlInvoiceModalOpen(true));
             dispatch(globalAdminDashBoardLoader(false));
             try {
@@ -2731,6 +2733,66 @@ export const dynamicalyDownloadReportApi = createAsyncThunk(
         document.body.appendChild(link);
         link.click();
 
+        // Dispatch action to update loading state or handle other logic
+        dispatch(globalAdminDashBoardLoader(false));
+      } else {
+        // Handle other status codes if needed
+        return rejectWithValue("Error downloading file");
+      }
+    } catch (error) {
+      // Handle errors
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// download main Invoice API
+export const downloadInvoiceReportMainApi = createAsyncThunk(
+  "downloadInvoiceReportMainApi/downloadInvoiceReportMainApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    try {
+      let token = localStorage.getItem("token");
+      console.log(token, "responseresponseresponseresponse");
+
+      let { data, navigate, t } = requestData;
+      console.log(data, "responseresponseresponseresponse");
+
+      let form = new FormData();
+      console.log(form, "responseresponseresponseresponse");
+
+      form.append("RequestData", JSON.stringify(data));
+
+      form.append("RequestMethod", downloadInvoiceApi.RequestMethod);
+
+      console.log(form, "responseresponseresponseresponse");
+      let response;
+      let contentType = "application/pdf";
+      try {
+        response = await axios({
+          method: "post",
+          url: adminURL,
+          data: form,
+          headers: {
+            _token: token,
+            "Content-Disposition": "attachment; filename=template.pdf",
+            "Content-Type": contentType,
+          },
+          responseType: "blob",
+        });
+      } catch (error) {
+        console.log(error, "responseresponseresponseresponse");
+      }
+
+      console.log(response, "responseresponseresponseresponse");
+      if (response.status === 200) {
+        // Create a temporary URL for the blob data
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        // Create a link element and simulate a click to trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "download-Invoice.pdf");
+        document.body.appendChild(link);
+        link.click();
         // Dispatch action to update loading state or handle other logic
         dispatch(globalAdminDashBoardLoader(false));
       } else {

@@ -344,3 +344,7 @@ body[dir="rtl"] .save-User-btn {
   font-size: 12px !important;
   font-weight: 400 !important;
 }
+
+.errorMessage-hidden {
+  display: none !important;
+}

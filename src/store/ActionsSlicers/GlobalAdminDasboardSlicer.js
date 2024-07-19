@@ -39,6 +39,7 @@ import {
   listOfPackageLisencesMainApi,
   getAllOrganizationNameMainApi,
   dynamicalyDownloadReportApi,
+  downloadInvoiceReportMainApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -75,6 +76,7 @@ const initialState = {
   listOfPackageLisencesData: null,
   getOrganizationNames: null,
   downloadDynamicallyReportData: null,
+  downloadInvoiceData: null,
   Responsemessage: "",
 };
 
@@ -609,6 +611,19 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(dynamicalyDownloadReportApi.rejected, (state, action) => {
         state.downloadDynamicallyReportData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      // for download Invoice Report reducer
+      .addCase(downloadInvoiceReportMainApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(downloadInvoiceReportMainApi.fulfilled, (state, action) => {
+        state.downloadInvoiceData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(downloadInvoiceReportMainApi.rejected, (state, action) => {
+        state.downloadInvoiceData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

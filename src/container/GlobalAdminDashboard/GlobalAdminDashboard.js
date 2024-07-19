@@ -41,6 +41,7 @@ import {
   listOfPackageLisencesMainApi,
   getAllOrganizationNameMainApi,
   dynamicalyDownloadReportApi,
+  downloadInvoiceReportMainApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -67,6 +68,7 @@ const GlobalAdminDashboard = () => {
   const { t } = useTranslation();
 
   const CompanyRef = useRef(null);
+  const scrollContainerRef = useRef(null);
   const containerRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -127,6 +129,8 @@ const GlobalAdminDashboard = () => {
     (state) => state.globalAdminDashboardReducer.getPackagesDynamicTabs
   );
 
+  const [sendInvoiceData, setSendInvoiceData] = useState(null);
+  console.log(sendInvoiceData, "sendInvoiceDatasendInvoiceData");
   const [isOpen, setIsOpen] = useState(true);
   const [isOpenCalender, setIsOpenCalender] = useState(false);
   const [showSearchedDate, setShowSearchedDate] = useState(false);
@@ -246,11 +250,6 @@ const GlobalAdminDashboard = () => {
 
   // Page no state for Essential, professional and premium tabs
   const [essentialPageNo, setEssentialPageNo] = useState(0);
-
-  //Lazy Loading States of Professional Table (users)
-  const [sRow, setSRow] = useState(0); // Start index for pagination
-  const [eRow, setERow] = useState(10); // End index for pagination
-  const [isLoading, setIsLoading] = useState(false);
 
   //MultiDate Picker states
   const [currentMonth, setCurrentMonth] = useState(new DateObject().month);
@@ -956,7 +955,11 @@ const GlobalAdminDashboard = () => {
     };
   }, [isCompnayOpen]);
 
-  const togglingCompany = () => setIsCompnayOpen(!isCompnayOpen);
+  const togglingCompany = () => {
+    if (showSelectedCompany === false) {
+      setIsCompnayOpen(!isCompnayOpen);
+    }
+  };
 
   const onCountryClickClick = (Country) => () => {
     console.log("company select dropdown");
@@ -971,6 +974,9 @@ const GlobalAdminDashboard = () => {
     let toDateParam = endDate ? `${endDate}000000` : "";
 
     fetchBillingData(Country.organizationID, fromDateParam, toDateParam);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
   };
 
   const handleSearchChange = (event) => {
@@ -1026,7 +1032,7 @@ const GlobalAdminDashboard = () => {
     dispatch(dashBoardReportApi({ data, navigate, t }));
   };
 
-  const onClickSendInvoice = (record) => {
+  const onClickViewInvoice = (record) => {
     console.log(record, "recordrecordwewe");
     let data = {
       OrganizationID: record.organizationID,
@@ -1034,7 +1040,29 @@ const GlobalAdminDashboard = () => {
       SubscriptionID: record.fK_OSID,
     };
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(getInvoiceHtmlApi({ data, navigate, t }));
+    dispatch(getInvoiceHtmlApi({ data, navigate, t, setSendInvoiceData }));
+  };
+
+  // for inside htmlModal on send button click
+  const onClickSendInvoice = () => {
+    let data = {
+      OrganizationID: sendInvoiceData.OrganizationID,
+      InvoiceID: sendInvoiceData.InvoiceID,
+      SubscriptionID: sendInvoiceData.SubscriptionID,
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(SendInvoiceApi({ data, navigate, t }));
+  };
+
+  // for download Invoice Button
+  const onClickDownloadInvoice = () => {
+    let data = {
+      OrganizationID: sendInvoiceData.OrganizationID,
+      InvoiceID: sendInvoiceData.InvoiceID,
+      SubscriptionID: sendInvoiceData.SubscriptionID,
+    };
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(downloadInvoiceReportMainApi({ data, navigate, t }));
   };
 
   const DashboardGlobalColumn = [
@@ -1131,8 +1159,8 @@ const GlobalAdminDashboard = () => {
         <span className={styles["dashboard-table-insidetext"]}>
           {record.isInvoiceSent === false ? (
             <Button
-              text={t("Send-invoice")}
-              onClick={() => onClickSendInvoice(record)}
+              text={t("View-invoice")}
+              onClick={() => onClickViewInvoice(record)}
               className={styles["send-invoice-button"]}
             />
           ) : (
@@ -2118,6 +2146,9 @@ const GlobalAdminDashboard = () => {
     let fromDateParam = startDate ? `${startDate}000000` : "";
     let toDateParam = endDate ? `${endDate}000000` : "";
     fetchBillingData(0, fromDateParam, toDateParam);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
   };
 
   // for Download Trial Report Only
@@ -2164,24 +2195,6 @@ const GlobalAdminDashboard = () => {
     };
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(dynamicalyDownloadReportApi({ data, navigate, t }));
-  };
-
-  // for download Professional Report
-  const downloadProfessionalReport = () => {
-    let data = {
-      OrganizationName: "",
-    };
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(professionalDownloadExportApi({ data, navigate, t }));
-  };
-
-  // for download Premium Report
-  const downloadPremiumReport = () => {
-    let data = {
-      OrganizationName: "",
-    };
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(premiumDownloadExportApi({ data, navigate, t }));
   };
 
   useEffect(() => {
@@ -2438,13 +2451,6 @@ const GlobalAdminDashboard = () => {
                                   </div>
                                 )
                               )}
-                              {isLoading && (
-                                <div className={styles["loading-spinner"]}>
-                                  <Spin>
-                                    <span className="sr-only">Loading...</span>
-                                  </Spin>
-                                </div>
-                              )}
                             </section>
                           )}
                         </>
@@ -2484,6 +2490,7 @@ const GlobalAdminDashboard = () => {
                     hasMore={
                       billDueTable.length === totalBillingRecord ? false : true
                     }
+                    ref={scrollContainerRef}
                     loader={
                       isBillingRowData <= totalBillingRecord &&
                       billingScroll ? (
@@ -2552,18 +2559,25 @@ const GlobalAdminDashboard = () => {
                         ? styles["OuterBoxPieChartActive"]
                         : styles["OuterBoxPieChart"]
                     }
+                    style={{ position: "relative" }}
                     onClick={handleOrgnizationStatus}
-                    style={{ position: "relative" }} // Ensure the section has a relative position
                   >
-                    <Chart
-                      chartType="PieChart"
-                      height={"200px"}
-                      width={"280px"}
-                      data={exData}
-                      options={options}
-                    />
-                    <div className={styles["inside-pie-chart"]}>
-                      {Number(organizationStatsLicense.totalOrganizations)}
+                    <div className={styles["chart-container"]}>
+                      <Chart
+                        chartType="PieChart"
+                        height={"200px"}
+                        width={"280px"}
+                        data={exData}
+                        options={options}
+                      />
+
+                      <div className={styles["inside-pie-chart"]}>
+                        {Number(organizationStatsLicense.totalOrganizations)}
+                      </div>
+                      <div
+                        className={styles["click-preventer"]}
+                        onClick={(e) => e.stopPropagation()}
+                      ></div>
                     </div>
                   </section>
                 </Col>
@@ -2578,15 +2592,21 @@ const GlobalAdminDashboard = () => {
                     style={{ position: "relative" }}
                   >
                     {/* <Pie {...configSecond} /> */}
-                    <Chart
-                      chartType="PieChart"
-                      height={"200px"}
-                      width={"280px"}
-                      data={userData}
-                      options={userOptions}
-                    />
-                    <div className={styles["inside-pie-chart"]}>
-                      {Number(activelicenses.totalActiveLicense)}
+                    <div className={styles["chart-container"]}>
+                      <Chart
+                        chartType="PieChart"
+                        height={"200px"}
+                        width={"280px"}
+                        data={userData}
+                        options={userOptions}
+                      />
+                      <div className={styles["inside-pie-chart"]}>
+                        {Number(activelicenses.totalActiveLicense)}
+                      </div>
+                      <div
+                        className={styles["click-preventer"]}
+                        onClick={(e) => e.stopPropagation()}
+                      ></div>
                     </div>
                   </section>
                 </Col>
@@ -3120,7 +3140,11 @@ const GlobalAdminDashboard = () => {
         trialRenewRemainingDays={trialRenewRemainingDays}
       />
       <SubscriptionRenewModal />
-      <InvoiceHtmlModal />
+      <InvoiceHtmlModal
+        onClickSendInvoice={onClickSendInvoice}
+        setSendInvoiceData={setSendInvoiceData}
+        onClickDownloadInvoice={onClickDownloadInvoice}
+      />
     </>
   );
 };
