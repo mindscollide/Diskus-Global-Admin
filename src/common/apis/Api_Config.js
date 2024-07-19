@@ -134,17 +134,17 @@ const trialRenewModal = {
 
 // for download ListOfExtendedTrailSubscriptions report on subscribe trial
 const downloadTrialExtendedReport = {
-  RequestMethod: "ServiceManager.ListOfExtendedTrailSubscriptions",
+  RequestMethod: "ServiceManager.ExportListOfExtendedTrailSubscriptions",
 };
 
 // for download ListOfSubscribedSubscriptions report on subscribe trial
 const downloadTrialSubscribedReport = {
-  RequestMethod: "ServiceManager.ListOfSubscribedSubscriptions",
+  RequestMethod: "ServiceManager.ExportListOfSubscribedSubscriptions",
 };
 
 // for download ListOfExpiredTrialSubscriptions report on expired Subscription trial
 const downloadExpiredTrialSubscriptionReport = {
-  RequestMethod: "ServiceManager.ListOfExpiredSubscriptions",
+  RequestMethod: "ServiceManager.ExportListOfExpiredSubscriptions",
 };
 
 // for Package Details Modal
@@ -264,6 +264,11 @@ const dynamicallyReportOfActivePackageLicensesApi = {
   RequestMethod: "ServiceManager.ActivePackageLicenses",
 };
 
+// for download Invoice Api
+const downloadInvoiceApi = {
+  RequestMethod: "ServiceManager.DownloadInvoice",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -320,4 +325,5 @@ export {
   listOfPackageLisences,
   getAllOrganizationNamesApi,
   dynamicallyReportOfActivePackageLicensesApi,
+  downloadInvoiceApi,
 };

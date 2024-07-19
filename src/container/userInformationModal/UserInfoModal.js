@@ -49,22 +49,35 @@ const UserProfileModal = () => {
 
   // state for User Information Modal
   const [userInfoState, setUserInfoState] = useState({
-    CountryCode: 0,
-    Number: "",
+    CountryCode: {
+      value: 0,
+      errorMessage: "",
+      errorStatus: false,
+    },
+    Number: {
+      value: "",
+      errorMessage: "",
+      errorStatus: false,
+    },
   });
 
   console.log(userInfoState, "orgNameSelected");
 
   // on Change handler
   const onChangeHandler = (e) => {
-    const { name, value } = e.target;
+    let name = e.target.name;
+    let value = e.target.value;
 
-    if (name === "number") {
-      const valueCheck = regexOnlyNumbers(value);
+    if (name === "number" && name !== "") {
+      let valueCheck = regexOnlyNumbers(value);
       if (valueCheck !== 0) {
         setUserInfoState({
           ...userInfoState,
-          Number: valueCheck.trimStart(),
+          Number: {
+            value: valueCheck.trimStart(),
+            errorMessage: "",
+            errorStatus: false,
+          },
         });
       }
     }
@@ -74,13 +87,17 @@ const UserProfileModal = () => {
     dispatch(userInfoOpenModal(false));
     setUserInfoState({
       ...userInfoState,
-      CountryCode: "",
-      Number: "",
+      Number: {
+        value: "",
+      },
+      CountryCode: {
+        value: 0,
+      },
     });
+    setSelected("US");
     setErrorBar(false);
     setSubmitted(false);
   };
-
   const handleSelect = (country) => {
     setSelected(country);
     setSelectedCountry(country);
@@ -89,19 +106,37 @@ const UserProfileModal = () => {
     });
     setUserInfoState({
       ...userInfoState,
-      CountryCode: a.id,
+      CountryCode: {
+        value: a.id,
+      },
     });
   };
 
   const openConfirmationModal = () => {
-    // setSubmitted(true);
-    setErrorBar(false);
-    console.log(
-      "Opening confirmation modal with userInfoState:",
-      userInfoState
-    );
-    dispatch(userInfoOpenModal(false));
-    dispatch(userConifrmationOpenModal(true));
+    setSubmitted(true);
+    if (
+      userInfoState.Number.value !== "" &&
+      userInfoState.CountryCode.value !== 0
+    ) {
+      setErrorBar(false);
+      dispatch(userInfoOpenModal(false));
+      dispatch(userConifrmationOpenModal(true));
+    } else {
+      setErrorBar(true);
+    }
+  };
+
+  const onClickRevert = () => {
+    setUserInfoState({
+      ...userInfoState,
+      Number: {
+        value: "",
+      },
+      CountryCode: {
+        value: 0,
+      },
+    });
+    setSelected("US");
   };
 
   return (
@@ -171,30 +206,29 @@ const UserProfileModal = () => {
                     <ReactFlagsSelect
                       selected={selected}
                       onSelect={handleSelect}
-                      value={userInfoState.CountryCode}
+                      value={userInfoState.CountryCode.value}
                       fullWidth={false}
                       searchable={true}
                       placeholder={"Select Co...."}
                       customLabels={countryNameforPhoneNumber}
                       className={styles["userProfileFlagSelect"]}
                     />
-                    {/* {errorBar && select === "" && submitted === true ? (
-                      <Row className="mt-4">
-                        <Col>
-                          <p
-                            className={
-                              errorBar && select === "" && submitted === true
-                                ? styles["errorMessage"]
-                                : styles["errorMessage-hidden"]
-                            }
-                          >
-                            {t("Please-Select-this-field")}
-                          </p>
-                        </Col>
-                      </Row>
-                    ) : (
-                      <></>
-                    )} */}
+
+                    <Row className="mt-4">
+                      <Col>
+                        <p
+                          className={
+                            errorBar &&
+                            userInfoState.CountryCode.value === 0 &&
+                            submitted === true
+                              ? styles["errorMessage"]
+                              : styles["errorMessage-hidden"]
+                          }
+                        >
+                          {t("Please-Select-this-field")}
+                        </p>
+                      </Col>
+                    </Row>
                   </Col>
 
                   <Col lg={6} md={6} sm={6} className={styles["flex-columns"]}>
@@ -204,32 +238,27 @@ const UserProfileModal = () => {
                     </label>
                     <TextField
                       name="number"
-                      value={userInfoState.Number}
+                      value={userInfoState.Number.value}
                       change={onChangeHandler}
                       labelClass="d-none"
                       className={"react-flag-field"}
                     />
-                    {errorBar &&
-                    userInfoState.Number === "" &&
-                    submitted === true ? (
-                      <Row className="mt-2">
-                        <Col>
-                          <p
-                            className={
-                              errorBar &&
-                              userInfoState.Number === "" &&
-                              submitted === true
-                                ? styles["errorMessage"]
-                                : styles["errorMessage-hidden"]
-                            }
-                          >
-                            {t("Fill-the-number-field")}
-                          </p>
-                        </Col>
-                      </Row>
-                    ) : (
-                      <></>
-                    )}
+
+                    <Row className="mt-2">
+                      <Col>
+                        <p
+                          className={
+                            errorBar &&
+                            userInfoState.Number.value === "" &&
+                            submitted === true
+                              ? styles["errorMessage"]
+                              : styles["errorMessage-hidden"]
+                          }
+                        >
+                          {t("Fill-the-number-field")}
+                        </p>
+                      </Col>
+                    </Row>
                   </Col>
                 </Row>
               </Container>
@@ -242,6 +271,7 @@ const UserProfileModal = () => {
                   <Button
                     text={t("Revert")}
                     className={styles["reset-User-btn"]}
+                    onClick={onClickRevert}
                   />
                 </Col>
 

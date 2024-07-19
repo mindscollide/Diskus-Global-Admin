@@ -89,7 +89,10 @@ const LoginCard = () => {
                     <TwoFaScreen onClickGoBack={onClickGoBack} />
                   )}
                   {screenName === "PasswordVerification" && (
-                    <PasswordVerification />
+                    <PasswordVerification
+                      onClickGoBack={onClickGoBack}
+                      onClickForgetPasswordText={onClickForgetPasswordText}
+                    />
                   )}
                 </Col>
               </Row>

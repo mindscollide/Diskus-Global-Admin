@@ -159,12 +159,23 @@ body[dir="rtl"] .inner-sub-Heading {
 }
 
 .SearchablesItems {
-  padding: 5px 20px !important;
+  /* padding: 5px 20px !important;
   border-radius: 4px !important;
   background: #6172d6;
   display: flex;
   text-align: center !important;
-  gap: 35px !important;
+  gap: 35px !important; */
+  padding: 7px 12px !important;
+  border-radius: 4px !important;
+  background: #6172d6;
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  min-width: 50px; /* Minimum width */
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .CrossIcon_Class {
@@ -172,9 +183,13 @@ body[dir="rtl"] .inner-sub-Heading {
 }
 
 .Searches {
+  flex: 1; /* Allow text to stretch */
   font-size: 12px !important;
   color: #fff !important;
   font-weight: 700 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .inner-organization-heading-view-modal {

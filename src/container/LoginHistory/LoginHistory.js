@@ -32,6 +32,7 @@ import {
   convertUtcDateAndTimeToCurrentTimeZone,
   formatDate,
   formatSessionDurationArabicAndEng,
+  newDateForLoginUserHistory,
 } from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
@@ -288,10 +289,7 @@ const LoginHistory = () => {
       render: (text, record) => {
         return (
           <span className={styles["inner-sub-Heading"]}>
-            {convertUtcDateAndTimeToCurrentTimeZone(
-              record.dateLogin,
-              currentLanguage
-            )}
+            {newDateForLoginUserHistory(record.dateLogin, currentLanguage)}
           </span>
         );
       },
@@ -308,10 +306,7 @@ const LoginHistory = () => {
           <span className={styles["inner-sub-Heading"]}>
             {record.dateLogOut === "-"
               ? "-"
-              : convertUtcDateAndTimeToCurrentTimeZone(
-                  record.dateLogOut,
-                  currentLanguage
-                )}
+              : newDateForLoginUserHistory(record.dateLogOut, currentLanguage)}
             {/* {convertUtcDateAndTimeToCurrentTimeZone(
               record.dateLogOut,
               currentLanguage

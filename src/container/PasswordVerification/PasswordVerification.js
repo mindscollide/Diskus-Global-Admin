@@ -235,7 +235,7 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
             className="d-flex justify-content-center mt-2"
           >
             <span
-              className="forget-paswword-text"
+              className={styles["forget-paswword-text"]}
               onClick={onClickForgetPasswordText}
             >
               {t("Forget-password")}

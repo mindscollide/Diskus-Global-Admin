@@ -164,18 +164,27 @@ body[dir="rtl"] .Export_To_Excel {
 }
 
 .SearchablesItems {
-  padding: 5px 20px !important;
+  padding: 7px 12px !important;
   border-radius: 4px !important;
   background: #6172d6;
   display: flex;
-  text-align: center !important;
-  gap: 35px !important;
+  align-items: center;
+  gap: 35px;
+  min-width: 50px; /* Minimum width */
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Searches {
+  flex: 1; /* Allow text to stretch */
   font-size: 12px !important;
   color: #fff !important;
   font-weight: 700 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .CrossIcon_Class {
