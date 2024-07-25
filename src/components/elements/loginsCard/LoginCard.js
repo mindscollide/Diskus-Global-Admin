@@ -13,6 +13,7 @@ import {
   ForgotPassword,
   TwoFaScreen,
   PasswordVerification,
+  VerificationCode,
 } from "../../../container";
 import { useDispatch, useSelector } from "react-redux";
 import { changeScreen } from "../../../store/ActionsSlicers/AuthScreenActionSlicer";
@@ -40,9 +41,9 @@ const LoginCard = () => {
   };
 
   // Function to switch to the Enter Password screen
-  // const onClickToEnterpassword = () => {
-  //   dispatch(changeScreen("EnterPassword"));
-  // };
+  const onClickToVerification = () => {
+    dispatch(changeScreen("VerificationCode"));
+  };
 
   return (
     <>
@@ -82,7 +83,7 @@ const LoginCard = () => {
                   {screenName === "forgotPassword" && (
                     <ForgotPassword
                       onClickGoBack={onClickGoBack}
-                      onClickForgetPasswordText={onClickForgetPasswordText}
+                      onClickToVerification={onClickToVerification}
                     />
                   )}
                   {screenName === "TwoFaScreen" && (
@@ -92,6 +93,13 @@ const LoginCard = () => {
                     <PasswordVerification
                       onClickGoBack={onClickGoBack}
                       onClickForgetPasswordText={onClickForgetPasswordText}
+                    />
+                  )}
+
+                  {screenName === "VerificationCode" && (
+                    <VerificationCode
+                      onClickGoBack={onClickGoBack}
+                      onClickToVerification={onClickToVerification}
                     />
                   )}
                 </Col>
@@ -145,7 +153,8 @@ const LoginCard = () => {
               <>
                 <img
                   src={img7}
-                  width="100%"
+                  width="500px"
+                  height="450px"
                   alt="verification"
                   className={styles["phone-verification-image"]}
                 />

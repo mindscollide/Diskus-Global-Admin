@@ -34,9 +34,6 @@ import {
   trialReportExportApi,
   getInvoiceHtmlApi,
   getPackageDetailGlobalApi,
-  essentialDownloadExportApi,
-  professionalDownloadExportApi,
-  premiumDownloadExportApi,
   getAllPackagesDynamicTabsApi,
   listOfPackageLisencesMainApi,
   getAllOrganizationNameMainApi,
@@ -54,8 +51,6 @@ import {
 } from "../../common/functions/dateFormatters";
 import SendInvoiceModal from "./PackageDetailModal/PackageDetailModal";
 import {
-  dashboardSendInvoiceOpenModal,
-  htmlInvoiceModalOpen,
   subscriptionRenewOpenModal,
   trialRenewOpenModal,
 } from "../../store/ActionsSlicers/UIModalsActions";
@@ -2077,14 +2072,6 @@ const GlobalAdminDashboard = () => {
     setSubscribedPackageDetail(record);
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
-
-    // let data = {
-    //   OrganizationID: Number(record.organizationID),
-    //   InvoiceID: Number(record.invoiceID),
-    //   SubscriptionID: Number(record.fK_OSID),
-    // };
-    // dispatch(globalAdminDashBoardLoader(true));
-    // dispatch(SendInvoiceApi({ data, navigate, t }));
   };
 
   //Multi Date Picker Date Pickers Month Function
@@ -2474,7 +2461,6 @@ const GlobalAdminDashboard = () => {
                     <span> $</span>
                   </span>
                   <span className={styles["PrizeSubHeading"]}>
-                    {/* {selectedCompany} */}
                     {t("Total-due")}
                   </span>
                 </Col>
@@ -2552,7 +2538,7 @@ const GlobalAdminDashboard = () => {
                 </Col>
               </Row>
               <Row className="mt-2">
-                <Col lg={6} md={6} sm={12}>
+                <Col lg={6} md={6} sm={6}>
                   <section
                     className={
                       organizationStatus
@@ -2566,7 +2552,7 @@ const GlobalAdminDashboard = () => {
                       <Chart
                         chartType="PieChart"
                         height={"200px"}
-                        width={"280px"}
+                        width={"250px"}
                         data={exData}
                         options={options}
                       />
@@ -2581,7 +2567,7 @@ const GlobalAdminDashboard = () => {
                     </div>
                   </section>
                 </Col>
-                <Col lg={6} md={6} sm={12}>
+                <Col lg={6} md={6} sm={6}>
                   <section
                     className={
                       users
@@ -2596,7 +2582,7 @@ const GlobalAdminDashboard = () => {
                       <Chart
                         chartType="PieChart"
                         height={"200px"}
-                        width={"280px"}
+                        width={"250px"}
                         data={userData}
                         options={userOptions}
                       />

@@ -4,6 +4,7 @@ import {
   GlobalAdminLogout,
   loginAPi,
   passwordVerify,
+  forgotPasswordApi,
 } from "../../common/apis/Api_Config";
 import { authenticationURL } from "../../common/apis/Api_endPoints";
 import { changeScreen } from "../ActionsSlicers/AuthScreenActionSlicer";
@@ -360,6 +361,118 @@ export const GlobalAdminLogOutApi = createAsyncThunk(
           ) {
             return rejectWithValue("Something-went-wrong");
           } else {
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// global admin forgot Password API
+export const forgotPasswordMainnApi = createAsyncThunk(
+  "forgotPasswordMainnApi/forgotPasswordMainnApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let { email, navigate, t } = requestData;
+    let data = {
+      Email: email,
+      Device: "Browser",
+      DeviceID: "1",
+    };
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", forgotPasswordApi.RequestMethod);
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ForgotPassword_01".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("Device does not exists");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ForgotPassword_02".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("Device ID does not exists");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ForgotPassword_03".toLowerCase()
+              )
+          ) {
+            dispatch(changeScreen("VerificationCode"));
+            localStorage.setItem(
+              "token",
+              response.data.responseResult.authToken.token
+            );
+            localStorage.setItem(
+              "refreshToken",
+              response.data.responseResult.authToken.refreshToken
+            );
+            localStorage.setItem(
+              "userRoleId",
+              response.data.responseResult.userRoleId
+            );
+            localStorage.setItem(
+              "adminname",
+              response.data.responseResult.authToken.name
+            );
+            localStorage.setItem("currentLanguage", "en");
+            // navigate("/GlobalAdmin/");
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "ForgotPassword_03",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+            return rejectWithValue("OTP has been sent to your email");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ForgotPassword_04".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("Failed to generate OTP");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ForgotPassword_05".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("Failed to identify user");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_ForgotPassword_06".toLowerCase()
+              )
+          ) {
             return rejectWithValue("Something-went-wrong");
           }
         } else {

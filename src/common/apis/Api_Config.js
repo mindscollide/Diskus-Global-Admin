@@ -274,6 +274,11 @@ const getUserInfoApi = {
   RequestMethod: "ServiceManager.GetUserMobileAndCode",
 };
 
+// forget password API on global Admin
+const forgotPasswordApi = {
+  RequestMethod: "ServiceManager.ForgotPassword",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -332,4 +337,5 @@ export {
   dynamicallyReportOfActivePackageLicensesApi,
   downloadInvoiceApi,
   getUserInfoApi,
+  forgotPasswordApi,
 };

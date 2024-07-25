@@ -3,6 +3,7 @@ import {
   GlobalAdminLogOutApi,
   PasswordVerificationApi,
   enterEmailValidation,
+  forgotPasswordMainnApi,
 } from "../Actions/AuthActions";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   Authresponse: null,
   Responsemessage: "",
   passwordVerifyData: null,
+  forgotPasswordData: null,
   logOutData: null,
 };
 
@@ -63,6 +65,20 @@ const AuthActionsSlice = createSlice({
       .addCase(GlobalAdminLogOutApi.rejected, (state, action) => {
         state.loading = false;
         state.logOutData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      .addCase(forgotPasswordMainnApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(forgotPasswordMainnApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(forgotPasswordMainnApi.rejected, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

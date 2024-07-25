@@ -10,8 +10,14 @@
 }
 
 .SubHeadingsOrganizationDetails {
-  font-size: 10px !important;
+  font-size: 12px !important;
   font-weight: 600 !important;
+  color: #6172d6;
+}
+
+body [dir="rtl"] .SubHeadingsOrganizationDetails {
+  font-size: 12px !important;
+  font-weight: 500 !important;
   color: #6172d6;
 }
 

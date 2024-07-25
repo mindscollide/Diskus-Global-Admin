@@ -14,14 +14,18 @@ import { userConifrmationOpenModal } from "../../store/ActionsSlicers/UIModalsAc
 import { UpdateGlobalAdminUserApi } from "../../store/Actions/GlobalAdminDashboardActions";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const UserConfirmationModal = ({ userDataInfo }) => {
+const UserConfirmationModal = ({
+  userDataInfo,
+  selectedCountry,
+  userInfoState,
+}) => {
   //For Localization
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const ModalReducer = useSelector((state) => state.modal);
-  console.log(userDataInfo, "userInfoStateuserInfoState");
+  console.log(selectedCountry, "userInfoStateuserInfoState");
 
   const handleClose = () => {
     dispatch(userConifrmationOpenModal(false));
@@ -29,8 +33,8 @@ const UserConfirmationModal = ({ userDataInfo }) => {
 
   const handleProceedUpdate = () => {
     let data = {
-      CountryCodeID: Number(userDataInfo.mobileCode),
-      MobileNumber: userDataInfo.mobileNumber,
+      CountryCodeID: selectedCountry.id,
+      MobileNumber: userInfoState.Number.value,
     };
 
     dispatch(globalAdminDashBoardLoader(true));
@@ -74,6 +78,7 @@ const UserConfirmationModal = ({ userDataInfo }) => {
                 <Col lg={6} md={6} sm={6} xs={12}>
                   <Button
                     text={t("Cancel")}
+                    onClick={handleClose}
                     className={styles["reset-User-btn"]}
                   />
                 </Col>

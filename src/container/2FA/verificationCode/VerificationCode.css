@@ -5,7 +5,6 @@
   display: flex !important;
   justify-content: start !important;
   margin-top: 10px !important;
-  margin-left: 50px !important;
 }
 
 body[dir="rtl"] .verification-heading {
@@ -25,7 +24,6 @@ body[dir="rtl"] .verification-heading {
   display: flex !important;
   justify-content: start !important;
   margin-bottom: 5px !important;
-  margin-left: 50px !important;
 }
 
 body[dir="rtl"] .verification-subheading {
@@ -44,7 +42,6 @@ body[dir="rtl"] .verification-subheading {
   font-weight: 400 !important;
   font-size: 14px !important;
   text-align: left !important;
-  margin-left: 50px !important;
 }
 
 body[dir="rtl"] .enter-code-subheading {
@@ -56,7 +53,7 @@ body[dir="rtl"] .enter-code-subheading {
 }
 
 .SendCode-button-color {
-  width: 100px !important;
+  width: 100% !important;
   height: 37px !important;
   padding: 0px !important;
   background-color: #6172d6 !important;
@@ -75,14 +72,16 @@ body[dir="rtl"] .enter-code-subheading {
 }
 
 .go-back-text {
-  color: #6172d6 !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
+  color: #5a5a5a !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-decoration: underline !important;
 }
 
 .go-back-text:hover {
   opacity: 0.8 !important;
   cursor: pointer !important;
+  font-weight: 500 !important;
 }
 
 .icon {
@@ -111,7 +110,6 @@ body[dir="rtl"] .Enter-Code-Label label {
   display: flex !important;
   justify-content: start !important;
   margin-bottom: 5px !important;
-  margin-left: 50px !important;
 }
 
 body[dir="rtl"] .resend-heading {

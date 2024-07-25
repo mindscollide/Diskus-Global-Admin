@@ -296,5 +296,9 @@
   "View-organizations": "View Organizations",
   "Organizations": "Organizations",
   "Email-address": "Email Address",
-  "Forget-passwords": "Forgot Password ?"
+  "Forget-passwords": "Forgot Password ?",
+  "Resend-code": "Resend Code",
+  "Enter-code": "Enter Code",
+  "6-digit-code-has-sent-on-to-this": "6 digit code has sent on to this",
+  "2fa-verification": "2FA Verification"
 }

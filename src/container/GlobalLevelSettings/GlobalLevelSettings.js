@@ -57,294 +57,133 @@ const GlobalLevelSettings = () => {
   const [newData, setNewData] = useState({
     MailUser: {
       configKey: "MailUser",
-      configValue: "no-reply@axis-work.com",
+      configValue: "",
     },
     MailDisplayName: {
       configKey: "MailDisplayName",
-      configValue: "Diskus",
+      configValue: "",
     },
     MailPassword: {
       configKey: "MailPassword",
-      configValue: "rj+MJQ[Z}Qyg",
+      configValue: "",
     },
     MailHost: {
       configKey: "MailHost",
-      configValue: "mail.axis-work.com",
+      configValue: "",
     },
     MailPort: {
       configKey: "MailPort",
-      configValue: "587",
+      configValue: "",
     },
     HBL_URL_FOR_EMAIL: {
       configKey: "HBL_URL_FOR_EMAIL",
-      configValue: "https://www.hbl.com",
+      configValue: "",
     },
     MailEnableSSL: {
       configKey: "MailEnableSSL",
-      configValue: "false",
+      configValue: "",
     },
     MailIsSmtpNetworkDeliveryMethodEnabled: {
       configKey: "MailIsSmtpNetworkDeliveryMethodEnabled",
-      configValue: "false",
+      configValue: "",
     },
     LoginURL: {
       configKey: "LoginURL",
-      configValue: "http://192.168.18.241:9026",
+      configValue: "",
     },
     MaxAllowedFailedLoginAttempts: {
       configKey: "MaxAllowedFailedLoginAttempts",
-      configValue: "3",
+      configValue: "",
     },
     IdleTimeout: {
       configKey: "IdleTimeout",
-      configValue: "720",
+      configValue: "",
     },
     AccountDormantDays: {
       configKey: "AccountDormantDays",
-      configValue: "90",
+      configValue: "",
     },
-    TokenValidationURL: {
-      configKey: "TokenValidationURL",
-      configValue: "http://192.168.18.241:11001/ERM_Auth",
-    },
-    DocumentPath: {
-      configKey: "DocumentPath",
-      configValue: "C:\\Diskus\\Services\\Setting",
-    },
+
     DEFAULT_PROFILE_PICTURE_ORIGINAL_NAME: {
       configKey: "DEFAULT_PROFILE_PICTURE_ORIGINAL_NAME",
-      configValue: "logo.png",
+      configValue: "",
     },
     DEFAULT_PROFILE_PICTURE_DISPLAY_NAME: {
       configKey: "DEFAULT_PROFILE_PICTURE_DISPLAY_NAME",
-      configValue: "logo.png",
+      configValue: "",
     },
     OTP_RECREATION_TIME_LEFT: {
       configKey: "OTP_RECREATION_TIME_LEFT",
-      configValue: "5",
+      configValue: "",
     },
     DATA_ARCHIVING_GRACE_DAY: {
       configKey: "DATA_ARCHIVING_GRACE_DAY",
-      configValue: "30",
+      configValue: "",
     },
     Invoice_Clearance_Days_Margin: {
       configKey: "Invoice_Clearance_Days_Margin",
-      configValue: "10",
+      configValue: "",
     },
     Late_Fees_Days_Margin: {
       configKey: "Late_Fees_Days_Margin",
-      configValue: "5",
+      configValue: "",
     },
     Days_Before_Expiry_For_Invoice: {
       configKey: "Days_Before_Expiry_For_Invoice",
-      configValue: "2",
+      configValue: "",
     },
-    MQTT_IPAdress: {
-      configKey: "MQTT_IPAdress",
-      configValue: "192.168.18.241",
-    },
-    MQTT_Port: {
-      configKey: "MQTT_Port",
-      configValue: "11111",
-    },
+
     SMS_SERVICE_USERNAME: {
       configKey: "SMS_SERVICE_USERNAME",
-      configValue: "923008385450",
+      configValue: "",
     },
     SMS_SERVICE_PASSWORD: {
       configKey: "SMS_SERVICE_PASSWORD",
-      configValue: "8547",
+      configValue: "",
     },
     SMS_SERVICE_SENDER: {
       configKey: "SMS_SERVICE_SENDER",
-      configValue: "Diskus",
+      configValue: "",
     },
     SMS_SERVICE_BUNDLE_ID: {
       configKey: "SMS_SERVICE_BUNDLE_ID",
-      configValue: "1",
-    },
-    TALK_URL: {
-      configKey: "TALK_URL",
-      configValue: "http://192.168.18.241:11014/Talk",
-    },
-    TODO_URL: {
-      configKey: "TODO_URL",
-      configValue: "http://192.168.18.241:11003/ToDoList",
-    },
-    MEETING_URL: {
-      configKey: "MEETING_URL",
-      configValue: "http://192.168.18.241:11002/Meeting",
-    },
-    TIME_ZONE_API_BASE_URL: {
-      configKey: "TIME_ZONE_API_BASE_URL",
-      configValue: "http://api.timezonedb.com/v2.1/",
-    },
-    TIME_ZONE_API_KEY: {
-      configKey: "TIME_ZONE_API_KEY",
-      configValue: "ZIB76EZFWELX",
+      configValue: "",
     },
     MaxOTPFailedAttemptCount: {
       configKey: "MaxOTPFailedAttemptCount",
-      configValue: "3",
-    },
-    GOOGLE_CALENDER_URL: {
-      configKey: "GOOGLE_CALENDER_URL",
-      configValue: "https://www.googleapis.com/calendar/v3/calendars",
+      configValue: "",
     },
     Meeting_Started_Minutes_Ago: {
       configKey: "Meeting_Started_Minutes_Ago",
-      configValue: "4",
+      configValue: "",
     },
     Number_Of_Recently_Uploaded: {
       configKey: "Number_Of_Recently_Uploaded",
-      configValue: "12",
+      configValue: "",
     },
     Join_Meeting_Before_Minutes: {
       configKey: "Join_Meeting_Before_Minutes",
-      configValue: "15",
+      configValue: "",
     },
     DATA_ROOM_LAZY_LOADING_LENGTH: {
       configKey: "DATA_ROOM_LAZY_LOADING_LENGTH",
-      configValue: "10",
+      configValue: "",
     },
     Video_Call_Ringer_Timeout_Seconds: {
       configKey: "Video_Call_Ringer_Timeout_Seconds",
-      configValue: "30",
+      configValue: "",
     },
     Share_Folder_Base_Link: {
       configKey: "Share_Folder_Base_Link",
-      configValue: "http://localhost:3000/#/",
-    },
-    Share_Folder_Sub_Link: {
-      configKey: "Share_Folder_Sub_Link",
-      configValue: "DisKus/dataroom?action=",
+      configValue: "",
     },
     RSVP_BASE_URL: {
       configKey: "RSVP_BASE_URL",
-      configValue: "http://localhost:3000/#/",
+      configValue: "",
     },
-    RSVP_SERVICE_URL: {
-      configKey: "RSVP_SERVICE_URL",
-      configValue: "DisKus/Meeting/Useravailabilityformeeting?action=",
-    },
-    MICROSOFT_CALENDER_URL: {
-      configKey: "MICROSOFT_CALENDER_URL",
-      configValue: "https://graph.microsoft.com/v1.0/me/calendar/events",
-    },
-    DataRoomApiUrl: {
-      configKey: "DataRoomApiUrl",
-      configValue: "http://localhost:11017/DataRoom",
-    },
-    LibreOfficePath: {
-      configKey: "LibreOfficePath",
-      configValue:
-        "D:\\Diskus\\Services\\Third Party Libraries\\LibreOfficePortable\\App\\libreoffice\\program\\soffice.exe",
-    },
-    SignatureDocumentsFolderName: {
-      configKey: "SignatureDocumentsFolderName",
-      configValue: "Signature Flow Documents",
-    },
-
-    PROPOSE_MEETING_PARTICIPANT_SUBLINK: {
-      configKey: "PROPOSE_MEETING_PARTICIPANT_SUBLINK",
-      configValue: "DisKus/Meeting/Meetingproposed?action=",
-    },
-    PROPOSE_MEETING_ORGANIZER_SUBLINK: {
-      configKey: "PROPOSE_MEETING_ORGANIZER_SUBLINK",
-      configValue: "DisKus/Meeting/Usermeetingproposedatespoll?action=",
-    },
-
     Meeting_Extra_Time_Active: {
       configKey: "Meeting_Extra_Time_Active",
-      configValue: "12",
-    },
-    Minute_Collab_Url: {
-      configKey: "Minute_Collab_Url",
-      configValue: "DisKus/Meeting?Meetingminutecollaborate_action=",
-    },
-    Agenda_Contributor_Add_Url: {
-      configKey: "Agenda_Contributor_Add_Url",
-      configValue: "DisKus/Meeting?Addagendacontributor_action=",
-    },
-    Agenda_Contributor_Update_Url: {
-      configKey: "Agenda_Contributor_Update_Url",
-      configValue: "DisKus/Meeting?Updateagendacontributor_action=",
-    },
-    Meeting_Organizer_Add_Url: {
-      configKey: "Meeting_Organizer_Add_Url",
-      configValue: "DisKus/Meeting?Addorganizer_action=",
-    },
-    Meeting_Organizer_Update_Url: {
-      configKey: "Meeting_Organizer_Update_Url",
-      configValue: "DisKus/Meeting?Updateorganizer_action=",
-    },
-    Meeting_Cancel_Url: {
-      configKey: "Meeting_Cancel_Url",
-      configValue: "DisKus/Meeting?Cancelmeeting_action=",
-    },
-    Meeting_Delete_Url: {
-      configKey: "Meeting_Delete_Url",
-      configValue: "DisKus/Meeting?Deletemeeting_action=",
-    },
-    Meeting_Update_Url: {
-      configKey: "Meeting_Update_Url",
-      configValue: "DisKus/Meeting?Updatemeeting_action=",
-    },
-    Meeting_Start_Url: {
-      configKey: "Meeting_Start_Url",
-      configValue: "DisKus/Meeting?Startmeeting_action=",
-    },
-    Poll_Expire_Url: {
-      configKey: "Poll_Expire_Url",
-      configValue: "DisKus/polling?PollExpire_action=",
-    },
-    Grp_Poll_Expire_Url: {
-      configKey: "Grp_Poll_Expire_Url",
-      configValue: "DisKus/groups?GroupPollExpire_action=",
-    },
-    Com_Poll_Expire_Url: {
-      configKey: "Com_Poll_Expire_Url",
-      configValue: "DisKus/committee?CommitteePollExpire_action=",
-    },
-    Poll_Published_Url: {
-      configKey: "Poll_Published_Url",
-      configValue: "DisKus/polling?PollPublished_action=",
-    },
-    Grp_Poll_Published_Url: {
-      configKey: "Grp_Poll_Published_Url",
-      configValue: "DisKus/groups?GroupPollPublished_action=",
-    },
-    Com_Poll_Published_Url: {
-      configKey: "Com_Poll_Published_Url",
-      configValue: "DisKus/committee?CommitteePollPublished_action=",
-    },
-    Poll_Updated_Url: {
-      configKey: "Poll_Updated_Url",
-      configValue: "DisKus/polling?PollUpdated_action=",
-    },
-    Grp_Poll_Updated_Url: {
-      configKey: "Grp_Poll_Updated_Url",
-      configValue: "DisKus/groups?GroupPollUpdate_action=",
-    },
-    Com_Poll_Updated_Url: {
-      configKey: "Com_Poll_Updated_Url",
-      configValue: "DisKus/committee?CommitteePollUpdate_action=",
-    },
-    Resolution_Reminder_Url: {
-      configKey: "Resolution_Reminder_Url",
-      configValue: "DisKus/resolution?ResolutionReminder_action=",
-    },
-    Org_Status_Enabled_Url: {
-      configKey: "Org_Status_Enabled_Url",
-      configValue: "Admin?OrganizationSubscriptionEnable_action=",
-    },
-    Org_Sub_Status_Enabled_Url: {
-      configKey: "Org_Sub_Status_Enabled_Url",
-      configValue: "Admin?OrganizationStatusEnable_action=",
-    },
-    EdfaPayRedirectionUrl: {
-      configKey: "EdfaPayRedirectionUrl",
-      configValue: "http://192.168.18.241:2024?Payment_action=",
+      configValue: "",
     },
   });
 

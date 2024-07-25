@@ -138,261 +138,246 @@ const OrganizationLevelSettings = () => {
   const [newData, setNewData] = useState({
     MAXIMUM_MEETING_DURATION: {
       configKey: "MAXIMUM_MEETING_DURATION",
-      configValue: "15",
+      configValue: "",
     },
     EMAIL_ON_NEW_MEETINGS: {
       configKey: "EMAIL_ON_NEW_MEETINGS",
-      configValue: "false",
+      configValue: "",
     },
     EMAIL_EDIT_MEETING: {
       configKey: "EMAIL_EDIT_MEETING",
-      configValue: "false",
+      configValue: "",
     },
     PUSH_NOTIFICATION_ON_NEW_MEETING: {
       configKey: "PUSH_NOTIFICATION_ON_NEW_MEETING",
-      configValue: "false",
+      configValue: "",
     },
     PUSH_NOTIFICATION_ON_EDIT_MEETINGS: {
       configKey: "PUSH_NOTIFICATION_ON_EDIT_MEETINGS",
-      configValue: "false",
+      configValue: "",
     },
     SHOW_NOTIFICATION_ON_PARTICIPANT_JOINING: {
       configKey: "SHOW_NOTIFICATION_ON_PARTICIPANT_JOINING",
-      configValue: "false",
+      configValue: "",
     },
     DORMANT_INACTIVE_USERS_FOR_DAYS: {
       configKey: "DORMANT_INACTIVE_USERS_FOR_DAYS",
-      configValue: "30",
+      configValue: "",
     },
-    IS_2FA_ENABLED: { configKey: "IS_2FA_ENABLED", configValue: "false" },
+    IS_2FA_ENABLED: { configKey: "IS_2FA_ENABLED", configValue: "" },
+
     Email_When_Added_To_Committee: {
       configKey: "Email_When_Added_To_Committee",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Removed_From_Committee: {
       configKey: "Email_When_Removed_From_Committee",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Committee_Is_Dissolved_Archived: {
       configKey: "Email_When_Committee_Is_Dissolved_Archived",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Committee_Is_InActive: {
       configKey: "Email_When_Committee_Is_InActive",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Added_To_Group: {
       configKey: "Email_When_Added_To_Group",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Removed_From_Group: {
       configKey: "Email_When_Removed_From_Group",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Group_Is_Closed_Archived: {
       configKey: "Email_When_Group_Is_Closed_Archived",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Group_Is_In_Active: {
       configKey: "Email_When_Group_Is_In_Active",
-      configValue: "false",
+      configValue: "",
     },
     Email_On_Cancelled_Deleted_Meeting: {
       configKey: "Email_On_Cancelled_Deleted_Meeting",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_on_Cancelled_Deleted_Meeting: {
       configKey: "Push_Notification_on_Cancelled_Deleted_Meeting",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Added_to_Committee: {
       configKey: "Push_Notification_when_Added_to_Committee",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Removed_from_Committee: {
       configKey: "Push_Notification_when_Removed_from_Committee",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Committee_is_Dissolved_Archived: {
       configKey: "Push_Notification_when_Committee_is_Dissolved_Archived",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Committee_is_set_InActive: {
       configKey: "Push_Notification_when_Committee_is_set_InActive",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Added_to_Group: {
       configKey: "Push_Notification_when_Added_to_Group",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Removed_from_Group: {
       configKey: "Push_Notification_when_Removed_from_Group",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Group_is_Closed_Archived: {
       configKey: "Push_Notification_when_Group_is_Closed_Archived",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Group_is_set_InActive: {
       configKey: "Push_Notification_when_Group_is_set_InActive",
-      configValue: "false",
+      configValue: "",
     },
     Email_when_New_Resolution_is_Circulated: {
       configKey: "Email_when_New_Resolution_is_Circulated",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_New_Resolution_is_Circulated: {
       configKey: "Push_Notification_when_New_Resolution_is_Circulated",
-      configValue: "false",
+      configValue: "",
     },
     Email_when_Resolution_is_Cancelled_after_Circulation: {
       configKey: "Email_when_Resolution_is_Cancelled_after_Circulation",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Resolution_is_Cancelled_after_Circulation: {
       configKey:
         "Push_Notification_when_Resolution_is_Cancelled_after_Circulation",
-      configValue: "false",
+      configValue: "",
     },
     Email_when_a_Resolution_is_Closed: {
       configKey: "Email_when_a_Resolution_is_Closed",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Resolution_is_Closed: {
       configKey: "Push_Notification_when_Resolution_is_Closed",
-      configValue: "false",
-    },
-    Allow_Google_Calendar_Synch: {
-      configKey: "Allow_Google_Calendar_Synch",
-      configValue: "false",
-    },
-    Allow_Microsoft_Calendar_Synch: {
-      configKey: "Allow_Microsoft_Calendar_Synch",
-      configValue: "false",
+      configValue: "",
     },
     User_Allow_Google_Calendar_Synch: {
       configKey: "User_Allow_Google_Calendar_Synch",
-      configValue: "false",
+      configValue: "",
     },
     User_Allow_Microsoft_Calendar_Synch: {
       configKey: "User_Allow_Microsoft_Calendar_Synch",
-      configValue: "false",
+      configValue: "",
     },
     Calender_Months_Span: {
       configKey: "Calender_Months_Span",
-      configValue: "15",
-    },
-    Google_Event_Color: {
-      configKey: "Google_Event_Color",
-      configValue: "#F16B6B",
-    },
-    Office_Event_Color: {
-      configKey: "Office_Event_Color",
-      configValue: "#FFD343",
-    },
-    Diskus_Event_Color: {
-      configKey: "Diskus_Event_Color",
-      configValue: "#5F78D6",
+      configValue: "",
     },
     AUTO_CLOSE_RESOLUTION: {
       configKey: "AUTO_CLOSE_RESOLUTION",
-      configValue: "30",
+      configValue: "",
     },
     Email_When_New_Poll_Is_Published: {
       configKey: "Email_When_New_Poll_Is_Published",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_Poll_Is_Published: {
       configKey: "Push_Notification_When_New_Poll_Is_Published",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Published_Poll_Is_Updated: {
       configKey: "Email_When_Published_Poll_Is_Updated",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_Published_Poll_Is_Updated: {
       configKey: "Push_Notification_When_Published_Poll_Is_Updated",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Poll_Due_Date_Is_Passed: {
       configKey: "Email_When_Poll_Due_Date_Is_Passed",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_Poll_Due_Date_Is_Passed: {
       configKey: "Push_Notification_When_Poll_Due_Date_Is_Passed",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Published_Poll_Is_Deleted: {
       configKey: "Email_When_Published_Poll_Is_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_Published_Poll_Is_Deleted: {
       configKey: "Push_Notification_When_Published_Poll_Is_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Committee_is_set_Active: {
       configKey: "Push_Notification_when_Committee_is_set_Active",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Committee_Is_Active: {
       configKey: "Email_When_Committee_Is_Active",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Group_is_set_Active: {
       configKey: "Push_Notification_when_Group_is_set_Active",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Group_Is_Active: {
       configKey: "Email_When_Group_Is_Active",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_New_TODO_Assigned: {
       configKey: "Email_When_New_TODO_Assigned",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_TODO_Assigned: {
       configKey: "Push_Notification_When_New_TODO_Assigned",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_New_TODO_Edited: {
       configKey: "Email_When_New_TODO_Edited",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_TODO_Edited: {
       configKey: "Push_Notification_When_New_TODO_Edited",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_New_TODO_Deleted: {
       configKey: "Email_When_New_TODO_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_TODO_Deleted: {
       configKey: "Push_Notification_When_New_TODO_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_New_Comment_Added: {
       configKey: "Email_When_New_Comment_Added",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_Comment_Added: {
       configKey: "Push_Notification_When_New_Comment_Added",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Comment_Deleted: {
       configKey: "Email_When_Comment_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_Comment_Deleted: {
       configKey: "Push_Notification_When_Comment_Deleted",
-      configValue: "false",
+      configValue: "",
     },
-    Push_Notification_when_Resolution_Reminder_Sent: {
-      configKey: "Push_Notification_when_Resolution_Reminder_Sent",
-      configValue: "false",
+    Push_Notification_when_microsoft_calendar_is_changed: {
+      configKey: "Push_Notification_when_microsoft_calendar_is_changed",
+      configValue: "",
     },
-    Push_Notification_when_Notes_Created: {
-      configKey: "Push_Notification_when_Notes_Created",
-      configValue: "false",
+    Push_Notification_when_google_calendar_is_changed: {
+      configKey: "Push_Notification_when_google_calendar_is_changed",
+      configValue: "",
+    },
+    AutomatedReminderDaysForWorkFlowExpiry: {
+      configKey: "AutomatedReminderDaysForWorkFlowExpiry",
+      configValue: "",
     },
   });
 

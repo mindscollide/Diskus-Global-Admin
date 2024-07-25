@@ -36,38 +36,33 @@ const UserProfileModal = () => {
     (state) => state.globalAdminDashboardReducer.getUserInfoData
   );
 
-  console.log(getUserInfoData, "getUserInfoDatagetUserInfoDatagetUserInfoData");
-
   // get email and organizationName from local storage
   const userEmail = localStorage.getItem("userEmail");
   const orgName = localStorage.getItem("adminname");
-  console.log(orgName, "userEmailuserEmail");
 
   // error state to show error on empty field
   const [errorBar, setErrorBar] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   console.log(submitted, "submittedsubmittedsubmitted");
 
-  // select for country dropdown
-  const [select, setSelect] = useState("");
-
   const [selected, setSelected] = useState("US");
   const [selectedCountry, setSelectedCountry] = useState({});
   console.log(selectedCountry, "selectedCountry");
 
   const [userDataInfo, setUserDataInfo] = useState([]);
-  console.log(userDataInfo, "userDataInfouserDataInfo");
-
-  useEffect(() => {
-    dispatch(getUserInfoMainApi({ navigate, t }));
-  }, []);
+  console.log(userDataInfo.mobileNumber, "userDataInfouserDataInfo");
 
   useEffect(() => {
     if (getUserInfoData && getUserInfoData?.result?.data) {
       const { mobileCode, mobileNumber } = getUserInfoData.result.data;
+      const country = Object.keys(countryNameforPhoneNumber).find(
+        (key) => countryNameforPhoneNumber[key].secondary === mobileCode
+      );
+      console.log(country, "datatdatdtatda");
+
       setUserInfoState({
         CountryCode: {
-          value: Number(mobileCode),
+          value: mobileCode,
           errorMessage: "",
           errorStatus: false,
         },
@@ -77,8 +72,9 @@ const UserProfileModal = () => {
           errorStatus: false,
         },
       });
+
       setUserDataInfo(getUserInfoData?.result?.data);
-      setSelected(mobileCode);
+      setSelected(country || "US");
     }
   }, [getUserInfoData]);
 
@@ -95,6 +91,9 @@ const UserProfileModal = () => {
       errorStatus: false,
     },
   });
+
+  const getNumber = userInfoState.Number.value;
+  console.log(getNumber, "getNumbergetNumber");
 
   // on Change handler
   const onChangeHandler = (e) => {
@@ -137,14 +136,12 @@ const UserProfileModal = () => {
 
   const handleSelect = (country) => {
     setSelected(country);
-    setSelectedCountry(country);
-    let a = Object.values(countryNameforPhoneNumber).find((obj) => {
-      return obj.primary === country;
-    });
+    const selectedCountry = countryNameforPhoneNumber[country];
+    setSelectedCountry(selectedCountry);
     setUserInfoState({
       ...userInfoState,
       CountryCode: {
-        value: a.id,
+        value: selectedCountry.secondary,
       },
     });
   };
@@ -329,7 +326,12 @@ const UserProfileModal = () => {
         />
       </Container>
       {ModalReducer.ConfirmationInfoModal ? (
-        <UserConfirmationModal userDataInfo={userDataInfo} />
+        <UserConfirmationModal
+          userDataInfo={userDataInfo}
+          userInfoState={userInfoState}
+          getNumber={getNumber}
+          selectedCountry={selectedCountry}
+        />
       ) : null}
     </>
   );
