@@ -16,14 +16,21 @@ const ForgotPassword = ({ onClickGoBack }) => {
           className="d-flex justify-content-center my-4"
         >
           <span className="forget-password-in-text">
-            {t("Forget-password")}
+            {t("Forget-passwords")}
           </span>
         </Col>
       </Row>
 
       <Row>
         <Col lg={12} md={12} sm={12}>
-          <TextField applyClass={"addOraganizer"} labelClass={"d-none"} />
+          <span className="Email-text-forget">
+            {t("Email-address")} <span className="forget-aesterick"> *</span>
+          </span>
+          <TextField
+            placeholder={"Email"}
+            applyClass={"addOraganizer"}
+            labelClass={"d-none"}
+          />
         </Col>
       </Row>
 
@@ -34,7 +41,7 @@ const ForgotPassword = ({ onClickGoBack }) => {
           sm={12}
           className="d-flex justify-content-center mt-3"
         >
-          <Button className="forget-button-color" text={t("Sign-in")} />
+          <Button className="forget-button-color" text={t("Next")} />
         </Col>
       </Row>
 

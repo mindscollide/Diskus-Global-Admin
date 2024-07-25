@@ -5,10 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import line from "../../assets/images/OutletImages/Line 27.svg";
-import MeetingIcon from "../../assets/images/OutletImages/MeetingSetting.svg";
+import MailSettings from "../../assets/images/OutletImages/MailSettings.svg";
 import Calender from "../../assets/images/OutletImages/CalenderSetting.svg";
 import Committee from "../../assets/images/OutletImages/CommitteSetting.svg";
-import SecurityIcon from "../../assets/images/OutletImages/SecuritySetting.svg";
+import FunctionalSettings from "../../assets/images/OutletImages/FunctionalSettings.svg";
+import UserAccountsetting from "../../assets/images/OutletImages/UserAccountsetting.svg";
+import OrganizationAccountSettings from "../../assets/images/OutletImages/OrganizationAccountSettings.svg";
+import SMSSettings from "../../assets/images/OutletImages/SMSSettings.svg";
 import TodoIcon from "../../assets/images/OutletImages/Todo_icon.svg";
 import { Button, TextField } from "../../components/elements";
 import Profilepicture from "../../assets/images/OutletImages/newprofile.png";
@@ -191,6 +194,10 @@ const GlobalLevelSettings = () => {
     Meeting_Started_Minutes_Ago: {
       configKey: "Meeting_Started_Minutes_Ago",
       configValue: "4",
+    },
+    Number_Of_Recently_Uploaded: {
+      configKey: "Number_Of_Recently_Uploaded",
+      configValue: "12",
     },
     Join_Meeting_Before_Minutes: {
       configKey: "Join_Meeting_Before_Minutes",
@@ -415,6 +422,7 @@ const GlobalLevelSettings = () => {
   const regexPatterns = {
     numberOnlyState: onlyNumbersPattern,
     Meeting_Started_Minutes_Ago: onlyNumbersPattern,
+    Number_Of_Recently_Uploaded: onlyNumbersPattern,
     Join_Meeting_Before_Minutes: onlyNumbersPattern,
     DATA_ROOM_LAZY_LOADING_LENGTH: onlyNumbersPattern,
     Video_Call_Ringer_Timeout_Seconds: onlyNumbersPattern,
@@ -502,10 +510,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={SecurityIcon}
+                      src={MailSettings}
                       alt=""
-                      width="25.51px"
-                      height="30.69px"
+                      width="35.8px"
+                      height="33.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} sm={12}>
@@ -533,10 +541,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={TodoIcon}
+                      src={FunctionalSettings}
                       alt=""
-                      width="30px"
-                      height="30px"
+                      width="40.8px"
+                      height="38.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} sm={12}>
@@ -564,10 +572,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={MeetingIcon}
+                      src={UserAccountsetting}
                       alt=""
-                      width="35.79px"
-                      height="27.3px"
+                      width="37.8px"
+                      height="35.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -598,10 +606,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={Calender}
+                      src={OrganizationAccountSettings}
                       alt=""
-                      width="28.47px"
-                      height="28.47px"
+                      width="40.8px"
+                      height="40.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -629,10 +637,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={Committee}
+                      src={SMSSettings}
                       alt=""
-                      width="35.8px"
-                      height="34.63px"
+                      width="40.8px"
+                      height="38.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -888,8 +896,13 @@ const GlobalLevelSettings = () => {
                       </span>
                       <TextField
                         name="numberUploaded"
-                        // change={changeHandler}
-                        // value={functionalSettingState.numberuploaded.value}
+                        change={(e) =>
+                          onChangeHandlerGlobal(
+                            newData.Number_Of_Recently_Uploaded,
+                            e.target.value
+                          )
+                        }
+                        value={newData.Number_Of_Recently_Uploaded.configValue}
                         labelClass="d-none"
                       />
                     </Col>

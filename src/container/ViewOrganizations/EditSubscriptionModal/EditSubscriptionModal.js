@@ -19,6 +19,7 @@ const EditSubscriptionModals = ({
   editCurrentSubscriptionName,
   headData,
   editSubModal,
+  setShowSearchText,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
@@ -126,12 +127,12 @@ const EditSubscriptionModals = ({
 
   //hardCode subscription Status
   const options = [
-    { value: 1, label: "Active" },
-    { value: 2, label: "InActive" },
-    { value: 3, label: "suspended" },
-    { value: 4, label: "Closed" },
-    { value: 5, label: "Terminated Request" },
-    { value: 6, label: "Cancelled" },
+    { value: 1, label: t("Active") },
+    { value: 2, label: t("In-active") },
+    { value: 3, label: t("Suspended") },
+    { value: 4, label: t("Closed") },
+    { value: 5, label: t("Termination-requested") },
+    { value: 6, label: t("Cancelled") },
   ];
 
   const subscriptionOption = options.find(
@@ -206,7 +207,7 @@ const EditSubscriptionModals = ({
                 className="d-flex flex-column flex-wrap"
               >
                 <span className={styles["EditSubscriptionSubHeading"]}>
-                  {t("Duration")}
+                  {t("Subscription")}
                 </span>
                 <span className={styles["Data"]}>
                   {duration === 1 ? (
@@ -259,7 +260,7 @@ const EditSubscriptionModals = ({
                 className="d-flex flex-column flex-wrap"
               >
                 <span className={styles["EditSubscriptionSubHeading"]}>
-                  {t("Subscription-status")}
+                  {t("Subscription-statuses")}
                 </span>
                 <Select
                   options={options}
@@ -300,6 +301,7 @@ const EditSubscriptionModals = ({
       <EditSubscriptionConfirmationModal
         subsciptionStatus={subsciptionStatus.value}
         editSubscriptionOrgID={editSubscriptionOrgID}
+        setShowSearchText={setShowSearchText}
       />
     </>
   );

@@ -269,6 +269,11 @@ const downloadInvoiceApi = {
   RequestMethod: "ServiceManager.DownloadInvoice",
 };
 
+// for get GetUserMobileAndCode on userInformation
+const getUserInfoApi = {
+  RequestMethod: "ServiceManager.GetUserMobileAndCode",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -326,4 +331,5 @@ export {
   getAllOrganizationNamesApi,
   dynamicallyReportOfActivePackageLicensesApi,
   downloadInvoiceApi,
+  getUserInfoApi,
 };

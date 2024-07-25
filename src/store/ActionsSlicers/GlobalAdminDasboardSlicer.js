@@ -40,6 +40,7 @@ import {
   getAllOrganizationNameMainApi,
   dynamicalyDownloadReportApi,
   downloadInvoiceReportMainApi,
+  getUserInfoMainApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -77,6 +78,7 @@ const initialState = {
   getOrganizationNames: null,
   downloadDynamicallyReportData: null,
   downloadInvoiceData: null,
+  getUserInfoData: null,
   Responsemessage: "",
 };
 
@@ -86,6 +88,9 @@ const globalAdminDashboardReducer = createSlice({
   reducers: {
     globalAdminDashBoardLoader: (state, { payload }) => {
       state.loading = payload;
+    },
+    resetResponseMessage: (state, { payload }) => {
+      state.Responsemessage = "";
     },
   },
   extraReducers: (builder) => {
@@ -625,10 +630,23 @@ const globalAdminDashboardReducer = createSlice({
       .addCase(downloadInvoiceReportMainApi.rejected, (state, action) => {
         state.downloadInvoiceData = null;
         state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      // for download Invoice Report reducer
+      .addCase(getUserInfoMainApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(getUserInfoMainApi.fulfilled, (state, action) => {
+        state.getUserInfoData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getUserInfoMainApi.rejected, (state, action) => {
+        state.getUserInfoData = null;
+        state.Responsemessage = action.payload || "An error occurred";
       });
   },
 });
 
-export const { globalAdminDashBoardLoader } =
+export const { globalAdminDashBoardLoader, resetResponseMessage } =
   globalAdminDashboardReducer.actions;
 export default globalAdminDashboardReducer.reducer;

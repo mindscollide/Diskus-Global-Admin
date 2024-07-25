@@ -299,7 +299,7 @@ const LoginHistory = () => {
       dataIndex: "dateLogOut",
       key: "dateLogOut",
       align: "center",
-      width: 200,
+      width: 180,
       render: (text, record) => {
         console.log(record, "recordrecord");
         return (
@@ -320,7 +320,7 @@ const LoginHistory = () => {
       dataIndex: "sessionDuration",
       key: "sessionDuration",
       align: "center",
-      width: 150,
+      width: 200,
       render: (text, record) => {
         return (
           <div className={styles["inner-sub-Heading"]}>
@@ -514,8 +514,55 @@ const LoginHistory = () => {
     } catch {}
   };
 
+  // const handleSearches = (fieldName) => {
+  //   let updatedData = { ...userLoginHistorySearch, userNameSearch };
+  //   if (fieldName === "userName") {
+  //     updatedData.userName = "";
+  //   } else if (fieldName === "userEmail") {
+  //     updatedData.userEmail = "";
+  //   } else if (fieldName === "IpAddress") {
+  //     updatedData.IpAddress = "";
+  //   } else if (fieldName === "IpAddress") {
+  //     updatedData.IpAddress = "";
+  //   } else if (fieldName === "DateFrom") {
+  //     updatedData.DateFrom = "";
+  //     updatedData.DateForView = "";
+  //   } else if (fieldName === "DateTo") {
+  //     updatedData.DateTo = "";
+  //     updatedData.DateToView = "";
+  //   } else if (fieldName === "organizationID") {
+  //     updatedData.organizationID = 0;
+  //     setOrganizationDataValue(null);
+  //   } else if (fieldName === "deviceID") {
+  //     updatedData.deviceID = { value: "", label: "" };
+  //   } else if (fieldName === "userNameSearch") {
+  //     updatedData.userNameSearch = "";
+  //   } else {
+  //     updatedData[fieldName] = "";
+  //   }
+  //   setUserLoginHistorySearch(updatedData);
+
+  //   let data = {
+  //     OrganizationID: updatedData.organizationID
+  //       ? updatedData.organizationID
+  //       : 0,
+  //     Username: updatedData.userName,
+  //     UserEmail: updatedData.userEmail,
+  //     IpAddress: updatedData.IpAddress,
+  //     DeviceID: updatedData.deviceID.value ? updatedData.deviceID.value : "",
+  //     DateLogin: updatedData.DateFrom ? `${updatedData.DateFrom}000000` : "",
+  //     DateLogOut: updatedData.DateTo ? `${updatedData.DateTo}000000` : "",
+  //     sRow: 0,
+  //     Length: 10,
+  //   };
+  //   setShowSearchText(false);
+  //   setUserNameSearch("");
+  //   dispatch(loginHistoryLoader(true));
+  //   dispatch(LoginHistoryAPI({ data, navigate, t }));
+  // };
+
   const handleSearches = (fieldName) => {
-    let updatedData = { ...userLoginHistorySearch, userNameSearch };
+    let updatedData = { ...userLoginHistorySearch };
     if (fieldName === "userName") {
       updatedData.userName = "";
     } else if (fieldName === "userEmail") {
@@ -524,10 +571,9 @@ const LoginHistory = () => {
       updatedData.IpAddress = "";
     } else if (fieldName === "IpAddress") {
       updatedData.IpAddress = "";
-    } else if (fieldName === "DateFrom") {
+    } else if (fieldName === "DateFrom" || fieldName === "DateTo") {
       updatedData.DateFrom = "";
       updatedData.DateForView = "";
-    } else if (fieldName === "DateTo") {
       updatedData.DateTo = "";
       updatedData.DateToView = "";
     } else if (fieldName === "organizationID") {
@@ -535,21 +581,19 @@ const LoginHistory = () => {
       setOrganizationDataValue(null);
     } else if (fieldName === "deviceID") {
       updatedData.deviceID = { value: "", label: "" };
-    } else if (fieldName === "userNameSearch") {
-      updatedData.userNameSearch = "";
+    } else if (fieldName === "userName") {
+      setUserNameSearch("");
     } else {
       updatedData[fieldName] = "";
     }
     setUserLoginHistorySearch(updatedData);
 
     let data = {
-      OrganizationID: updatedData.organizationID
-        ? updatedData.organizationID
-        : 0,
+      OrganizationID: updatedData.organizationID,
       Username: updatedData.userName,
       UserEmail: updatedData.userEmail,
       IpAddress: updatedData.IpAddress,
-      DeviceID: updatedData.deviceID.value ? updatedData.deviceID.value : "",
+      DeviceID: updatedData.deviceID.value,
       DateLogin: updatedData.DateFrom ? `${updatedData.DateFrom}000000` : "",
       DateLogOut: updatedData.DateTo ? `${updatedData.DateTo}000000` : "",
       sRow: 0,
@@ -664,6 +708,7 @@ const LoginHistory = () => {
       setShowSearchText(true);
     }
   };
+
   return (
     <Container fluid>
       <>
@@ -691,6 +736,7 @@ const LoginHistory = () => {
                 change={onChangeEventForSearch}
                 placeholder={t("User-name")}
                 value={userNameSearch}
+                name={"organizationName"}
                 labelClass={"d-none"}
                 applyClass={"NewMeetingFileds"}
                 inputicon={
@@ -728,7 +774,7 @@ const LoginHistory = () => {
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() =>
-                          handleSearches(userNameSearch, "userNameSearch")
+                          handleSearches(userNameSearch, "userName")
                         }
                       />
                     </div>

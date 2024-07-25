@@ -966,22 +966,24 @@ const CashFlowSummary = () => {
     const updatedFlowsSearch = {
       ...flowsSearch,
       [fieldName]: "",
+      ...(fieldName === "DateFrom" || fieldName === "DateTo"
+        ? { DateFrom: "", DateTo: "", displayDateFrom: "", displayDateTo: "" }
+        : {}),
     };
 
-    const updateSearch = { userNameSearch, [fieldName]: "" };
+    if (fieldName === "organizationName") {
+      setUserNameSearch("");
+    }
     setFlowsSearch(updatedFlowsSearch);
 
     if (inflowTab) {
       let data = {
-        OrganizationName:
-          updatedFlowsSearch.organizationName || updateSearch.userNameSearch,
+        OrganizationName: updatedFlowsSearch.organizationName,
         DateFrom: updatedFlowsSearch.DateFrom,
         DateTo: updatedFlowsSearch.DateTo,
         sRow: 0,
         eRow: 8,
       };
-      setShowSearchText(false);
-      setUserNameSearch("");
       dispatch(globalAdminDashBoardLoader(true));
       dispatch(
         getCashFlowMainApi({
@@ -992,8 +994,7 @@ const CashFlowSummary = () => {
       );
     } else {
       let data = {
-        OrganizationName:
-          updatedFlowsSearch.organizationName || updateSearch.userNameSearch,
+        OrganizationName: updatedFlowsSearch.organizationName,
         DateFrom: updatedFlowsSearch.DateFrom,
         DateTo: updatedFlowsSearch.DateTo,
         sRow: 0,
@@ -1034,8 +1035,8 @@ const CashFlowSummary = () => {
           OrganizationName: flowsSearch.organizationName
             ? flowsSearch.organizationName
             : "",
-          DateFrom: flowsSearch.DateFrom,
-          DateTo: flowsSearch.DateTo,
+          DateFrom: flowsSearch.DateFrom ? flowsSearch.DateFrom : "",
+          DateTo: flowsSearch.DateTo ? flowsSearch.DateTo : "",
           sRow: 0, // index
           eRow: 8, // Lnegth
         };
@@ -1106,6 +1107,9 @@ const CashFlowSummary = () => {
             sRow: 0, // index
             eRow: 8, // length
           };
+          setCashInFlowData([]);
+          setTotalRecords(0);
+          setSRowsData(0);
           dispatch(globalAdminDashBoardLoader(true));
           dispatch(getCashFlowMainApi({ data, navigate, t }));
         } else if (outstandingTab === true && inflowTab === false) {
@@ -1116,6 +1120,9 @@ const CashFlowSummary = () => {
             sRow: 0, // index
             eRow: 8, // length
           };
+          setCashOutFlowTable([]);
+          setTotalRecords(0);
+          setSRowsData(0);
           dispatch(globalAdminDashBoardLoader(true));
           dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
         }
@@ -1251,7 +1258,7 @@ const CashFlowSummary = () => {
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() =>
-                          handleSearches(userNameSearch, "userNameSearch")
+                          handleSearches(userNameSearch, "organizationName")
                         }
                       />
                     </div>
@@ -1379,9 +1386,9 @@ const CashFlowSummary = () => {
             <div>
               <Row>
                 <Col
-                  sm={12}
-                  md={12}
-                  lg={12}
+                  sm={9}
+                  md={9}
+                  lg={9}
                   className="d-flex justify-content-start gap-3 my-3"
                 >
                   <Button
@@ -1403,6 +1410,39 @@ const CashFlowSummary = () => {
                     onClick={outstandingClick}
                   />
                 </Col>
+                {inflowTab ? (
+                  <>
+                    <Col
+                      sm={3}
+                      md={3}
+                      lg={3}
+                      className={styles["cashflow-bottom-text"]}
+                    >
+                      <span className={styles["total-text"]}>
+                        {t("Total-cash-inflows")}{" "}
+                        <span className={styles["total-amount-text"]}>
+                          {`${totalInflow}${"$"}`}
+                        </span>
+                      </span>
+                    </Col>
+                  </>
+                ) : outstandingTab ? (
+                  <>
+                    <Col
+                      sm={3}
+                      md={3}
+                      lg={3}
+                      className={styles["cashflow-bottom-text"]}
+                    >
+                      <span className={styles["total-text"]}>
+                        {t("Total-outstanding")}{" "}
+                        <span className={styles["total-amount-outstanding"]}>
+                          {`${totalOutstanding}${"$"}`}
+                        </span>
+                      </span>
+                    </Col>
+                  </>
+                ) : null}
               </Row>
             </div>
             {inflowTab ? (
@@ -1444,23 +1484,6 @@ const CashFlowSummary = () => {
                     // }}
                   />
                 </InfiniteScroll>
-                <div className={styles["top-cashflow-border"]}>
-                  <Row>
-                    <Col
-                      sm={12}
-                      md={12}
-                      lg={12}
-                      className={styles["cashflow-bottom-text"]}
-                    >
-                      <span className={styles["total-text"]}>
-                        {t("Total-cash-inflows")}{" "}
-                        <span className={styles["total-amount-text"]}>
-                          {`${totalInflow}${"$"}`}
-                        </span>
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
               </>
             ) : outstandingTab ? (
               <>
@@ -1498,23 +1521,6 @@ const CashFlowSummary = () => {
                     className={"outstandingFlow"}
                   />
                 </InfiniteScroll>
-                <div className={styles["top-cashflow-border"]}>
-                  <Row>
-                    <Col
-                      sm={12}
-                      md={12}
-                      lg={12}
-                      className={styles["cashflow-bottom-text"]}
-                    >
-                      <span className={styles["total-text"]}>
-                        {t("Total-outstanding")}{" "}
-                        <span className={styles["total-amount-outstanding"]}>
-                          {`${totalOutstanding}${"$"}`}
-                        </span>
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
               </>
             ) : null}
           </Col>

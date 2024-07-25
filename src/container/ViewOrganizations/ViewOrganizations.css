@@ -68,6 +68,7 @@ h1 {
 .custom-icon {
   font-size: 30px !important; /* Adjust the size as needed */
   color: #5a5a5a !important;
+  pointer-events: all !important;
 }
 
 .custom-table {

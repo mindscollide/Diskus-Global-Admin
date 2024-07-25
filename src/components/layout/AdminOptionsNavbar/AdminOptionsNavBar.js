@@ -42,7 +42,7 @@ const AdminOptionsNavBar = () => {
                     {t("Summary")}
                   </Nav.Link>
                   <NavDropdown
-                    title={t("Organization")}
+                    title={t("Organizations")}
                     id="collasible-nav-dropdown"
                     className="DiskusAdminNavBar"
                   >
@@ -60,7 +60,7 @@ const AdminOptionsNavBar = () => {
                       eventKey="link-7"
                       className="text-black border-none"
                     >
-                      {t("View-organization")}
+                      {t("View-organizations")}
                     </NavDropdown.Item>
                   </NavDropdown>
                   {/* Pakages Global Admin page Link */}
@@ -70,7 +70,7 @@ const AdminOptionsNavBar = () => {
                     eventKey="link-8"
                     className="DiskusAdminNavBar"
                   >
-                    {t("Pakages")}
+                    {t("Packages")}
                   </Nav.Link>
 
                   <NavDropdown

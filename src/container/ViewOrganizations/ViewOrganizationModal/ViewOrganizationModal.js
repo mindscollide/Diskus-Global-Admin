@@ -57,6 +57,13 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
     }
   );
 
+  // to show active from subscriptionStatusesZ
+  const activeCount = subscriptionStatuses.filter(
+    (status) => status === "Active"
+  ).length;
+
+  console.log("Active Count:", activeCount);
+
   return (
     <>
       <Modal
@@ -144,7 +151,7 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                 </Col>
               </Row>
               {/* Render subscription expiry dates */}
-              <Row className="mt-4">
+              {/* <Row className="mt-4">
                 <Col lg={1} md={1} sm={1}></Col>
                 <Col
                   lg={11}
@@ -161,33 +168,27 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                     </span>
                   ))}
                 </Col>
-              </Row>
+              </Row> */}
               {/* Render subscription statuses */}
               <Row className="mt-4">
-                <Col lg={1} md={1} sm={1}></Col>
+                <Col lg={1} md={1} sm={1} />
                 <Col
-                  lg={11}
-                  md={11}
-                  sm={11}
+                  lg={5}
+                  md={5}
+                  sm={5}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
                     {t("Subscription-status")}
                   </span>
-                  {subscriptionStatuses.map((status, index) => (
-                    <span key={index} className={styles["DetialsSubHeading"]}>
-                      {status}
-                    </span>
-                  ))}
+                  <div className={styles["DetialsSubHeading"]}>
+                    {activeCount}
+                  </div>
                 </Col>
-              </Row>
-              {/* Render organization status */}
-              <Row className="mt-4">
-                <Col lg={1} md={1} sm={1}></Col>
                 <Col
-                  lg={11}
-                  md={11}
-                  sm={11}
+                  lg={6}
+                  md={6}
+                  sm={6}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
@@ -212,6 +213,7 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                   </span>
                 </Col>
               </Row>
+              {/* Render organization status */}
             </section>
           </>
         }

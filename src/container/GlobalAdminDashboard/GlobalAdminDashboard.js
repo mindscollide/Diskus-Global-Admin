@@ -1092,7 +1092,7 @@ const GlobalAdminDashboard = () => {
           text,
           currentLanguage
         );
-        const amountWithDollar = `${formattedText}$`;
+        const amountWithDollar = `${formattedText} $`;
         return (
           <>
             <span className={styles["dashboard-table-insidetext"]}>

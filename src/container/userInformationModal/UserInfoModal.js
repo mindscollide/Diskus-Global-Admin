@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 // import { countryName } from "../../AllUsers/AddUser/CountryJson";
 import ReactFlagsSelect from "react-flags-select";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import arabic_ar from "react-date-object/locales/arabic_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,16 +21,22 @@ import {
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { regexOnlyNumbers } from "../../common/functions/Regex";
 import UserConfirmationModal from "../userConfirmationModal/UserConfirmationModal";
+import { getUserInfoMainApi } from "../../store/Actions/GlobalAdminDashboardActions";
 
 const UserProfileModal = () => {
   //For Localization
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   // Reducer for modal in UIModalsActions
   const ModalReducer = useSelector((state) => state.modal);
 
-  console.log("confirmationModalStateconfirmationModalState", ModalReducer);
+  const getUserInfoData = useSelector(
+    (state) => state.globalAdminDashboardReducer.getUserInfoData
+  );
+
+  console.log(getUserInfoData, "getUserInfoDatagetUserInfoDatagetUserInfoData");
 
   // get email and organizationName from local storage
   const userEmail = localStorage.getItem("userEmail");
@@ -39,6 +46,7 @@ const UserProfileModal = () => {
   // error state to show error on empty field
   const [errorBar, setErrorBar] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  console.log(submitted, "submittedsubmittedsubmitted");
 
   // select for country dropdown
   const [select, setSelect] = useState("");
@@ -46,6 +54,33 @@ const UserProfileModal = () => {
   const [selected, setSelected] = useState("US");
   const [selectedCountry, setSelectedCountry] = useState({});
   console.log(selectedCountry, "selectedCountry");
+
+  const [userDataInfo, setUserDataInfo] = useState([]);
+  console.log(userDataInfo, "userDataInfouserDataInfo");
+
+  useEffect(() => {
+    dispatch(getUserInfoMainApi({ navigate, t }));
+  }, []);
+
+  useEffect(() => {
+    if (getUserInfoData && getUserInfoData?.result?.data) {
+      const { mobileCode, mobileNumber } = getUserInfoData.result.data;
+      setUserInfoState({
+        CountryCode: {
+          value: Number(mobileCode),
+          errorMessage: "",
+          errorStatus: false,
+        },
+        Number: {
+          value: mobileNumber,
+          errorMessage: "",
+          errorStatus: false,
+        },
+      });
+      setUserDataInfo(getUserInfoData?.result?.data);
+      setSelected(mobileCode);
+    }
+  }, [getUserInfoData]);
 
   // state for User Information Modal
   const [userInfoState, setUserInfoState] = useState({
@@ -60,8 +95,6 @@ const UserProfileModal = () => {
       errorStatus: false,
     },
   });
-
-  console.log(userInfoState, "orgNameSelected");
 
   // on Change handler
   const onChangeHandler = (e) => {
@@ -86,18 +119,22 @@ const UserProfileModal = () => {
   const handleClose = () => {
     dispatch(userInfoOpenModal(false));
     setUserInfoState({
-      ...userInfoState,
-      Number: {
-        value: "",
-      },
       CountryCode: {
         value: 0,
+        errorMessage: "",
+        errorStatus: false,
+      },
+      Number: {
+        value: "",
+        errorMessage: "",
+        errorStatus: false,
       },
     });
     setSelected("US");
     setErrorBar(false);
     setSubmitted(false);
   };
+
   const handleSelect = (country) => {
     setSelected(country);
     setSelectedCountry(country);
@@ -128,15 +165,19 @@ const UserProfileModal = () => {
 
   const onClickRevert = () => {
     setUserInfoState({
-      ...userInfoState,
-      Number: {
-        value: "",
-      },
       CountryCode: {
         value: 0,
+        errorMessage: "",
+        errorStatus: false,
+      },
+      Number: {
+        value: "",
+        errorMessage: "",
+        errorStatus: false,
       },
     });
     setSelected("US");
+    setSubmitted(false);
   };
 
   return (
@@ -288,7 +329,7 @@ const UserProfileModal = () => {
         />
       </Container>
       {ModalReducer.ConfirmationInfoModal ? (
-        <UserConfirmationModal userInfoState={userInfoState} />
+        <UserConfirmationModal userDataInfo={userDataInfo} />
       ) : null}
     </>
   );

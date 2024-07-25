@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Collapse, Spin } from "antd";
 import { Button, Table, TextField } from "../../components/elements";
 import { UpOutlined } from "@ant-design/icons";
+import { ChevronDown } from "react-bootstrap-icons";
 import { useTranslation } from "react-i18next";
 import { Col, Container, Row } from "react-bootstrap";
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -101,6 +102,7 @@ const ViewOrganization = () => {
   const [aminNameSearch, setAminNameSearch] = useState("");
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
+  console.log(showsearchText, "ShowSearchTextShowSearchText");
 
   const [userNameSearch, setUserNameSearch] = useState("");
 
@@ -273,7 +275,8 @@ const ViewOrganization = () => {
         return (
           <>
             <span className="inner-sub-Heading-insidetable">
-              {text && convertUTCDateToLocalDateView(text + "201320")}
+              {text &&
+                convertUTCDateToLocalDate(text + "201320", currentLanguage)}
             </span>
           </>
         );
@@ -289,14 +292,15 @@ const ViewOrganization = () => {
         return (
           <>
             <span className="inner-sub-Heading-insidetable">
-              {text && convertUTCDateToLocalDateView(text + "201320")}
+              {text &&
+                convertUTCDateToLocalDate(text + "201320", currentLanguage)}
             </span>
           </>
         );
       },
     },
     {
-      title: t("Duration"),
+      title: t("Subscription"),
       dataIndex: "fK_TenureOfSubscriptionID",
       key: "fK_TenureOfSubscriptionID",
       className: "class-main-headerColumn",
@@ -403,7 +407,7 @@ const ViewOrganization = () => {
           <>
             <Button
               className="update-button"
-              text="Update Subscription"
+              text={t("Update-subscription")}
               onClick={() => handleEditSubscriptionModal(record)}
             />
           </>
@@ -518,7 +522,7 @@ const ViewOrganization = () => {
           <>
             <Button
               className="update-button"
-              text="Edit Subscription"
+              text={t("Edit-organization")}
               onClick={() => handleEditOrganizationModal(record)}
             />
           </>
@@ -631,8 +635,69 @@ const ViewOrganization = () => {
   };
 
   // handler searched button
+  // const handleSearches = (fieldName) => {
+  //   let updatedData = { ...searchOrganizationData, userNameSearch };
+  //   let updatedOrganizationDataValue = organizationDataValue;
+  //   console.log(
+  //     updatedOrganizationDataValue,
+  //     "organizationTextorganizationText"
+  //   );
+
+  //   if (
+  //     fieldName === "OrganizationDateFrom" ||
+  //     fieldName === "OrganizationDateTo"
+  //   ) {
+  //     updatedData.OrganizationDateFrom = "";
+  //     updatedData.OrganizationDateTo = "";
+  //   }
+
+  //   // Reset only the targeted date field
+  //   if (fieldName === "OrganizationDateFrom") {
+  //     updatedData.OrganizationDateFrom = "";
+  //     updatedData.OrganizationDateFromView = "";
+  //   } else if (fieldName === "OrganizationDateTo") {
+  //     updatedData.OrganizationDateTo = "";
+  //     updatedData.OrganizationDateToView = "";
+  //   } else if (fieldName === "OrganizationContactName") {
+  //     updatedData.OrganizationContactName = "";
+  //   } else if (fieldName === "organizationName") {
+  //     updatedOrganizationDataValue = null;
+  //     setOrganizationDataValue(null);
+  //   } else if (fieldName === "OrganizationSubscriptionStatus") {
+  //     updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
+  //   } else if (fieldName === "userNameSearch") {
+  //     updatedData.userNameSearch = "";
+  //   } else {
+  //     updatedData[fieldName] = "";
+  //   }
+
+  //   setSearchOrganizationData(updatedData);
+
+  //   let newData = {
+  //     OrganizationContactName: updatedData.OrganizationContactName,
+  //     OrganizationContactEmail: updatedData.OrganizationContactEmail,
+  //     OrganizationDateTo: updatedData.OrganizationDateTo
+  //       ? `${updatedData.OrganizationDateTo}000000`
+  //       : "",
+  //     OrganizationDateFrom: updatedData.OrganizationDateFrom
+  //       ? `${updatedData.OrganizationDateFrom}000000`
+  //       : "",
+  //     OrganizationSubscriptionStatus:
+  //       updatedData.OrganizationSubscriptionStatus.value,
+  //     OrganizationName: updatedOrganizationDataValue
+  //       ? updatedOrganizationDataValue.label
+  //       : "",
+  //     sRow: 0,
+  //     eRow: 10,
+  //   };
+  //   setShowSearchText(false);
+  //   setUserNameSearch("");
+  //   dispatch(viewOrganizationLoader(true));
+  //   dispatch(getAllOrganizationApi({ newData, navigate, t }));
+  // };
+
   const handleSearches = (fieldName) => {
-    let updatedData = { ...searchOrganizationData, userNameSearch };
+    let updatedData = { ...searchOrganizationData };
     let updatedOrganizationDataValue = organizationDataValue;
     console.log(
       updatedOrganizationDataValue,
@@ -640,10 +705,12 @@ const ViewOrganization = () => {
     );
 
     // Reset only the targeted date field
-    if (fieldName === "OrganizationDateFrom") {
+    if (
+      fieldName === "OrganizationDateFrom" ||
+      fieldName === "OrganizationDateTo"
+    ) {
       updatedData.OrganizationDateFrom = "";
       updatedData.OrganizationDateFromView = "";
-    } else if (fieldName === "OrganizationDateTo") {
       updatedData.OrganizationDateTo = "";
       updatedData.OrganizationDateToView = "";
     } else if (fieldName === "OrganizationContactName") {
@@ -653,8 +720,8 @@ const ViewOrganization = () => {
       setOrganizationDataValue(null);
     } else if (fieldName === "OrganizationSubscriptionStatus") {
       updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
-    } else if (fieldName === "userNameSearch") {
-      updatedData.userNameSearch = "";
+    } else if (fieldName === "organizationName") {
+      setUserNameSearch("");
     } else {
       updatedData[fieldName] = "";
     }
@@ -686,11 +753,6 @@ const ViewOrganization = () => {
 
   // search Button Handler
   const handleSearchButton = () => {
-    setViewOrganizationData([]);
-    setOrganizationInsideData([]);
-    setTotalRecords(0);
-    setSRowsData(0);
-
     let newData = {
       OrganizationContactName: searchOrganizationData.OrganizationContactName,
       OrganizationContactEmail: "",
@@ -709,6 +771,10 @@ const ViewOrganization = () => {
       sRow: 0,
       eRow: 10,
     };
+    setViewOrganizationData([]);
+    setOrganizationInsideData([]);
+    setTotalRecords(0);
+    setSRowsData(0);
     dispatch(viewOrganizationLoader(true));
     dispatch(getAllOrganizationApi({ newData, navigate, t }));
     setSearchBox(false);
@@ -800,6 +866,10 @@ const ViewOrganization = () => {
           sRow: 0,
           eRow: 10,
         };
+        setViewOrganizationData([]); // Ensure empty table renders
+        setOrganizationInsideData([]);
+        setSRowsData(0);
+        setTotalRecords(0);
         dispatch(viewOrganizationLoader(true));
         dispatch(getAllOrganizationApi({ newData, navigate, t }));
       }
@@ -822,6 +892,7 @@ const ViewOrganization = () => {
               change={onChangeEventForSearch}
               placeholder={t("Search")}
               value={userNameSearch}
+              name={"organizationName"}
               labelClass={"d-none"}
               applyClass={"NewMeetingFileds"}
               inputicon={
@@ -857,7 +928,7 @@ const ViewOrganization = () => {
                       className={"CrossIcon_Class"}
                       width={13}
                       onClick={() =>
-                        handleSearches(userNameSearch, "userNameSearch")
+                        handleSearches(userNameSearch, "organizationName")
                       }
                     />
                   </div>
@@ -1168,23 +1239,27 @@ const ViewOrganization = () => {
                       className="Panel-Class"
                       header={
                         <>
-                          <Table
-                            rows={[org]}
-                            column={headerColumn}
-                            pagination={false}
-                            className="custom-table"
-                          />
+                          <div onClick={(e) => e.stopPropagation()}>
+                            <Table
+                              rows={[org]}
+                              column={headerColumn}
+                              pagination={false}
+                              className="custom-table"
+                            />
+                          </div>
                         </>
                       }
                     >
-                      <Table
-                        rows={viewOrganizationInsideData.filter(
-                          (data) => data.organizationId === org.organizationID
-                        )}
-                        column={columns}
-                        pagination={false}
-                        className="custom-table"
-                      />
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <Table
+                          rows={viewOrganizationInsideData.filter(
+                            (data) => data.organizationId === org.organizationID
+                          )}
+                          column={columns}
+                          pagination={false}
+                          className="custom-table"
+                        />
+                      </div>
                     </Panel>
                   </Collapse>
                 ))}
@@ -1218,6 +1293,7 @@ const ViewOrganization = () => {
         editOrganizationID={editOrganizationID}
         editOrganzationName={editOrganzationName}
         editSubscriptionName={editSubscriptionName}
+        setShowSearchText={setShowSearchText}
       />
 
       <EditSubscriptionModals
@@ -1228,6 +1304,7 @@ const ViewOrganization = () => {
         duration={duration}
         headData={headData}
         editSubModal={editSubModal}
+        setShowSearchText={setShowSearchText}
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
     </>

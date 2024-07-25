@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 import { DashBoard } from "../container";
 import LoginCard from "../components/elements/loginsCard/LoginCard";
-import ViewOrganization from "../container/ViewOrganization/ViewOrganization";
 import LoginHistory from "../container/LoginHistory/LoginHistory";
 import GlobalAdminDashboard from "../container/GlobalAdminDashboard/GlobalAdminDashboard";
 import PrivateRoutes from "./PrivateRoutes";

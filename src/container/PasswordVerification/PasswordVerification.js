@@ -145,6 +145,13 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
     passwordRef.current.focus();
   }, []);
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      loginHandler(e);
+    }
+  };
+
   return (
     <>
       <Row>
@@ -177,6 +184,7 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
               labelClass="lightLabel"
               autoComplete="off"
               maxLength={200}
+              onKeyPress={handleKeyPress}
             />
             <span className={styles["passwordIcon"]} onClick={showNewPassowrd}>
               {showNewPasswordIcon ? (

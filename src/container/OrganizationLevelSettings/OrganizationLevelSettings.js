@@ -808,7 +808,7 @@ const OrganizationLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Todo")}
+                      {t("Tasks")}
                     </span>
                   </Col>
                 </Row>
@@ -870,7 +870,7 @@ const OrganizationLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Calender")}
+                      {t("Calendar")}
                     </span>
                   </Col>
                 </Row>
@@ -1435,7 +1435,7 @@ const OrganizationLevelSettings = () => {
                         }
                       >
                         <span className={styles["Class_CheckBox"]}>
-                          {t("User-Allow-Google-Calendar-Synch")}
+                          {t("User-allow-google-calendar-synch")}
                         </span>
                       </Checkbox>
                     </Col>
@@ -1457,7 +1457,7 @@ const OrganizationLevelSettings = () => {
                         }
                       >
                         <span className={styles["Class_CheckBox"]}>
-                          {t("User-Allow-Microsoft-Calendar-Synch")}
+                          {t("User-allow-microsoft-calendar-synch")}
                         </span>
                       </Checkbox>
                     </Col>

@@ -14,14 +14,14 @@ import { userConifrmationOpenModal } from "../../store/ActionsSlicers/UIModalsAc
 import { UpdateGlobalAdminUserApi } from "../../store/Actions/GlobalAdminDashboardActions";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const UserConfirmationModal = ({ userInfoState }) => {
+const UserConfirmationModal = ({ userDataInfo }) => {
   //For Localization
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const ModalReducer = useSelector((state) => state.modal);
-  console.log(userInfoState, "userInfoStateuserInfoState");
+  console.log(userDataInfo, "userInfoStateuserInfoState");
 
   const handleClose = () => {
     dispatch(userConifrmationOpenModal(false));
@@ -29,8 +29,8 @@ const UserConfirmationModal = ({ userInfoState }) => {
 
   const handleProceedUpdate = () => {
     let data = {
-      CountryCodeID: Number(userInfoState.CountryCode),
-      MobileNumber: userInfoState.Number,
+      CountryCodeID: Number(userDataInfo.mobileCode),
+      MobileNumber: userDataInfo.mobileNumber,
     };
 
     dispatch(globalAdminDashBoardLoader(true));

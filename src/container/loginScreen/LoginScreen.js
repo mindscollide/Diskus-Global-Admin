@@ -161,6 +161,13 @@ const LoginScreen = () => {
     }
   };
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onClickSignIn(e);
+    }
+  };
+
   return (
     <>
       <Row>
@@ -183,6 +190,7 @@ const LoginScreen = () => {
             change={emailChangeHandler}
             value={email || ""}
             maxLength={250}
+            onKeyPress={handleKeyPress}
           />
         </Col>
       </Row>

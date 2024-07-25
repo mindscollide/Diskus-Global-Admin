@@ -248,9 +248,9 @@ body[dir="rtl"] .inner-sub-Heading {
 
 .cashflow-bottom-text {
   display: flex;
-  justify-content: end;
-  padding: 16px 0px !important;
-  margin-left: -70px;
+  justify-content: center;
+  margin-top: 15px;
+  padding: 10px 0px !important;
 }
 
 body[dir="rtl"] .cashflow-bottom-text {
