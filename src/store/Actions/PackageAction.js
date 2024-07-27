@@ -224,7 +224,7 @@ export const addUpdatePackagesMainApi = createAsyncThunk(
             try {
               return {
                 result: response.data.responseResult,
-                code: "AddUpdatePackage_01",
+                code: t("Package-created-successfully"),
               };
             } catch (error) {
               console.log(error);

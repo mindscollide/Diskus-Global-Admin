@@ -423,6 +423,7 @@ a.text-black.nav-link {
   text-align: center;
   border-bottom: 1px solid #d8d8d8;
   color: #5a5a5a;
+  background-color: transparent !important;
   padding: 5px 0 !important;
   margin: 0 !important;
 }

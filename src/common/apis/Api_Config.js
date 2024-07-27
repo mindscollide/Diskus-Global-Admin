@@ -279,6 +279,11 @@ const forgotPasswordApi = {
   RequestMethod: "ServiceManager.ForgotPassword",
 };
 
+// verify Otp for email on Global Admin
+const verifyOtpMailApi = {
+  RequestMethod: "ServiceManager.VerifyOTP",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -338,4 +343,5 @@ export {
   downloadInvoiceApi,
   getUserInfoApi,
   forgotPasswordApi,
+  verifyOtpMailApi,
 };

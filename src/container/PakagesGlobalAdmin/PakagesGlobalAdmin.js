@@ -13,7 +13,7 @@ import {
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch, useSelector } from "react-redux";
 import CreatePackageModal from "../CreatePackageModal/CreatePackageModal";
-import { Button } from "../../components/elements";
+import { Button, Notification } from "../../components/elements";
 import DeletePackageModal from "../DeletePackageModal/DeletePackageModal";
 import {
   deletePackageFeatureApi,
@@ -22,7 +22,10 @@ import {
   addPackageFeatureApi,
   addUpdatePackagesMainApi,
 } from "../../store/Actions/PackageAction";
-import { packageAdminLoader } from "../../store/ActionsSlicers/PackageSlicer";
+import {
+  packageAdminLoader,
+  resetResponseMessage,
+} from "../../store/ActionsSlicers/PackageSlicer";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
 const PakagesGlobalAdmin = () => {
@@ -34,10 +37,6 @@ const PakagesGlobalAdmin = () => {
   const packagesFeaturesGlobalData = useSelector(
     (state) => state.packageAdminReducer.packagesFeaturesGlobalData
   );
-  console.log(
-    packagesFeaturesGlobalData?.result?.featuresGlobalAdmin,
-    "packagesFeaturesGlobalData"
-  );
 
   // call reducer of get ALL Package Feature Api
   const getPackageFeatureData = useSelector(
@@ -48,10 +47,17 @@ const PakagesGlobalAdmin = () => {
     (state) => state.packageAdminReducer.addPackageFeaturesData
   );
 
-  console.log(
-    getPackageFeatureData?.result?.packageFeatures,
-    "getPackageFeatureDatagetPackage"
+  // for response message
+  const ResponseMessage = useSelector(
+    (state) => state.packageAdminReducer.ResponseMessage
   );
+  console.log(ResponseMessage, "ResponseMessageResponseMessage");
+
+  const [openNotification, setOpenNotification] = useState({
+    historyFlag: false,
+    historyNotification: "",
+    severity: "none",
+  });
 
   // dropdown of package Feature in dropdown states
   const [packageFeature, setPackageFeature] = useState([]);
@@ -62,7 +68,6 @@ const PakagesGlobalAdmin = () => {
   const [packageIDToDelete, setPackageIDToDelete] = useState(null);
   const [isDatafromApi, setIsDataFromApi] = useState(null);
   const [allPackages, setAllPackages] = useState([]);
-  console.log(allPackages, "allPackagesallPackages");
 
   // useEffect for calling getAllPackageApi
   useEffect(() => {
@@ -88,6 +93,31 @@ const PakagesGlobalAdmin = () => {
       );
     }
   }, [getPackageFeatureData]);
+
+  useEffect(() => {
+    if (
+      ResponseMessage !== "" &&
+      ResponseMessage !== t("Data-available") &&
+      ResponseMessage !== t("No-data-available") &&
+      ResponseMessage !== "Success"
+    ) {
+      setOpenNotification({
+        historyFlag: true,
+        historyNotification: ResponseMessage,
+        severity: t("Package-created-successfully") ? "success" : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          historyFlag: false,
+          historyNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [ResponseMessage]);
 
   // this is how I store data of main Packages in reducer from useEffect
   useEffect(() => {
@@ -142,13 +172,9 @@ const PakagesGlobalAdmin = () => {
         return packageData;
       })
     );
-    //    setSelectedPackageFeatures((prevSelected) => ({
-    //   ...prevSelected,
-    //   [packageID]: null,
-    // }));
   };
 
-  // to open Add Package Modal
+  // to openNotification Add Package Modal
   const openAddPackageModal = () => {
     dispatch(packageCreateOpenModal(true));
   };
@@ -169,10 +195,8 @@ const PakagesGlobalAdmin = () => {
 
   // To remove selected Options
   const removeSelectedOption = (pkgID, optionIndex) => {
-    console.log(pkgID, optionIndex, "pkgIDoptionIndex");
     setAllPackages((prevData) =>
       prevData.map((packageData) => {
-        console.log(packageData, "packageDatapackageData");
         if (packageData.packageID === pkgID) {
           return {
             ...packageData,
@@ -220,7 +244,6 @@ const PakagesGlobalAdmin = () => {
   // Update Button handler
   const updateHandler = () => {
     const packagesForApi = allPackages.map((pkg) => {
-      console.log(pkg, "pkgpkgpkgpkg");
       return {
         PK_PackageID: pkg.isApiComing === true ? pkg.packageID : 0,
         Name: pkg.packageName,
@@ -486,6 +509,18 @@ const PakagesGlobalAdmin = () => {
         packageID={packageIDToDelete}
         removeMainPackage={removeMainPackage}
         onClickDelete={deletePackageCard}
+      />
+
+      <Notification
+        show={openNotification.historyFlag}
+        hide={setOpenNotification}
+        message={openNotification.historyNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
       />
     </>
   );

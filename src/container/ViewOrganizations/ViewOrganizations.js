@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Collapse, Spin } from "antd";
-import { Button, Table, TextField } from "../../components/elements";
+import {
+  Button,
+  Notification,
+  Table,
+  TextField,
+} from "../../components/elements";
 import { UpOutlined } from "@ant-design/icons";
 import { ChevronDown } from "react-bootstrap-icons";
 import { useTranslation } from "react-i18next";
@@ -39,7 +44,10 @@ import {
   getPackageDetailGlobalApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 import FlagCountryName from "./CountryFlagFunctionality/CountryFlag";
-import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
 const { Panel } = Collapse;
 
@@ -48,10 +56,17 @@ const ViewOrganization = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const calendRef = useRef();
+  const ModalReducer = useSelector((state) => state.modal);
 
   // current language set in local storage
   let currentLanguage = localStorage.getItem("currentLanguage");
   const local = currentLanguage === "en" ? "en-US" : "ar-SA";
+
+  // for response message
+  const Responsemessage = useSelector(
+    (state) => state.searchOrganization.Responsemessage
+  );
+  console.log(Responsemessage, "ResponseMessageResponseMessage");
 
   // reducer for get All Organization In Organization Dropdown
   const organizationIdData = useSelector(
@@ -68,7 +83,6 @@ const ViewOrganization = () => {
 
   // state for view Organizer Table data
   const [viewOrganizationData, setViewOrganizationData] = useState([]);
-  console.log(viewOrganizationData, "viewOrganizationDatatatatat");
   const [viewOrganizationInsideData, setOrganizationInsideData] = useState([]);
 
   // for dropdown lazy loading state:
@@ -102,9 +116,14 @@ const ViewOrganization = () => {
   const [aminNameSearch, setAminNameSearch] = useState("");
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
-  console.log(showsearchText, "ShowSearchTextShowSearchText");
 
   const [userNameSearch, setUserNameSearch] = useState("");
+
+  const [openNotification, setOpenNotification] = useState({
+    historyFlag: false,
+    historyNotification: "",
+    severity: "none",
+  });
 
   // search Organizer State
   const [searchOrganizationData, setSearchOrganizationData] = useState({
@@ -120,6 +139,33 @@ const ViewOrganization = () => {
     OrganizationDateToView: "",
     OrganizationDateFromView: "",
   });
+
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("Data-available") &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success"
+    ) {
+      setOpenNotification({
+        historyFlag: true,
+        historyNotification: Responsemessage,
+        severity: t("Updated-Successfully")
+          ? "success"
+          : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          historyFlag: false,
+          historyNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [Responsemessage]);
 
   //Calling Organization Api
   useEffect(() => {
@@ -543,7 +589,6 @@ const ViewOrganization = () => {
 
   // edit handler
   const handleEditOrganizationModal = (record) => {
-    console.log(record, "acasgjasgjdvasjgvd");
     setEditOrganzationName(record.organizationName);
     setEditOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationStatus);
@@ -635,75 +680,9 @@ const ViewOrganization = () => {
   };
 
   // handler searched button
-  // const handleSearches = (fieldName) => {
-  //   let updatedData = { ...searchOrganizationData, userNameSearch };
-  //   let updatedOrganizationDataValue = organizationDataValue;
-  //   console.log(
-  //     updatedOrganizationDataValue,
-  //     "organizationTextorganizationText"
-  //   );
-
-  //   if (
-  //     fieldName === "OrganizationDateFrom" ||
-  //     fieldName === "OrganizationDateTo"
-  //   ) {
-  //     updatedData.OrganizationDateFrom = "";
-  //     updatedData.OrganizationDateTo = "";
-  //   }
-
-  //   // Reset only the targeted date field
-  //   if (fieldName === "OrganizationDateFrom") {
-  //     updatedData.OrganizationDateFrom = "";
-  //     updatedData.OrganizationDateFromView = "";
-  //   } else if (fieldName === "OrganizationDateTo") {
-  //     updatedData.OrganizationDateTo = "";
-  //     updatedData.OrganizationDateToView = "";
-  //   } else if (fieldName === "OrganizationContactName") {
-  //     updatedData.OrganizationContactName = "";
-  //   } else if (fieldName === "organizationName") {
-  //     updatedOrganizationDataValue = null;
-  //     setOrganizationDataValue(null);
-  //   } else if (fieldName === "OrganizationSubscriptionStatus") {
-  //     updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
-  //   } else if (fieldName === "userNameSearch") {
-  //     updatedData.userNameSearch = "";
-  //   } else {
-  //     updatedData[fieldName] = "";
-  //   }
-
-  //   setSearchOrganizationData(updatedData);
-
-  //   let newData = {
-  //     OrganizationContactName: updatedData.OrganizationContactName,
-  //     OrganizationContactEmail: updatedData.OrganizationContactEmail,
-  //     OrganizationDateTo: updatedData.OrganizationDateTo
-  //       ? `${updatedData.OrganizationDateTo}000000`
-  //       : "",
-  //     OrganizationDateFrom: updatedData.OrganizationDateFrom
-  //       ? `${updatedData.OrganizationDateFrom}000000`
-  //       : "",
-  //     OrganizationSubscriptionStatus:
-  //       updatedData.OrganizationSubscriptionStatus.value,
-  //     OrganizationName: updatedOrganizationDataValue
-  //       ? updatedOrganizationDataValue.label
-  //       : "",
-  //     sRow: 0,
-  //     eRow: 10,
-  //   };
-  //   setShowSearchText(false);
-  //   setUserNameSearch("");
-  //   dispatch(viewOrganizationLoader(true));
-  //   dispatch(getAllOrganizationApi({ newData, navigate, t }));
-  // };
-
   const handleSearches = (fieldName) => {
     let updatedData = { ...searchOrganizationData };
     let updatedOrganizationDataValue = organizationDataValue;
-    console.log(
-      updatedOrganizationDataValue,
-      "organizationTextorganizationText"
-    );
-
     // Reset only the targeted date field
     if (
       fieldName === "OrganizationDateFrom" ||
@@ -1102,7 +1081,7 @@ const ViewOrganization = () => {
                           value={
                             searchOrganizationData.OrganizationDateFromView
                           }
-                          format={"DD/MM/YYYY"}
+                          format={"MMM DD, YYYY"}
                           placeholder={t("Date-From")}
                           render={
                             <InputIcon
@@ -1124,7 +1103,7 @@ const ViewOrganization = () => {
                       <Col lg={6} md={6} sm={6}>
                         <DatePicker
                           value={searchOrganizationData.OrganizationDateToView}
-                          format={"DD/MM/YYYY"}
+                          format={"MMM DD, YYYY"}
                           placeholder={t("Date-to")}
                           render={
                             <InputIcon
@@ -1307,6 +1286,18 @@ const ViewOrganization = () => {
         setShowSearchText={setShowSearchText}
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
+
+      <Notification
+        show={openNotification.historyFlag}
+        hide={setOpenNotification}
+        message={openNotification.historyNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
+      />
     </>
   );
 };

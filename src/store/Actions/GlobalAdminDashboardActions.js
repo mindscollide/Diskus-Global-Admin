@@ -880,7 +880,7 @@ export const UpdateAllOrganizationLevelConfigurationApi = createAsyncThunk(
             try {
               return {
                 result: response.data.responseResult,
-                code: "UpdateAllOrganizationLevelConfiguration_01",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);
@@ -927,7 +927,7 @@ export const ChangePasswordApi = createAsyncThunk(
   "ChangePasswordApi/ChangePasswordApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { data } = requestData;
+    let { data, t } = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", ChangePassword.RequestMethod);
@@ -955,7 +955,7 @@ export const ChangePasswordApi = createAsyncThunk(
             try {
               return {
                 result: response.data.responseResult,
-                code: "ChangePassword_01",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);
@@ -1788,7 +1788,7 @@ export const UpdateGlobalAdminUserApi = createAsyncThunk(
 
               return {
                 result: response.data.responseResult,
-                code: "ChangePasswordGlobalAdmin",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);
@@ -2434,7 +2434,7 @@ export const UpdateGlobalLevelConfigurationApi = createAsyncThunk(
             try {
               return {
                 result: response.data.responseResult,
-                code: "UpdateGlobalLevelConfiguration_01",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);

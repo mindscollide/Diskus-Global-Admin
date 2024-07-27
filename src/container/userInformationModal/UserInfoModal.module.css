@@ -67,7 +67,7 @@ body[dir="rtl"] .reset-User-btn {
 }
 
 body[dir="rtl"] .save-User-btn {
-  margin-right: 125px !important;
+  margin-right: 90px !important;
 }
 
 .save-User-btn:hover {
@@ -215,6 +215,12 @@ body[dir="rtl"] .save-User-btn {
   padding: 10px 90px !important;
 }
 
+body[dir="rtl"] .modal-userprofile-footer {
+  display: contents;
+  margin: 20px 0px !important;
+  padding: 10px 90px !important;
+}
+
 /* For phoneInput number */
 .react-User-Profile {
   height: 30px !important;
@@ -335,6 +341,14 @@ body[dir="rtl"] .save-User-btn {
   position: relative;
   top: -20px !important;
   right: -20px !important;
+  font-size: 10px !important;
+  cursor: pointer;
+}
+
+body[dir="rtl"] .Cross-X {
+  position: relative;
+  top: -20px !important;
+  right: 10px !important;
   font-size: 10px !important;
   cursor: pointer;
 }

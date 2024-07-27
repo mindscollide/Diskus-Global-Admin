@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+  convertNumbersInToArabic,
   convertUtcDateAndTimeToCurrentTimeZone,
   formatDate,
   formatSessionDurationArabicAndEng,
@@ -289,7 +290,10 @@ const LoginHistory = () => {
       render: (text, record) => {
         return (
           <span className={styles["inner-sub-Heading"]}>
-            {newDateForLoginUserHistory(record.dateLogin, currentLanguage)}
+            {convertUtcDateAndTimeToCurrentTimeZone(
+              record.dateLogin,
+              currentLanguage
+            )}
           </span>
         );
       },
@@ -306,7 +310,10 @@ const LoginHistory = () => {
           <span className={styles["inner-sub-Heading"]}>
             {record.dateLogOut === "-"
               ? "-"
-              : newDateForLoginUserHistory(record.dateLogOut, currentLanguage)}
+              : convertUtcDateAndTimeToCurrentTimeZone(
+                  record.dateLogOut,
+                  currentLanguage
+                )}
             {/* {convertUtcDateAndTimeToCurrentTimeZone(
               record.dateLogOut,
               currentLanguage
@@ -354,7 +361,9 @@ const LoginHistory = () => {
       key: "loggedInFromIP",
       width: 120,
       render: (text, data) => (
-        <span className={styles["inner-sub-Heading"]}>{text}</span>
+        <span className={styles["inner-sub-Heading"]}>
+          {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+        </span>
       ),
     },
   ];
@@ -513,53 +522,6 @@ const LoginHistory = () => {
       setShowSearchText(true);
     } catch {}
   };
-
-  // const handleSearches = (fieldName) => {
-  //   let updatedData = { ...userLoginHistorySearch, userNameSearch };
-  //   if (fieldName === "userName") {
-  //     updatedData.userName = "";
-  //   } else if (fieldName === "userEmail") {
-  //     updatedData.userEmail = "";
-  //   } else if (fieldName === "IpAddress") {
-  //     updatedData.IpAddress = "";
-  //   } else if (fieldName === "IpAddress") {
-  //     updatedData.IpAddress = "";
-  //   } else if (fieldName === "DateFrom") {
-  //     updatedData.DateFrom = "";
-  //     updatedData.DateForView = "";
-  //   } else if (fieldName === "DateTo") {
-  //     updatedData.DateTo = "";
-  //     updatedData.DateToView = "";
-  //   } else if (fieldName === "organizationID") {
-  //     updatedData.organizationID = 0;
-  //     setOrganizationDataValue(null);
-  //   } else if (fieldName === "deviceID") {
-  //     updatedData.deviceID = { value: "", label: "" };
-  //   } else if (fieldName === "userNameSearch") {
-  //     updatedData.userNameSearch = "";
-  //   } else {
-  //     updatedData[fieldName] = "";
-  //   }
-  //   setUserLoginHistorySearch(updatedData);
-
-  //   let data = {
-  //     OrganizationID: updatedData.organizationID
-  //       ? updatedData.organizationID
-  //       : 0,
-  //     Username: updatedData.userName,
-  //     UserEmail: updatedData.userEmail,
-  //     IpAddress: updatedData.IpAddress,
-  //     DeviceID: updatedData.deviceID.value ? updatedData.deviceID.value : "",
-  //     DateLogin: updatedData.DateFrom ? `${updatedData.DateFrom}000000` : "",
-  //     DateLogOut: updatedData.DateTo ? `${updatedData.DateTo}000000` : "",
-  //     sRow: 0,
-  //     Length: 10,
-  //   };
-  //   setShowSearchText(false);
-  //   setUserNameSearch("");
-  //   dispatch(loginHistoryLoader(true));
-  //   dispatch(LoginHistoryAPI({ data, navigate, t }));
-  // };
 
   const handleSearches = (fieldName) => {
     let updatedData = { ...userLoginHistorySearch };
@@ -946,7 +908,7 @@ const LoginHistory = () => {
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
                             value={userLoginHistorySearch.DateForView}
-                            format={"DD/MM/YYYY"}
+                            format={"MMM DD, YYYY"}
                             placeholder={t("Date-From")}
                             render={
                               <InputIcon
@@ -970,7 +932,7 @@ const LoginHistory = () => {
                         <Col sm={12} md={6} lg={6}>
                           <DatePicker
                             value={userLoginHistorySearch.DateToView}
-                            format={"DD/MM/YYYY"}
+                            format={"MMM DD, YYYY"}
                             placeholder={t("Date-to")}
                             render={
                               <InputIcon

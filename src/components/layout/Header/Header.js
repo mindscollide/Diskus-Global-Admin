@@ -26,6 +26,9 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  let getGlobalAdminName = localStorage.getItem("adminname");
+  console.log(getGlobalAdminName, "getGlobalAdminNamegetGlobalAdminName");
+
   const handleChangePasswordModal = () => {
     dispatch(ChangePasswordModalOpen(true));
   };
@@ -70,7 +73,7 @@ const Header = () => {
                   alt=""
                   draggable="false"
                 />
-                <p className={"user-name me-2"}>SAIF UL ISLAM</p>
+                <p className={"user-name me-2"}>{getGlobalAdminName}</p>
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown_menu_admin">
                 <Dropdown.Item className={" text-black"}>

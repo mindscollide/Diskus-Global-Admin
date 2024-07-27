@@ -715,7 +715,7 @@ body[dir="rtl"] .class-billing-table {
 body[dir="rtl"] .inside-pie-chart {
   position: absolute !important;
   top: 43% !important;
-  left: 35% !important;
+  left: 27% !important;
   /* transform: translate(-50%, -50%) !important; */
   font-size: 20px !important;
   font-weight: 700 !important;

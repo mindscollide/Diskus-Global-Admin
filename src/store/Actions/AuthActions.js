@@ -5,6 +5,7 @@ import {
   loginAPi,
   passwordVerify,
   forgotPasswordApi,
+  verifyOtpMailApi,
 } from "../../common/apis/Api_Config";
 import { authenticationURL } from "../../common/apis/Api_endPoints";
 import { changeScreen } from "../ActionsSlicers/AuthScreenActionSlicer";
@@ -474,6 +475,75 @@ export const forgotPasswordMainnApi = createAsyncThunk(
               )
           ) {
             return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// global admin forgot Password API
+export const otpVerifyMainApi = createAsyncThunk(
+  "otpVerifyMainApi/otpVerifyMainApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let { email, navigate, t } = requestData;
+    let data = {
+      Email: email,
+      UserID: 1,
+      OTP: "512912",
+    };
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", verifyOtpMailApi.RequestMethod);
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_VerifyOTP_01".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("OTP Verified Successfully");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_VerifyOTP_02".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("Invalid OTP");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_VerifyOTP_03".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("Something-went-wrong");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_VerifyOTP_04".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("Verification Failed");
           }
         } else {
           return rejectWithValue("Something-went-wrong");

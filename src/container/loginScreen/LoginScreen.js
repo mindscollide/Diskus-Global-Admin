@@ -186,7 +186,9 @@ const LoginScreen = () => {
           <TextField
             applyClass={"addOraganizer"}
             labelClass={"d-none"}
+            // className={"inputEmailField"}
             name={"email"}
+            placeholder={t("Email")}
             change={emailChangeHandler}
             value={email || ""}
             maxLength={250}

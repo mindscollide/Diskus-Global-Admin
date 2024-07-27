@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useTranslation } from "react-i18next";
 import {
   getAllPackageApi,
   deleteMainPackageApi,
@@ -27,6 +28,9 @@ const packageAdminReducer = createSlice({
   reducers: {
     packageAdminLoader: (state, { payload }) => {
       state.loading = payload;
+    },
+    resetResponseMessage: (state, { payload }) => {
+      state.ResponseMessage = "";
     },
   },
   extraReducers: (builder) => {
@@ -62,8 +66,10 @@ const packageAdminReducer = createSlice({
         // state.loading = true;
       })
       .addCase(addUpdatePackagesMainApi.fulfilled, (state, action) => {
+        console.log("addPackageFeatureApiaddPackageFeatureApi", action);
+
+        state.ResponseMessage = action.payload.code || "An error occurred";
         state.addCreatePackageData = action.payload;
-        state.ResponseMessage = "Success";
       })
       .addCase(addUpdatePackagesMainApi.rejected, (state, action) => {
         state.addCreatePackageData = null;
@@ -124,5 +130,6 @@ const packageAdminReducer = createSlice({
   },
 });
 
-export const { packageAdminLoader } = packageAdminReducer.actions;
+export const { packageAdminLoader, resetResponseMessage } =
+  packageAdminReducer.actions;
 export default packageAdminReducer.reducer;

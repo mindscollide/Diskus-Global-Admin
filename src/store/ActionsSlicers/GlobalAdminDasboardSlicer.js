@@ -256,7 +256,7 @@ const globalAdminDashboardReducer = createSlice({
         UpdateAllOrganizationLevelConfigurationApi.fulfilled,
         (state, action) => {
           state.UpdateAllOrganizationLevelConfigurationData = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = action.payload.code || "An error occurred";
         }
       )
       .addCase(
@@ -273,7 +273,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(ChangePasswordApi.fulfilled, (state, action) => {
         state.changePasswordData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = action.payload.code || "An error occurred";
       })
       .addCase(ChangePasswordApi.rejected, (state, action) => {
         state.changePasswordData = null;
@@ -429,7 +429,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(UpdateGlobalAdminUserApi.fulfilled, (state, action) => {
         state.updateGlobalUser = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = action.payload.code || "An error occurred";
       })
       .addCase(UpdateGlobalAdminUserApi.rejected, (state, action) => {
         state.updateGlobalUser = null;
@@ -560,7 +560,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(UpdateGlobalLevelConfigurationApi.fulfilled, (state, action) => {
         state.UpdateGlobalLevelConfigData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = action.payload.code || "An error occurred";
       })
       .addCase(UpdateGlobalLevelConfigurationApi.rejected, (state, action) => {
         state.UpdateGlobalLevelConfigData = null;

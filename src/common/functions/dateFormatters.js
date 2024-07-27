@@ -158,6 +158,11 @@ function convertNumbersToArabic(value) {
   const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
   return String(value).replace(/\d/g, (digit) => arabicNumbers[digit]);
 }
+
+export function convertNumbersInToArabic(value) {
+  const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+  return String(value).replace(/\d/g, (digit) => arabicNumbers[digit]);
+}
 // ================================== function which support end arabic both ======================================== //
 export const utcConvertintoGMT = (date) => {
   let fullDateyear =

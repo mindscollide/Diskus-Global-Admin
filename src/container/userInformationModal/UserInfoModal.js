@@ -74,7 +74,7 @@ const UserProfileModal = () => {
       });
 
       setUserDataInfo(getUserInfoData?.result?.data);
-      setSelected(country || "US");
+      setSelected(country);
     }
   }, [getUserInfoData]);
 
@@ -161,20 +161,30 @@ const UserProfileModal = () => {
   };
 
   const onClickRevert = () => {
-    setUserInfoState({
-      CountryCode: {
-        value: 0,
-        errorMessage: "",
-        errorStatus: false,
-      },
-      Number: {
-        value: "",
-        errorMessage: "",
-        errorStatus: false,
-      },
-    });
-    setSelected("US");
-    setSubmitted(false);
+    if (getUserInfoData && getUserInfoData?.result?.data) {
+      const { mobileCode, mobileNumber } = getUserInfoData.result.data;
+      const country = Object.keys(countryNameforPhoneNumber).find(
+        (key) => countryNameforPhoneNumber[key].secondary === mobileCode
+      );
+      console.log(country, "datatdatdtatda");
+
+      setUserInfoState({
+        CountryCode: {
+          value: mobileCode,
+          errorMessage: "",
+          errorStatus: false,
+        },
+        Number: {
+          value: mobileNumber,
+          errorMessage: "",
+          errorStatus: false,
+        },
+      });
+
+      setUserDataInfo(getUserInfoData?.result?.data);
+      setSelected(country);
+      setSubmitted(false);
+    }
   };
 
   return (
@@ -305,7 +315,7 @@ const UserProfileModal = () => {
           ModalFooter={
             <>
               <Row className="mb-5 mt-2">
-                <Col lg={6} md={6} sm={6} xs={12}>
+                <Col lg={6} md={6} sm={6}>
                   <Button
                     text={t("Revert")}
                     className={styles["reset-User-btn"]}
@@ -313,7 +323,7 @@ const UserProfileModal = () => {
                   />
                 </Col>
 
-                <Col lg={6} md={6} sm={6} xs={12}>
+                <Col lg={6} md={6} sm={6}>
                   <Button
                     text={t("Update")}
                     className={styles["save-User-btn"]}

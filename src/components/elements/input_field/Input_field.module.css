@@ -241,7 +241,24 @@
 }
 
 .addOraganizer {
+  border-radius: 4px !important;
   height: 39px !important;
+}
+
+body[dir="rtl"] .addOraganizer {
+  font-weight: 500 !important;
+}
+
+.addOraganizer:focus,
+.addOraganizer:focus-visible {
+  border: 1px solid #e1e1e1 !important;
+  height: 30px;
+}
+
+.addOraganizer::placeholder {
+  color: #171d2d !important;
+  opacity: 50%;
+  font-size: 13px !important;
 }
 
 .datePickerTodoCreate {

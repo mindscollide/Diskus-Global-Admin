@@ -42,7 +42,7 @@ const ForgotPassword = ({ onClickGoBack, onClickToVerification }) => {
       } else {
         setMessege(t("Please-enter-a-valid-email"));
       }
-    } else {
+    } else if (email === "") {
       setOpen({
         ...open,
         open: true,
@@ -56,6 +56,12 @@ const ForgotPassword = ({ onClickGoBack, onClickToVerification }) => {
         });
       }, 3000);
       setMessege("");
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      nextSubmitHandler(e);
     }
   };
 
@@ -86,7 +92,8 @@ const ForgotPassword = ({ onClickGoBack, onClickToVerification }) => {
             change={emailChangeHandler}
             value={email || ""}
             maxLength={250}
-            // onKeyPress={handleKeyPress}
+            placeholder={t("Email")}
+            onKeyPress={handleKeyPress}
           />
         </Col>
       </Row>

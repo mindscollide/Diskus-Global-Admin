@@ -4,6 +4,7 @@ import {
   PasswordVerificationApi,
   enterEmailValidation,
   forgotPasswordMainnApi,
+  otpVerifyMainApi,
 } from "../Actions/AuthActions";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   passwordVerifyData: null,
   forgotPasswordData: null,
   logOutData: null,
+  OtpData: null,
 };
 
 const AuthActionsSlice = createSlice({
@@ -79,6 +81,20 @@ const AuthActionsSlice = createSlice({
       .addCase(forgotPasswordMainnApi.rejected, (state, action) => {
         state.loading = false;
         state.forgotPasswordData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      .addCase(otpVerifyMainApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(otpVerifyMainApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.logOutData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(otpVerifyMainApi.rejected, (state, action) => {
+        state.loading = false;
+        state.logOutData = null;
         state.Responsemessage = action.payload || "An error occurred";
       });
   },

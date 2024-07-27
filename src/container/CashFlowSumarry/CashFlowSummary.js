@@ -27,18 +27,20 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import {
+  convertNumbersInToArabic,
   convertUTCDateToLocalDate,
   ExtractMonthAndYear,
   formatDate,
 } from "../../common/functions/dateFormatters";
 import { Dropdown, Menu, Tag } from "antd";
-import moment from "moment";
+import moment, { locale } from "moment";
 import { DownOutlined, CloseOutlined } from "@ant-design/icons";
 import {
   getCashFlowMainApi,
   getCashOutStandingFlowMainApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { formatNumber } from "../../common/functions/Regex";
 // import FlagCountryName from "./CountryFlagFunctionality/CountryFlag";
 
 const CashFlowSummary = () => {
@@ -103,8 +105,10 @@ const CashFlowSummary = () => {
   //States for the component
 
   const [calendarValue, setCalendarValue] = useState(gregorian);
-  const [localValue, setLocalValue] = useState(gregorian_en);
-  console.log(localValue, "localValuelocalValue");
+  const [localValue, setLocalValue] = useState(
+    currentLanguage === "en" ? gregorian_en : gregorian_ar
+  );
+  console.log({ localValue, currentLanguage }, "localValuelocalValue");
 
   // to show Search text below the seacrh Field
   const [showsearchText, setShowSearchText] = useState(false);
@@ -426,7 +430,9 @@ const CashFlowSummary = () => {
         let { Year } = ExtractMonthAndYear(record.invoiceDate);
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{Year}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(Year) : Year}
+            </span>
           </>
         );
       },
@@ -440,7 +446,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -454,7 +462,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -468,7 +478,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -512,7 +524,13 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-amount-column-title"]}>
+              {`${
+                currentLanguage === "ar"
+                  ? convertNumbersInToArabic(formatNumber(text))
+                  : formatNumber(text)
+              } ${"$"}`}
+            </span>
           </>
         );
       },
@@ -718,7 +736,9 @@ const CashFlowSummary = () => {
         let { Year } = ExtractMonthAndYear(record.invoiceDate);
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{Year}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(Year) : Year}
+            </span>
           </>
         );
       },
@@ -732,7 +752,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -746,7 +768,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -760,7 +784,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -803,7 +829,11 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashOutflow-amount-column-title"]}>{`${
+              currentLanguage === "ar"
+                ? convertNumbersInToArabic(formatNumber(text))
+                : formatNumber(text)
+            } ${"$"}`}</span>
           </>
         );
       },
@@ -817,11 +847,11 @@ const CashFlowSummary = () => {
         setLocalValue(gregorian_en);
         setInFlowTab(true);
         setOutstandingTab(false);
-      } else if (currentLanguage === "ar") {
-        setInFlowTab(true);
-        setOutstandingTab(false);
+      } else if (currentLanguage === "ar" || currentLanguage === "ar-SA") {
         setCalendarValue(gregorian);
         setLocalValue(gregorian_ar);
+        setInFlowTab(true);
+        setOutstandingTab(false);
       }
     }
   }, [currentLanguage]);
@@ -1306,7 +1336,7 @@ const CashFlowSummary = () => {
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            format={"DD/MM/YYYY"}
+                            format={"MMM DD, YYYY"}
                             placeholder={t("Date-From")}
                             value={flowsSearch.displayDateFrom}
                             render={
@@ -1330,7 +1360,7 @@ const CashFlowSummary = () => {
                         </Col>
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            format={"DD/MM/YYYY"}
+                            format={"MMM DD, YYYY"}
                             placeholder={t("Date-to")}
                             value={flowsSearch.displayDateTo}
                             render={
@@ -1421,7 +1451,13 @@ const CashFlowSummary = () => {
                       <span className={styles["total-text"]}>
                         {t("Total-cash-inflows")}{" "}
                         <span className={styles["total-amount-text"]}>
-                          {`${totalInflow}${"$"}`}
+                          {`${
+                            currentLanguage === "ar"
+                              ? convertNumbersInToArabic(
+                                  formatNumber(totalInflow)
+                                )
+                              : formatNumber(totalInflow)
+                          } ${"$"}`}
                         </span>
                       </span>
                     </Col>
@@ -1437,7 +1473,13 @@ const CashFlowSummary = () => {
                       <span className={styles["total-text"]}>
                         {t("Total-outstanding")}{" "}
                         <span className={styles["total-amount-outstanding"]}>
-                          {`${totalOutstanding}${"$"}`}
+                          {`${
+                            currentLanguage === "ar"
+                              ? convertNumbersInToArabic(
+                                  formatNumber(totalOutstanding)
+                                )
+                              : formatNumber(totalOutstanding)
+                          } ${"$"}`}
                         </span>
                       </span>
                     </Col>

@@ -224,9 +224,39 @@ body[dir="rtl"] .inner-sub-Heading {
   height: 70vh !important;
 }
 
+.cashflow-amount-column-title {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #6172d6 !important;
+}
+
+body[dir="rtl"] .cashflow-amount-column-title {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #6172d6 !important;
+}
+
+.cashOutflow-amount-column-title {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #f16b6b !important;
+}
+
+body[dir="rtl"] .cashOutflow-amount-column-title {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #f16b6b !important;
+}
+
 .cashflow-column-title {
   font-size: 12px !important;
   font-weight: 600 !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"] .cashflow-column-title {
+  font-size: 12px !important;
+  font-weight: 500 !important;
   color: #5a5a5a !important;
 }
 
@@ -279,28 +309,28 @@ body[dir="rtl"] .total-text {
   color: #6172d6;
   font-size: 16px !important;
   font-weight: 600 !important;
-  margin-left: 15px;
+  margin-left: 8px;
 }
 
 body[dir="rtl"] .total-amount-text {
   color: #6172d6;
   font-size: 16px !important;
   font-weight: 600 !important;
-  margin-right: 15px;
+  margin-right: 8px;
 }
 
 .total-amount-outstanding {
   color: #f16b6b;
   font-size: 16px !important;
   font-weight: 600 !important;
-  margin-left: 15px;
+  margin-left: 8px;
 }
 
 body[dir="rtl"] .total-amount-outstanding {
   color: #f16b6b;
   font-size: 16px !important;
   font-weight: 600 !important;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 .InflowsButton {
@@ -325,6 +355,16 @@ body[dir="rtl"] .InflowsButton {
 }
 
 .InflowsButton.active {
+  padding: 8px 20px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  background-color: #6172d6 !important;
+  border: 1px solid #e1e1e1 !important;
+  color: #fff !important;
+}
+
+body[dir="rtl"] .InflowsButton.active {
   padding: 8px 20px !important;
   border-radius: 4px !important;
   font-size: 12px !important;
