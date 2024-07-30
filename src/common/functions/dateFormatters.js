@@ -158,6 +158,11 @@ function convertNumbersToArabic(value) {
   const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
   return String(value).replace(/\d/g, (digit) => arabicNumbers[digit]);
 }
+
+export function convertNumbersInToArabic(value) {
+  const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+  return String(value).replace(/\d/g, (digit) => arabicNumbers[digit]);
+}
 // ================================== function which support end arabic both ======================================== //
 export const utcConvertintoGMT = (date) => {
   let fullDateyear =
@@ -250,6 +255,7 @@ export const ExtractMonthAndYear = (fullDate) => {
 // currently using in Session Duration in Organization List
 export const convertUTCDateToLocalDateView = (utcDateTime, locale) => {
   try {
+    // Parse the UTC date string
     const date = new Date(
       Date.UTC(
         parseInt(utcDateTime.slice(0, 4)),
@@ -261,26 +267,8 @@ export const convertUTCDateToLocalDateView = (utcDateTime, locale) => {
       )
     );
 
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    const day = date.getUTCDate();
-    const month = months[date.getUTCMonth()];
-    const year = date.getUTCFullYear();
-
-    return `${day}-${month}-${year}`;
+    // Use moment to format the date
+    return moment(date).format("MMM D, YYYY");
   } catch (error) {
     console.error("Error converting UTC date:", error);
     return null;
@@ -304,5 +292,5 @@ export const newDateForLoginUserHistory = (dateTime) => {
     dateTime?.slice(12, 14) +
     ".000Z";
   let _dateTime = new Date(fullDateyear).toString("YYYYMMDDHHmmss");
-  return moment(_dateTime).format("D - MM -YYYY h:mm / A");
+  return moment(_dateTime).format("MMM d, YYYY hh:mm A");
 };

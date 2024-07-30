@@ -70,3 +70,23 @@ body[dir="rtl"] .LoginButton:is(:hover, :active, :focus, :focus-visible) {
 body[dir="rtl"] .remember-email {
   font-weight: 500 !important;
 }
+
+.inputEmailField {
+  border-radius: 4px !important;
+  height: 39px !important;
+}
+
+body[dir="rtl"] .inputEmailField {
+  font-weight: 500 !important;
+}
+
+.inputEmailField:focus,
+.inputEmailField:focus-visible {
+  border: 1px solid #e1e1e1 !important;
+  height: 30px;
+}
+
+.inputEmailField::placeholder {
+  color: #171d2d !important;
+  opacity: 50%;
+}

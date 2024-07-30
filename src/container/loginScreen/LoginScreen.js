@@ -23,8 +23,8 @@ const LoginScreen = () => {
   const { t } = useTranslation();
 
   const [openNotification, setOpenNotification] = useState({
-    passwordFlag: false,
-    passwordNotification: null,
+    loginFlag: false,
+    loginNotification: null,
     severity: "none",
   });
 
@@ -77,6 +77,10 @@ const LoginScreen = () => {
     let RememberPasswordLocal = JSON.parse(
       localStorage.getItem("remeberPassword")
     );
+    let currentLanguage =
+      localStorage.getItem("currentLanguage") !== null
+        ? localStorage.getItem("currentLanguage")
+        : "en";
     if (RememberEmailLocal === true && RememberPasswordLocal === true) {
       let RememberEmailLocalValue = localStorage.getItem("rememberEmailValue");
 
@@ -84,6 +88,7 @@ const LoginScreen = () => {
         "rememberPasswordValue"
       );
       localStorage.clear();
+      localStorage.setItem("currentLanguage", currentLanguage);
       localStorage.setItem("remeberPassword", RememberPasswordLocal);
       localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
       localStorage.setItem("rememberEmail", RememberEmailLocal);
@@ -95,6 +100,8 @@ const LoginScreen = () => {
       localStorage.clear();
       localStorage.setItem("rememberEmail", RememberEmailLocal);
       localStorage.setItem("rememberEmailValue", RememberEmailLocalValue);
+      localStorage.setItem("currentLanguage", currentLanguage);
+
       setRemeberEmail(RememberEmailLocal);
       setEmail(RememberEmailLocalValue);
     } else if (RememberPasswordLocal === true) {
@@ -104,12 +111,14 @@ const LoginScreen = () => {
       localStorage.clear();
       localStorage.setItem("remeberPassword", RememberPasswordLocal);
       localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
+      localStorage.setItem("currentLanguage", currentLanguage);
     } else {
       localStorage.clear();
       localStorage.setItem("rememberEmail", false);
       localStorage.setItem("rememberEmailValue", "");
       localStorage.setItem("remeberPassword", false);
       localStorage.setItem("rememberPasswordValue", "");
+      localStorage.setItem("currentLanguage", currentLanguage);
     }
   }, []);
 
@@ -119,7 +128,7 @@ const LoginScreen = () => {
       setOpenNotification({
         ...openNotification,
         loginFlag: true,
-        loginNotification: t("Please-fill-Input-field"),
+        loginNotification: t("Please-enter-email"),
         severity: "error",
       });
 
@@ -134,7 +143,7 @@ const LoginScreen = () => {
       setOpenNotification({
         ...openNotification,
         loginFlag: true,
-        loginNotification: t("Email-format-is-incorrect"),
+        loginNotification: t("Invalid-email-format"),
         severity: "error",
       });
 
@@ -161,6 +170,13 @@ const LoginScreen = () => {
     }
   };
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onClickSignIn(e);
+    }
+  };
+
   return (
     <>
       <Row>
@@ -179,10 +195,13 @@ const LoginScreen = () => {
           <TextField
             applyClass={"addOraganizer"}
             labelClass={"d-none"}
+            // className={"inputEmailField"}
             name={"email"}
+            placeholder={t("Email")}
             change={emailChangeHandler}
             value={email || ""}
             maxLength={250}
+            onKeyPress={handleKeyPress}
           />
         </Col>
       </Row>
@@ -221,7 +240,7 @@ const LoginScreen = () => {
         notificationClass={
           openNotification.severity
             ? "notification-error"
-            : "notification-email"
+            : "notification-success"
         }
       />
     </>

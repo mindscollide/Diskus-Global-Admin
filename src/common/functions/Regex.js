@@ -17,3 +17,7 @@ export const regexOnlyCharacters = (data) => {
 export const onlyNumbersPattern = /^[0-9]+$/;
 export const onlyNumberNCharactersPattern = /^\s*|[^\u0600-\u06FFa-zA-Z0-9\s]/g;
 export const onlyCharactersPattern = /^\s*|[^a-zA-Z\s]/g;
+
+export function formatNumber(number) {
+  return new Intl.NumberFormat("en-US").format(number);
+}

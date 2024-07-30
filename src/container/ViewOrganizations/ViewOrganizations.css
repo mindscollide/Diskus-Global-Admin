@@ -68,6 +68,7 @@ h1 {
 .custom-icon {
   font-size: 30px !important; /* Adjust the size as needed */
   color: #5a5a5a !important;
+  pointer-events: all !important;
 }
 
 .custom-table {
@@ -107,6 +108,24 @@ h1 {
   flex-wrap: nowrap;
   align-items: flex-start;
   padding-right: 40px;
+  margin-right: 10px !important;
+  color: rgba(0, 0, 0, 0.88);
+  line-height: 1.5714285714285714;
+  cursor: pointer;
+  transition: all 0.3s, visibility 0s;
+}
+
+body[dir="rtl"]
+  :where(.css-dev-only-do-not-override-1drr2mu).ant-collapse
+  > .ant-collapse-item
+  > .ant-collapse-header {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  padding-right: 40px;
+  margin-left: 10px !important;
+  background-color: #fff !important;
   color: rgba(0, 0, 0, 0.88);
   line-height: 1.5714285714285714;
   cursor: pointer;

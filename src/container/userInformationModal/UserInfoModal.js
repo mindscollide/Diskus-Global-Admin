@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 // import { countryName } from "../../AllUsers/AddUser/CountryJson";
 import ReactFlagsSelect from "react-flags-select";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import arabic_ar from "react-date-object/locales/arabic_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,32 +21,62 @@ import {
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { regexOnlyNumbers } from "../../common/functions/Regex";
 import UserConfirmationModal from "../userConfirmationModal/UserConfirmationModal";
+import { getUserInfoMainApi } from "../../store/Actions/GlobalAdminDashboardActions";
 
 const UserProfileModal = () => {
   //For Localization
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   // Reducer for modal in UIModalsActions
   const ModalReducer = useSelector((state) => state.modal);
 
-  console.log("confirmationModalStateconfirmationModalState", ModalReducer);
+  const getUserInfoData = useSelector(
+    (state) => state.globalAdminDashboardReducer.getUserInfoData
+  );
 
   // get email and organizationName from local storage
   const userEmail = localStorage.getItem("userEmail");
   const orgName = localStorage.getItem("adminname");
-  console.log(orgName, "userEmailuserEmail");
 
   // error state to show error on empty field
   const [errorBar, setErrorBar] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  // select for country dropdown
-  const [select, setSelect] = useState("");
+  console.log(submitted, "submittedsubmittedsubmitted");
 
   const [selected, setSelected] = useState("US");
   const [selectedCountry, setSelectedCountry] = useState({});
   console.log(selectedCountry, "selectedCountry");
+
+  const [userDataInfo, setUserDataInfo] = useState([]);
+  console.log(userDataInfo.mobileNumber, "userDataInfouserDataInfo");
+
+  useEffect(() => {
+    if (getUserInfoData && getUserInfoData?.result?.data) {
+      const { mobileCode, mobileNumber } = getUserInfoData.result.data;
+      const country = Object.keys(countryNameforPhoneNumber).find(
+        (key) => countryNameforPhoneNumber[key].secondary === mobileCode
+      );
+      console.log(country, "datatdatdtatda");
+
+      setUserInfoState({
+        CountryCode: {
+          value: mobileCode,
+          errorMessage: "",
+          errorStatus: false,
+        },
+        Number: {
+          value: mobileNumber,
+          errorMessage: "",
+          errorStatus: false,
+        },
+      });
+
+      setUserDataInfo(getUserInfoData?.result?.data);
+      setSelected(country);
+    }
+  }, [getUserInfoData]);
 
   // state for User Information Modal
   const [userInfoState, setUserInfoState] = useState({
@@ -61,7 +92,8 @@ const UserProfileModal = () => {
     },
   });
 
-  console.log(userInfoState, "orgNameSelected");
+  const getNumber = userInfoState.Number.value;
+  console.log(getNumber, "getNumbergetNumber");
 
   // on Change handler
   const onChangeHandler = (e) => {
@@ -86,28 +118,30 @@ const UserProfileModal = () => {
   const handleClose = () => {
     dispatch(userInfoOpenModal(false));
     setUserInfoState({
-      ...userInfoState,
-      Number: {
-        value: "",
-      },
       CountryCode: {
         value: 0,
+        errorMessage: "",
+        errorStatus: false,
+      },
+      Number: {
+        value: "",
+        errorMessage: "",
+        errorStatus: false,
       },
     });
     setSelected("US");
     setErrorBar(false);
     setSubmitted(false);
   };
+
   const handleSelect = (country) => {
     setSelected(country);
-    setSelectedCountry(country);
-    let a = Object.values(countryNameforPhoneNumber).find((obj) => {
-      return obj.primary === country;
-    });
+    const selectedCountry = countryNameforPhoneNumber[country];
+    setSelectedCountry(selectedCountry);
     setUserInfoState({
       ...userInfoState,
       CountryCode: {
-        value: a.id,
+        value: selectedCountry.secondary,
       },
     });
   };
@@ -127,16 +161,30 @@ const UserProfileModal = () => {
   };
 
   const onClickRevert = () => {
-    setUserInfoState({
-      ...userInfoState,
-      Number: {
-        value: "",
-      },
-      CountryCode: {
-        value: 0,
-      },
-    });
-    setSelected("US");
+    if (getUserInfoData && getUserInfoData?.result?.data) {
+      const { mobileCode, mobileNumber } = getUserInfoData.result.data;
+      const country = Object.keys(countryNameforPhoneNumber).find(
+        (key) => countryNameforPhoneNumber[key].secondary === mobileCode
+      );
+      console.log(country, "datatdatdtatda");
+
+      setUserInfoState({
+        CountryCode: {
+          value: mobileCode,
+          errorMessage: "",
+          errorStatus: false,
+        },
+        Number: {
+          value: mobileNumber,
+          errorMessage: "",
+          errorStatus: false,
+        },
+      });
+
+      setUserDataInfo(getUserInfoData?.result?.data);
+      setSelected(country);
+      setSubmitted(false);
+    }
   };
 
   return (
@@ -267,7 +315,7 @@ const UserProfileModal = () => {
           ModalFooter={
             <>
               <Row className="mb-5 mt-2">
-                <Col lg={6} md={6} sm={6} xs={12}>
+                <Col lg={6} md={6} sm={6}>
                   <Button
                     text={t("Revert")}
                     className={styles["reset-User-btn"]}
@@ -275,7 +323,7 @@ const UserProfileModal = () => {
                   />
                 </Col>
 
-                <Col lg={6} md={6} sm={6} xs={12}>
+                <Col lg={6} md={6} sm={6}>
                   <Button
                     text={t("Update")}
                     className={styles["save-User-btn"]}
@@ -288,7 +336,12 @@ const UserProfileModal = () => {
         />
       </Container>
       {ModalReducer.ConfirmationInfoModal ? (
-        <UserConfirmationModal userInfoState={userInfoState} />
+        <UserConfirmationModal
+          userDataInfo={userDataInfo}
+          userInfoState={userInfoState}
+          getNumber={getNumber}
+          selectedCountry={selectedCountry}
+        />
       ) : null}
     </>
   );

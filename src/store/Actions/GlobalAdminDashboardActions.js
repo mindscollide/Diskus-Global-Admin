@@ -46,6 +46,7 @@ import {
   getAllOrganizationNamesApi,
   dynamicallyReportOfActivePackageLicensesApi,
   downloadInvoiceApi,
+  getUserInfoApi,
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
@@ -875,11 +876,12 @@ export const UpdateAllOrganizationLevelConfigurationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateAllOrganizationLevelConfiguration_01".toLowerCase()
               )
           ) {
+            dispatch(GetSystemConfigurationsApi({ navigate, t }));
             dispatch(globalAdminDashBoardLoader(false));
             try {
               return {
                 result: response.data.responseResult,
-                code: "UpdateAllOrganizationLevelConfiguration_01",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);
@@ -926,7 +928,7 @@ export const ChangePasswordApi = createAsyncThunk(
   "ChangePasswordApi/ChangePasswordApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { data } = requestData;
+    let { data, t } = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", ChangePassword.RequestMethod);
@@ -954,7 +956,7 @@ export const ChangePasswordApi = createAsyncThunk(
             try {
               return {
                 result: response.data.responseResult,
-                code: "ChangePassword_01",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);
@@ -1787,7 +1789,7 @@ export const UpdateGlobalAdminUserApi = createAsyncThunk(
 
               return {
                 result: response.data.responseResult,
-                code: "ChangePasswordGlobalAdmin",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);
@@ -2429,11 +2431,12 @@ export const UpdateGlobalLevelConfigurationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateGlobalLevelConfiguration_01".toLowerCase()
               )
           ) {
+            dispatch(getGlobalLevelConfigurationsApi({ navigate, t }));
             dispatch(globalAdminDashBoardLoader(false));
             try {
               return {
                 result: response.data.responseResult,
-                code: "UpdateGlobalLevelConfiguration_01",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);
@@ -2802,6 +2805,79 @@ export const downloadInvoiceReportMainApi = createAsyncThunk(
     } catch (error) {
       // Handle errors
       return rejectWithValue(error.message);
+    }
+  }
+);
+
+// get All User Info Main Api
+export const getUserInfoMainApi = createAsyncThunk(
+  "getUserInfoMainApi/getUserInfoMainApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { newData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestMethod", getUserInfoApi.RequestMethod);
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_GetUserMobileAndCode_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetUserMobileAndCode_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_GetUserMobileAndCode_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No Data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_GetUserMobileAndCode_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
     }
   }
 );

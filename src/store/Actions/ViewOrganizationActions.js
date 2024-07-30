@@ -130,7 +130,7 @@ export const EditSubscriptionAPI = createAsyncThunk(
             try {
               return {
                 result: response.data.responseResult,
-                code: "UpdateOrganizationSubscriptionStatus_01",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);
@@ -217,7 +217,7 @@ export const EditOrganizationAPI = createAsyncThunk(
             try {
               return {
                 result: response.data.responseResult,
-                code: "UpdateOrganizationStatus_01",
+                code: t("Updated-Successfully"),
               };
             } catch (error) {
               console.log(error);

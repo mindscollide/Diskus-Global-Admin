@@ -42,8 +42,8 @@ const searchOrganization = createSlice({
       })
 
       .addCase(EditSubscriptionAPI.fulfilled, (state, action) => {
+        state.Responsemessage = action.payload.code || "An error occurred";
         state.editSubscriptionData = action.payload;
-        state.Responsemessage = "Success";
       })
 
       .addCase(EditSubscriptionAPI.rejected, (state, action) => {
@@ -56,8 +56,10 @@ const searchOrganization = createSlice({
       })
 
       .addCase(EditOrganizationAPI.fulfilled, (state, action) => {
+        console.log("addPackageFeatureApiaddPackageFeatureApi", action);
+
+        state.Responsemessage = action.payload.code || "An error occurred";
         state.editOrganizationData = action.payload;
-        state.Responsemessage = "Success";
       })
 
       .addCase(EditOrganizationAPI.rejected, (state, action) => {

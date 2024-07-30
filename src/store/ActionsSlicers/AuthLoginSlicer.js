@@ -3,6 +3,8 @@ import {
   GlobalAdminLogOutApi,
   PasswordVerificationApi,
   enterEmailValidation,
+  forgotPasswordMainnApi,
+  otpVerifyMainApi,
 } from "../Actions/AuthActions";
 
 const initialState = {
@@ -10,13 +12,19 @@ const initialState = {
   Authresponse: null,
   Responsemessage: "",
   passwordVerifyData: null,
+  forgotPasswordData: null,
   logOutData: null,
+  OtpData: null,
 };
 
 const AuthActionsSlice = createSlice({
   name: "Auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetAuthResponseMessage: (state, { payload }) => {
+      state.Responsemessage = "";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(enterEmailValidation.pending, (state) => {
@@ -31,7 +39,7 @@ const AuthActionsSlice = createSlice({
         }
         state.loading = false;
         state.Authresponse = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = action.payload.code || "An error occurred";
       })
       .addCase(enterEmailValidation.rejected, (state, action) => {
         state.loading = false;
@@ -64,8 +72,37 @@ const AuthActionsSlice = createSlice({
         state.loading = false;
         state.logOutData = null;
         state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      .addCase(forgotPasswordMainnApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(forgotPasswordMainnApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordData = action.payload;
+        state.Responsemessage = action.payload.code || "An error occurred";
+      })
+      .addCase(forgotPasswordMainnApi.rejected, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      .addCase(otpVerifyMainApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(otpVerifyMainApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.logOutData = action.payload;
+        state.Responsemessage = action.payload.code || "An error occurred";
+      })
+      .addCase(otpVerifyMainApi.rejected, (state, action) => {
+        state.loading = false;
+        state.logOutData = null;
+        state.Responsemessage = action.payload || "An error occurred";
       });
   },
 });
 
+export const { resetAuthResponseMessage } = AuthActionsSlice.actions;
 export default AuthActionsSlice.reducer;

@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ChangePassword.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Button, Modal, TextField } from "../../../components/elements";
+import {
+  Button,
+  Modal,
+  TextField,
+  Notification,
+} from "../../../components/elements";
 import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
 import PasswordEyeIcon from "../../../assets/images/OutletImages/password.svg";
 import PasswordHideEyeIcon from "../../../assets/images/OutletImages/password_hide.svg";
 import { Col, Container, Row } from "react-bootstrap";
 import PasswordChecklist from "react-password-checklist";
-import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import { ChangePasswordApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useNavigate } from "react-router-dom";
 
 const Changepassword = () => {
   const ModalReducer = useSelector((state) => state.modal);
+  const Responsemessage = useSelector(
+    (state) => state.globalAdminDashboardReducer.Responsemessage
+  );
+
+  console.log(Responsemessage, "ResponsemessageResponsemessage");
 
   let userID = localStorage.getItem("userID");
   let Email = localStorage.getItem("userEmail");
@@ -25,6 +38,12 @@ const Changepassword = () => {
   const [Password, setPassword] = useState({
     newPassword: "",
     ConfirmPassword: "",
+  });
+
+  const [openNotification, setOpenNotification] = useState({
+    changePasswordFlag: false,
+    changePasswordNotification: null,
+    severity: "none",
   });
 
   const dispatch = useDispatch();
@@ -44,6 +63,12 @@ const Changepassword = () => {
 
   const handleClose = () => {
     dispatch(ChangePasswordModalOpen(false));
+    setPassword({
+      ...Password,
+      newPassword: "",
+      ConfirmPassword: "",
+    });
+    setOldPassword("");
   };
 
   const handleShowOldPassword = () => {
@@ -71,22 +96,41 @@ const Changepassword = () => {
   };
 
   const handleChangePassword = () => {
-    dispatch(globalAdminDashBoardLoader(true));
-    // let data = {
-    //   UserID: Number(userID),
-    //   Email: Email,
-    //   Password: Password.newPassword,
-    //   ConfirmPassword: Password.ConfirmPassword,
-    //   DeviceID: "1",
-    // };
     let data = {
       UserID: Number(userID),
       OldPassword: oldPassword,
       NewPassword: Password.newPassword,
       DeviceID: "1",
     };
+
+    dispatch(globalAdminDashBoardLoader(true));
     dispatch(ChangePasswordApi({ data, navigate, t }));
   };
+
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("Data-available") &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success"
+    ) {
+      setOpenNotification({
+        changePasswordFlag: true,
+        changePasswordNotification: Responsemessage,
+        severity: t("Updated-Successfully") ? "success" : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          changePasswordFlag: false,
+          changePasswordNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [Responsemessage]);
 
   return (
     <>
@@ -97,7 +141,7 @@ const Changepassword = () => {
         modalHeaderClassName={styles["modalHeader-className"]}
         modalFooterClassName={styles["modalFooterClassName"]}
         modalBodyClassName={styles["modalChangeBody-class-Name"]}
-        className="changePassword"
+        className='changePassword'
         centered
         size={"lg"}
         ModalBody={
@@ -112,36 +156,36 @@ const Changepassword = () => {
               </Row>
               <Row>
                 <Col lg={6} md={6} sm={6}>
-                  <Row className="mt-3">
+                  <Row className='mt-3'>
                     <Col
                       lg={12}
                       md={12}
                       sm={12}
-                      className="d-flex flex-column flex-wrap"
-                    >
+                      className='d-flex flex-column flex-wrap'>
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("Old-password")}
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
+                        applyClass={"addOraganizer"}
                         labelClass={"d-none"}
                         placeholder={t("Old-password")}
                         value={oldPassword || ""}
                         type={showOldPassword ? "text" : "password"}
                         change={oldpasswordChangeHandler}
-                        autoComplete="false"
-                        iconClassName="eye_icon"
+                        autoComplete='false'
+                        iconClassName='eye_icon'
                         inputicon={
                           showOldPassword ? (
                             <img
-                              draggable="false"
-                              alt=""
+                              draggable='false'
+                              alt=''
                               src={PasswordHideEyeIcon}
                             />
                           ) : (
                             <img
-                              draggable="false"
-                              alt=""
+                              draggable='false'
+                              alt=''
                               src={PasswordEyeIcon}
                             />
                           )
@@ -150,37 +194,37 @@ const Changepassword = () => {
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-1">
+                  <Row className='mt-1'>
                     <Col
                       lg={12}
                       md={12}
                       sm={12}
-                      className="d-flex flex-column flex-wrap mt-2"
-                    >
+                      className='d-flex flex-column flex-wrap mt-2'>
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("New-password")}
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
+                        applyClass={"addOraganizer"}
                         labelClass={"d-none"}
                         type={shownewPassword ? "text" : "password"}
                         placeholder={t("New-password")}
-                        name="newPassword"
+                        name='newPassword'
                         value={Password.newPassword || ""}
                         change={handleNewPasswordChange}
-                        iconClassName="eye_icon_newPassowrd"
-                        autoComplete="false"
+                        iconClassName='eye_icon_newPassowrd'
+                        autoComplete='false'
                         inputicon={
                           shownewPassword ? (
                             <img
-                              draggable="false"
-                              alt=""
+                              draggable='false'
+                              alt=''
                               src={PasswordHideEyeIcon}
                             />
                           ) : (
                             <img
-                              draggable="false"
-                              alt=""
+                              draggable='false'
+                              alt=''
                               src={PasswordEyeIcon}
                             />
                           )
@@ -189,37 +233,37 @@ const Changepassword = () => {
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-1">
+                  <Row className='mt-1'>
                     <Col
                       lg={12}
                       md={12}
                       sm={12}
-                      className="d-flex flex-column flex-wrap mt-2"
-                    >
+                      className='d-flex flex-column flex-wrap mt-2'>
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("Confirm-password")}
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
+                        applyClass={"addOraganizer"}
                         labelClass={"d-none"}
                         type={showconfirmPassword ? "text" : "password"}
                         placeholder={t("Confirm-password")}
-                        name="ConfirmPassword"
+                        name='ConfirmPassword'
                         value={Password.ConfirmPassword || ""}
-                        autoComplete="false"
+                        autoComplete='false'
                         change={handleNewPasswordChange}
-                        iconClassName="eye_icon_ConfirmPassword"
+                        iconClassName='eye_icon_ConfirmPassword'
                         inputicon={
                           showconfirmPassword ? (
                             <img
-                              draggable="false"
-                              alt=""
+                              draggable='false'
+                              alt=''
                               src={PasswordHideEyeIcon}
                             />
                           ) : (
                             <img
-                              draggable="false"
-                              alt=""
+                              draggable='false'
+                              alt=''
                               src={PasswordEyeIcon}
                             />
                           )
@@ -233,9 +277,8 @@ const Changepassword = () => {
                   lg={6}
                   md={6}
                   sm={6}
-                  className={styles["passwordCheckBox"]}
-                >
-                  <Row className="mt-3">
+                  className={styles["passwordCheckBox"]}>
+                  <Row className='mt-3'>
                     <Col lg={12} md={12} sm={12}>
                       <p className={styles["HeadingForPassword"]}>
                         {t("Password-must-be")}
@@ -260,8 +303,8 @@ const Changepassword = () => {
                             setPasswordStrong(isValid)
                           );
                         }}
-                        invalidColor="#ff0000"
-                        validColor="#6172D6"
+                        invalidColor='#ff0000'
+                        validColor='#6172D6'
                         iconSize={"11px"}
                       />
                     </Col>
@@ -274,13 +317,12 @@ const Changepassword = () => {
         ModalFooter={
           <>
             <Container>
-              <Row className="mt-5">
+              <Row className='mt-5'>
                 <Col
                   lg={6}
                   md={6}
                   sm={6}
-                  className="d-flex justify-content-start"
-                >
+                  className='d-flex justify-content-start'>
                   <Button
                     text={t("Reset")}
                     className={styles["RevertBtnStyles"]}
@@ -292,8 +334,7 @@ const Changepassword = () => {
                   lg={6}
                   md={6}
                   sm={6}
-                  className="d-flex justify-content-end"
-                >
+                  className='d-flex justify-content-end'>
                   <Button
                     disableBtn={
                       oldPassword === ""
@@ -314,6 +355,17 @@ const Changepassword = () => {
               </Row>
             </Container>
           </>
+        }
+      />
+      <Notification
+        show={openNotification.changePasswordFlag}
+        hide={setOpenNotification}
+        message={openNotification.changePasswordNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
         }
       />
     </>

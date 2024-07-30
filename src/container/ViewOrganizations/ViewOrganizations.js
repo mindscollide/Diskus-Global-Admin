@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Collapse, Spin } from "antd";
-import { Button, Table, TextField } from "../../components/elements";
+import {
+  Button,
+  Notification,
+  Table,
+  TextField,
+} from "../../components/elements";
 import { UpOutlined } from "@ant-design/icons";
+import { ChevronDown } from "react-bootstrap-icons";
 import { useTranslation } from "react-i18next";
 import { Col, Container, Row } from "react-bootstrap";
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -38,7 +44,10 @@ import {
   getPackageDetailGlobalApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 import FlagCountryName from "./CountryFlagFunctionality/CountryFlag";
-import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
 const { Panel } = Collapse;
 
@@ -47,10 +56,17 @@ const ViewOrganization = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const calendRef = useRef();
+  const ModalReducer = useSelector((state) => state.modal);
 
   // current language set in local storage
   let currentLanguage = localStorage.getItem("currentLanguage");
   const local = currentLanguage === "en" ? "en-US" : "ar-SA";
+
+  // for response message
+  const Responsemessage = useSelector(
+    (state) => state.searchOrganization.Responsemessage
+  );
+  console.log(Responsemessage, "ResponseMessageResponseMessage");
 
   // reducer for get All Organization In Organization Dropdown
   const organizationIdData = useSelector(
@@ -67,7 +83,6 @@ const ViewOrganization = () => {
 
   // state for view Organizer Table data
   const [viewOrganizationData, setViewOrganizationData] = useState([]);
-  console.log(viewOrganizationData, "viewOrganizationDatatatatat");
   const [viewOrganizationInsideData, setOrganizationInsideData] = useState([]);
 
   // for dropdown lazy loading state:
@@ -104,6 +119,12 @@ const ViewOrganization = () => {
 
   const [userNameSearch, setUserNameSearch] = useState("");
 
+  const [openNotification, setOpenNotification] = useState({
+    historyFlag: false,
+    historyNotification: "",
+    severity: "none",
+  });
+
   // search Organizer State
   const [searchOrganizationData, setSearchOrganizationData] = useState({
     OrganizationContactName: "",
@@ -118,6 +139,33 @@ const ViewOrganization = () => {
     OrganizationDateToView: "",
     OrganizationDateFromView: "",
   });
+
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("Data-available") &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success"
+    ) {
+      setOpenNotification({
+        historyFlag: true,
+        historyNotification: Responsemessage,
+        severity: t("Updated-Successfully")
+          ? "success"
+          : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          historyFlag: false,
+          historyNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [Responsemessage]);
 
   //Calling Organization Api
   useEffect(() => {
@@ -273,7 +321,8 @@ const ViewOrganization = () => {
         return (
           <>
             <span className="inner-sub-Heading-insidetable">
-              {text && convertUTCDateToLocalDateView(text + "201320")}
+              {text &&
+                convertUTCDateToLocalDate(text + "201320", currentLanguage)}
             </span>
           </>
         );
@@ -289,14 +338,15 @@ const ViewOrganization = () => {
         return (
           <>
             <span className="inner-sub-Heading-insidetable">
-              {text && convertUTCDateToLocalDateView(text + "201320")}
+              {text &&
+                convertUTCDateToLocalDate(text + "201320", currentLanguage)}
             </span>
           </>
         );
       },
     },
     {
-      title: t("Duration"),
+      title: t("Subscription"),
       dataIndex: "fK_TenureOfSubscriptionID",
       key: "fK_TenureOfSubscriptionID",
       className: "class-main-headerColumn",
@@ -403,7 +453,7 @@ const ViewOrganization = () => {
           <>
             <Button
               className="update-button"
-              text="Update Subscription"
+              text={t("Update-subscription")}
               onClick={() => handleEditSubscriptionModal(record)}
             />
           </>
@@ -518,7 +568,7 @@ const ViewOrganization = () => {
           <>
             <Button
               className="update-button"
-              text="Edit Subscription"
+              text={t("Edit-organization")}
               onClick={() => handleEditOrganizationModal(record)}
             />
           </>
@@ -539,7 +589,6 @@ const ViewOrganization = () => {
 
   // edit handler
   const handleEditOrganizationModal = (record) => {
-    console.log(record, "acasgjasgjdvasjgvd");
     setEditOrganzationName(record.organizationName);
     setEditOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationStatus);
@@ -632,18 +681,15 @@ const ViewOrganization = () => {
 
   // handler searched button
   const handleSearches = (fieldName) => {
-    let updatedData = { ...searchOrganizationData, userNameSearch };
+    let updatedData = { ...searchOrganizationData };
     let updatedOrganizationDataValue = organizationDataValue;
-    console.log(
-      updatedOrganizationDataValue,
-      "organizationTextorganizationText"
-    );
-
     // Reset only the targeted date field
-    if (fieldName === "OrganizationDateFrom") {
+    if (
+      fieldName === "OrganizationDateFrom" ||
+      fieldName === "OrganizationDateTo"
+    ) {
       updatedData.OrganizationDateFrom = "";
       updatedData.OrganizationDateFromView = "";
-    } else if (fieldName === "OrganizationDateTo") {
       updatedData.OrganizationDateTo = "";
       updatedData.OrganizationDateToView = "";
     } else if (fieldName === "OrganizationContactName") {
@@ -653,8 +699,8 @@ const ViewOrganization = () => {
       setOrganizationDataValue(null);
     } else if (fieldName === "OrganizationSubscriptionStatus") {
       updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
-    } else if (fieldName === "userNameSearch") {
-      updatedData.userNameSearch = "";
+    } else if (fieldName === "organizationName") {
+      setUserNameSearch("");
     } else {
       updatedData[fieldName] = "";
     }
@@ -686,11 +732,6 @@ const ViewOrganization = () => {
 
   // search Button Handler
   const handleSearchButton = () => {
-    setViewOrganizationData([]);
-    setOrganizationInsideData([]);
-    setTotalRecords(0);
-    setSRowsData(0);
-
     let newData = {
       OrganizationContactName: searchOrganizationData.OrganizationContactName,
       OrganizationContactEmail: "",
@@ -709,6 +750,10 @@ const ViewOrganization = () => {
       sRow: 0,
       eRow: 10,
     };
+    setViewOrganizationData([]);
+    setOrganizationInsideData([]);
+    setTotalRecords(0);
+    setSRowsData(0);
     dispatch(viewOrganizationLoader(true));
     dispatch(getAllOrganizationApi({ newData, navigate, t }));
     setSearchBox(false);
@@ -800,6 +845,10 @@ const ViewOrganization = () => {
           sRow: 0,
           eRow: 10,
         };
+        setViewOrganizationData([]); // Ensure empty table renders
+        setOrganizationInsideData([]);
+        setSRowsData(0);
+        setTotalRecords(0);
         dispatch(viewOrganizationLoader(true));
         dispatch(getAllOrganizationApi({ newData, navigate, t }));
       }
@@ -822,6 +871,7 @@ const ViewOrganization = () => {
               change={onChangeEventForSearch}
               placeholder={t("Search")}
               value={userNameSearch}
+              name={"organizationName"}
               labelClass={"d-none"}
               applyClass={"NewMeetingFileds"}
               inputicon={
@@ -857,7 +907,7 @@ const ViewOrganization = () => {
                       className={"CrossIcon_Class"}
                       width={13}
                       onClick={() =>
-                        handleSearches(userNameSearch, "userNameSearch")
+                        handleSearches(userNameSearch, "organizationName")
                       }
                     />
                   </div>
@@ -1031,7 +1081,7 @@ const ViewOrganization = () => {
                           value={
                             searchOrganizationData.OrganizationDateFromView
                           }
-                          format={"DD/MM/YYYY"}
+                          format={"MMM DD, YYYY"}
                           placeholder={t("Date-From")}
                           render={
                             <InputIcon
@@ -1053,7 +1103,7 @@ const ViewOrganization = () => {
                       <Col lg={6} md={6} sm={6}>
                         <DatePicker
                           value={searchOrganizationData.OrganizationDateToView}
-                          format={"DD/MM/YYYY"}
+                          format={"MMM DD, YYYY"}
                           placeholder={t("Date-to")}
                           render={
                             <InputIcon
@@ -1168,23 +1218,27 @@ const ViewOrganization = () => {
                       className="Panel-Class"
                       header={
                         <>
-                          <Table
-                            rows={[org]}
-                            column={headerColumn}
-                            pagination={false}
-                            className="custom-table"
-                          />
+                          <div onClick={(e) => e.stopPropagation()}>
+                            <Table
+                              rows={[org]}
+                              column={headerColumn}
+                              pagination={false}
+                              className="custom-table"
+                            />
+                          </div>
                         </>
                       }
                     >
-                      <Table
-                        rows={viewOrganizationInsideData.filter(
-                          (data) => data.organizationId === org.organizationID
-                        )}
-                        column={columns}
-                        pagination={false}
-                        className="custom-table"
-                      />
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <Table
+                          rows={viewOrganizationInsideData.filter(
+                            (data) => data.organizationId === org.organizationID
+                          )}
+                          column={columns}
+                          pagination={false}
+                          className="custom-table"
+                        />
+                      </div>
                     </Panel>
                   </Collapse>
                 ))}
@@ -1218,6 +1272,7 @@ const ViewOrganization = () => {
         editOrganizationID={editOrganizationID}
         editOrganzationName={editOrganzationName}
         editSubscriptionName={editSubscriptionName}
+        setShowSearchText={setShowSearchText}
       />
 
       <EditSubscriptionModals
@@ -1228,8 +1283,21 @@ const ViewOrganization = () => {
         duration={duration}
         headData={headData}
         editSubModal={editSubModal}
+        setShowSearchText={setShowSearchText}
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
+
+      <Notification
+        show={openNotification.historyFlag}
+        hide={setOpenNotification}
+        message={openNotification.historyNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
+      />
     </>
   );
 };

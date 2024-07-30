@@ -40,6 +40,7 @@ import {
   getAllOrganizationNameMainApi,
   dynamicalyDownloadReportApi,
   downloadInvoiceReportMainApi,
+  getUserInfoMainApi,
 } from "../Actions/GlobalAdminDashboardActions";
 
 const initialState = {
@@ -77,6 +78,7 @@ const initialState = {
   getOrganizationNames: null,
   downloadDynamicallyReportData: null,
   downloadInvoiceData: null,
+  getUserInfoData: null,
   Responsemessage: "",
 };
 
@@ -86,6 +88,9 @@ const globalAdminDashboardReducer = createSlice({
   reducers: {
     globalAdminDashBoardLoader: (state, { payload }) => {
       state.loading = payload;
+    },
+    resetResponseMessage: (state, { payload }) => {
+      state.Responsemessage = "";
     },
   },
   extraReducers: (builder) => {
@@ -251,7 +256,7 @@ const globalAdminDashboardReducer = createSlice({
         UpdateAllOrganizationLevelConfigurationApi.fulfilled,
         (state, action) => {
           state.UpdateAllOrganizationLevelConfigurationData = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = action.payload.code || "An error occurred";
         }
       )
       .addCase(
@@ -268,7 +273,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(ChangePasswordApi.fulfilled, (state, action) => {
         state.changePasswordData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = action.payload.code || "An error occurred";
       })
       .addCase(ChangePasswordApi.rejected, (state, action) => {
         state.changePasswordData = null;
@@ -424,7 +429,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(UpdateGlobalAdminUserApi.fulfilled, (state, action) => {
         state.updateGlobalUser = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = action.payload.code || "An error occurred";
       })
       .addCase(UpdateGlobalAdminUserApi.rejected, (state, action) => {
         state.updateGlobalUser = null;
@@ -555,7 +560,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(UpdateGlobalLevelConfigurationApi.fulfilled, (state, action) => {
         state.UpdateGlobalLevelConfigData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = action.payload.code || "An error occurred";
       })
       .addCase(UpdateGlobalLevelConfigurationApi.rejected, (state, action) => {
         state.UpdateGlobalLevelConfigData = null;
@@ -625,10 +630,23 @@ const globalAdminDashboardReducer = createSlice({
       .addCase(downloadInvoiceReportMainApi.rejected, (state, action) => {
         state.downloadInvoiceData = null;
         state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      // for download Invoice Report reducer
+      .addCase(getUserInfoMainApi.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(getUserInfoMainApi.fulfilled, (state, action) => {
+        state.getUserInfoData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getUserInfoMainApi.rejected, (state, action) => {
+        state.getUserInfoData = null;
+        state.Responsemessage = action.payload || "An error occurred";
       });
   },
 });
 
-export const { globalAdminDashBoardLoader } =
+export const { globalAdminDashBoardLoader, resetResponseMessage } =
   globalAdminDashboardReducer.actions;
 export default globalAdminDashboardReducer.reducer;

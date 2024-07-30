@@ -27,6 +27,9 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
   // Reducer for modal in UIModalActions
   const ModalReducer = useSelector((state) => state.modal);
 
+  const [emailState, setEmailState] = useState("");
+  const [subscriptionCustomer, setSubscriptionCustomer] = useState("");
+
   // Reducer for getting Data
   const packageDetailModalData = useSelector(
     (state) => state.globalAdminDashboardReducer.packageDetailModalData
@@ -36,36 +39,30 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
   const packageDetails =
     packageDetailModalData?.result?.details?.packageDetails || [];
 
-  console.log(packageDetails, "daadadadadadda");
+  // for package email
+  const packageEmail =
+    packageDetailModalData?.result?.details?.organizationEmail;
 
-  const emailState = packageDetailModalData?.result?.details.organizationEmail;
+  // for Subscription Customer
+  const customerSubscription =
+    packageDetailModalData?.result?.details?.subscriptionCustomerNumber;
+
+  useEffect(() => {
+    if (
+      packageDetailModalData !== null &&
+      packageDetailModalData !== undefined &&
+      packageDetailModalData?.result?.details
+    ) {
+      setEmailState(packageDetailModalData?.result?.details?.organizationEmail);
+      setSubscriptionCustomer(
+        packageDetailModalData?.result?.details?.subscriptionCustomerNumber
+      );
+    }
+  }, [emailState, subscriptionCustomer]);
+
+  // const emailState = packageDetailModalData?.result?.details.organizationEmail;
 
   // state for packageDetail Modal
-  const [packageDetailState, setPackageDetailState] = useState({
-    OrganizationName: {
-      value: "",
-      errorMessage: "",
-      errorStatus: false,
-    },
-
-    OrganizationEmail: {
-      value: "",
-      errorMessage: "",
-      errorStatus: false,
-    },
-  });
-
-  // api for getting data in PackageDetail
-  // useEffect(() => {
-  //   let data = {
-  //     OrganizationID: subscribedPackageDetail.organizationName,
-  //     SubscriptionID: 347,
-  //   };
-  //   dispatch(globalAdminDashBoardLoader(true));
-  //   dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
-  // }, []);
-
-  // useEffect to getData from reducer
 
   // useEffect(() => {
   //   if (
@@ -141,7 +138,7 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
                         {t("Email")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        {emailState}
+                        {packageEmail}
                       </span>
                     </div>
                   </Col>
@@ -151,10 +148,10 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
                   <Col lg={12} md={12} sm={12}>
                     <div className={styles["column-container"]}>
                       <span className={styles["send-invoice-subHeading"]}>
-                        {t("Subscription")}
+                        {t("Subscription-customer-number")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        {subscribedPackageDetail.subscriptionID}
+                        {customerSubscription}
                       </span>
                     </div>
                   </Col>

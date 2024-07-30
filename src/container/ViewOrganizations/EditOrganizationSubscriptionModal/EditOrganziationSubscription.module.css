@@ -4,13 +4,13 @@
 }
 
 .EditSubscriptionSubHeading {
-  font-size: 10px !important;
-  font-weight: 400 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
   color: #6172d6;
 }
 
 body[dir="rtl"] .EditSubscriptionSubHeading {
-  font-size: 10px !important;
+  font-size: 12px !important;
   font-weight: 500 !important;
   color: #6172d6;
 }

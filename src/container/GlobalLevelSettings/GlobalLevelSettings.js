@@ -5,12 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import line from "../../assets/images/OutletImages/Line 27.svg";
-import MeetingIcon from "../../assets/images/OutletImages/MeetingSetting.svg";
+import MailSettings from "../../assets/images/OutletImages/MailSettings.svg";
 import Calender from "../../assets/images/OutletImages/CalenderSetting.svg";
 import Committee from "../../assets/images/OutletImages/CommitteSetting.svg";
-import SecurityIcon from "../../assets/images/OutletImages/SecuritySetting.svg";
+import FunctionalSettings from "../../assets/images/OutletImages/FunctionalSettings.svg";
+import UserAccountsetting from "../../assets/images/OutletImages/UserAccountsetting.svg";
+import OrganizationAccountSettings from "../../assets/images/OutletImages/OrganizationAccountSettings.svg";
+import SMSSettings from "../../assets/images/OutletImages/SMSSettings.svg";
 import TodoIcon from "../../assets/images/OutletImages/Todo_icon.svg";
-import { Button, TextField } from "../../components/elements";
+import { Button, Notification, TextField } from "../../components/elements";
 import Profilepicture from "../../assets/images/OutletImages/newprofile.png";
 
 import { Checkbox } from "antd";
@@ -25,7 +28,10 @@ import {
   getGlobalLevelConfigurationsApi,
   UpdateGlobalLevelConfigurationApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
-import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 const GlobalLevelSettings = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -33,6 +39,11 @@ const GlobalLevelSettings = () => {
 
   const getGlobalLevelConfigData = useSelector(
     (state) => state.globalAdminDashboardReducer.getGlobalLevelConfigData
+  );
+
+  // for response message
+  const Responsemessage = useSelector(
+    (state) => state.globalAdminDashboardReducer.Responsemessage
   );
 
   console.log(getGlobalLevelConfigData, "ajgvajsvjavjavsjv");
@@ -45,6 +56,13 @@ const GlobalLevelSettings = () => {
     useState(false);
   const [smsSettingState, setSmsSettingState] = useState(false);
 
+  // for toaste notification
+  const [openNotification, setOpenNotification] = useState({
+    historyFlag: false,
+    historyNotification: "",
+    severity: "none",
+  });
+
   // useEffect to hit Api of Global Level Configuration
   useEffect(() => {
     dispatch(globalAdminDashBoardLoader(true));
@@ -54,290 +72,133 @@ const GlobalLevelSettings = () => {
   const [newData, setNewData] = useState({
     MailUser: {
       configKey: "MailUser",
-      configValue: "no-reply@axis-work.com",
+      configValue: "",
     },
     MailDisplayName: {
       configKey: "MailDisplayName",
-      configValue: "Diskus",
+      configValue: "",
     },
     MailPassword: {
       configKey: "MailPassword",
-      configValue: "rj+MJQ[Z}Qyg",
+      configValue: "",
     },
     MailHost: {
       configKey: "MailHost",
-      configValue: "mail.axis-work.com",
+      configValue: "",
     },
     MailPort: {
       configKey: "MailPort",
-      configValue: "587",
+      configValue: "",
     },
     HBL_URL_FOR_EMAIL: {
       configKey: "HBL_URL_FOR_EMAIL",
-      configValue: "https://www.hbl.com",
+      configValue: "",
     },
     MailEnableSSL: {
       configKey: "MailEnableSSL",
-      configValue: "false",
+      configValue: "",
     },
     MailIsSmtpNetworkDeliveryMethodEnabled: {
       configKey: "MailIsSmtpNetworkDeliveryMethodEnabled",
-      configValue: "false",
+      configValue: "",
     },
     LoginURL: {
       configKey: "LoginURL",
-      configValue: "http://192.168.18.241:9026",
+      configValue: "",
     },
     MaxAllowedFailedLoginAttempts: {
       configKey: "MaxAllowedFailedLoginAttempts",
-      configValue: "3",
+      configValue: "",
     },
     IdleTimeout: {
       configKey: "IdleTimeout",
-      configValue: "720",
+      configValue: "",
     },
     AccountDormantDays: {
       configKey: "AccountDormantDays",
-      configValue: "90",
+      configValue: "",
     },
-    TokenValidationURL: {
-      configKey: "TokenValidationURL",
-      configValue: "http://192.168.18.241:11001/ERM_Auth",
-    },
-    DocumentPath: {
-      configKey: "DocumentPath",
-      configValue: "C:\\Diskus\\Services\\Setting",
-    },
+
     DEFAULT_PROFILE_PICTURE_ORIGINAL_NAME: {
       configKey: "DEFAULT_PROFILE_PICTURE_ORIGINAL_NAME",
-      configValue: "logo.png",
+      configValue: "",
     },
     DEFAULT_PROFILE_PICTURE_DISPLAY_NAME: {
       configKey: "DEFAULT_PROFILE_PICTURE_DISPLAY_NAME",
-      configValue: "logo.png",
+      configValue: "",
     },
     OTP_RECREATION_TIME_LEFT: {
       configKey: "OTP_RECREATION_TIME_LEFT",
-      configValue: "5",
+      configValue: "",
     },
     DATA_ARCHIVING_GRACE_DAY: {
       configKey: "DATA_ARCHIVING_GRACE_DAY",
-      configValue: "30",
+      configValue: "",
     },
     Invoice_Clearance_Days_Margin: {
       configKey: "Invoice_Clearance_Days_Margin",
-      configValue: "10",
+      configValue: "",
     },
     Late_Fees_Days_Margin: {
       configKey: "Late_Fees_Days_Margin",
-      configValue: "5",
+      configValue: "",
     },
     Days_Before_Expiry_For_Invoice: {
       configKey: "Days_Before_Expiry_For_Invoice",
-      configValue: "2",
+      configValue: "",
     },
-    MQTT_IPAdress: {
-      configKey: "MQTT_IPAdress",
-      configValue: "192.168.18.241",
-    },
-    MQTT_Port: {
-      configKey: "MQTT_Port",
-      configValue: "11111",
-    },
+
     SMS_SERVICE_USERNAME: {
       configKey: "SMS_SERVICE_USERNAME",
-      configValue: "923008385450",
+      configValue: "",
     },
     SMS_SERVICE_PASSWORD: {
       configKey: "SMS_SERVICE_PASSWORD",
-      configValue: "8547",
+      configValue: "",
     },
     SMS_SERVICE_SENDER: {
       configKey: "SMS_SERVICE_SENDER",
-      configValue: "Diskus",
+      configValue: "",
     },
     SMS_SERVICE_BUNDLE_ID: {
       configKey: "SMS_SERVICE_BUNDLE_ID",
-      configValue: "1",
-    },
-    TALK_URL: {
-      configKey: "TALK_URL",
-      configValue: "http://192.168.18.241:11014/Talk",
-    },
-    TODO_URL: {
-      configKey: "TODO_URL",
-      configValue: "http://192.168.18.241:11003/ToDoList",
-    },
-    MEETING_URL: {
-      configKey: "MEETING_URL",
-      configValue: "http://192.168.18.241:11002/Meeting",
-    },
-    TIME_ZONE_API_BASE_URL: {
-      configKey: "TIME_ZONE_API_BASE_URL",
-      configValue: "http://api.timezonedb.com/v2.1/",
-    },
-    TIME_ZONE_API_KEY: {
-      configKey: "TIME_ZONE_API_KEY",
-      configValue: "ZIB76EZFWELX",
+      configValue: "",
     },
     MaxOTPFailedAttemptCount: {
       configKey: "MaxOTPFailedAttemptCount",
-      configValue: "3",
-    },
-    GOOGLE_CALENDER_URL: {
-      configKey: "GOOGLE_CALENDER_URL",
-      configValue: "https://www.googleapis.com/calendar/v3/calendars",
+      configValue: "",
     },
     Meeting_Started_Minutes_Ago: {
       configKey: "Meeting_Started_Minutes_Ago",
-      configValue: "4",
+      configValue: "",
+    },
+    Number_Of_Recently_Uploaded: {
+      configKey: "Number_Of_Recently_Uploaded",
+      configValue: "",
     },
     Join_Meeting_Before_Minutes: {
       configKey: "Join_Meeting_Before_Minutes",
-      configValue: "15",
+      configValue: "",
     },
     DATA_ROOM_LAZY_LOADING_LENGTH: {
       configKey: "DATA_ROOM_LAZY_LOADING_LENGTH",
-      configValue: "10",
+      configValue: "",
     },
     Video_Call_Ringer_Timeout_Seconds: {
       configKey: "Video_Call_Ringer_Timeout_Seconds",
-      configValue: "30",
+      configValue: "",
     },
     Share_Folder_Base_Link: {
       configKey: "Share_Folder_Base_Link",
-      configValue: "http://localhost:3000/#/",
-    },
-    Share_Folder_Sub_Link: {
-      configKey: "Share_Folder_Sub_Link",
-      configValue: "DisKus/dataroom?action=",
+      configValue: "",
     },
     RSVP_BASE_URL: {
       configKey: "RSVP_BASE_URL",
-      configValue: "http://localhost:3000/#/",
+      configValue: "",
     },
-    RSVP_SERVICE_URL: {
-      configKey: "RSVP_SERVICE_URL",
-      configValue: "DisKus/Meeting/Useravailabilityformeeting?action=",
-    },
-    MICROSOFT_CALENDER_URL: {
-      configKey: "MICROSOFT_CALENDER_URL",
-      configValue: "https://graph.microsoft.com/v1.0/me/calendar/events",
-    },
-    DataRoomApiUrl: {
-      configKey: "DataRoomApiUrl",
-      configValue: "http://localhost:11017/DataRoom",
-    },
-    LibreOfficePath: {
-      configKey: "LibreOfficePath",
-      configValue:
-        "D:\\Diskus\\Services\\Third Party Libraries\\LibreOfficePortable\\App\\libreoffice\\program\\soffice.exe",
-    },
-    SignatureDocumentsFolderName: {
-      configKey: "SignatureDocumentsFolderName",
-      configValue: "Signature Flow Documents",
-    },
-
-    PROPOSE_MEETING_PARTICIPANT_SUBLINK: {
-      configKey: "PROPOSE_MEETING_PARTICIPANT_SUBLINK",
-      configValue: "DisKus/Meeting/Meetingproposed?action=",
-    },
-    PROPOSE_MEETING_ORGANIZER_SUBLINK: {
-      configKey: "PROPOSE_MEETING_ORGANIZER_SUBLINK",
-      configValue: "DisKus/Meeting/Usermeetingproposedatespoll?action=",
-    },
-
     Meeting_Extra_Time_Active: {
       configKey: "Meeting_Extra_Time_Active",
-      configValue: "12",
-    },
-    Minute_Collab_Url: {
-      configKey: "Minute_Collab_Url",
-      configValue: "DisKus/Meeting?Meetingminutecollaborate_action=",
-    },
-    Agenda_Contributor_Add_Url: {
-      configKey: "Agenda_Contributor_Add_Url",
-      configValue: "DisKus/Meeting?Addagendacontributor_action=",
-    },
-    Agenda_Contributor_Update_Url: {
-      configKey: "Agenda_Contributor_Update_Url",
-      configValue: "DisKus/Meeting?Updateagendacontributor_action=",
-    },
-    Meeting_Organizer_Add_Url: {
-      configKey: "Meeting_Organizer_Add_Url",
-      configValue: "DisKus/Meeting?Addorganizer_action=",
-    },
-    Meeting_Organizer_Update_Url: {
-      configKey: "Meeting_Organizer_Update_Url",
-      configValue: "DisKus/Meeting?Updateorganizer_action=",
-    },
-    Meeting_Cancel_Url: {
-      configKey: "Meeting_Cancel_Url",
-      configValue: "DisKus/Meeting?Cancelmeeting_action=",
-    },
-    Meeting_Delete_Url: {
-      configKey: "Meeting_Delete_Url",
-      configValue: "DisKus/Meeting?Deletemeeting_action=",
-    },
-    Meeting_Update_Url: {
-      configKey: "Meeting_Update_Url",
-      configValue: "DisKus/Meeting?Updatemeeting_action=",
-    },
-    Meeting_Start_Url: {
-      configKey: "Meeting_Start_Url",
-      configValue: "DisKus/Meeting?Startmeeting_action=",
-    },
-    Poll_Expire_Url: {
-      configKey: "Poll_Expire_Url",
-      configValue: "DisKus/polling?PollExpire_action=",
-    },
-    Grp_Poll_Expire_Url: {
-      configKey: "Grp_Poll_Expire_Url",
-      configValue: "DisKus/groups?GroupPollExpire_action=",
-    },
-    Com_Poll_Expire_Url: {
-      configKey: "Com_Poll_Expire_Url",
-      configValue: "DisKus/committee?CommitteePollExpire_action=",
-    },
-    Poll_Published_Url: {
-      configKey: "Poll_Published_Url",
-      configValue: "DisKus/polling?PollPublished_action=",
-    },
-    Grp_Poll_Published_Url: {
-      configKey: "Grp_Poll_Published_Url",
-      configValue: "DisKus/groups?GroupPollPublished_action=",
-    },
-    Com_Poll_Published_Url: {
-      configKey: "Com_Poll_Published_Url",
-      configValue: "DisKus/committee?CommitteePollPublished_action=",
-    },
-    Poll_Updated_Url: {
-      configKey: "Poll_Updated_Url",
-      configValue: "DisKus/polling?PollUpdated_action=",
-    },
-    Grp_Poll_Updated_Url: {
-      configKey: "Grp_Poll_Updated_Url",
-      configValue: "DisKus/groups?GroupPollUpdate_action=",
-    },
-    Com_Poll_Updated_Url: {
-      configKey: "Com_Poll_Updated_Url",
-      configValue: "DisKus/committee?CommitteePollUpdate_action=",
-    },
-    Resolution_Reminder_Url: {
-      configKey: "Resolution_Reminder_Url",
-      configValue: "DisKus/resolution?ResolutionReminder_action=",
-    },
-    Org_Status_Enabled_Url: {
-      configKey: "Org_Status_Enabled_Url",
-      configValue: "Admin?OrganizationSubscriptionEnable_action=",
-    },
-    Org_Sub_Status_Enabled_Url: {
-      configKey: "Org_Sub_Status_Enabled_Url",
-      configValue: "Admin?OrganizationStatusEnable_action=",
-    },
-    EdfaPayRedirectionUrl: {
-      configKey: "EdfaPayRedirectionUrl",
-      configValue: "http://192.168.18.241:2024?Payment_action=",
+      configValue: "",
     },
   });
 
@@ -366,6 +227,31 @@ const GlobalLevelSettings = () => {
       }
     }
   }, [getGlobalLevelConfigData]);
+
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("Data-available") &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success"
+    ) {
+      setOpenNotification({
+        historyFlag: true,
+        historyNotification: Responsemessage,
+        severity: t("Updated-Successfully") ? "success" : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          historyFlag: false,
+          historyNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [Responsemessage]);
 
   // to open mail Tab
   const openMailTab = () => {
@@ -415,6 +301,7 @@ const GlobalLevelSettings = () => {
   const regexPatterns = {
     numberOnlyState: onlyNumbersPattern,
     Meeting_Started_Minutes_Ago: onlyNumbersPattern,
+    Number_Of_Recently_Uploaded: onlyNumbersPattern,
     Join_Meeting_Before_Minutes: onlyNumbersPattern,
     DATA_ROOM_LAZY_LOADING_LENGTH: onlyNumbersPattern,
     Video_Call_Ringer_Timeout_Seconds: onlyNumbersPattern,
@@ -476,13 +363,12 @@ const GlobalLevelSettings = () => {
 
   return (
     <section className={styles["UserConfigsContainer"]}>
-      <Row className="mt-3">
+      <Row className='mt-3'>
         <Col
           lg={12}
           md={12}
           sm={12}
-          className="d-flex gap-3 align-items-center"
-        >
+          className='d-flex gap-3 align-items-center'>
           <span className={styles["UserLevelConfig_Heading"]}>
             {t("Global-level-configuration")}
           </span>
@@ -490,22 +376,21 @@ const GlobalLevelSettings = () => {
       </Row>
       <Row>
         <Col lg={12} md={12} sm={12} className={styles["Padding_around_class"]}>
-          <Row className="mt-3">
+          <Row className='mt-3'>
             <Col lg={3} md={3} sm={3}>
-              <div onClick={openMailTab} className="cursor-pointer">
-                <Row className="mt-3">
+              <div onClick={openMailTab} className='cursor-pointer'>
+                <Row className='mt-3'>
                   <Col
                     lg={2}
                     md={2}
                     sm={12}
-                    className="d-flex align-items-center"
-                  >
+                    className='d-flex align-items-center'>
                     <img
-                      draggable="false"
-                      src={SecurityIcon}
-                      alt=""
-                      width="25.51px"
-                      height="30.69px"
+                      draggable='false'
+                      src={MailSettings}
+                      alt=''
+                      width='35.8px'
+                      height='33.63px'
                     />
                   </Col>
                   <Col lg={10} md={10} sm={12}>
@@ -514,8 +399,7 @@ const GlobalLevelSettings = () => {
                         mailState
                           ? styles["Options_headings_active"]
                           : styles["Options_headings"]
-                      }
-                    >
+                      }>
                       {t("Mail-settings")}
                     </span>
                   </Col>
@@ -523,20 +407,19 @@ const GlobalLevelSettings = () => {
               </div>
               <hr />
 
-              <div onClick={openFunctionalTab} className="cursor-pointer">
-                <Row className="mt-3">
+              <div onClick={openFunctionalTab} className='cursor-pointer'>
+                <Row className='mt-3'>
                   <Col
                     lg={2}
                     md={2}
                     sm={12}
-                    className="d-flex align-items-center"
-                  >
+                    className='d-flex align-items-center'>
                     <img
-                      draggable="false"
-                      src={TodoIcon}
-                      alt=""
-                      width="30px"
-                      height="30px"
+                      draggable='false'
+                      src={FunctionalSettings}
+                      alt=''
+                      width='40.8px'
+                      height='38.63px'
                     />
                   </Col>
                   <Col lg={10} md={10} sm={12}>
@@ -545,8 +428,7 @@ const GlobalLevelSettings = () => {
                         functionalState
                           ? styles["Options_headings_active"]
                           : styles["Options_headings"]
-                      }
-                    >
+                      }>
                       {t("Functional-settings")}
                     </span>
                   </Col>
@@ -554,20 +436,19 @@ const GlobalLevelSettings = () => {
               </div>
               <hr />
 
-              <div onClick={openAccountSettingTab} className="cursor-pointer">
-                <Row className="mt-3">
+              <div onClick={openAccountSettingTab} className='cursor-pointer'>
+                <Row className='mt-3'>
                   <Col
                     lg={2}
                     md={2}
                     sm={12}
-                    className="d-flex align-items-center"
-                  >
+                    className='d-flex align-items-center'>
                     <img
-                      draggable="false"
-                      src={MeetingIcon}
-                      alt=""
-                      width="35.79px"
-                      height="27.3px"
+                      draggable='false'
+                      src={UserAccountsetting}
+                      alt=''
+                      width='37.8px'
+                      height='35.63px'
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -576,8 +457,7 @@ const GlobalLevelSettings = () => {
                         userAccountState
                           ? styles["Options_headings_active"]
                           : styles["Options_headings"]
-                      }
-                    >
+                      }>
                       {t("User-account-settings")}
                     </span>
                   </Col>
@@ -586,22 +466,20 @@ const GlobalLevelSettings = () => {
               <hr />
 
               <div
-                className="cursor-pointer"
-                onClick={openOrganizationAccountTab}
-              >
-                <Row className="mt-3">
+                className='cursor-pointer'
+                onClick={openOrganizationAccountTab}>
+                <Row className='mt-3'>
                   <Col
                     lg={2}
                     md={2}
                     sm={12}
-                    className="d-flex align-items-center"
-                  >
+                    className='d-flex align-items-center'>
                     <img
-                      draggable="false"
-                      src={Calender}
-                      alt=""
-                      width="28.47px"
-                      height="28.47px"
+                      draggable='false'
+                      src={OrganizationAccountSettings}
+                      alt=''
+                      width='40.8px'
+                      height='40.63px'
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -610,8 +488,7 @@ const GlobalLevelSettings = () => {
                         organizationAccountState
                           ? styles["Options_headings_active"]
                           : styles["Options_headings"]
-                      }
-                    >
+                      }>
                       {t("Organization-account-settings")}
                     </span>
                   </Col>
@@ -619,20 +496,19 @@ const GlobalLevelSettings = () => {
               </div>
               <hr />
 
-              <div onClick={openSettingTab} className="cursor-pointer">
-                <Row className="mt-3">
+              <div onClick={openSettingTab} className='cursor-pointer'>
+                <Row className='mt-3'>
                   <Col
                     lg={2}
                     md={2}
                     sm={12}
-                    className="d-flex align-items-center"
-                  >
+                    className='d-flex align-items-center'>
                     <img
-                      draggable="false"
-                      src={Committee}
-                      alt=""
-                      width="35.8px"
-                      height="34.63px"
+                      draggable='false'
+                      src={SMSSettings}
+                      alt=''
+                      width='40.8px'
+                      height='38.63px'
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -641,8 +517,7 @@ const GlobalLevelSettings = () => {
                         smsSettingState
                           ? styles["Options_headings_active"]
                           : styles["Options_headings"]
-                      }
-                    >
+                      }>
                       {t("Sms-settings")}
                     </span>
                   </Col>
@@ -650,24 +525,24 @@ const GlobalLevelSettings = () => {
               </div>
               <hr />
             </Col>
-            <Col lg={1} md={1} sm={1} className="d-flex justify-content-center">
+            <Col lg={1} md={1} sm={1} className='d-flex justify-content-center'>
               <img
-                draggable="false"
-                alt=""
+                draggable='false'
+                alt=''
                 src={line}
                 className={styles["user-setting-row"]}
               />
             </Col>
-            <Col lg={5} md={5} sm={5} className="m-0 p-0 justify-content-start">
+            <Col lg={5} md={5} sm={5} className='m-0 p-0 justify-content-start'>
               {mailState ? (
                 <>
-                  <Row className="mt-2">
+                  <Row className='mt-2'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Mail-host")}
                       </span>
                       <TextField
-                        name="mailhost"
+                        name='mailhost'
                         value={newData.MailHost.configValue}
                         change={(e) =>
                           onChangeHandlerGlobal(
@@ -675,7 +550,7 @@ const GlobalLevelSettings = () => {
                             e.target.value
                           )
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -683,7 +558,7 @@ const GlobalLevelSettings = () => {
                         {t("Mail-port")}
                       </span>
                       <TextField
-                        name="mailport"
+                        name='mailport'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.MailPort,
@@ -691,17 +566,17 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.MailPort.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Mail-user")}
                       </span>
                       <TextField
-                        name="mailuser"
+                        name='mailuser'
                         value={newData.MailUser.configValue}
                         change={(e) =>
                           onChangeHandlerGlobal(
@@ -709,7 +584,7 @@ const GlobalLevelSettings = () => {
                             e.target.value
                           )
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -717,7 +592,7 @@ const GlobalLevelSettings = () => {
                         {t("Mail-display-name")}
                       </span>
                       <TextField
-                        name="mailname"
+                        name='mailname'
                         value={newData.MailDisplayName.configValue}
                         change={(e) =>
                           onChangeHandlerGlobal(
@@ -725,17 +600,17 @@ const GlobalLevelSettings = () => {
                             e.target.value
                           )
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={12} md={12} sm={12}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Mail-password")}
                       </span>
                       <TextField
-                        name="mailpassword"
+                        name='mailpassword'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.MailPassword,
@@ -743,11 +618,11 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.MailPassword.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <Checkbox
                         onChange={(e) =>
@@ -760,8 +635,7 @@ const GlobalLevelSettings = () => {
                           newData.MailEnableSSL.configValue === "true"
                             ? true
                             : false
-                        }
-                      >
+                        }>
                         <span className={styles["Class_CheckBox"]}>
                           {t("Mail-enable-SSL")}
                         </span>
@@ -781,21 +655,20 @@ const GlobalLevelSettings = () => {
                             .configValue === "true"
                             ? true
                             : false
-                        }
-                      >
+                        }>
                         <span className={styles["Class_CheckBox"]}>
                           {t("Mail-is-smtp-network")}
                         </span>
                       </Checkbox>
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Login-url")}
                       </span>
                       <TextField
-                        name="loginurl"
+                        name='loginurl'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.LoginURL,
@@ -803,7 +676,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.LoginURL.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -811,7 +684,7 @@ const GlobalLevelSettings = () => {
                         {t("URL-to-be-used-in-email")}
                       </span>
                       <TextField
-                        name="hblurlemail"
+                        name='hblurlemail'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.HBL_URL_FOR_EMAIL,
@@ -819,7 +692,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.HBL_URL_FOR_EMAIL.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
@@ -827,14 +700,14 @@ const GlobalLevelSettings = () => {
               ) : null}
               {functionalState ? (
                 <>
-                  <Row className="mt-2">
+                  <Row className='mt-2'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Dataroom-lazy-loading-length")}
                       </span>
                       <TextField
-                        labelClass="d-none"
-                        name="dataroom"
+                        labelClass='d-none'
+                        name='dataroom'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.DATA_ROOM_LAZY_LOADING_LENGTH,
@@ -851,7 +724,7 @@ const GlobalLevelSettings = () => {
                         {t("Video-ringer-timeout")}
                       </span>
                       <TextField
-                        name="videoringer"
+                        name='videoringer'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.Video_Call_Ringer_Timeout_Seconds,
@@ -861,17 +734,17 @@ const GlobalLevelSettings = () => {
                         value={
                           newData.Video_Call_Ringer_Timeout_Seconds.configValue
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Meeting-started-minutes")}
                       </span>
                       <TextField
-                        name="meetingminutes"
+                        name='meetingminutes'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.Meeting_Started_Minutes_Ago,
@@ -879,7 +752,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.Meeting_Started_Minutes_Ago.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -887,20 +760,25 @@ const GlobalLevelSettings = () => {
                         {t("Number-of-recently-uploaded")}
                       </span>
                       <TextField
-                        name="numberUploaded"
-                        // change={changeHandler}
-                        // value={functionalSettingState.numberuploaded.value}
-                        labelClass="d-none"
+                        name='numberUploaded'
+                        change={(e) =>
+                          onChangeHandlerGlobal(
+                            newData.Number_Of_Recently_Uploaded,
+                            e.target.value
+                          )
+                        }
+                        value={newData.Number_Of_Recently_Uploaded.configValue}
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Join-meeting-before-minutes")}
                       </span>
                       <TextField
-                        name="joinMeeting"
+                        name='joinMeeting'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.Join_Meeting_Before_Minutes,
@@ -908,7 +786,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.Join_Meeting_Before_Minutes.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -916,7 +794,7 @@ const GlobalLevelSettings = () => {
                         {t("Meeting-extra-time-active")}
                       </span>
                       <TextField
-                        name="meetingExtra"
+                        name='meetingExtra'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.Meeting_Extra_Time_Active,
@@ -924,18 +802,18 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.Meeting_Extra_Time_Active.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
 
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("RSVP-base-url")}
                       </span>
                       <TextField
-                        name="rsvpUrl"
+                        name='rsvpUrl'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.RSVP_BASE_URL,
@@ -943,7 +821,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.RSVP_BASE_URL.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -951,7 +829,7 @@ const GlobalLevelSettings = () => {
                         {t("Share-folder-base-link")}
                       </span>
                       <TextField
-                        name="shareFolder"
+                        name='shareFolder'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.Share_Folder_Base_Link,
@@ -959,7 +837,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.Share_Folder_Base_Link.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
@@ -967,13 +845,13 @@ const GlobalLevelSettings = () => {
               ) : null}
               {userAccountState ? (
                 <>
-                  <Row className="mt-2">
+                  <Row className='mt-2'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Max-allowed-failed-attempts")}
                       </span>
                       <TextField
-                        name="maxallowed"
+                        name='maxallowed'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.MaxAllowedFailedLoginAttempts,
@@ -983,7 +861,7 @@ const GlobalLevelSettings = () => {
                         value={
                           newData.MaxAllowedFailedLoginAttempts.configValue
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -991,7 +869,7 @@ const GlobalLevelSettings = () => {
                         {t("Idle-timeout")}
                       </span>
                       <TextField
-                        name="idletimeout"
+                        name='idletimeout'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.IdleTimeout,
@@ -999,17 +877,17 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.IdleTimeout.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Account-dormant-days")}
                       </span>
                       <TextField
-                        name="accountdormant"
+                        name='accountdormant'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.AccountDormantDays,
@@ -1017,7 +895,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.AccountDormantDays.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -1025,7 +903,7 @@ const GlobalLevelSettings = () => {
                         {t("Max-OTP-failed-attempt-count")}
                       </span>
                       <TextField
-                        name="otpcount"
+                        name='otpcount'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.MaxOTPFailedAttemptCount,
@@ -1033,17 +911,17 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.MaxOTPFailedAttemptCount.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={12} md={12} sm={12}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("OTP-recreation-time-left")}
                       </span>
                       <TextField
-                        name="otprecreation"
+                        name='otprecreation'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.OTP_RECREATION_TIME_LEFT,
@@ -1051,7 +929,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.OTP_RECREATION_TIME_LEFT.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
@@ -1082,13 +960,13 @@ const GlobalLevelSettings = () => {
               ) : null}
               {organizationAccountState ? (
                 <>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Data-archiving-grace-day")}
                       </span>
                       <TextField
-                        name="dataarchiving"
+                        name='dataarchiving'
                         value={newData.DATA_ARCHIVING_GRACE_DAY.configValue}
                         change={(e) =>
                           onChangeHandlerGlobal(
@@ -1096,7 +974,7 @@ const GlobalLevelSettings = () => {
                             e.target.value
                           )
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -1104,7 +982,7 @@ const GlobalLevelSettings = () => {
                         {t("Invoice-clearence-days-magin")}
                       </span>
                       <TextField
-                        name="invoiceclearence"
+                        name='invoiceclearence'
                         value={
                           newData.Invoice_Clearance_Days_Margin.configValue
                         }
@@ -1114,18 +992,18 @@ const GlobalLevelSettings = () => {
                             e.target.value
                           )
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
 
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Late-fees-days-margin")}
                       </span>
                       <TextField
-                        name="latefees"
+                        name='latefees'
                         value={newData.Late_Fees_Days_Margin.configValue}
                         change={(e) =>
                           onChangeHandlerGlobal(
@@ -1133,7 +1011,7 @@ const GlobalLevelSettings = () => {
                             e.target.value
                           )
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -1141,7 +1019,7 @@ const GlobalLevelSettings = () => {
                         {t("Days-before-expiry-for-invoice")}
                       </span>
                       <TextField
-                        name="daysexpiry"
+                        name='daysexpiry'
                         value={
                           newData.Days_Before_Expiry_For_Invoice.configValue
                         }
@@ -1151,7 +1029,7 @@ const GlobalLevelSettings = () => {
                             e.target.value
                           )
                         }
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
@@ -1159,13 +1037,13 @@ const GlobalLevelSettings = () => {
               ) : null}
               {smsSettingState ? (
                 <>
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Sms-service-username")}
                       </span>
                       <TextField
-                        name="smsserviceuser"
+                        name='smsserviceuser'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.SMS_SERVICE_USERNAME,
@@ -1173,7 +1051,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.SMS_SERVICE_USERNAME.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -1181,7 +1059,7 @@ const GlobalLevelSettings = () => {
                         {t("Sms-service-password")}
                       </span>
                       <TextField
-                        name="smsservicepass"
+                        name='smsservicepass'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.SMS_SERVICE_PASSWORD,
@@ -1189,18 +1067,18 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.SMS_SERVICE_PASSWORD.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
 
-                  <Row className="mt-4">
+                  <Row className='mt-4'>
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Sms-service-sender")}
                       </span>
                       <TextField
-                        name="smsservicesender"
+                        name='smsservicesender'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.SMS_SERVICE_SENDER,
@@ -1208,7 +1086,7 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.SMS_SERVICE_SENDER.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -1216,7 +1094,7 @@ const GlobalLevelSettings = () => {
                         {t("Sms-service-bundle-Id")}
                       </span>
                       <TextField
-                        name="smsservicebundle"
+                        name='smsservicebundle'
                         change={(e) =>
                           onChangeHandlerGlobal(
                             newData.SMS_SERVICE_BUNDLE_ID,
@@ -1224,22 +1102,22 @@ const GlobalLevelSettings = () => {
                           )
                         }
                         value={newData.SMS_SERVICE_BUNDLE_ID.configValue}
-                        labelClass="d-none"
+                        labelClass='d-none'
                       />
                     </Col>
                   </Row>
                 </>
               ) : null}
             </Col>
-            <Col lg={1} md={1} sm={1} className="d-flex justify-content-center">
+            <Col lg={1} md={1} sm={1} className='d-flex justify-content-center'>
               <img
-                draggable="false"
-                alt=""
+                draggable='false'
+                alt=''
                 src={line}
                 className={styles["user-setting-row"]}
               />
             </Col>
-            <Col lg={2} md={2} sm={2} className="m-0 p-0">
+            <Col lg={2} md={2} sm={2} className='m-0 p-0'>
               {organizationAccountState ? <></> : null}
               {mailState ? <></> : null}
 
@@ -1249,7 +1127,7 @@ const GlobalLevelSettings = () => {
         </Col>
       </Row>
       <Row>
-        <Col lg={12} md={12} sm={12} className="d-flex justify-content-end">
+        <Col lg={12} md={12} sm={12} className='d-flex justify-content-end'>
           <Button
             text={t("Update")}
             className={styles["New_settings_Update_Button"]}
@@ -1257,6 +1135,18 @@ const GlobalLevelSettings = () => {
           />
         </Col>
       </Row>
+
+      <Notification
+        show={openNotification.historyFlag}
+        hide={setOpenNotification}
+        message={openNotification.historyNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
+      />
     </section>
   );
 };

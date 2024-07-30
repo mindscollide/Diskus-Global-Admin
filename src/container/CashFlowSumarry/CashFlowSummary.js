@@ -27,18 +27,20 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import {
+  convertNumbersInToArabic,
   convertUTCDateToLocalDate,
   ExtractMonthAndYear,
   formatDate,
 } from "../../common/functions/dateFormatters";
 import { Dropdown, Menu, Tag } from "antd";
-import moment from "moment";
+import moment, { locale } from "moment";
 import { DownOutlined, CloseOutlined } from "@ant-design/icons";
 import {
   getCashFlowMainApi,
   getCashOutStandingFlowMainApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { formatNumber } from "../../common/functions/Regex";
 // import FlagCountryName from "./CountryFlagFunctionality/CountryFlag";
 
 const CashFlowSummary = () => {
@@ -103,8 +105,10 @@ const CashFlowSummary = () => {
   //States for the component
 
   const [calendarValue, setCalendarValue] = useState(gregorian);
-  const [localValue, setLocalValue] = useState(gregorian_en);
-  console.log(localValue, "localValuelocalValue");
+  const [localValue, setLocalValue] = useState(
+    currentLanguage === "en" ? gregorian_en : gregorian_ar
+  );
+  console.log({ localValue, currentLanguage }, "localValuelocalValue");
 
   // to show Search text below the seacrh Field
   const [showsearchText, setShowSearchText] = useState(false);
@@ -426,7 +430,9 @@ const CashFlowSummary = () => {
         let { Year } = ExtractMonthAndYear(record.invoiceDate);
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{Year}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(Year) : Year}
+            </span>
           </>
         );
       },
@@ -440,7 +446,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -454,7 +462,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -468,7 +478,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -512,7 +524,13 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-amount-column-title"]}>
+              {`${
+                currentLanguage === "ar"
+                  ? convertNumbersInToArabic(formatNumber(text))
+                  : formatNumber(text)
+              } ${"$"}`}
+            </span>
           </>
         );
       },
@@ -718,7 +736,9 @@ const CashFlowSummary = () => {
         let { Year } = ExtractMonthAndYear(record.invoiceDate);
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{Year}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(Year) : Year}
+            </span>
           </>
         );
       },
@@ -732,7 +752,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -746,7 +768,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -760,7 +784,9 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashflow-column-title"]}>
+              {currentLanguage === "ar" ? convertNumbersInToArabic(text) : text}
+            </span>
           </>
         );
       },
@@ -803,7 +829,11 @@ const CashFlowSummary = () => {
       render: (text, response) => {
         return (
           <>
-            <span className={styles["cashflow-column-title"]}>{text}</span>
+            <span className={styles["cashOutflow-amount-column-title"]}>{`${
+              currentLanguage === "ar"
+                ? convertNumbersInToArabic(formatNumber(text))
+                : formatNumber(text)
+            } ${"$"}`}</span>
           </>
         );
       },
@@ -817,11 +847,11 @@ const CashFlowSummary = () => {
         setLocalValue(gregorian_en);
         setInFlowTab(true);
         setOutstandingTab(false);
-      } else if (currentLanguage === "ar") {
-        setInFlowTab(true);
-        setOutstandingTab(false);
+      } else if (currentLanguage === "ar" || currentLanguage === "ar-SA") {
         setCalendarValue(gregorian);
         setLocalValue(gregorian_ar);
+        setInFlowTab(true);
+        setOutstandingTab(false);
       }
     }
   }, [currentLanguage]);
@@ -966,22 +996,24 @@ const CashFlowSummary = () => {
     const updatedFlowsSearch = {
       ...flowsSearch,
       [fieldName]: "",
+      ...(fieldName === "DateFrom" || fieldName === "DateTo"
+        ? { DateFrom: "", DateTo: "", displayDateFrom: "", displayDateTo: "" }
+        : {}),
     };
 
-    const updateSearch = { userNameSearch, [fieldName]: "" };
+    if (fieldName === "organizationName") {
+      setUserNameSearch("");
+    }
     setFlowsSearch(updatedFlowsSearch);
 
     if (inflowTab) {
       let data = {
-        OrganizationName:
-          updatedFlowsSearch.organizationName || updateSearch.userNameSearch,
+        OrganizationName: updatedFlowsSearch.organizationName,
         DateFrom: updatedFlowsSearch.DateFrom,
         DateTo: updatedFlowsSearch.DateTo,
         sRow: 0,
         eRow: 8,
       };
-      setShowSearchText(false);
-      setUserNameSearch("");
       dispatch(globalAdminDashBoardLoader(true));
       dispatch(
         getCashFlowMainApi({
@@ -992,8 +1024,7 @@ const CashFlowSummary = () => {
       );
     } else {
       let data = {
-        OrganizationName:
-          updatedFlowsSearch.organizationName || updateSearch.userNameSearch,
+        OrganizationName: updatedFlowsSearch.organizationName,
         DateFrom: updatedFlowsSearch.DateFrom,
         DateTo: updatedFlowsSearch.DateTo,
         sRow: 0,
@@ -1034,8 +1065,8 @@ const CashFlowSummary = () => {
           OrganizationName: flowsSearch.organizationName
             ? flowsSearch.organizationName
             : "",
-          DateFrom: flowsSearch.DateFrom,
-          DateTo: flowsSearch.DateTo,
+          DateFrom: flowsSearch.DateFrom ? flowsSearch.DateFrom : "",
+          DateTo: flowsSearch.DateTo ? flowsSearch.DateTo : "",
           sRow: 0, // index
           eRow: 8, // Lnegth
         };
@@ -1106,6 +1137,9 @@ const CashFlowSummary = () => {
             sRow: 0, // index
             eRow: 8, // length
           };
+          setCashInFlowData([]);
+          setTotalRecords(0);
+          setSRowsData(0);
           dispatch(globalAdminDashBoardLoader(true));
           dispatch(getCashFlowMainApi({ data, navigate, t }));
         } else if (outstandingTab === true && inflowTab === false) {
@@ -1116,6 +1150,9 @@ const CashFlowSummary = () => {
             sRow: 0, // index
             eRow: 8, // length
           };
+          setCashOutFlowTable([]);
+          setTotalRecords(0);
+          setSRowsData(0);
           dispatch(globalAdminDashBoardLoader(true));
           dispatch(getCashOutStandingFlowMainApi({ data, navigate, t }));
         }
@@ -1251,7 +1288,7 @@ const CashFlowSummary = () => {
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() =>
-                          handleSearches(userNameSearch, "userNameSearch")
+                          handleSearches(userNameSearch, "organizationName")
                         }
                       />
                     </div>
@@ -1299,7 +1336,7 @@ const CashFlowSummary = () => {
                       <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            format={"DD/MM/YYYY"}
+                            format={"MMM DD, YYYY"}
                             placeholder={t("Date-From")}
                             value={flowsSearch.displayDateFrom}
                             render={
@@ -1323,7 +1360,7 @@ const CashFlowSummary = () => {
                         </Col>
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
-                            format={"DD/MM/YYYY"}
+                            format={"MMM DD, YYYY"}
                             placeholder={t("Date-to")}
                             value={flowsSearch.displayDateTo}
                             render={
@@ -1379,9 +1416,9 @@ const CashFlowSummary = () => {
             <div>
               <Row>
                 <Col
-                  sm={12}
-                  md={12}
-                  lg={12}
+                  sm={9}
+                  md={9}
+                  lg={9}
                   className="d-flex justify-content-start gap-3 my-3"
                 >
                   <Button
@@ -1403,6 +1440,51 @@ const CashFlowSummary = () => {
                     onClick={outstandingClick}
                   />
                 </Col>
+                {inflowTab ? (
+                  <>
+                    <Col
+                      sm={3}
+                      md={3}
+                      lg={3}
+                      className={styles["cashflow-bottom-text"]}
+                    >
+                      <span className={styles["total-text"]}>
+                        {t("Total-cash-inflows")}{" "}
+                        <span className={styles["total-amount-text"]}>
+                          {`${
+                            currentLanguage === "ar"
+                              ? convertNumbersInToArabic(
+                                  formatNumber(totalInflow)
+                                )
+                              : formatNumber(totalInflow)
+                          } ${"$"}`}
+                        </span>
+                      </span>
+                    </Col>
+                  </>
+                ) : outstandingTab ? (
+                  <>
+                    <Col
+                      sm={3}
+                      md={3}
+                      lg={3}
+                      className={styles["cashflow-bottom-text"]}
+                    >
+                      <span className={styles["total-text"]}>
+                        {t("Total-outstanding")}{" "}
+                        <span className={styles["total-amount-outstanding"]}>
+                          {`${
+                            currentLanguage === "ar"
+                              ? convertNumbersInToArabic(
+                                  formatNumber(totalOutstanding)
+                                )
+                              : formatNumber(totalOutstanding)
+                          } ${"$"}`}
+                        </span>
+                      </span>
+                    </Col>
+                  </>
+                ) : null}
               </Row>
             </div>
             {inflowTab ? (
@@ -1439,28 +1521,8 @@ const CashFlowSummary = () => {
                     rows={cashInFlowData}
                     footer={false}
                     className="cashFLowClass"
-                    // scroll={{
-                    //   x: false,
-                    // }}
                   />
                 </InfiniteScroll>
-                <div className={styles["top-cashflow-border"]}>
-                  <Row>
-                    <Col
-                      sm={12}
-                      md={12}
-                      lg={12}
-                      className={styles["cashflow-bottom-text"]}
-                    >
-                      <span className={styles["total-text"]}>
-                        {t("Total-cash-inflows")}{" "}
-                        <span className={styles["total-amount-text"]}>
-                          {`${totalInflow}${"$"}`}
-                        </span>
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
               </>
             ) : outstandingTab ? (
               <>
@@ -1498,23 +1560,6 @@ const CashFlowSummary = () => {
                     className={"outstandingFlow"}
                   />
                 </InfiniteScroll>
-                <div className={styles["top-cashflow-border"]}>
-                  <Row>
-                    <Col
-                      sm={12}
-                      md={12}
-                      lg={12}
-                      className={styles["cashflow-bottom-text"]}
-                    >
-                      <span className={styles["total-text"]}>
-                        {t("Total-outstanding")}{" "}
-                        <span className={styles["total-amount-outstanding"]}>
-                          {`${totalOutstanding}${"$"}`}
-                        </span>
-                      </span>
-                    </Col>
-                  </Row>
-                </div>
               </>
             ) : null}
           </Col>
