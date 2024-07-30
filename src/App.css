@@ -219,21 +219,21 @@ body[dir="rtl"] span.Sub-Title.Table {
 /* Snackbar Notification CSS */
 .MuiAlert-filledError.notification-error {
   width: 100% !important;
-  background: #cc0000 !important;
+  background: #6172d6 !important;
   position: relative !important;
   box-shadow: none !important;
 }
 
 .MuiAlert-filledSuccess.notification-success {
   width: 100% !important;
-  background: #55c5d1 !important;
+  background: #6172d6 !important;
   position: relative !important;
   box-shadow: none !important;
 }
 
 body[dir="rtl"] .MuiAlert-filledSuccess.notification-success {
   width: 100% !important;
-  background: #55c5d1 !important;
+  background: #6172d6 !important;
   position: relative !important;
   box-shadow: none !important;
   right: 10px !important;
@@ -763,4 +763,29 @@ body[dir="rtl"] .class-table-loginhistory {
 /* this is for when header dropdown open then on active color is this */
 a.dropdown-item.dropdown-item:hover {
   background: #f9f9f9;
+}
+
+.valid span {
+  font-weight: bold;
+  color: #6172d6 !important;
+}
+
+body[dir="rtl"] .valid span {
+  font-weight: 500;
+}
+
+.invalid span {
+  color: #ff0000 !important;
+  font-weight: bold;
+}
+
+body[dir="rtl"] .invalid span {
+  font-weight: 500;
+}
+
+/* for notification show */
+.MuiAlert-filledSuccess {
+  color: #fff;
+  font-weight: 500;
+  background-color: #6172d6 !important;
 }

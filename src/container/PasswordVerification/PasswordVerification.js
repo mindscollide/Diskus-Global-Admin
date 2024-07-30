@@ -13,6 +13,7 @@ import PasswordHideEyeIcon from "../../assets/images/OutletImages/password_hide.
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PasswordVerificationApi } from "../../store/Actions/AuthActions";
+import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
 
 const PasswordVerification = ({ onClickForgetPasswordText }) => {
   const { t } = useTranslation();
@@ -24,6 +25,11 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
   const dispatch = useDispatch();
 
   const state = useSelector((state) => state);
+
+  const Responsemessage = useSelector(
+    (state) => state.AuthActions.Responsemessage
+  );
+  console.log(Responsemessage, "ResponsemessageResponsemessage");
 
   const [openNotification, setOpenNotification] = useState({
     passwordFlag: false,
@@ -102,6 +108,32 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
     }
   };
   console.log(password, "password");
+
+  // for response Message
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("Data-available") &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success"
+    ) {
+      setOpenNotification({
+        passwordFlag: true,
+        passwordNotification: Responsemessage,
+        severity: t("User's-password-is-created") ? "success" : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetAuthResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          passwordFlag: false,
+          passwordNotification: "",
+          severity: "none",
+        });
+      }, 400000);
+    }
+  }, [Responsemessage]);
 
   //Form Submission Login Handler
   const loginHandler = (e) => {
@@ -260,7 +292,7 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
         notificationClass={
           openNotification.severity
             ? "notification-error"
-            : "notification-email"
+            : "notification-success"
         }
       />
     </>

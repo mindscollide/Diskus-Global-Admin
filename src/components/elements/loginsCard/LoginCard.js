@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeScreen } from "../../../store/ActionsSlicers/AuthScreenActionSlicer";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../components/elements/loader/Loader";
+import PasswordCreation from "../../../container/CreatePasswordPage/PasswordCreation";
 
 const LoginCard = () => {
   const { t } = useTranslation();
@@ -100,6 +101,13 @@ const LoginCard = () => {
                     <VerificationCode
                       onClickGoBack={onClickGoBack}
                       onClickToVerification={onClickToVerification}
+                    />
+                  )}
+
+                  {screenName === "PasswordCreation" && (
+                    <PasswordCreation
+                      onClickGoBack={onClickGoBack}
+                      // onClickToVerification={onClickToVerification}
                     />
                   )}
                 </Col>
@@ -224,6 +232,25 @@ const LoginCard = () => {
             )}
 
             {screenName === "PasswordVerification" && (
+              <>
+                <div className={styles["login-screen-headings"]}>
+                  <h1 className={styles["heading-1"]}>
+                    {t("Simplify-management")}
+                  </h1>
+                  <h1 className={styles["heading-2"]}>{t("Collaborate")}</h1>
+                  <h1 className={styles["heading-1"]}>{t("Prioritize")}</h1>
+                </div>
+                <div className="Diskus_rounded_logo">
+                  <img
+                    src={DiskusRoundLogo}
+                    alt="login-round-logo"
+                    className={styles["round-circle-class"]}
+                  />
+                </div>
+              </>
+            )}
+
+            {screenName === "PasswordCreation" && (
               <>
                 <div className={styles["login-screen-headings"]}>
                   <h1 className={styles["heading-1"]}>

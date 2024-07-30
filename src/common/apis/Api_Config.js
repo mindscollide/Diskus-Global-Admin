@@ -281,7 +281,32 @@ const forgotPasswordApi = {
 
 // verify Otp for email on Global Admin
 const verifyOtpMailApi = {
-  RequestMethod: "ServiceManager.VerifyOTP",
+  RequestMethod: "ServiceManager.UserEmailVerification",
+};
+
+// Resend Otp email on Global Admin
+const resendOTPApi = {
+  RequestMethod: "ServiceManager.GenerateOTP",
+};
+
+// password update on password creation
+const passwordCreationUpdation = {
+  RequestMethod: "ServiceManager.PasswordUpdationOnForgetPassword",
+};
+
+// get system supported Language
+const getSystemSupportedLanguage = {
+  RequestMethod: "ServiceManager.GetSystemSupportedLanguage",
+};
+
+// get Last Selected Language
+const getLastSelectedLanguage = {
+  RequestMethod: "ServiceManager.GetLastSelectedLanguage",
+};
+
+// set Last Selected Language
+const setLastSelectedLanguage = {
+  RequestMethod: "ServiceManager.SetLastSelectedLanguage",
 };
 
 export {
@@ -344,4 +369,9 @@ export {
   getUserInfoApi,
   forgotPasswordApi,
   verifyOtpMailApi,
+  resendOTPApi,
+  passwordCreationUpdation,
+  getSystemSupportedLanguage,
+  getLastSelectedLanguage,
+  setLastSelectedLanguage,
 };

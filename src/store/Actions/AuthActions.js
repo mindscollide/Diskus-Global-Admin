@@ -6,9 +6,15 @@ import {
   passwordVerify,
   forgotPasswordApi,
   verifyOtpMailApi,
+  resendOTPApi,
+  passwordCreationUpdation,
 } from "../../common/apis/Api_Config";
 import { authenticationURL } from "../../common/apis/Api_endPoints";
 import { changeScreen } from "../ActionsSlicers/AuthScreenActionSlicer";
+import {
+  getLastLanguageMainApi,
+  setLastSelectedLanguageMainApi,
+} from "./LanguageActions";
 
 const logoutChannel = new BroadcastChannel("logout");
 //Email Verification
@@ -57,10 +63,15 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_03".toLowerCase()
               )
           ) {
+            localStorage.setItem("userID", response.data.responseResult.userID);
+            let data = {
+              UserID: JSON.parse(response.data.responseResult.userID),
+            };
+            dispatch(getLastLanguageMainApi({ data, navigate, t }));
             dispatch(changeScreen("PasswordVerification"));
             return {
               result: response.data.responseResult,
-              code: "EmailValidation_03",
+              code: t("User's-password-is-created"),
             };
           } else if (
             response.data.responseResult.responseMessage
@@ -424,6 +435,14 @@ export const forgotPasswordMainnApi = createAsyncThunk(
               )
           ) {
             dispatch(changeScreen("VerificationCode"));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: t("OTP-has-been-sent-to-your-email"),
+              };
+            } catch (error) {
+              console.log(error);
+            }
             localStorage.setItem(
               "token",
               response.data.responseResult.authToken.token
@@ -442,15 +461,6 @@ export const forgotPasswordMainnApi = createAsyncThunk(
             );
             localStorage.setItem("currentLanguage", "en");
             // navigate("/GlobalAdmin/");
-            try {
-              return {
-                result: response.data.responseResult,
-                code: "ForgotPassword_03",
-              };
-            } catch (error) {
-              console.log(error);
-            }
-            return rejectWithValue("OTP has been sent to your email");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -492,12 +502,7 @@ export const forgotPasswordMainnApi = createAsyncThunk(
 export const otpVerifyMainApi = createAsyncThunk(
   "otpVerifyMainApi/otpVerifyMainApi",
   async (requestData, { rejectWithValue, dispatch }) => {
-    let { email, navigate, t } = requestData;
-    let data = {
-      Email: email,
-      UserID: 1,
-      OTP: "512912",
-    };
+    let { data, navigate, t } = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", verifyOtpMailApi.RequestMethod);
@@ -516,34 +521,171 @@ export const otpVerifyMainApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_VerifyOTP_01".toLowerCase()
+                "ERM_AuthService_SignUpManager_UserEmailVerification_01".toLowerCase()
               )
           ) {
-            return rejectWithValue("OTP Verified Successfully");
+            dispatch(changeScreen("PasswordCreation"));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: t("The-user's-email-has-been-verified"),
+              };
+            } catch (error) {
+              console.log(error);
+            }
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_VerifyOTP_02".toLowerCase()
+                "ERM_AuthService_SignUpManager_UserEmailVerification_02".toLowerCase()
               )
           ) {
-            return rejectWithValue("Invalid OTP");
+            return rejectWithValue("Invalid OTP. Failed to verify User Email");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_VerifyOTP_03".toLowerCase()
+                "ERM_AuthService_SignUpManager_UserEmailVerification_03".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("The user's email has not been verified");
+          }
+        } else {
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// global admin resend EMail API
+export const resendOTPMainApi = createAsyncThunk(
+  "resendOTPMainApi/resendOTPMainApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let { data, setSeconds, setMinutes, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", resendOTPApi.RequestMethod);
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_SignUpManager_GenerateOTP_01".toLowerCase()
+              )
+          ) {
+            setSeconds(60);
+            setMinutes(4);
+            return "User OTP generated successfully";
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_SignUpManager_GenerateOTP_02".toLowerCase()
+              )
+          ) {
+            setSeconds(0);
+            setMinutes(0);
+            return rejectWithValue("User OTP not generated successfully");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_SignUpManager_GenerateOTP_03".toLowerCase()
+              )
+          ) {
+            setSeconds(0);
+            setMinutes(0);
+            return rejectWithValue("The user email is not active");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_SignUpManager_GenerateOTP_04".toLowerCase()
+              )
+          ) {
+            setSeconds(0);
+            setMinutes(0);
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+// password creation updattion  Api
+export const passwordCreationMainApi = createAsyncThunk(
+  "passwordCreationMainApi/passwordCreationMainApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestData", JSON.stringify(data));
+    form.append("RequestMethod", passwordCreationUpdation.RequestMethod);
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: authenticationURL,
+        data: form,
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_PasswordUpdationOnForgetPassword_01".toLowerCase()
+              )
+          ) {
+            dispatch(changeScreen("login"));
+            return "password updated successfully";
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_PasswordUpdationOnForgetPassword_02".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("no password updated");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_PasswordUpdationOnForgetPassword_03".toLowerCase()
+              )
+          ) {
+            return rejectWithValue("no password updated");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "ERM_AuthService_AuthManager_PasswordUpdationOnForgetPassword_04".toLowerCase()
               )
           ) {
             return rejectWithValue("Something-went-wrong");
-          } else if (
-            response.data.responseResult.responseMessage
-              .toLowerCase()
-              .includes(
-                "ERM_AuthService_AuthManager_VerifyOTP_04".toLowerCase()
-              )
-          ) {
-            return rejectWithValue("Verification Failed");
           }
         } else {
           return rejectWithValue("Something-went-wrong");

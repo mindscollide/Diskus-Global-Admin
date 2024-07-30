@@ -302,5 +302,17 @@
   "Enter-code": "Enter Code",
   "6-digit-code-has-sent-on-to-this": "6 digit code has sent on to this",
   "2fa-verification": "2FA Verification",
-  "Updated-Successfully":"Updated Successfully"
+  "Updated-Successfully": "Updated Successfully",
+  "verification": "Verification",
+  "Enter-verification-code": "Enter Verification Code",
+  "Verify": "Verify",
+  "Create-password": "Create password",
+  "Password-must-have": "Password must have",
+  "Re-enter-password": "Re Enter Password",
+  "User's-password-is-created": "User's Password Is Created",
+  "Please-enter-a-valid-email": "Please Enter a Valid Email",
+  "Please-enter-email": "Please Enter Email",
+  "OTP-has-been-sent-to-your-email": "OTP has been sent to your Email",
+  "Subscription-customer-number": "Subscription Customer Number",
+  "Invalid-email-format": "Invalid email format"
 }

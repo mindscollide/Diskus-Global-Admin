@@ -12,12 +12,6 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    return () => {
-      // Cleanup logic here if needed
-    };
-  }, []);
-
   const handleClose = () => {
     dispatch(editOrganizationModalOpen(false));
   };
@@ -26,16 +20,16 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
     dispatch(editOrganizationModalOpen(false));
   };
 
+  console.log(
+    viewOrganizationsModal,
+    "viewOrganizationsModalviewOrganizationsModal"
+  );
+
   // Check if viewOrganizationsModal and subscriptions are defined
   if (!viewOrganizationsModal || !viewOrganizationsModal.subscriptions) {
     return null; // or display a loading indicator or error message
   }
 
-  // Aggregate subscription expiry dates and statuses
-  const subscriptionExpiryDates = viewOrganizationsModal.subscriptions.map(
-    (subscription) =>
-      convertUTCDateToLocalDate(subscription.subscriptionExpiryDate)
-  );
   const subscriptionStatuses = viewOrganizationsModal.subscriptions.map(
     (subscription) => {
       switch (subscription.fK_SubscriptionStatusID) {
@@ -130,7 +124,7 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                     {t("Admin-email")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    {viewOrganizationsModal.emailAddress}
+                    {viewOrganizationsModal.contactPersonEmail}
                   </span>
                 </Col>
               </Row>

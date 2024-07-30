@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { TextField, Button } from "../../components/elements";
+import { TextField, Button, Notification } from "../../components/elements";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { validationEmail } from "../../common/functions/Validate";
@@ -16,9 +16,11 @@ const ForgotPassword = ({ onClickGoBack, onClickToVerification }) => {
 
   const [email, setEmail] = useState("");
   const [messege, setMessege] = useState("");
-  const [open, setOpen] = useState({
-    open: false,
-    message: "",
+
+  const [openNotification, setOpenNotification] = useState({
+    loginFlag: false,
+    loginNotification: null,
+    severity: "none",
   });
 
   const emailChangeHandler = (e) => {
@@ -33,29 +35,39 @@ const ForgotPassword = ({ onClickGoBack, onClickToVerification }) => {
   };
 
   const nextSubmitHandler = async (e) => {
-    onClickToVerification();
     e.preventDefault();
-    if (email !== "") {
-      if (validationEmail(email)) {
-        setMessege("");
-        await dispatch(forgotPasswordMainnApi({ email, navigate, t }));
-      } else {
-        setMessege(t("Please-enter-a-valid-email"));
-      }
-    } else if (email === "") {
-      setOpen({
-        ...open,
-        open: true,
-        message: t("Please-enter-email"),
+    if (email === "") {
+      setOpenNotification({
+        ...openNotification,
+        loginFlag: true,
+        loginNotification: t("Please-enter-email"),
+        severity: "error",
       });
+
+      // Close the notification after 3 seconds
       setTimeout(() => {
-        setOpen({
-          ...open,
-          open: false,
-          message: "",
+        setOpenNotification({
+          ...openNotification,
+          loginFlag: false,
         });
       }, 3000);
-      setMessege("");
+    } else if (!validationEmail(email)) {
+      setOpenNotification({
+        ...openNotification,
+        loginFlag: true,
+        loginNotification: t("Invalid-email-format"),
+        severity: "error",
+      });
+
+      // Close the notification after 3 seconds
+      setTimeout(() => {
+        setOpenNotification({
+          ...openNotification,
+          loginFlag: false,
+        });
+      }, 3000);
+    } else {
+      await dispatch(forgotPasswordMainnApi({ email, navigate, t }));
     }
   };
 
@@ -88,13 +100,15 @@ const ForgotPassword = ({ onClickGoBack, onClickToVerification }) => {
           <TextField
             applyClass={"addOraganizer"}
             labelClass={"d-none"}
+            type="email"
             name={"forgotEmail"}
             change={emailChangeHandler}
-            value={email || ""}
+            value={email}
             maxLength={250}
             placeholder={t("Email")}
             onKeyPress={handleKeyPress}
           />
+          <p className={"ErrorMessege"}>{messege}</p>
         </Col>
       </Row>
 
@@ -125,6 +139,18 @@ const ForgotPassword = ({ onClickGoBack, onClickToVerification }) => {
           </span>
         </Col>
       </Row>
+
+      <Notification
+        show={openNotification.loginFlag}
+        hide={setOpenNotification}
+        message={openNotification.loginNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
+      />
     </>
   );
 };

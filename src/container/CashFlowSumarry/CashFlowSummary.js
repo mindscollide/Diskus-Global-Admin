@@ -1521,9 +1521,6 @@ const CashFlowSummary = () => {
                     rows={cashInFlowData}
                     footer={false}
                     className="cashFLowClass"
-                    // scroll={{
-                    //   x: false,
-                    // }}
                   />
                 </InfiniteScroll>
               </>

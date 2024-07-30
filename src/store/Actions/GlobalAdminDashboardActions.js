@@ -876,6 +876,7 @@ export const UpdateAllOrganizationLevelConfigurationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateAllOrganizationLevelConfiguration_01".toLowerCase()
               )
           ) {
+            dispatch(GetSystemConfigurationsApi({ navigate, t }));
             dispatch(globalAdminDashBoardLoader(false));
             try {
               return {
@@ -2430,6 +2431,7 @@ export const UpdateGlobalLevelConfigurationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateGlobalLevelConfiguration_01".toLowerCase()
               )
           ) {
+            dispatch(getGlobalLevelConfigurationsApi({ navigate, t }));
             dispatch(globalAdminDashBoardLoader(false));
             try {
               return {
