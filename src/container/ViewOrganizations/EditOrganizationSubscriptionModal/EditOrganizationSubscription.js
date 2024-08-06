@@ -61,8 +61,6 @@ const EditOrganizationSubscriptions = ({
     }
   }, [ModalReducer.editOraganizationSubscriptionModal, editSubscriptionName]);
 
-  console.log(organzationStatus.value, "organzationStatusorganzationStatus");
-
   const handleChange = (option) => {
     setOrganzationStatus(option);
   };

@@ -97,9 +97,10 @@ const PakagesGlobalAdmin = () => {
   useEffect(() => {
     if (
       ResponseMessage !== "" &&
-      ResponseMessage !== t("Data-available") &&
       ResponseMessage !== t("No-data-available") &&
-      ResponseMessage !== "Success"
+      ResponseMessage !== t("Something-went-wrong") &&
+      ResponseMessage !== "Success" &&
+      ResponseMessage !== "No Data available"
     ) {
       setOpenNotification({
         historyFlag: true,
@@ -321,7 +322,13 @@ const PakagesGlobalAdmin = () => {
           <Col lg={10} md={10} sm={10}>
             <Row className="mt-2">
               <Col>
-                <div className={styles["Specific-width-scroller"]}>
+                <div
+                  className={
+                    allPackages
+                      ? `${styles["Specific-width-scroller"]}`
+                      : `${styles["Specific-width-scroller-without"]}`
+                  }
+                >
                   {allPackages.map((pkg, index) => {
                     let colorCode = pkg.badgeColor ? pkg.badgeColor : "";
                     if (colorCode !== "") {
@@ -414,7 +421,7 @@ const PakagesGlobalAdmin = () => {
                                         styles["selected-options-container"]
                                       }
                                     >
-                                      {pkg.packageFeatures.length > 0 &&
+                                      {pkg.packageFeatures.length > 0 ? (
                                         pkg.packageFeatures.map(
                                           (option, optionIndex) => {
                                             console.log(option, "option");
@@ -443,7 +450,20 @@ const PakagesGlobalAdmin = () => {
                                               </div>
                                             );
                                           }
-                                        )}
+                                        )
+                                      ) : (
+                                        <>
+                                          <p
+                                            className={
+                                              styles[
+                                                "text-column-empty-state-select"
+                                              ]
+                                            }
+                                          >
+                                            {t("Add-features-by-searching")}
+                                          </p>
+                                        </>
+                                      )}
                                     </div>
                                   </Col>
                                 </Row>
@@ -467,20 +487,23 @@ const PakagesGlobalAdmin = () => {
                       );
                     }
                   })}
-                  <div>
-                    <span
-                      className={styles["create-border"]}
-                      onClick={openAddPackageModal}
-                    >
-                      <span className={styles["Plus-Icon"]}>+</span>
-                      <br />
-                      <span className={styles["create-heading"]}>
-                        {t("create")}
+
+                  <>
+                    <div>
+                      <span
+                        className={styles["create-border"]}
+                        onClick={openAddPackageModal}
+                      >
+                        <span className={styles["Plus-Icon"]}>+</span>
                         <br />
-                        {t("New-Package")}
+                        <span className={styles["create-heading"]}>
+                          {t("create")}
+                          <br />
+                          {t("New-Package")}
+                        </span>
                       </span>
-                    </span>
-                  </div>
+                    </div>
+                  </>
                 </div>
               </Col>
             </Row>

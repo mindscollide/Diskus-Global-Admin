@@ -4,7 +4,7 @@ import {
   Button,
   Notification,
   VerificationInputField,
-} from "../../../components/elements";
+} from "../../components/elements";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,8 +14,8 @@ import {
   otpVerifyMainApi,
   resendEmailMainApi,
   resendOTPMainApi,
-} from "../../../store/Actions/AuthActions";
-import { resetAuthResponseMessage } from "../../../store/ActionsSlicers/AuthLoginSlicer";
+} from "../../store/Actions/AuthActions";
+import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
 
 const VerificationCode = ({ onClickGoBack }) => {
   const { t } = useTranslation();
@@ -52,9 +52,10 @@ const VerificationCode = ({ onClickGoBack }) => {
   useEffect(() => {
     if (
       Responsemessage !== "" &&
-      Responsemessage !== t("Data-available") &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success"
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
     ) {
       setOpenNotification({
         Flag: true,

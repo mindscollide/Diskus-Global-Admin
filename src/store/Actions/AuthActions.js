@@ -47,7 +47,7 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_01".toLowerCase()
               )
           ) {
-            return rejectWithValue("Device does not exists");
+            return rejectWithValue(t("Device-does-not-exists"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -55,7 +55,7 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_02".toLowerCase()
               )
           ) {
-            return rejectWithValue("Device ID does not exists");
+            return rejectWithValue(t("Device-ID-does-not-exists"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -81,7 +81,7 @@ export const enterEmailValidation = createAsyncThunk(
               )
           ) {
             return rejectWithValue(
-              "User's password is created but something went wrong."
+              t("User-password-is-created-but-something-went-wrong")
             );
           } else if (
             response.data.responseResult.responseMessage
@@ -90,7 +90,7 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_05".toLowerCase()
               )
           ) {
-            return rejectWithValue("password not created");
+            return rejectWithValue(t("Password-not-created"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -98,7 +98,7 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_06".toLowerCase()
               )
           ) {
-            return rejectWithValue("email is not verified");
+            return rejectWithValue(t("Email-is-not-verified"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -106,18 +106,18 @@ export const enterEmailValidation = createAsyncThunk(
                 "ERM_AuthService_AuthManager_LoginWithGlobalEmail_07".toLowerCase()
               )
           ) {
-            return rejectWithValue("email does not exist");
+            return rejectWithValue(t("Email-does-not-exist"));
           } else {
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -156,7 +156,7 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_01".toLowerCase()
               )
           ) {
-            return rejectWithValue("Device does not exists");
+            return rejectWithValue(t("Device-does-not-exists"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -164,7 +164,7 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_02".toLowerCase()
               )
           ) {
-            return rejectWithValue("Device ID does not exists");
+            return rejectWithValue(t("Device-ID-does-not-exists"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -172,7 +172,7 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_03".toLowerCase()
               )
           ) {
-            return rejectWithValue("Account is Blocked");
+            return rejectWithValue(t("Account-is-blocked"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -252,7 +252,7 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_06".toLowerCase()
               )
           ) {
-            return rejectWithValue("Password not verified");
+            return rejectWithValue(t("Password-not-verified"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -260,18 +260,18 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_07".toLowerCase()
               )
           ) {
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -333,8 +333,9 @@ const signOut = (navigate, message, dispatch) => {
 //GlobalAdmin Logout
 export const GlobalAdminLogOutApi = createAsyncThunk(
   "Auth/GlobalAdminLogOutApi",
-  async ({ RequestData }, { rejectWithValue, dispatch }) => {
+  async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
+    let { newData, navigate, t } = requestData;
     let form = new FormData();
     form.append("RequestMethod", GlobalAdminLogout.RequestMethod);
     try {
@@ -365,24 +366,24 @@ export const GlobalAdminLogOutApi = createAsyncThunk(
               .toLowerCase()
               .includes("ERM_AuthService_AuthManager_LogOut_02".toLowerCase())
           ) {
-            return rejectWithValue("Invalid Token");
+            return rejectWithValue(t("Invalid-token"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes("ERM_AuthService_AuthManager_LogOut_03".toLowerCase())
           ) {
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -418,7 +419,7 @@ export const forgotPasswordMainnApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_ForgotPassword_01".toLowerCase()
               )
           ) {
-            return rejectWithValue("Device does not exists");
+            return rejectWithValue(t("Device-does-not-exists"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -426,7 +427,7 @@ export const forgotPasswordMainnApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_ForgotPassword_02".toLowerCase()
               )
           ) {
-            return rejectWithValue("Device ID does not exists");
+            return rejectWithValue(t("Device-ID-does-not-exists"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -468,7 +469,7 @@ export const forgotPasswordMainnApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_ForgotPassword_04".toLowerCase()
               )
           ) {
-            return rejectWithValue("Failed to generate OTP");
+            return rejectWithValue(t("Failed-to-generate-OTP"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -476,7 +477,7 @@ export const forgotPasswordMainnApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_ForgotPassword_05".toLowerCase()
               )
           ) {
-            return rejectWithValue("Failed to identify user");
+            return rejectWithValue(t("Failed-to-identify-user"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -484,16 +485,16 @@ export const forgotPasswordMainnApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_ForgotPassword_06".toLowerCase()
               )
           ) {
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -540,7 +541,9 @@ export const otpVerifyMainApi = createAsyncThunk(
                 "ERM_AuthService_SignUpManager_UserEmailVerification_02".toLowerCase()
               )
           ) {
-            return rejectWithValue("Invalid OTP. Failed to verify User Email");
+            return rejectWithValue(
+              t("Invalid-OTP-failed-to-verify-user-email")
+            );
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -548,16 +551,16 @@ export const otpVerifyMainApi = createAsyncThunk(
                 "ERM_AuthService_SignUpManager_UserEmailVerification_03".toLowerCase()
               )
           ) {
-            return rejectWithValue("The user's email has not been verified");
+            return rejectWithValue(t("The-user's-email-has-not-been-verified"));
           }
         } else {
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -600,7 +603,7 @@ export const resendOTPMainApi = createAsyncThunk(
           ) {
             setSeconds(0);
             setMinutes(0);
-            return rejectWithValue("User OTP not generated successfully");
+            return rejectWithValue(t("User-OTP-not-generated-successfully"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -610,7 +613,7 @@ export const resendOTPMainApi = createAsyncThunk(
           ) {
             setSeconds(0);
             setMinutes(0);
-            return rejectWithValue("The user email is not active");
+            return rejectWithValue(t("The-user-email-is-not-active"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -620,16 +623,16 @@ export const resendOTPMainApi = createAsyncThunk(
           ) {
             setSeconds(0);
             setMinutes(0);
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -660,8 +663,15 @@ export const passwordCreationMainApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_PasswordUpdationOnForgetPassword_01".toLowerCase()
               )
           ) {
-            dispatch(changeScreen("login"));
-            return "password updated successfully";
+            dispatch(changeScreen("UpdatedPassword"));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: t("Password-updated-successfully"),
+              };
+            } catch (error) {
+              console.log(error);
+            }
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -677,7 +687,7 @@ export const passwordCreationMainApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_PasswordUpdationOnForgetPassword_03".toLowerCase()
               )
           ) {
-            return rejectWithValue("no password updated");
+            return rejectWithValue(t("No-password-updated"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -685,16 +695,16 @@ export const passwordCreationMainApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_PasswordUpdationOnForgetPassword_04".toLowerCase()
               )
           ) {
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );

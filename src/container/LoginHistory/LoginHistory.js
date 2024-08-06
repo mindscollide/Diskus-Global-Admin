@@ -33,6 +33,7 @@ import {
   convertUtcDateAndTimeToCurrentTimeZone,
   formatDate,
   formatSessionDurationArabicAndEng,
+  getTimeDifference,
   newDateForLoginUserHistory,
 } from "../../common/functions/dateFormatters";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -324,14 +325,14 @@ const LoginHistory = () => {
     },
     {
       title: t("Session-duration"),
-      dataIndex: "sessionDuration",
-      key: "sessionDuration",
+      dataIndex: "decision",
+      key: "decision",
       align: "center",
       width: 200,
       render: (text, record) => {
         return (
           <div className={styles["inner-sub-Heading"]}>
-            {formatSessionDurationArabicAndEng(text, currentLanguage)}
+            {getTimeDifference(record.dateLogin, record.dateLogOut)}
           </div>
         );
       },

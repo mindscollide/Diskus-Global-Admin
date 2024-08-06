@@ -27,23 +27,22 @@ const EditSubscriptionModals = ({
     (state) => state.modal.editSubscriptionConfirmationModal
   );
 
+  const [packageDetails, setPackageDetails] = useState([]);
+
   // Reducer for getting Data
   const packageDetailModalData = useSelector(
     (state) => state.globalAdminDashboardReducer.packageDetailModalData
   );
 
-  const packageDetails =
-    packageDetailModalData?.result?.details?.packageDetails || [];
-
-  console.log(
-    editSubscriptionOrgID,
-    "editSubscriptionOrgIDeditSubscriptionOrgID"
-  );
+  useEffect(() => {
+    if (packageDetailModalData?.result?.details) {
+      setPackageDetails(packageDetailModalData.result.details.packageDetails);
+    }
+  }, [packageDetailModalData]);
 
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
-  console.log(editSubModal, "currentSubscriptionNameacduwvuc");
 
   const [subsciptionStatus, setSubsciptionStatus] = useState({
     value: 0,
@@ -63,8 +62,6 @@ const EditSubscriptionModals = ({
       setOrganizationName(headData[0].organizationName);
     }
   }, [headData]);
-
-  console.log(organizationName, "organizationNameqewecew");
 
   //states
   useEffect(() => {
@@ -115,15 +112,6 @@ const EditSubscriptionModals = ({
     dispatch(editSubscriptionConfirmationModalOpen(true));
     dispatch(editSubscriptionModalOpen(false));
   };
-
-  // hardcoded license data
-  const [licenses, setLicenses] = useState([
-    { type: "Essential Licenses", value: 0 },
-    { type: "Professional Licenses", value: 4 },
-    { type: "Premium License", value: 4 },
-  ]);
-
-  // console.log(subscriptionOption, "vlayeeeee");
 
   //hardCode subscription Status
   const options = [

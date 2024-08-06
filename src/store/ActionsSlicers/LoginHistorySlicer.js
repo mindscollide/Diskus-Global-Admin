@@ -32,7 +32,7 @@ const loginHistorySlice = createSlice({
       .addCase(LoginHistoryAPI.rejected, (state, action) => {
         // state.loading = false;
         state.loginHistoryData = null;
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       })
       //Billing Due Report
       .addCase(LogingHistoryReportApi.pending, (state) => {
@@ -42,7 +42,7 @@ const loginHistorySlice = createSlice({
         state.Responsemessage = "Success";
       })
       .addCase(LogingHistoryReportApi.rejected, (state, action) => {
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       });
   },
 });

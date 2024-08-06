@@ -96,6 +96,14 @@ const Changepassword = () => {
   };
 
   const handleChangePassword = () => {
+    // let data = {
+    //   UserID: Number(userID),
+    //   Email: Email,
+    //   Password: oldPassword,
+    //   ConfirmPassword: Password.newPassword,
+    //   DeviceID: "1",
+    // };
+
     let data = {
       UserID: Number(userID),
       OldPassword: oldPassword,
@@ -110,9 +118,10 @@ const Changepassword = () => {
   useEffect(() => {
     if (
       Responsemessage !== "" &&
-      Responsemessage !== t("Data-available") &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success"
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
     ) {
       setOpenNotification({
         changePasswordFlag: true,
@@ -141,7 +150,7 @@ const Changepassword = () => {
         modalHeaderClassName={styles["modalHeader-className"]}
         modalFooterClassName={styles["modalFooterClassName"]}
         modalBodyClassName={styles["modalChangeBody-class-Name"]}
-        className='changePassword'
+        className="changePassword"
         centered
         size={"lg"}
         ModalBody={
@@ -156,12 +165,13 @@ const Changepassword = () => {
               </Row>
               <Row>
                 <Col lg={6} md={6} sm={6}>
-                  <Row className='mt-3'>
+                  <Row className="mt-3">
                     <Col
                       lg={12}
                       md={12}
                       sm={12}
-                      className='d-flex flex-column flex-wrap'>
+                      className="d-flex flex-column flex-wrap"
+                    >
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("Old-password")}
                         <span className={styles["aesterick-color"]}> *</span>
@@ -173,19 +183,19 @@ const Changepassword = () => {
                         value={oldPassword || ""}
                         type={showOldPassword ? "text" : "password"}
                         change={oldpasswordChangeHandler}
-                        autoComplete='false'
-                        iconClassName='eye_icon'
+                        autoComplete="false"
+                        iconClassName="eye_icon"
                         inputicon={
                           showOldPassword ? (
                             <img
-                              draggable='false'
-                              alt=''
+                              draggable="false"
+                              alt=""
                               src={PasswordHideEyeIcon}
                             />
                           ) : (
                             <img
-                              draggable='false'
-                              alt=''
+                              draggable="false"
+                              alt=""
                               src={PasswordEyeIcon}
                             />
                           )
@@ -194,12 +204,13 @@ const Changepassword = () => {
                       />
                     </Col>
                   </Row>
-                  <Row className='mt-1'>
+                  <Row className="mt-1">
                     <Col
                       lg={12}
                       md={12}
                       sm={12}
-                      className='d-flex flex-column flex-wrap mt-2'>
+                      className="d-flex flex-column flex-wrap mt-2"
+                    >
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("New-password")}
                         <span className={styles["aesterick-color"]}> *</span>
@@ -209,22 +220,22 @@ const Changepassword = () => {
                         labelClass={"d-none"}
                         type={shownewPassword ? "text" : "password"}
                         placeholder={t("New-password")}
-                        name='newPassword'
+                        name="newPassword"
                         value={Password.newPassword || ""}
                         change={handleNewPasswordChange}
-                        iconClassName='eye_icon_newPassowrd'
-                        autoComplete='false'
+                        iconClassName="eye_icon_newPassowrd"
+                        autoComplete="false"
                         inputicon={
                           shownewPassword ? (
                             <img
-                              draggable='false'
-                              alt=''
+                              draggable="false"
+                              alt=""
                               src={PasswordHideEyeIcon}
                             />
                           ) : (
                             <img
-                              draggable='false'
-                              alt=''
+                              draggable="false"
+                              alt=""
                               src={PasswordEyeIcon}
                             />
                           )
@@ -233,12 +244,13 @@ const Changepassword = () => {
                       />
                     </Col>
                   </Row>
-                  <Row className='mt-1'>
+                  <Row className="mt-1">
                     <Col
                       lg={12}
                       md={12}
                       sm={12}
-                      className='d-flex flex-column flex-wrap mt-2'>
+                      className="d-flex flex-column flex-wrap mt-2"
+                    >
                       <span className={styles["SubHeadingsPassword"]}>
                         {t("Confirm-password")}
                         <span className={styles["aesterick-color"]}> *</span>
@@ -248,22 +260,22 @@ const Changepassword = () => {
                         labelClass={"d-none"}
                         type={showconfirmPassword ? "text" : "password"}
                         placeholder={t("Confirm-password")}
-                        name='ConfirmPassword'
+                        name="ConfirmPassword"
                         value={Password.ConfirmPassword || ""}
-                        autoComplete='false'
+                        autoComplete="false"
                         change={handleNewPasswordChange}
-                        iconClassName='eye_icon_ConfirmPassword'
+                        iconClassName="eye_icon_ConfirmPassword"
                         inputicon={
                           showconfirmPassword ? (
                             <img
-                              draggable='false'
-                              alt=''
+                              draggable="false"
+                              alt=""
                               src={PasswordHideEyeIcon}
                             />
                           ) : (
                             <img
-                              draggable='false'
-                              alt=''
+                              draggable="false"
+                              alt=""
                               src={PasswordEyeIcon}
                             />
                           )
@@ -277,8 +289,9 @@ const Changepassword = () => {
                   lg={6}
                   md={6}
                   sm={6}
-                  className={styles["passwordCheckBox"]}>
-                  <Row className='mt-3'>
+                  className={styles["passwordCheckBox"]}
+                >
+                  <Row className="mt-3">
                     <Col lg={12} md={12} sm={12}>
                       <p className={styles["HeadingForPassword"]}>
                         {t("Password-must-be")}
@@ -303,8 +316,8 @@ const Changepassword = () => {
                             setPasswordStrong(isValid)
                           );
                         }}
-                        invalidColor='#ff0000'
-                        validColor='#6172D6'
+                        invalidColor="#ff0000"
+                        validColor="#6172D6"
                         iconSize={"11px"}
                       />
                     </Col>
@@ -317,12 +330,13 @@ const Changepassword = () => {
         ModalFooter={
           <>
             <Container>
-              <Row className='mt-5'>
+              <Row className="mt-5">
                 <Col
                   lg={6}
                   md={6}
                   sm={6}
-                  className='d-flex justify-content-start'>
+                  className="d-flex justify-content-start"
+                >
                   <Button
                     text={t("Reset")}
                     className={styles["RevertBtnStyles"]}
@@ -334,7 +348,8 @@ const Changepassword = () => {
                   lg={6}
                   md={6}
                   sm={6}
-                  className='d-flex justify-content-end'>
+                  className="d-flex justify-content-end"
+                >
                   <Button
                     disableBtn={
                       oldPassword === ""

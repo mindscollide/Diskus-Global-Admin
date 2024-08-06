@@ -71,7 +71,7 @@ export const getAllPackageApi = createAsyncThunk(
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -82,27 +82,27 @@ export const getAllPackageApi = createAsyncThunk(
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           //   dispatch(packageAdminLoader(false));
           dispatch(globalAdminDashBoardLoader(false));
 
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         // dispatch(packageAdminLoader(false));
         dispatch(globalAdminDashBoardLoader(false));
 
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -167,24 +167,24 @@ export const deleteMainPackageApi = createAsyncThunk(
           ) {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           //   dispatch(packageAdminLoader(false));
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         // dispatch(packageAdminLoader(false));
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -268,24 +268,24 @@ export const addUpdatePackagesMainApi = createAsyncThunk(
           ) {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           //   dispatch(packageAdminLoader(false));
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         // dispatch(packageAdminLoader(false));
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -350,24 +350,24 @@ export const deletePackageFeatureApi = createAsyncThunk(
           ) {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           //   dispatch(packageAdminLoader(false));
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         // dispatch(packageAdminLoader(false));
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -377,7 +377,7 @@ export const getPackageFeaturesApi = createAsyncThunk(
   "getPackageFeaturesApi/getPackageFeaturesApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    // let { data, navigate, t } = requestData;
+    let { data, navigate, t } = requestData;
     let form = new FormData();
     // form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", getPackageFeature.RequestMethod);
@@ -422,7 +422,7 @@ export const getPackageFeaturesApi = createAsyncThunk(
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -433,27 +433,27 @@ export const getPackageFeaturesApi = createAsyncThunk(
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           //   dispatch(packageAdminLoader(false));
           dispatch(globalAdminDashBoardLoader(false));
 
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         // dispatch(packageAdminLoader(false));
         dispatch(globalAdminDashBoardLoader(false));
 
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -506,7 +506,7 @@ export const addPackageFeatureApi = createAsyncThunk(
           ) {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Failed to Create Package");
+            return rejectWithValue(t("Failed-to-create-package"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -516,7 +516,7 @@ export const addPackageFeatureApi = createAsyncThunk(
           ) {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Package Updated Successfully");
+            return rejectWithValue(t("Package-updated-successfully"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -526,7 +526,7 @@ export const addPackageFeatureApi = createAsyncThunk(
           ) {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Failed to Update Package");
+            return rejectWithValue(t("Failed-to-update-package"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -536,24 +536,24 @@ export const addPackageFeatureApi = createAsyncThunk(
           ) {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           //   dispatch(packageAdminLoader(false));
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         // dispatch(packageAdminLoader(false));
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -609,7 +609,7 @@ export const createPackageFeaturesApi = createAsyncThunk(
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("Failed to create mapping");
+            return rejectWithValue(t("Failed-to-create-mapping"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -620,27 +620,27 @@ export const createPackageFeaturesApi = createAsyncThunk(
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             // dispatch(packageAdminLoader(false));
             dispatch(globalAdminDashBoardLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           //   dispatch(packageAdminLoader(false));
           dispatch(globalAdminDashBoardLoader(false));
 
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         // dispatch(packageAdminLoader(false));
         dispatch(globalAdminDashBoardLoader(false));
 
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );

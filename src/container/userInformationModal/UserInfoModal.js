@@ -1,14 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, TextField } from "./../../components/elements";
 import { Row, Col, Container } from "react-bootstrap";
 import styles from "./UserInfoModal.module.css";
-import Form from "react-bootstrap/Form";
-// import { countryName } from "../../AllUsers/AddUser/CountryJson";
 import ReactFlagsSelect from "react-flags-select";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import arabic_ar from "react-date-object/locales/arabic_ar";
-import gregorian_en from "react-date-object/locales/gregorian_en";
 import { useDispatch, useSelector } from "react-redux";
 import CrossIcon from "../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import {
@@ -24,45 +20,48 @@ import UserConfirmationModal from "../userConfirmationModal/UserConfirmationModa
 import { getUserInfoMainApi } from "../../store/Actions/GlobalAdminDashboardActions";
 
 const UserProfileModal = () => {
-  //For Localization
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  // Reducer for modal in UIModalsActions
   const ModalReducer = useSelector((state) => state.modal);
-
   const getUserInfoData = useSelector(
     (state) => state.globalAdminDashboardReducer.getUserInfoData
   );
 
-  // get email and organizationName from local storage
   const userEmail = localStorage.getItem("userEmail");
   const orgName = localStorage.getItem("adminname");
 
-  // error state to show error on empty field
   const [errorBar, setErrorBar] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  console.log(submitted, "submittedsubmittedsubmitted");
-
   const [selected, setSelected] = useState("US");
   const [selectedCountry, setSelectedCountry] = useState({});
-  console.log(selectedCountry, "selectedCountry");
-
   const [userDataInfo, setUserDataInfo] = useState([]);
-  console.log(userDataInfo.mobileNumber, "userDataInfouserDataInfo");
+
+  const [userInfoState, setUserInfoState] = useState({
+    CountryCode: {
+      value: 0,
+      errorMessage: "",
+      errorStatus: false,
+    },
+    Number: {
+      value: "",
+      errorMessage: "",
+      errorStatus: false,
+    },
+  });
 
   useEffect(() => {
     if (getUserInfoData && getUserInfoData?.result?.data) {
-      const { mobileCode, mobileNumber } = getUserInfoData.result.data;
+      const { mobileCode, mobileNumber, fK_WorldCountryID } =
+        getUserInfoData.result.data;
       const country = Object.keys(countryNameforPhoneNumber).find(
         (key) => countryNameforPhoneNumber[key].secondary === mobileCode
       );
-      console.log(country, "datatdatdtatda");
 
       setUserInfoState({
         CountryCode: {
-          value: mobileCode,
+          value: fK_WorldCountryID,
           errorMessage: "",
           errorStatus: false,
         },
@@ -78,24 +77,6 @@ const UserProfileModal = () => {
     }
   }, [getUserInfoData]);
 
-  // state for User Information Modal
-  const [userInfoState, setUserInfoState] = useState({
-    CountryCode: {
-      value: 0,
-      errorMessage: "",
-      errorStatus: false,
-    },
-    Number: {
-      value: "",
-      errorMessage: "",
-      errorStatus: false,
-    },
-  });
-
-  const getNumber = userInfoState.Number.value;
-  console.log(getNumber, "getNumbergetNumber");
-
-  // on Change handler
   const onChangeHandler = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -141,7 +122,7 @@ const UserProfileModal = () => {
     setUserInfoState({
       ...userInfoState,
       CountryCode: {
-        value: selectedCountry.secondary,
+        value: selectedCountry.id,
       },
     });
   };
@@ -162,15 +143,15 @@ const UserProfileModal = () => {
 
   const onClickRevert = () => {
     if (getUserInfoData && getUserInfoData?.result?.data) {
-      const { mobileCode, mobileNumber } = getUserInfoData.result.data;
+      const { mobileCode, mobileNumber, fK_WorldCountryID } =
+        getUserInfoData.result.data;
       const country = Object.keys(countryNameforPhoneNumber).find(
         (key) => countryNameforPhoneNumber[key].secondary === mobileCode
       );
-      console.log(country, "datatdatdtatda");
 
       setUserInfoState({
         CountryCode: {
-          value: mobileCode,
+          value: fK_WorldCountryID,
           errorMessage: "",
           errorStatus: false,
         },
@@ -313,36 +294,31 @@ const UserProfileModal = () => {
             </>
           }
           ModalFooter={
-            <>
-              <Row className="mb-5 mt-2">
-                <Col lg={6} md={6} sm={6}>
-                  <Button
-                    text={t("Revert")}
-                    className={styles["reset-User-btn"]}
-                    onClick={onClickRevert}
-                  />
-                </Col>
-
-                <Col lg={6} md={6} sm={6}>
-                  <Button
-                    text={t("Update")}
-                    className={styles["save-User-btn"]}
-                    onClick={openConfirmationModal}
-                  />
-                </Col>
-              </Row>
-            </>
+            <Row className="mb-5 mt-2">
+              <Col
+                lg={6}
+                md={6}
+                sm={6}
+                className="d-flex justify-content-start"
+              >
+                <Button
+                  text={t("Revert")}
+                  className={styles["reset-User-btn"]}
+                  onClick={onClickRevert}
+                />
+              </Col>
+              <Col lg={6} md={6} sm={6} className="d-flex justify-content-end">
+                <Button
+                  text={t("Update")}
+                  className={styles["save-User-btn"]}
+                  onClick={openConfirmationModal}
+                />
+              </Col>
+            </Row>
           }
         />
       </Container>
-      {ModalReducer.ConfirmationInfoModal ? (
-        <UserConfirmationModal
-          userDataInfo={userDataInfo}
-          userInfoState={userInfoState}
-          getNumber={getNumber}
-          selectedCountry={selectedCountry}
-        />
-      ) : null}
+      <UserConfirmationModal userInfoState={userInfoState} />
     </>
   );
 };

@@ -53,7 +53,7 @@ export const LoginHistoryAPI = createAsyncThunk(
           ) {
             dispatch(loginHistoryLoader(false));
 
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -63,24 +63,24 @@ export const LoginHistoryAPI = createAsyncThunk(
           ) {
             dispatch(loginHistoryLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(loginHistoryLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(loginHistoryLoader(false));
 
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(loginHistoryLoader(false));
 
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );

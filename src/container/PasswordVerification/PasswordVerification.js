@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PasswordVerificationApi } from "../../store/Actions/AuthActions";
 import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
 
-const PasswordVerification = ({ onClickForgetPasswordText }) => {
+const PasswordVerification = ({ onClickForgetPasswordText, onClickGoBack }) => {
   const { t } = useTranslation();
 
   const passwordRef = useRef();
@@ -107,33 +107,33 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
       localStorage.setItem("rememberPasswordValue", "");
     }
   };
-  console.log(password, "password");
 
   // for response Message
-  useEffect(() => {
-    if (
-      Responsemessage !== "" &&
-      Responsemessage !== t("Data-available") &&
-      Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success"
-    ) {
-      setOpenNotification({
-        passwordFlag: true,
-        passwordNotification: Responsemessage,
-        severity: t("User's-password-is-created") ? "success" : "error",
-      });
+  // useEffect(() => {
+  //   if (
+  //     Responsemessage !== "" &&
+  //     Responsemessage !== t("No-data-available") &&
+  //     Responsemessage !== "Success" &&
+  //     Responsemessage !== "Something-went-wrong" &&
+  //     Responsemessage !== "No Data available"
+  //   ) {
+  //     setOpenNotification({
+  //       passwordFlag: true,
+  //       passwordNotification: Responsemessage,
+  //       severity: t("User's-password-is-created") ? "success" : "error",
+  //     });
 
-      setTimeout(() => {
-        dispatch(resetAuthResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          passwordFlag: false,
-          passwordNotification: "",
-          severity: "none",
-        });
-      }, 400000);
-    }
-  }, [Responsemessage]);
+  //     setTimeout(() => {
+  //       dispatch(resetAuthResponseMessage());
+  //       setOpenNotification({
+  //         ...openNotification,
+  //         passwordFlag: false,
+  //         passwordNotification: "",
+  //         severity: "none",
+  //       });
+  //     }, 400000);
+  //   }
+  // }, [Responsemessage]);
 
   //Form Submission Login Handler
   const loginHandler = (e) => {
@@ -266,7 +266,6 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
             />
           </Col>
         </Row>
-
         <Row>
           <Col
             lg={12}
@@ -279,6 +278,21 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
               onClick={onClickForgetPasswordText}
             >
               {t("Forget-password")}
+            </span>
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            lg={12}
+            md={12}
+            sm={12}
+            className="d-flex justify-content-center mt-4"
+          >
+            <span
+              className={styles["go-back-text-for-pass"]}
+              onClick={onClickGoBack}
+            >
+              {t("Go-back")}
             </span>
           </Col>
         </Row>

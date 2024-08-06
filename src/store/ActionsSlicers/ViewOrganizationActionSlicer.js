@@ -34,7 +34,7 @@ const searchOrganization = createSlice({
       })
       .addCase(searchOrganizationApi.rejected, (state, action) => {
         state.searchOrganizationData = null;
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       })
 
       .addCase(EditSubscriptionAPI.pending, (state) => {
@@ -42,13 +42,13 @@ const searchOrganization = createSlice({
       })
 
       .addCase(EditSubscriptionAPI.fulfilled, (state, action) => {
-        state.Responsemessage = action.payload.code || "An error occurred";
+        state.Responsemessage = action.payload.code || "";
         state.editSubscriptionData = action.payload;
       })
 
       .addCase(EditSubscriptionAPI.rejected, (state, action) => {
         state.editSubscriptionData = null;
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       })
 
       .addCase(EditOrganizationAPI.pending, (state) => {
@@ -58,13 +58,13 @@ const searchOrganization = createSlice({
       .addCase(EditOrganizationAPI.fulfilled, (state, action) => {
         console.log("addPackageFeatureApiaddPackageFeatureApi", action);
 
-        state.Responsemessage = action.payload.code || "An error occurred";
+        state.Responsemessage = action.payload.code || "";
         state.editOrganizationData = action.payload;
       })
 
       .addCase(EditOrganizationAPI.rejected, (state, action) => {
         state.editOrganizationData = null;
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       })
 
       .addCase(getAllOrganizationApi.pending, (state) => {})
@@ -74,7 +74,7 @@ const searchOrganization = createSlice({
       })
       .addCase(getAllOrganizationApi.rejected, (state, action) => {
         state.getAllOrganizationData = [];
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       });
   },
 });

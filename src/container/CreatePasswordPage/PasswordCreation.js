@@ -23,7 +23,7 @@ import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSl
 // } from "../../../../store/actions/Auth2_actions";
 // import { LoginFlowRoutes } from "../../../../store/actions/UserManagementActions";
 
-const PasswordCreation = () => {
+const PasswordCreation = ({ onClickGoBack }) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -83,9 +83,10 @@ const PasswordCreation = () => {
   useEffect(() => {
     if (
       Responsemessage !== "" &&
-      Responsemessage !== t("Data-available") &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success"
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
     ) {
       setOpenNotification({
         Flag: true,
@@ -105,15 +106,6 @@ const PasswordCreation = () => {
     }
   }, [Responsemessage]);
 
-  //   const currentLocale = Cookies.get("i18next") || "en";
-
-  let updateCheckPasswordFlag = localStorage.getItem("updatePasswordCheck");
-  //   const currentLangObj = languages.find((lang) => lang.code === currentLocale);
-
-  //   useEffect(() => {
-  //     document.body.dir = currentLangObj.dir || "ltr";
-  //   }, [currentLangObj, t]);
-
   //Encryption Password
   const encryptPassword = (password) => {
     let encryptedPassword = "";
@@ -122,16 +114,6 @@ const PasswordCreation = () => {
       encryptedPassword += String.fromCharCode(charCode + 1);
     }
     return encryptedPassword;
-  };
-
-  //Decryption Password
-  const decryptPassword = (encryptedPassword) => {
-    let password = "";
-    for (let i = 0; i < encryptedPassword.length; i++) {
-      const charCode = encryptedPassword.charCodeAt(i);
-      password += String.fromCharCode(charCode - 1);
-    }
-    return password;
   };
 
   //OnChange Password handler
@@ -201,13 +183,6 @@ const PasswordCreation = () => {
       };
       dispatch(passwordCreationMainApi({ data, navigate, t }));
     }
-  };
-
-  const goBackButton = () => {
-    localStorage.removeItem("SignupFlowPageRoute");
-    localStorage.setItem("LoginFlowPageRoute", 1);
-    // dispatch(LoginFlowRoutes(1));
-    // navigate("/");
   };
 
   return (
@@ -348,7 +323,7 @@ const PasswordCreation = () => {
                 </Row>
                 <Row className="mt-2">
                   <Col sm={12} md={12} lg={12} className={"forogt_email_link"}>
-                    <span onClick={goBackButton} className={"ForgotPassword"}>
+                    <span onClick={onClickGoBack} className={"ForgotPassword"}>
                       {t("Go-back")}
                     </span>
                   </Col>
