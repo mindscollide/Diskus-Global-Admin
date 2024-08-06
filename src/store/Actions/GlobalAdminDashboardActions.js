@@ -101,7 +101,7 @@ export const StatsOfActiveLicenseApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -110,21 +110,21 @@ export const StatsOfActiveLicenseApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -174,7 +174,7 @@ export const organziationStatsBySubscriptionApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -183,21 +183,21 @@ export const organziationStatsBySubscriptionApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -248,7 +248,7 @@ export const OrganizationsByActiveLicenseApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -257,21 +257,21 @@ export const OrganizationsByActiveLicenseApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -322,7 +322,7 @@ export const GetAllBillingDueApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -331,21 +331,21 @@ export const GetAllBillingDueApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -396,7 +396,7 @@ export const TotalThisMonthDueApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -405,21 +405,21 @@ export const TotalThisMonthDueApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -518,7 +518,7 @@ export const OrganizationSubscriptionTypeApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -527,21 +527,21 @@ export const OrganizationSubscriptionTypeApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -592,7 +592,7 @@ export const SendInvoiceApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Failed-to-send-Invoice");
+            return rejectWithValue(t("Failed-to-send-Invoice"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -601,21 +601,21 @@ export const SendInvoiceApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -669,7 +669,7 @@ export const GetAllPackagesWithFeaturesGlobalAdminApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Failed-to-update");
+            return rejectWithValue(t("Failed-to-update"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -678,21 +678,21 @@ export const GetAllPackagesWithFeaturesGlobalAdminApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -743,7 +743,7 @@ export const UpdatePackagePriceGlobalAdminApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Failed-to-update");
+            return rejectWithValue(t("Failed-to-update"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -752,21 +752,21 @@ export const UpdatePackagePriceGlobalAdminApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -816,7 +816,7 @@ export const GetSystemConfigurationsApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No-data-available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -825,21 +825,21 @@ export const GetSystemConfigurationsApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -894,7 +894,7 @@ export const UpdateAllOrganizationLevelConfigurationApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Failed-to-update");
+            return rejectWithValue(t("Failed-to-update"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -903,21 +903,21 @@ export const UpdateAllOrganizationLevelConfigurationApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -969,16 +969,16 @@ export const ChangePasswordApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Failed to update");
+            return rejectWithValue(t("Failed-to-update"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_02".toLowerCase()
+                "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_03".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No-password-updated");
+            return rejectWithValue(t("No-password-updated"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -987,21 +987,21 @@ export const ChangePasswordApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1052,7 +1052,7 @@ export const getCashFlowMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -1061,21 +1061,21 @@ export const getCashFlowMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1126,7 +1126,7 @@ export const getCashOutStandingFlowMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -1135,21 +1135,21 @@ export const getCashOutStandingFlowMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1200,7 +1200,7 @@ export const getListTrialSubscription = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -1209,21 +1209,21 @@ export const getListTrialSubscription = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1274,7 +1274,7 @@ export const getListOfExtendedTrailSubscriptions = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -1283,21 +1283,21 @@ export const getListOfExtendedTrailSubscriptions = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1351,7 +1351,7 @@ export const getListOfSubscribedSubscriptions = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -1360,21 +1360,21 @@ export const getListOfSubscribedSubscriptions = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1425,7 +1425,7 @@ export const getListOfExpiredSubscriptions = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -1434,21 +1434,21 @@ export const getListOfExpiredSubscriptions = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1502,28 +1502,28 @@ export const trialRenewApi = createAsyncThunk(
               .includes("Admin_AdminServiceManager_TrailRenew_02".toLowerCase())
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes("Admin_AdminServiceManager_TrailRenew_03".toLowerCase())
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1726,7 +1726,7 @@ export const getPackageDetailGlobalApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -1735,21 +1735,21 @@ export const getPackageDetailGlobalApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1802,7 +1802,7 @@ export const UpdateGlobalAdminUserApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -1811,21 +1811,21 @@ export const UpdateGlobalAdminUserApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -1935,21 +1935,21 @@ export const getInvoiceHtmlApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2003,7 +2003,7 @@ export const getAllListOrganizationEssentialApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -2012,21 +2012,21 @@ export const getAllListOrganizationEssentialApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2080,7 +2080,7 @@ export const getAllListOrganizationProfessionalApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -2089,21 +2089,21 @@ export const getAllListOrganizationProfessionalApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2157,7 +2157,7 @@ export const getAllListOrganizationPremiumApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -2166,21 +2166,21 @@ export const getAllListOrganizationPremiumApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2383,21 +2383,21 @@ export const getGlobalLevelConfigurationsApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2458,21 +2458,21 @@ export const UpdateGlobalLevelConfigurationApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2522,7 +2522,7 @@ export const getAllPackagesDynamicTabsApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No Data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -2531,21 +2531,21 @@ export const getAllPackagesDynamicTabsApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2596,7 +2596,7 @@ export const listOfPackageLisencesMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No Data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -2605,21 +2605,21 @@ export const listOfPackageLisencesMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2670,7 +2670,7 @@ export const getAllOrganizationNameMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No Data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -2679,21 +2679,21 @@ export const getAllOrganizationNameMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -2800,11 +2800,13 @@ export const downloadInvoiceReportMainApi = createAsyncThunk(
         dispatch(globalAdminDashBoardLoader(false));
       } else {
         // Handle other status codes if needed
+        dispatch(globalAdminDashBoardLoader(false));
         return rejectWithValue("Error downloading file");
       }
     } catch (error) {
       // Handle errors
-      return rejectWithValue(error.message);
+      dispatch(globalAdminDashBoardLoader(false));
+      return rejectWithValue(error);
     }
   }
 );
@@ -2854,7 +2856,7 @@ export const getUserInfoMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("No Data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -2863,21 +2865,21 @@ export const getUserInfoMainApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(globalAdminDashBoardLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(globalAdminDashBoardLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(globalAdminDashBoardLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );

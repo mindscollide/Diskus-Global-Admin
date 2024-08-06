@@ -18,6 +18,9 @@ import { Button, Table, TextField } from "../../components/elements";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import { Chart } from "react-google-charts";
 import { Calendar, DateObject } from "react-multi-date-picker";
+import gregorian from "react-date-object/calendars/gregorian";
+import gregorian_en from "react-date-object/locales/gregorian_en";
+import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import {
   StatsOfActiveLicenseApi,
   GetAllBillingDueApi,
@@ -43,13 +46,11 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import {
   convertUTCDateToLocalDate,
   formatDate,
   formatSessionDurationArabicAndEng,
 } from "../../common/functions/dateFormatters";
-import SendInvoiceModal from "./PackageDetailModal/PackageDetailModal";
 import {
   subscriptionRenewOpenModal,
   trialRenewOpenModal,
@@ -70,6 +71,7 @@ const GlobalAdminDashboard = () => {
   const navigate = useNavigate();
 
   let currentLanguage = localStorage.getItem("currentLanguage");
+  const local = currentLanguage === "en" ? "en-US" : "ar-SA";
 
   //StatsOfActiveLicenseApi Reducer Data
   const StatsOfActiveLicenseApiReducerData = useSelector(
@@ -86,7 +88,6 @@ const GlobalAdminDashboard = () => {
   const organizationIdData = useSelector(
     (state) => state.globalAdminDashboardReducer.getOrganizationNames
   );
-  console.log(organizationIdData, "organizationIdDataorganizationIdData");
 
   //Get All TotalThisMonthDueApi Reducer Data
   const GetAllBillingDueApiData = useSelector(
@@ -125,7 +126,6 @@ const GlobalAdminDashboard = () => {
   );
 
   const [sendInvoiceData, setSendInvoiceData] = useState(null);
-  console.log(sendInvoiceData, "sendInvoiceDatasendInvoiceData");
   const [isOpen, setIsOpen] = useState(true);
   const [isOpenCalender, setIsOpenCalender] = useState(false);
   const [showSearchedDate, setShowSearchedDate] = useState(false);
@@ -134,7 +134,6 @@ const GlobalAdminDashboard = () => {
 
   const [organizationStatus, setOrganizationStatus] = useState(false);
   const [users, setUsers] = useState(false);
-  console.log(users, "organizationStatusorganizationStatus");
 
   const [trialBtn, setTrialBtn] = useState(false);
   const [trialExtended, setTrialExtended] = useState(false);
@@ -154,13 +153,8 @@ const GlobalAdminDashboard = () => {
   const [subscriptionExpiredRow, setSubscriptionExpiredRow] = useState([]);
 
   const [essentialTbl, setessentialTbl] = useState(false);
-  const [professionalTbl, setProfessionalTbl] = useState(false);
-  const [premiumTbl, setPremiumTbl] = useState(false);
-  console.log(essentialTbl, "essentialTblessentialTblessentialTbl");
-
   // state for row of essential
   const [essentialRow, setEssentialRow] = useState([]);
-  console.log(essentialRow, "essentialRowessentialRow");
 
   //StatsOfActiveLicenseApi States
   const [activelicenses, setActivelicenses] = useState({
@@ -187,11 +181,9 @@ const GlobalAdminDashboard = () => {
     totalNumberOfExpiredTrialSubscriptionOrganizations: 0,
     totalNumberOfExpiredTrialSubscriptionOrganizationsPercentage: 0,
   });
-  console.log(activelicenses, "organizationStatsLicense");
 
   //TotalThisMonthDueApi states
   const [totalDue, setTotalDue] = useState(null);
-  console.log(totalDue, "totalDuetotalDuetotalDue");
 
   //Organizataion State
   const [isOpenCom, setIsOpenCom] = useState(true);
@@ -201,7 +193,6 @@ const GlobalAdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSelectedCompany, setShowSelectedCompany] = useState(false);
   const [organizationID, setOrganizationID] = useState(0);
-  console.log({ isCompnayOpen, isOpenCom }, "selectedCompanyselectedCompany");
 
   //Billing Dues Table data
   const [billDueTable, setBillDueTable] = useState([]);
@@ -285,7 +276,21 @@ const GlobalAdminDashboard = () => {
   const [dynamicPackagesTab, setDynamicPackagesTab] = useState([]);
 
   const [activeTab, setActiveTab] = useState(null);
-  console.log(activeTab, "activeTabactiveTab");
+
+  const [calendarValue, setCalendarValue] = useState(gregorian);
+  const [localValue, setLocalValue] = useState(gregorian_en);
+
+  useEffect(() => {
+    if (currentLanguage !== undefined) {
+      if (currentLanguage === "en") {
+        setCalendarValue(gregorian);
+        setLocalValue(gregorian_en);
+      } else if (currentLanguage === "ar") {
+        setCalendarValue(gregorian);
+        setLocalValue(gregorian_ar);
+      }
+    }
+  }, [currentLanguage]);
 
   //Clicking outside closing Calender
   useEffect(() => {
@@ -862,10 +867,6 @@ const GlobalAdminDashboard = () => {
               listOfPackageLisencesData?.result.totalCount
             );
           } else {
-            console.log(
-              listOfPackageLisencesData?.result.listOfEssential,
-              "listOfPackageLisencesData?.result.listOfEssential"
-            );
             setEssentialRow(listOfPackageLisencesData?.result.listOfEssential);
             setTotalRecordsEssential(
               listOfPackageLisencesData.result.totalCount
@@ -914,10 +915,8 @@ const GlobalAdminDashboard = () => {
         organizationIdData?.result !== undefined &&
         organizationIdData?.result.organizations.length > 0
       ) {
-        console.log(organizationIdData, "organizationIdData");
         let organizations = organizationIdData.result.organizations;
         organizations.map((data, index) => {
-          console.log(data, "datadatadatadata");
           newarr.push(data);
         });
         setOrganizations(newarr);
@@ -957,7 +956,6 @@ const GlobalAdminDashboard = () => {
   };
 
   const onCountryClickClick = (Country) => () => {
-    console.log("company select dropdown");
     setSelectedCompany(Country.organizationName);
     setOrganizationID(Country.organizationID);
     setIsOpenCom(false);
@@ -986,12 +984,8 @@ const GlobalAdminDashboard = () => {
     org.organizationName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log(filteredOrganizations, "gaakakakkaka");
-
   const handleOrgnizationStatus = () => {
     setessentialTbl(false);
-    setProfessionalTbl(false);
-    setPremiumTbl(false);
     setUsers(false);
     setOrganizationStatus(true);
     setTrialBtn(true);
@@ -1028,7 +1022,6 @@ const GlobalAdminDashboard = () => {
   };
 
   const onClickViewInvoice = (record) => {
-    console.log(record, "recordrecordwewe");
     let data = {
       OrganizationID: record.organizationID,
       InvoiceID: record.invoiceID,
@@ -1228,6 +1221,31 @@ const GlobalAdminDashboard = () => {
     tooltip: { trigger: "none" },
   };
 
+  // when there's no data inside the graph
+
+  const noExData = [
+    ["Task", "Hours per Day"],
+    ["Trial Organizations", 0],
+    ["Trial Extended Organizations", 0],
+    ["Subscribed Organizations", 0],
+    ["Subscription Expired", 0],
+  ];
+
+  const emptyOptions = {
+    pieHole: 0.45,
+    is3D: false,
+    colors: ["#e1e1e1"],
+    chartArea: {
+      width: "90%", // Adjust the width of the chart area
+      height: "90%", // Adjust the height of the chart area
+    },
+    direction: currentLanguage === "ar" ? "rtl" : "ltr",
+    legend: {
+      alignment: "center",
+    },
+    tooltip: { trigger: "none" },
+  };
+
   // google chart
   // for User Chart
 
@@ -1256,6 +1274,13 @@ const GlobalAdminDashboard = () => {
     ],
   ];
 
+  const noUserData = [
+    ["Task", "Hours per Day"],
+    ["Essential", 0],
+    ["Professional", 0],
+    ["Premium", 0],
+  ];
+
   const userOptions = {
     pieHole: 0.45,
     is3D: false,
@@ -1277,11 +1302,6 @@ const GlobalAdminDashboard = () => {
     setTrialRenewOrganizationId(record.organizationId);
     setTrialRenewOrganizationName(record.organizationName);
     setTrialRenewRemainingDays(record.remainingDays);
-  };
-
-  // to open Subscription Renew Modal
-  const onClickSubscriptionRenew = () => {
-    dispatch(subscriptionRenewOpenModal(true));
   };
 
   const TrialColumn = [
@@ -1608,11 +1628,6 @@ const GlobalAdminDashboard = () => {
                 </div>
               </>
             )}
-            {/* <Button
-              text={t("Renew")}
-              className={styles["send-invoice-button"]}
-              onClick={onClickSubscriptionRenew}
-            /> */}
           </>
         );
       },
@@ -1968,8 +1983,6 @@ const GlobalAdminDashboard = () => {
   ];
 
   const handleTrailButton = () => {
-    setPremiumTbl(false);
-    setProfessionalTbl(false);
     setessentialTbl(false);
     setsubsExpiry(false);
     setSubscription(false);
@@ -1986,8 +1999,6 @@ const GlobalAdminDashboard = () => {
   };
 
   const handleTrialExtendedButton = () => {
-    setPremiumTbl(false);
-    setProfessionalTbl(false);
     setessentialTbl(false);
     setsubsExpiry(false);
     setSubscription(false);
@@ -2008,8 +2019,6 @@ const GlobalAdminDashboard = () => {
   };
 
   const handleSubscriptionTable = () => {
-    setPremiumTbl(false);
-    setProfessionalTbl(false);
     setessentialTbl(false);
     setsubsExpiry(false);
     setTrialBtn(false);
@@ -2026,8 +2035,6 @@ const GlobalAdminDashboard = () => {
   };
 
   const handleSubscriptionExpiry = () => {
-    setPremiumTbl(false);
-    setProfessionalTbl(false);
     setessentialTbl(false);
     setTrialBtn(false);
     setTrialExtended(false);
@@ -2064,7 +2071,6 @@ const GlobalAdminDashboard = () => {
   };
 
   const openSendInvoiceModal = (record) => {
-    console.log(record, "daadsdasdasdas");
     let data = {
       OrganizationID: record.organizationId,
       SubscriptionID: record.subscriptionID,
@@ -2076,7 +2082,6 @@ const GlobalAdminDashboard = () => {
 
   //Multi Date Picker Date Pickers Month Function
   const handleMonthChange = (newMonth) => {
-    console.log(newMonth, "newMonthnewMonthnewMonth");
     setCurrentMonth(newMonth);
   };
 
@@ -2321,15 +2326,15 @@ const GlobalAdminDashboard = () => {
           <Col lg={6} md={6} sm={6}>
             <section className={styles["LeftBoxDashboard"]}>
               <Row>
-                <Col lg={5} md={5} sm={5}>
+                <Col lg={7} md={7} sm={7}>
                   <span className={styles["BillingDueHeading"]}>
                     {t("Billing-due")}
                   </span>
                 </Col>
                 <Col
-                  lg={3}
-                  md={3}
-                  sm={3}
+                  lg={2}
+                  md={2}
+                  sm={2}
                   className="d-flex justify-content-end"
                 >
                   <div
@@ -2357,6 +2362,8 @@ const GlobalAdminDashboard = () => {
                           numberOfMonths={2}
                           style={{ position: "absolute", zIndex: 1000 }}
                           onFocusedDateChange={handleDateChange}
+                          calendar={calendarValue}
+                          locale={localValue}
                           onMonthChange={handleMonthChange}
                           multiple
                           format="YYYY-MM-DD"
@@ -2383,9 +2390,9 @@ const GlobalAdminDashboard = () => {
                   </div>
                 </Col>
                 <Col
-                  lg={4}
-                  md={4}
-                  sm={4}
+                  lg={3}
+                  md={3}
+                  sm={3}
                   className="d-flex justify-content-end"
                 >
                   <div
@@ -2549,21 +2556,42 @@ const GlobalAdminDashboard = () => {
                     onClick={handleOrgnizationStatus}
                   >
                     <div className={styles["chart-container"]}>
-                      <Chart
-                        chartType="PieChart"
-                        height={"200px"}
-                        width={"250px"}
-                        data={exData}
-                        options={options}
-                      />
+                      {exData.length > 0 ? (
+                        <>
+                          <Chart
+                            chartType="PieChart"
+                            height={"200px"}
+                            width={"250px"}
+                            data={exData}
+                            options={options}
+                          />
+                          <div className={styles["inside-pie-chart"]}>
+                            {Number(
+                              organizationStatsLicense.totalOrganizations
+                            )}
+                          </div>
 
-                      <div className={styles["inside-pie-chart"]}>
-                        {Number(organizationStatsLicense.totalOrganizations)}
-                      </div>
-                      <div
-                        className={styles["click-preventer"]}
-                        onClick={(e) => e.stopPropagation()}
-                      ></div>
+                          <div
+                            className={styles["click-preventer"]}
+                            onClick={(e) => e.stopPropagation()}
+                          ></div>
+                        </>
+                      ) : (
+                        <>
+                          <Chart
+                            chartType="PieChart"
+                            height={"200px"}
+                            width={"250px"}
+                            data={exData.length === 0 ? noExData : exData}
+                            options={emptyOptions}
+                          />
+                          <div className={styles["pie-value-zero"]}>0</div>
+                          <div
+                            className={styles["click-preventer"]}
+                            onClick={(e) => e.stopPropagation()}
+                          ></div>
+                        </>
+                      )}
                     </div>
                   </section>
                 </Col>
@@ -2579,20 +2607,41 @@ const GlobalAdminDashboard = () => {
                   >
                     {/* <Pie {...configSecond} /> */}
                     <div className={styles["chart-container"]}>
-                      <Chart
-                        chartType="PieChart"
-                        height={"200px"}
-                        width={"250px"}
-                        data={userData}
-                        options={userOptions}
-                      />
-                      <div className={styles["inside-pie-chart"]}>
-                        {Number(activelicenses.totalActiveLicense)}
-                      </div>
-                      <div
-                        className={styles["click-preventer"]}
-                        onClick={(e) => e.stopPropagation()}
-                      ></div>
+                      {userData.length > 0 ? (
+                        <>
+                          <Chart
+                            chartType="PieChart"
+                            height={"200px"}
+                            width={"250px"}
+                            data={userData}
+                            options={userOptions}
+                          />
+                          <div className={styles["inside-pie-chart"]}>
+                            {Number(activelicenses.totalActiveLicense)}
+                          </div>
+                          <div
+                            className={styles["click-preventer"]}
+                            onClick={(e) => e.stopPropagation()}
+                          ></div>
+                        </>
+                      ) : (
+                        <>
+                          <Chart
+                            chartType="PieChart"
+                            height={"200px"}
+                            width={"250px"}
+                            data={userData === 0 ? noUserData : userData}
+                            options={emptyOptions}
+                          />
+                          <div className={styles["pie-value-zero"]}>
+                            {Number(0)}
+                          </div>
+                          <div
+                            className={styles["click-preventer"]}
+                            onClick={(e) => e.stopPropagation()}
+                          ></div>
+                        </>
+                      )}
                     </div>
                   </section>
                 </Col>

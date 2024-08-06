@@ -56,7 +56,7 @@ export const searchOrganizationApi = createAsyncThunk(
               )
           ) {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -65,21 +65,21 @@ export const searchOrganizationApi = createAsyncThunk(
               )
           ) {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(viewOrganizationLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(viewOrganizationLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -152,21 +152,21 @@ export const EditSubscriptionAPI = createAsyncThunk(
               )
           ) {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(viewOrganizationLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(viewOrganizationLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -239,21 +239,21 @@ export const EditOrganizationAPI = createAsyncThunk(
               )
           ) {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(viewOrganizationLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(viewOrganizationLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -305,7 +305,7 @@ export const getAllOrganizationApi = createAsyncThunk(
               )
           ) {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("No data available");
+            return rejectWithValue("");
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -314,21 +314,21 @@ export const getAllOrganizationApi = createAsyncThunk(
               )
           ) {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(viewOrganizationLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(viewOrganizationLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(viewOrganizationLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );

@@ -35,7 +35,7 @@ const LanguageSlicer = createSlice({
       .addCase(getSystemLanguageMainApi.rejected, (state, action) => {
         // state.loading = false;
         state.getSystemLanguage = [];
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       })
 
       .addCase(getLastLanguageMainApi.pending, (state) => {
@@ -49,7 +49,7 @@ const LanguageSlicer = createSlice({
       .addCase(getLastLanguageMainApi.rejected, (state, action) => {
         // state.loading = false;
         state.lastLanguageData = null;
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       })
 
       .addCase(setLastSelectedLanguageMainApi.pending, (state) => {
@@ -63,7 +63,7 @@ const LanguageSlicer = createSlice({
       .addCase(setLastSelectedLanguageMainApi.rejected, (state, action) => {
         // state.loading = false;
         state.setLastLanguageData = [];
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       });
   },
 });

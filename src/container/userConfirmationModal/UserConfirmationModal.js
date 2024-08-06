@@ -1,5 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Modal, Notification, TextField } from "./../../components/elements";
+import {
+  Button,
+  Modal,
+  Notification,
+  TextField,
+} from "./../../components/elements";
 import { Row, Col, Container } from "react-bootstrap";
 import styles from "./UserConfirmationModal.module.css";
 import Form from "react-bootstrap/Form";
@@ -12,7 +17,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userConifrmationOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
 import { UpdateGlobalAdminUserApi } from "../../store/Actions/GlobalAdminDashboardActions";
-import { globalAdminDashBoardLoader, resetResponseMessage } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
 const UserConfirmationModal = ({
   userDataInfo,
@@ -29,7 +37,7 @@ const UserConfirmationModal = ({
   const Responsemessage = useSelector(
     (state) => state.globalAdminDashboardReducer.Responsemessage
   );
-  console.log(selectedCountry, "userInfoStateuserInfoState");
+  console.log(userInfoState, "userInfoStateuserInfoState");
 
   const [openNotification, setOpenNotification] = useState({
     changePasswordFlag: false,
@@ -40,9 +48,10 @@ const UserConfirmationModal = ({
   useEffect(() => {
     if (
       Responsemessage !== "" &&
-      Responsemessage !== t("Data-available") &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success"
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
     ) {
       setOpenNotification({
         changePasswordFlag: true,
@@ -66,14 +75,15 @@ const UserConfirmationModal = ({
     dispatch(userConifrmationOpenModal(false));
   };
 
-  const handleProceedUpdate = () => {
-    let data = {
-      CountryCodeID: selectedCountry.id,
-      MobileNumber: userInfoState.Number.value,
-    };
+  const handleProceedUpdate = async () => {
+    let phoneNumber = userInfoState.Number.value;
 
+    const data = {
+      CountryCodeID: Number(userInfoState.CountryCode.value),
+      MobileNumber: phoneNumber,
+    };
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(UpdateGlobalAdminUserApi({ data, navigate, t }));
+    await dispatch(UpdateGlobalAdminUserApi({ data, navigate, t }));
   };
 
   return (

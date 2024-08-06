@@ -143,16 +143,15 @@ const ViewOrganization = () => {
   useEffect(() => {
     if (
       Responsemessage !== "" &&
-      Responsemessage !== t("Data-available") &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success"
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
     ) {
       setOpenNotification({
         historyFlag: true,
         historyNotification: Responsemessage,
-        severity: t("Updated-Successfully")
-          ? "success"
-          : "error",
+        severity: t("Updated-Successfully") ? "success" : "error",
       });
 
       setTimeout(() => {

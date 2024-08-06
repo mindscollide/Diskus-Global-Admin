@@ -359,9 +359,10 @@ const OrganizationLevelSettings = () => {
   useEffect(() => {
     if (
       Responsemessage !== "" &&
-      Responsemessage !== t("Data-available") &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success"
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
     ) {
       setOpenNotification({
         historyFlag: true,

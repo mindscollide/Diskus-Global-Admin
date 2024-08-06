@@ -231,8 +231,8 @@ body[dir="rtl"] .inner-sub-Heading {
 }
 
 body[dir="rtl"] .cashflow-amount-column-title {
-  font-size: 12px !important;
-  font-weight: 500 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
   color: #6172d6 !important;
 }
 
@@ -243,8 +243,8 @@ body[dir="rtl"] .cashflow-amount-column-title {
 }
 
 body[dir="rtl"] .cashOutflow-amount-column-title {
-  font-size: 12px !important;
-  font-weight: 500 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
   color: #f16b6b !important;
 }
 
@@ -255,9 +255,9 @@ body[dir="rtl"] .cashOutflow-amount-column-title {
 }
 
 body[dir="rtl"] .cashflow-column-title {
-  font-size: 12px !important;
-  font-weight: 500 !important;
   color: #5a5a5a !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
 }
 
 .cashflow-column-amount {

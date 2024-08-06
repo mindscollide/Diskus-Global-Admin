@@ -69,6 +69,7 @@ h1 {
   font-size: 30px !important; /* Adjust the size as needed */
   color: #5a5a5a !important;
   pointer-events: all !important;
+  margin-top: 150px !important;
 }
 
 .custom-table {
@@ -346,13 +347,13 @@ body[dir="rtl"] .inner-sub-Heading {
 .inner-sub-Heading-insidetable {
   color: #5a5a5a !important;
   font-size: 16px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
 }
 
 body[dir="rtl"] .inner-sub-Heading-insidetable {
   color: #5a5a5a !important;
   font-size: 16px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
 }
 
 .Search_Bar_icon_class {

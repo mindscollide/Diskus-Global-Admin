@@ -71,9 +71,6 @@ const CashFlowSummary = () => {
   const [inflowTab, setInFlowTab] = useState(true);
   const [outstandingTab, setOutstandingTab] = useState(false);
 
-  // for cashflow table data state
-  const [cashFlowTable, setCashFlowTable] = useState([]);
-
   // for total cash Inflow
   const [totalInflow, setTotalInflow] = useState(0);
 
@@ -359,66 +356,25 @@ const CashFlowSummary = () => {
       key: "Invoiceyear",
       align: "center",
       filters: [
-        {
-          text: "2010",
-          value: 2010,
-        },
-        {
-          text: "2011",
-          value: 2011,
-        },
-        {
-          text: "2012",
-          value: 2012,
-        },
-        {
-          text: "2013",
-          value: 2013,
-        },
-        {
-          text: "2014",
-          value: 2014,
-        },
-        {
-          text: "2015",
-          value: 2015,
-        },
-        {
-          text: "2016",
-          value: 2016,
-        },
-        {
-          text: "2017",
-          value: 2017,
-        },
-        {
-          text: "2018",
-          value: 2018,
-        },
-        {
-          text: "2019",
-          value: 2019,
-        },
-        {
-          text: "2020",
-          value: 2020,
-        },
-        {
-          text: "2021",
-          value: 2021,
-        },
-        {
-          text: "2022",
-          value: 2022,
-        },
-        {
-          text: "2023",
-          value: 2023,
-        },
-        {
-          text: "2024",
-          value: 2024,
-        },
+        { text: "2022", value: 2022 },
+        { text: "2023", value: 2023 },
+        { text: "2024", value: 2024 },
+        { text: "2025", value: 2025 },
+        { text: "2026", value: 2026 },
+        { text: "2027", value: 2027 },
+        { text: "2028", value: 2028 },
+        { text: "2029", value: 2029 },
+        { text: "2030", value: 2030 },
+        { text: "2031", value: 2031 },
+        { text: "2032", value: 2032 },
+        { text: "2033", value: 2033 },
+        { text: "2034", value: 2034 },
+        { text: "2035", value: 2035 },
+        { text: "2036", value: 2036 },
+        { text: "2037", value: 2037 },
+        { text: "2038", value: 2038 },
+        { text: "2039", value: 2039 },
+        { text: "2040", value: 2040 },
       ],
       onFilter: (value, record) => {
         let { Year } = ExtractMonthAndYear(record.invoiceDate);

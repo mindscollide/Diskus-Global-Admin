@@ -78,24 +78,24 @@ export const getSystemLanguageMainApi = createAsyncThunk(
           ) {
             dispatch(languageLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(languageLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(languageLoader(false));
 
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(languageLoader(false));
 
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -158,24 +158,24 @@ export const getLastLanguageMainApi = createAsyncThunk(
           ) {
             dispatch(languageLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(languageLoader(false));
 
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(languageLoader(false));
 
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(languageLoader(false));
 
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );
@@ -256,21 +256,21 @@ export const setLastSelectedLanguageMainApi = createAsyncThunk(
               )
           ) {
             dispatch(languageLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           } else {
             dispatch(languageLoader(false));
-            return rejectWithValue("Something-went-wrong");
+            return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
           dispatch(languageLoader(false));
-          return rejectWithValue("Something-went-wrong");
+          return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
         dispatch(languageLoader(false));
-        return rejectWithValue("Something-went-wrong");
+        return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
-      return rejectWithValue("Something-went-wrong");
+      return rejectWithValue(t("Something-went-wrong"));
     }
   }
 );

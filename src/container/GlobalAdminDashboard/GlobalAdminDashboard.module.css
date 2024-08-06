@@ -629,7 +629,7 @@ body[dir="rtl"] .CrossIcon_Class-users {
 }
 
 .dropdown-container-companyName {
-  width: 200px; /* Adjust as needed */
+  /* width: 200px;  */
   position: relative; /* Ensure relative positioning */
 }
 
@@ -712,6 +712,16 @@ body[dir="rtl"] .class-billing-table {
   color: #5a5a5a !important;
 }
 
+.pie-value-zero {
+  position: absolute !important;
+  top: 43% !important;
+  left: 30% !important;
+  /* transform: translate(-50%, -50%) !important; */
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #5a5a5a !important;
+}
+
 body[dir="rtl"] .inside-pie-chart {
   position: absolute !important;
   top: 43% !important;
@@ -729,7 +739,7 @@ body[dir="rtl"] .inside-pie-chart {
   width: 60vw; */
   display: flex;
   align-items: center;
-  width: 60vw;
+  width: 100%;
 }
 
 .scrollButton {
@@ -750,7 +760,6 @@ body[dir="rtl"] .inside-pie-chart {
   display: flex;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  width: 50%;
   padding: 10px 0;
   margin: 0px 7px;
   position: relative;
@@ -763,4 +772,10 @@ body[dir="rtl"] .inside-pie-chart {
 .button-slides-class {
   font-size: 23px !important;
   cursor: pointer;
+}
+
+body[dir="rtl"] .button-slides-class {
+  font-size: 23px !important;
+  cursor: pointer !important;
+  transform: rotateY(180deg) !important;
 }
