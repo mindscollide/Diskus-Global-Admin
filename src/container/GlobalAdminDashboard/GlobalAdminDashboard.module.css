@@ -629,8 +629,8 @@ body[dir="rtl"] .CrossIcon_Class-users {
 }
 
 .dropdown-container-companyName {
-  /* width: 200px;  */
-  position: relative; /* Ensure relative positioning */
+  width: 160px !important;
+  position: relative !important; /* Ensure relative positioning */
 }
 
 .CompanyName-select {
@@ -778,4 +778,51 @@ body[dir="rtl"] .button-slides-class {
   font-size: 23px !important;
   cursor: pointer !important;
   transform: rotateY(180deg) !important;
+}
+.emptyCircle {
+  border: 40px solid #e1e1e1;
+  width: 155.81px;
+  height: 155.81px;
+  display: block;
+  border-radius: 50%;
+}
+
+.emptyCircle-empty-box {
+  padding: 23px 6px !important;
+}
+
+.div-in-row-empty {
+  display: flex;
+  flex-direction: row !important;
+}
+
+.font-size-in-Data {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  margin-top: 10px;
+  margin-left: 5px !important;
+  color: #5a5a5a !important;
+}
+body[dir="rtl"] .font-size-in-Data {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  margin-right: 5px !important;
+  margin-top: 10px;
+  color: #5a5a5a !important;
+}
+
+.font-size-in-Data-active {
+  margin-left: 15px !important;
+  margin-top: 25px !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"] .font-size-in-Data-active {
+  margin-right: 15px !important;
+  margin-top: 25px !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #5a5a5a !important;
 }

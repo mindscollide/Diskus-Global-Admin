@@ -118,6 +118,7 @@ const ViewOrganization = () => {
   const [localValue, setLocalValue] = useState(gregorian_en);
 
   const [userNameSearch, setUserNameSearch] = useState("");
+  console.log(userNameSearch, "userNameSearchuserNameSearch");
 
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
@@ -1272,6 +1273,7 @@ const ViewOrganization = () => {
         editOrganzationName={editOrganzationName}
         editSubscriptionName={editSubscriptionName}
         setShowSearchText={setShowSearchText}
+        setUserNameSearch={setUserNameSearch}
       />
 
       <EditSubscriptionModals
@@ -1283,6 +1285,7 @@ const ViewOrganization = () => {
         headData={headData}
         editSubModal={editSubModal}
         setShowSearchText={setShowSearchText}
+        setUserNameSearch={setUserNameSearch}
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
 

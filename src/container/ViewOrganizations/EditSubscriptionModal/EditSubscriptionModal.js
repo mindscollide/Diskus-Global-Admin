@@ -19,6 +19,7 @@ const EditSubscriptionModals = ({
   editCurrentSubscriptionName,
   headData,
   editSubModal,
+  setUserNameSearch,
   setShowSearchText,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
@@ -290,6 +291,7 @@ const EditSubscriptionModals = ({
         subsciptionStatus={subsciptionStatus.value}
         editSubscriptionOrgID={editSubscriptionOrgID}
         setShowSearchText={setShowSearchText}
+        setUserNameSearch={setUserNameSearch}
       />
     </>
   );

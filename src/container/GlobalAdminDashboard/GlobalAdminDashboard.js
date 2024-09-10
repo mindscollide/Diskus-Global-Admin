@@ -84,6 +84,11 @@ const GlobalAdminDashboard = () => {
       state.globalAdminDashboardReducer.OrganizationStatsSubscriptionData
   );
 
+  console.log(
+    OrganizationStatsSubscriptionReducer,
+    "OrganizationStatsSubscriptionReducerOrganizationStatsSubscriptionReducer"
+  );
+
   //Get All Organization Reducer Data
   const organizationIdData = useSelector(
     (state) => state.globalAdminDashboardReducer.getOrganizationNames
@@ -271,6 +276,12 @@ const GlobalAdminDashboard = () => {
   const [trialRenewOrganizationName, setTrialRenewOrganizationName] =
     useState("");
   const [trialRenewRemainingDays, setTrialRenewRemainingDays] = useState(0);
+
+  // for empty graph data
+  const [dataFound, setDataFound] = useState(false);
+
+  // for empty graph data
+  const [dataFoundActive, setDataFoundActive] = useState(false);
 
   // for get Packages dynamic tabs by clicking on(Lisences or User) Graph
   const [dynamicPackagesTab, setDynamicPackagesTab] = useState([]);
@@ -495,7 +506,7 @@ const GlobalAdminDashboard = () => {
           packageStats.find((pkg) => pkg.packageName === "Professional") || {};
         const premiumData =
           packageStats.find((pkg) => pkg.packageName === "Premium") || {};
-
+        setDataFoundActive(true);
         setActivelicenses({
           totalActiveLicense:
             StatsOfActiveLicenseApiReducerData.result.totalActiveLicense || 0,
@@ -508,6 +519,8 @@ const GlobalAdminDashboard = () => {
           totalNumberOfProfessionalLicensePercentage:
             professionalData.percentage || 0,
         });
+      } else {
+        setDataFoundActive(false);
       }
     } catch (error) {
       console.log(error, "errors");
@@ -521,6 +534,7 @@ const GlobalAdminDashboard = () => {
         OrganizationStatsSubscriptionReducer !== null &&
         OrganizationStatsSubscriptionReducer !== undefined
       ) {
+        setDataFound(true);
         setOrganizationStatsLicense({
           totalOrganizations:
             OrganizationStatsSubscriptionReducer.result.totalOrganizations || 0,
@@ -556,6 +570,8 @@ const GlobalAdminDashboard = () => {
               .totalNumberOfExpiredTrialSubscriptionOrganizationsPercentage ||
             0,
         });
+      } else {
+        setDataFound(false);
       }
     } catch (error) {
       console.log(error, "error");
@@ -2326,15 +2342,15 @@ const GlobalAdminDashboard = () => {
           <Col lg={6} md={6} sm={6}>
             <section className={styles["LeftBoxDashboard"]}>
               <Row>
-                <Col lg={7} md={7} sm={7}>
+                <Col lg={5} md={5} sm={5}>
                   <span className={styles["BillingDueHeading"]}>
                     {t("Billing-due")}
                   </span>
                 </Col>
                 <Col
-                  lg={2}
-                  md={2}
-                  sm={2}
+                  lg={3}
+                  md={3}
+                  sm={3}
                   className="d-flex justify-content-end"
                 >
                   <div
@@ -2390,9 +2406,9 @@ const GlobalAdminDashboard = () => {
                   </div>
                 </Col>
                 <Col
-                  lg={3}
-                  md={3}
-                  sm={3}
+                  lg={4}
+                  md={4}
+                  sm={4}
                   className="d-flex justify-content-end"
                 >
                   <div
@@ -2556,42 +2572,57 @@ const GlobalAdminDashboard = () => {
                     onClick={handleOrgnizationStatus}
                   >
                     <div className={styles["chart-container"]}>
-                      {exData.length > 0 ? (
-                        <>
-                          <Chart
-                            chartType="PieChart"
-                            height={"200px"}
-                            width={"250px"}
-                            data={exData}
-                            options={options}
-                          />
-                          <div className={styles["inside-pie-chart"]}>
-                            {Number(
-                              organizationStatsLicense.totalOrganizations
-                            )}
-                          </div>
-
-                          <div
-                            className={styles["click-preventer"]}
-                            onClick={(e) => e.stopPropagation()}
-                          ></div>
-                        </>
-                      ) : (
-                        <>
-                          <Chart
-                            chartType="PieChart"
-                            height={"200px"}
-                            width={"250px"}
-                            data={exData.length === 0 ? noExData : exData}
-                            options={emptyOptions}
-                          />
-                          <div className={styles["pie-value-zero"]}>0</div>
-                          <div
-                            className={styles["click-preventer"]}
-                            onClick={(e) => e.stopPropagation()}
-                          ></div>
-                        </>
-                      )}
+                      <>
+                        {!dataFound ? (
+                          <>
+                            <section
+                              className={styles["emptyCircle-empty-box"]}
+                            >
+                              <div className={styles["div-in-row-empty"]}>
+                                <span className={styles["emptyCircle"]}></span>
+                                <span>
+                                  <p className={styles["font-size-in-Data"]}>
+                                    {`${t("Trial-organizations")} ${"(0)"}`}
+                                  </p>
+                                  <p className={styles["font-size-in-Data"]}>
+                                    {`${t(
+                                      "Trial-extended-organizations"
+                                    )} ${"(0)"}`}
+                                  </p>
+                                  <p className={styles["font-size-in-Data"]}>
+                                    {`${t(
+                                      "Subscribed-organizations"
+                                    )} ${"(0)"}`}
+                                  </p>
+                                  <p className={styles["font-size-in-Data"]}>
+                                    {`${t("Subscription-expired")}  ${"(0)"}`}
+                                  </p>
+                                </span>
+                              </div>
+                            </section>
+                          </>
+                        ) : (
+                          <>
+                            {" "}
+                            <Chart
+                              chartType="PieChart"
+                              height={"200px"}
+                              width={"250px"}
+                              data={exData}
+                              options={options}
+                            />
+                            <div className={styles["inside-pie-chart"]}>
+                              {Number(
+                                organizationStatsLicense.totalOrganizations
+                              )}
+                            </div>
+                            <div
+                              className={styles["click-preventer"]}
+                              onClick={(e) => e.stopPropagation()}
+                            ></div>
+                          </>
+                        )}
+                      </>
                     </div>
                   </section>
                 </Col>
@@ -2607,41 +2638,59 @@ const GlobalAdminDashboard = () => {
                   >
                     {/* <Pie {...configSecond} /> */}
                     <div className={styles["chart-container"]}>
-                      {userData.length > 0 ? (
-                        <>
-                          <Chart
-                            chartType="PieChart"
-                            height={"200px"}
-                            width={"250px"}
-                            data={userData}
-                            options={userOptions}
-                          />
-                          <div className={styles["inside-pie-chart"]}>
-                            {Number(activelicenses.totalActiveLicense)}
-                          </div>
-                          <div
-                            className={styles["click-preventer"]}
-                            onClick={(e) => e.stopPropagation()}
-                          ></div>
-                        </>
-                      ) : (
-                        <>
-                          <Chart
-                            chartType="PieChart"
-                            height={"200px"}
-                            width={"250px"}
-                            data={userData === 0 ? noUserData : userData}
-                            options={emptyOptions}
-                          />
-                          <div className={styles["pie-value-zero"]}>
-                            {Number(0)}
-                          </div>
-                          <div
-                            className={styles["click-preventer"]}
-                            onClick={(e) => e.stopPropagation()}
-                          ></div>
-                        </>
-                      )}
+                      <>
+                        {!dataFoundActive ? (
+                          <>
+                            <section
+                              className={styles["emptyCircle-empty-box"]}
+                            >
+                              <div className={styles["div-in-row-empty"]}>
+                                <span className={styles["emptyCircle"]}></span>
+                                <span>
+                                  <p
+                                    className={
+                                      styles["font-size-in-Data-active"]
+                                    }
+                                  >
+                                    {`${t("Essential")} ${"(0)"}`}
+                                  </p>
+                                  <p
+                                    className={
+                                      styles["font-size-in-Data-active"]
+                                    }
+                                  >
+                                    {`${t("Professional")} ${"(0)"}`}
+                                  </p>
+                                  <p
+                                    className={
+                                      styles["font-size-in-Data-active"]
+                                    }
+                                  >
+                                    {`${t("Premium")} ${"(0)"}`}
+                                  </p>
+                                </span>
+                              </div>
+                            </section>
+                          </>
+                        ) : (
+                          <>
+                            <Chart
+                              chartType="PieChart"
+                              height={"200px"}
+                              width={"250px"}
+                              data={userData}
+                              options={userOptions}
+                            />
+                            <div className={styles["inside-pie-chart"]}>
+                              {Number(activelicenses.totalActiveLicense)}
+                            </div>
+                            <div
+                              className={styles["click-preventer"]}
+                              onClick={(e) => e.stopPropagation()}
+                            ></div>
+                          </>
+                        )}
+                      </>
                     </div>
                   </section>
                 </Col>

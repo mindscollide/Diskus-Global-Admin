@@ -455,7 +455,7 @@ export const dashBoardReportApi = createAsyncThunk(
         // Create a link element and simulate a click to trigger the download
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", "download-security-reports.xlsx");
+        link.setAttribute("download", "BillingDueReport.xlsx");
         document.body.appendChild(link);
         link.click();
 
@@ -2755,36 +2755,24 @@ export const downloadInvoiceReportMainApi = createAsyncThunk(
   async (requestData, { rejectWithValue, dispatch }) => {
     try {
       let token = localStorage.getItem("token");
-      console.log(token, "responseresponseresponseresponse");
-
-      let { data, navigate, t } = requestData;
-      console.log(data, "responseresponseresponseresponse");
-
+      let { data } = requestData;
       let form = new FormData();
-      console.log(form, "responseresponseresponseresponse");
-
-      form.append("RequestData", JSON.stringify(data));
-
       form.append("RequestMethod", downloadInvoiceApi.RequestMethod);
-
-      console.log(form, "responseresponseresponseresponse");
-      let response;
-      let contentType = "application/pdf";
-      try {
-        response = await axios({
-          method: "post",
-          url: adminURL,
-          data: form,
-          headers: {
-            _token: token,
-            "Content-Disposition": "attachment; filename=template.pdf",
-            "Content-Type": contentType,
-          },
-          responseType: "blob",
-        });
-      } catch (error) {
-        console.log(error, "responseresponseresponseresponse");
-      }
+      form.append("RequestData", JSON.stringify(data));
+      // let response;
+      // let contentType = "application/pdf";
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+          "Content-Disposition": "attachment; filename=template.pdf",
+          "Content-Type":
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+        responseType: "blob",
+      });
 
       console.log(response, "responseresponseresponseresponse");
       if (response.status === 200) {
