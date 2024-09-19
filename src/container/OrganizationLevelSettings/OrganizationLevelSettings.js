@@ -322,6 +322,10 @@ const OrganizationLevelSettings = () => {
       configKey: "AutomatedReminderDaysForWorkFlowExpiry",
       configValue: "",
     },
+    Active_Meeting_Agenda_Edit_Email: {
+      configKey: "Active_Meeting_Agenda_Edit_Email",
+      configValue: "",
+    },
   });
 
   console.log(newData.AUTO_CLOSE_RESOLUTION, "hsgashagahsgah");
@@ -1234,6 +1238,32 @@ const OrganizationLevelSettings = () => {
                       >
                         <span className={styles["Class_CheckBox"]}>
                           {t("Show-notification-on-joining-participant")}
+                        </span>
+                      </Checkbox>
+                    </Col>
+                  </Row>
+                  <Row className="mt-0">
+                    <Col lg={12} md={12} sm={12}>
+                      <Checkbox
+                        onChange={(event) =>
+                          globalOnChangeFunction(
+                            newData.Active_Meeting_Agenda_Edit_Email,
+                            event.target.checked
+                          )
+                        }
+                        checked={
+                          newData.Active_Meeting_Agenda_Edit_Email
+                            .configValue === "true"
+                            ? true
+                            : false
+                        }
+                      >
+                        <span className={styles["Class_CheckBox"]}>
+                          <p className={styles["new-data-text"]}>
+                            {t(
+                              "Allow-changes-in-the-Agenda-items-after-the-meeting-has-been-started"
+                            )}
+                          </p>
                         </span>
                       </Checkbox>
                     </Col>
