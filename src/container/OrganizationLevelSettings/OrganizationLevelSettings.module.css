@@ -43,6 +43,11 @@ body[dir="rtl"] .Class_CheckBox {
   font-weight: 500 !important;
 }
 
+.new-data-text {
+  position: relative;
+  top: 19px;
+}
+
 .Class_CheckBox2 {
   font-size: 16px !important;
   color: #5a5a5a !important;

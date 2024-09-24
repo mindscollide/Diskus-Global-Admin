@@ -118,6 +118,7 @@ const ViewOrganization = () => {
   const [localValue, setLocalValue] = useState(gregorian_en);
 
   const [userNameSearch, setUserNameSearch] = useState("");
+  console.log(userNameSearch, "userNameSearchuserNameSearch");
 
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
@@ -258,6 +259,8 @@ const ViewOrganization = () => {
             uniqueKey: `${org.organizationID}-${sub.pK_OrganizationsSubscriptionID}`,
           }))
         );
+
+        console.log(subscriptions, "subscriptionssubscriptions");
 
         const uniqueSubscriptions = Array.from(
           new Set(subscriptions.map((sub) => sub.uniqueKey))
@@ -659,6 +662,10 @@ const ViewOrganization = () => {
         sRow: 0,
         eRow: 10,
       };
+      setViewOrganizationData([]);
+      setOrganizationInsideData([]);
+      setSRowsData(0);
+      setTotalRecords(0);
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllOrganizationApi({ newData, navigate, t }));
     }
@@ -695,16 +702,20 @@ const ViewOrganization = () => {
       updatedData.OrganizationContactName = "";
     } else if (fieldName === "organizationName") {
       updatedOrganizationDataValue = null;
+      setUserNameSearch("");
       setOrganizationDataValue(null);
     } else if (fieldName === "OrganizationSubscriptionStatus") {
       updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
-    } else if (fieldName === "organizationName") {
-      setUserNameSearch("");
     } else {
       updatedData[fieldName] = "";
     }
 
     setSearchOrganizationData(updatedData);
+    // Clear the current data before fetching new data
+    setViewOrganizationData([]);
+    setOrganizationInsideData([]);
+    setSRowsData(0);
+    setTotalRecords(0);
 
     let newData = {
       OrganizationContactName: updatedData.OrganizationContactName,
@@ -1272,6 +1283,7 @@ const ViewOrganization = () => {
         editOrganzationName={editOrganzationName}
         editSubscriptionName={editSubscriptionName}
         setShowSearchText={setShowSearchText}
+        setUserNameSearch={setUserNameSearch}
       />
 
       <EditSubscriptionModals
@@ -1283,6 +1295,7 @@ const ViewOrganization = () => {
         headData={headData}
         editSubModal={editSubModal}
         setShowSearchText={setShowSearchText}
+        setUserNameSearch={setUserNameSearch}
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
 

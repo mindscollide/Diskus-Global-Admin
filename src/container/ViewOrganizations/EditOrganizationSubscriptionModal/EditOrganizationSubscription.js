@@ -15,6 +15,7 @@ const EditOrganizationSubscriptions = ({
   editOrganzationName,
   editSubscriptionName,
   setShowSearchText,
+  setUserNameSearch,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
@@ -185,6 +186,7 @@ const EditOrganizationSubscriptions = ({
         organzationStatus={organzationStatus.value}
         editOrganizationID={editOrganizationID}
         setShowSearchText={setShowSearchText}
+        setUserNameSearch={setUserNameSearch}
       />
     </>
   );

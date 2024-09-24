@@ -221,7 +221,7 @@
   "New-Package": "New Package",
   "Mail-settings": "Mail Settings",
   "Functional-settings": "Functional Settings",
-  "User-account-settings": "User Account Setting",
+  "User-account-settings": "User Account Settings",
   "Organization-account-settings": "Organization Account Settings",
   "Sms-settings": "SMS Settings",
   "No-billing-due": "No Billing Due",
@@ -346,5 +346,9 @@
   "Package-updated-successfully": "Package Updated Successfully",
   "Failed-to-update-package": "Failed to Update Package",
   "Failed-to-create-mapping": "Failed to create mapping",
-  "Add-features-by-searching": "Add features by searching"
+  "Add-features-by-searching": "Add features by searching",
+  "Trial-organizations": "Trial Organizations",
+  "Trial-extended-organizations": "Trial Extended Organizations",
+  "Subscribed-organizations": "Subscribed Organizations",
+  "Allow-changes-in-the-Agenda-items-after-the-meeting-has-been-started": "Allow changes in the Agenda items after the meeting has been started"
 }
