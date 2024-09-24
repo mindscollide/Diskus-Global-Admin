@@ -659,7 +659,7 @@ const LoginHistory = () => {
           Username: userNameSearch,
           UserEmail: "",
           IpAddress: "",
-          DeviceID: "1",
+          DeviceID: "",
           DateLogin: "",
           DateLogOut: "",
           sRow: 0,
