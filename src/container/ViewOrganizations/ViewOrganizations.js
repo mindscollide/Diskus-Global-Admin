@@ -78,6 +78,8 @@ const ViewOrganization = () => {
     (state) => state.globalAdminDashboardReducer.getOrganizationNames
   );
 
+  console.log(organizationIdData, "organizationIdDataResponseMessage");
+
   const [searchBox, setSearchBox] = useState(false);
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
@@ -855,7 +857,7 @@ const ViewOrganization = () => {
           sRow: 0,
           eRow: 10,
         };
-        setViewOrganizationData([]); // Ensure empty table renders
+        setViewOrganizationData([]);
         setOrganizationInsideData([]);
         setSRowsData(0);
         setTotalRecords(0);
