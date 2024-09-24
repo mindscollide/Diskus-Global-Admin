@@ -847,7 +847,6 @@ const ViewOrganization = () => {
   const handleKeyDownSearch = (e) => {
     if (e.key === "Enter") {
       if (userNameSearch !== "") {
-        console.log(userNameSearch, "userNameSearchSearch");
         let newData = {
           OrganizationContactName: "",
           OrganizationContactEmail: "",
