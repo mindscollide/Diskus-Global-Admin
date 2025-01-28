@@ -95,6 +95,8 @@ export const getSystemLanguageMainApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(languageLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }

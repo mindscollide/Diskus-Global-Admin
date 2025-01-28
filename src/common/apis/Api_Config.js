@@ -309,6 +309,13 @@ const setLastSelectedLanguage = {
   RequestMethod: "ServiceManager.SetLastSelectedLanguage",
 };
 
+const searchAllTrailRejectedOrganizationsRM = {
+  RequestMethod: "ServiceManager.SearchAllTrialRejectedOrganizations",
+};
+
+const searchAllTrialRequestedOrganizationsRM = {
+  RequestMethod: "ServiceManager.SearchAllTrialRequestedOrganizations",
+};
 export {
   loginAPi,
   passwordVerify,
@@ -374,4 +381,6 @@ export {
   getSystemSupportedLanguage,
   getLastSelectedLanguage,
   setLastSelectedLanguage,
+  searchAllTrialRequestedOrganizationsRM,
+  searchAllTrailRejectedOrganizationsRM,
 };

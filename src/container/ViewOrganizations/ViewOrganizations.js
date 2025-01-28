@@ -48,6 +48,9 @@ import {
   globalAdminDashBoardLoader,
   resetResponseMessage,
 } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import CurrenrOrganization from "./CurrentOrganizations/CurrentOrganizations";
+import TrailRequest from "./TrailRequest/TrailRequest";
+import RejectedRequest from "./RejectedRequest/RejectedRequest";
 
 const { Panel } = Collapse;
 
@@ -57,6 +60,7 @@ const ViewOrganization = () => {
   const navigate = useNavigate();
   const calendRef = useRef();
   const ModalReducer = useSelector((state) => state.modal);
+  const [currentTab, setCurrentTab] = useState(1);
 
   // current language set in local storage
   let currentLanguage = localStorage.getItem("currentLanguage");
@@ -171,18 +175,6 @@ const ViewOrganization = () => {
 
   //Calling Organization Api
   useEffect(() => {
-    let newData = {
-      OrganizationContactName: "",
-      OrganizationContactEmail: "",
-      OrganizationDateTo: "",
-      OrganizationDateFrom: "",
-      OrganizationSubscriptionStatus: 0,
-      OrganizationName: "",
-      sRow: 0,
-      eRow: 10,
-    };
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ newData, navigate, t }));
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(getAllOrganizationNameMainApi({ navigate, t }));
     return () => {
@@ -239,388 +231,6 @@ const ViewOrganization = () => {
       }
     }
   }, [currentLanguage]);
-
-  // uesEffect to get data getAllOrganization to set data in table
-  useEffect(() => {
-    if (organizationIdData && organizationIdData.result) {
-      const { getAllOrganizations, totalCount } = organizationIdData.result;
-
-      if (getAllOrganizations && getAllOrganizations.length > 0) {
-        const newOrganizations = isScroll
-          ? [...viewOrganizationData, ...getAllOrganizations]
-          : getAllOrganizations;
-
-        const subscriptions = newOrganizations.flatMap((org) =>
-          org.organizationSubscriptions.map((sub) => ({
-            organizationId: org.organizationID,
-            subscriptionStartDate: sub.subscriptionStartDate,
-            subscriptionExpiryDate: sub.subscriptionExpiryDate,
-            fK_TenureOfSubscriptionID: sub.fK_TenureOfSubscriptionID,
-            fK_SubscriptionStatusID: sub.fK_SubscriptionStatusID,
-            pK_OrganizationsSubscriptionID: sub.pK_OrganizationsSubscriptionID,
-            uniqueKey: `${org.organizationID}-${sub.pK_OrganizationsSubscriptionID}`,
-          }))
-        );
-
-        console.log(subscriptions, "subscriptionssubscriptions");
-
-        const uniqueSubscriptions = Array.from(
-          new Set(subscriptions.map((sub) => sub.uniqueKey))
-        ).map((key) => subscriptions.find((sub) => sub.uniqueKey === key));
-
-        setViewOrganizationData(newOrganizations);
-        setOrganizationInsideData(uniqueSubscriptions);
-        setSRowsData(newOrganizations.length);
-        setTotalRecords(totalCount);
-      } else {
-        // Handle empty response
-        setViewOrganizationData([]); // Ensure empty table renders
-        setOrganizationInsideData([]);
-        setSRowsData(0);
-        setTotalRecords(0);
-      }
-    }
-  }, [organizationIdData]);
-
-  // handle scroll for lazy loader
-  const handleScroll = () => {
-    if (isRowsData <= totalRecords) {
-      setIsScroll(true);
-      let newData = {
-        OrganizationContactName: searchOrganizationData.OrganizationContactName
-          ? searchOrganizationData.OrganizationContactName
-          : "",
-        OrganizationContactEmail: "",
-        OrganizationDateTo: searchOrganizationData.OrganizationDateTo
-          ? `${searchOrganizationData.OrganizationDateTo}000000`
-          : "",
-        OrganizationDateFrom: searchOrganizationData.OrganizationDateFrom
-          ? `${searchOrganizationData.OrganizationDateFrom}000000`
-          : "",
-        OrganizationSubscriptionStatus: searchOrganizationData
-          .OrganizationSubscriptionStatus.value
-          ? searchOrganizationData.OrganizationSubscriptionStatus.value
-          : 0,
-        OrganizationName: organizationDataValue
-          ? organizationDataValue.label
-          : "",
-        sRow: Number(isRowsData),
-        eRow: 10,
-      };
-
-      dispatch(getAllOrganizationApi({ newData, navigate, t }));
-    } else {
-      setIsScroll(false);
-    }
-  };
-
-  const columns = [
-    {
-      title: t("Subscription-date"),
-      dataIndex: "subscriptionStartDate",
-      key: "subscriptionStartDate",
-      className: "class-main-headerColumn",
-      width: "270px",
-      render: (text, record) => {
-        return (
-          <>
-            <span className="inner-sub-Heading-insidetable">
-              {text &&
-                convertUTCDateToLocalDate(text + "201320", currentLanguage)}
-            </span>
-          </>
-        );
-      },
-    },
-    {
-      title: t("Expiry-date"),
-      dataIndex: "subscriptionExpiryDate",
-      key: "subscriptionExpiryDate",
-      className: "class-main-headerColumn",
-      render: (text, record) => {
-        console.log(record, "recordrecord");
-        return (
-          <>
-            <span className="inner-sub-Heading-insidetable">
-              {text &&
-                convertUTCDateToLocalDate(text + "201320", currentLanguage)}
-            </span>
-          </>
-        );
-      },
-    },
-    {
-      title: t("Subscription"),
-      dataIndex: "fK_TenureOfSubscriptionID",
-      key: "fK_TenureOfSubscriptionID",
-      className: "class-main-headerColumn",
-      render: (text, record) => {
-        return (
-          <>
-            {record.fK_TenureOfSubscriptionID === 1 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Annual")}
-                </span>
-              </>
-            ) : record.fK_TenureOfSubscriptionID === 2 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Monthly")}
-                </span>
-              </>
-            ) : record.fK_TenureOfSubscriptionID === 3 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Quarterly")}
-                </span>
-              </>
-            ) : record.fK_TenureOfSubscriptionID === 4 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("HalfYearly")}
-                </span>
-              </>
-            ) : record.fK_TenureOfSubscriptionID === 5 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Trial")}
-                </span>
-              </>
-            ) : record.fK_TenureOfSubscriptionID === 6 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Trial-extended")}
-                </span>
-              </>
-            ) : null}
-          </>
-        );
-      },
-    },
-    {
-      title: t("Status"),
-      dataIndex: "fK_SubscriptionStatusID",
-      key: "fK_SubscriptionStatusID",
-      className: "class-main-headerColumn",
-      render: (text, record) => {
-        return (
-          <>
-            {record.fK_SubscriptionStatusID === 1 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Active")}
-                </span>
-              </>
-            ) : record.fK_SubscriptionStatusID === 2 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("In-active")}
-                </span>
-              </>
-            ) : record.fK_SubscriptionStatusID === 3 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Suspended")}
-                </span>
-              </>
-            ) : record.fK_SubscriptionStatusID === 4 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Closed")}
-                </span>
-              </>
-            ) : record.fK_SubscriptionStatusID === 5 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Termination-requested")}
-                </span>
-              </>
-            ) : record.fK_SubscriptionStatusID === 6 ? (
-              <>
-                <span className="inner-sub-Heading-insidetable">
-                  {t("Cancelled")}
-                </span>
-              </>
-            ) : null}
-          </>
-        );
-      },
-    },
-    {
-      title: "",
-      dataIndex: "",
-      key: "action",
-      align: "center",
-      render: (text, record) => {
-        return (
-          <>
-            <Button
-              className="update-button"
-              text={t("Update-subscription")}
-              onClick={() => handleEditSubscriptionModal(record)}
-            />
-          </>
-        );
-      },
-    },
-  ];
-
-  const headerColumn = [
-    {
-      title: t("Organization-name"),
-      dataIndex: "organizationName",
-      key: "organizationName",
-      className: "class-main-headerColumn",
-      width: "270px",
-      ellipsis: true,
-      render: (text, record) => (
-        <>
-          <span
-            className="inner-organization-heading-view-modal"
-            onClick={() => handlerViewOrganizer(record)}
-          >
-            {text}
-          </span>
-        </>
-      ),
-    },
-    {
-      title: t("Admin-name"),
-      dataIndex: "contactPersonName",
-      key: "contactPersonName",
-      className: "class-main-headerColumn",
-      render: (text, record) => (
-        <>
-          <span className="inner-sub-Heading">{text}</span>
-        </>
-      ),
-    },
-    {
-      title: t("Contact-number"),
-      dataIndex: "contactPersonNumber",
-      key: "contactPersonNumber",
-      className: "class-main-headerColumn",
-      render: (text, record) => {
-        const countryCode = record.mobileCode;
-        return (
-          <>
-            <span className="d-flex gap-2">
-              <FlagCountryName countryCode={countryCode} />
-              <span className="inner-sub-Heading">{text}</span>
-            </span>
-          </>
-        );
-      },
-    },
-    {
-      title: t("Organization-status"),
-      dataIndex: "organizationStatus",
-      key: "organizationStatus",
-      className: "class-main-headerColumn",
-      render: (text, record) => {
-        return (
-          <>
-            {record.organizationStatus === 1 ? (
-              <>
-                <span className="inner-sub-Heading">{t("Active")}</span>
-              </>
-            ) : record.organizationStatus === 2 ? (
-              <>
-                <span className="inner-sub-Heading">{t("In-active")}</span>
-              </>
-            ) : record.organizationStatus === 3 ? (
-              <>
-                <span className="inner-sub-Heading">{t("Suspended")}</span>
-              </>
-            ) : record.organizationStatus === 4 ? (
-              <>
-                <span className="inner-sub-Heading">{t("Closed")}</span>
-              </>
-            ) : record.organizationStatus === 5 ? (
-              <>
-                <span className="inner-sub-Heading">
-                  {t("Termination-requested")}
-                </span>
-              </>
-            ) : record.organizationStatus === 6 ? (
-              <>
-                <span className="inner-sub-Heading">{t("Deleted")}</span>
-              </>
-            ) : record.organizationStatus === 7 ? (
-              <>
-                <span className="inner-sub-Heading">{t("Archived")}</span>
-              </>
-            ) : record.organizationStatus === 8 ? (
-              <>
-                <span className="inner-sub-Heading">
-                  {t("Locked-by-global-admin")}
-                </span>
-              </>
-            ) : null}
-          </>
-        );
-      },
-    },
-    {
-      title: "",
-      dataIndex: "editOrganization",
-      key: "editOrganization",
-      align: "center",
-      render: (text, record) => {
-        return (
-          <>
-            <Button
-              className="update-button"
-              text={t("Edit-organization")}
-              onClick={() => handleEditOrganizationModal(record)}
-            />
-          </>
-        );
-      },
-    },
-  ];
-
-  // view handler for Header Column
-  const handlerViewOrganizer = (record) => {
-    const subscriptions = viewOrganizationInsideData.filter(
-      (data) => data.organizationId === record.organizationID
-    );
-    console.log(record, "cwecwecwecwecwece");
-    setViewOrganizationsModal({ ...record, subscriptions });
-    dispatch(editOrganizationModalOpen(true));
-  };
-
-  // edit handler
-  const handleEditOrganizationModal = (record) => {
-    setEditOrganzationName(record.organizationName);
-    setEditOrganizationID(record.organizationID);
-    setEditSubscriptionName(record.organizationStatus);
-    dispatch(editOrganizationSubscriptionModalOpen(true));
-    // setEditSubModal(true);
-  };
-
-  const handleEditSubscriptionModal = (record) => {
-    const subscriptions = viewOrganizationData.filter(
-      (data) => data.organizationID === record.organizationId
-    );
-    console.log(subscriptions, "subscriptionssubscriptions");
-
-    setSubcriptionStartDate(record.subscriptionStartDate);
-    setDuration(record.fK_TenureOfSubscriptionID);
-    setCurrentEditSubscriptionName(record.fK_SubscriptionStatusID);
-    setSubcriptionExpiry(record.subscriptionExpiryDate);
-    setEditSubscriptionOrgID(record.organizationId);
-    setHeadData(subscriptions);
-    dispatch(editSubscriptionModalOpen(true));
-    setEditSubModal(record);
-    let data = {
-      OrganizationID: record.organizationId,
-      SubscriptionID: record.pK_OrganizationsSubscriptionID,
-    };
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
-  };
 
   // onChange handler for Status dropdown
   const handleStatusChange = (selectedOption) => {
@@ -870,14 +480,14 @@ const ViewOrganization = () => {
 
   return (
     <>
-      <Row className="mt-3">
+      <Row className='mt-3'>
         <Col lg={7} md={7} sm={7}>
           <span className={"HeadingViewORganization"}>
             {t("View-organization")}
           </span>
         </Col>
         <Col lg={5} md={5} sm={5}>
-          <span className="position-relative">
+          <span className='position-relative'>
             <TextField
               onKeyDown={handleKeyDownSearch}
               change={onChangeEventForSearch}
@@ -893,13 +503,12 @@ const ViewOrganization = () => {
                       lg={12}
                       md={12}
                       sm={12}
-                      className="d-flex gap-2 align-items-center"
-                    >
+                      className='d-flex gap-2 align-items-center'>
                       <img
                         src={SearchIcon}
-                        alt=""
+                        alt=''
                         className={"Search_Bar_icon_class"}
-                        draggable="false"
+                        draggable='false'
                         onClick={HandleopenSearchBox}
                       />
                     </Col>
@@ -915,7 +524,7 @@ const ViewOrganization = () => {
                     <span className={"Searches"}>{userNameSearch}</span>
                     <img
                       src={Crossicon}
-                      alt=""
+                      alt=''
                       className={"CrossIcon_Class"}
                       width={13}
                       onClick={() =>
@@ -927,7 +536,7 @@ const ViewOrganization = () => {
               </Col>
             </Row>
             <Row>
-              <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
+              <Col lg={12} md={12} sm={12} className='d-flex gap-2 flex-wrap'>
                 {showsearchText &&
                   searchOrganizationData.OrganizationContactName && (
                     <div className={"SearchablesItems"}>
@@ -936,7 +545,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() =>
@@ -954,7 +563,7 @@ const ViewOrganization = () => {
                     </span>
                     <img
                       src={Crossicon}
-                      alt=""
+                      alt=''
                       className={"CrossIcon_Class"}
                       width={13}
                       onClick={() =>
@@ -978,7 +587,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() => handleSearches("OrganizationDateFrom")}
@@ -997,7 +606,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() => handleSearches("OrganizationDateTo")}
@@ -1006,14 +615,14 @@ const ViewOrganization = () => {
                   )}
 
                 {showsearchText && organizationDataValue && (
-                  <div className="SearchablesItems">
-                    <span className="Searches">
+                  <div className='SearchablesItems'>
+                    <span className='Searches'>
                       {organizationDataValue.label}
                     </span>
                     <img
                       src={Crossicon}
-                      alt=""
-                      className="CrossIcon_Class"
+                      alt=''
+                      className='CrossIcon_Class'
                       width={13}
                       onClick={() => handleSearches("organizationName")}
                     />
@@ -1032,7 +641,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() =>
@@ -1047,23 +656,22 @@ const ViewOrganization = () => {
               <>
                 <Row>
                   <Col lg={12} md={12} sm={12} className={"SearchBox"}>
-                    <Row className="mt-2">
+                    <Row className='mt-2'>
                       <Col
                         lg={12}
                         md={12}
                         sm={12}
-                        className="d-flex justify-content-end align-items-center"
-                      >
+                        className='d-flex justify-content-end align-items-center'>
                         <img
-                          alt=""
+                          alt=''
                           src={BlackCrossicon}
-                          draggable="false"
+                          draggable='false'
                           className={"CrossIcon_Class"}
                           onClick={handleCancelSearchbox}
                         />
                       </Col>
                     </Row>
-                    <Row className="mt-2">
+                    <Row className='mt-2'>
                       <Col lg={6} md={6} sm={6}>
                         <TextField
                           labelClass={"d-none"}
@@ -1087,7 +695,7 @@ const ViewOrganization = () => {
                         />
                       </Col>
                     </Row>
-                    <Row className="mt-3">
+                    <Row className='mt-3'>
                       <Col lg={6} md={6} sm={6}>
                         <DatePicker
                           value={
@@ -1102,10 +710,10 @@ const ViewOrganization = () => {
                             />
                           }
                           editable={false}
-                          className="datePickerTodoCreate2"
+                          className='datePickerTodoCreate2'
                           containerClassName={"datePicker_Container"}
                           onOpenPickNewDate={false}
-                          inputMode=""
+                          inputMode=''
                           calendar={calendarValue}
                           locale={localValue}
                           ref={calendRef}
@@ -1124,10 +732,10 @@ const ViewOrganization = () => {
                             />
                           }
                           editable={false}
-                          className="datePickerTodoCreate2"
+                          className='datePickerTodoCreate2'
                           containerClassName={"datePicker_Container"}
                           onOpenPickNewDate={false}
-                          inputMode=""
+                          inputMode=''
                           calendar={calendarValue}
                           locale={localValue}
                           ref={calendRef}
@@ -1135,7 +743,7 @@ const ViewOrganization = () => {
                         />
                       </Col>
                     </Row>
-                    <Row className="mt-3">
+                    <Row className='mt-3'>
                       <Col lg={6} md={6} sm={6}>
                         <Select
                           value={
@@ -1158,13 +766,12 @@ const ViewOrganization = () => {
                         />
                       </Col>
                     </Row>
-                    <Row className="mt-3">
+                    <Row className='mt-3'>
                       <Col
                         lg={12}
                         md={12}
                         sm={12}
-                        className="d-flex justify-content-end gap-2"
-                      >
+                        className='d-flex justify-content-end gap-2'>
                         <Button
                           text={t("Reset")}
                           className={"SearchBoxResetButton"}
@@ -1184,10 +791,47 @@ const ViewOrganization = () => {
           </span>
         </Col>
       </Row>
+      <Row className='mt-3'>
+        <Col
+          lg={12}
+          md={12}
+          sm={12}
+          className='d-flex gap-2 justify-content-start'>
+          <span
+            onClick={() => setCurrentTab(1)}
+            className={
+              currentTab === 1
+                ? "currenrOrganizationTab_active"
+                : "currenrOrganizationTab"
+            }>
+            {t("Current-organizations")}
+          </span>
+          <span
+            onClick={() => setCurrentTab(2)}
+            className={
+              currentTab === 2
+                ? "currenrOrganizationTab_active"
+                : "currenrOrganizationTab"
+            }>
+            {t("Trail-requests")}
+          </span>
+          <span
+            onClick={() => setCurrentTab(3)}
+            className={
+              currentTab === 3
+                ? "currenrOrganizationTab_active"
+                : "currenrOrganizationTab"
+            }>
+            {t("Rejected-requests")}
+          </span>
+        </Col>
+      </Row>
 
-      <Row>
-        <Col lg={12} md={12} sm={12}>
-          {viewOrganizationData !== null &&
+      {currentTab === 1 && <CurrenrOrganization />}
+      {currentTab === 2 && <TrailRequest />}
+      {currentTab === 3 && <RejectedRequest />}
+
+      {/* {viewOrganizationData !== null &&
           viewOrganizationData !== undefined &&
           viewOrganizationData.length > 0 ? (
             <>
@@ -1204,30 +848,27 @@ const ViewOrganization = () => {
                         sm={12}
                         md={12}
                         lg={12}
-                        className="d-flex justify-content-center mt-2"
-                      >
+                        className='d-flex justify-content-center mt-2'>
                         <Spin />
                       </Col>
                     </Row>
                   ) : null
-                }
-              >
+                }>
                 {viewOrganizationData.map((org) => (
                   <Collapse
                     key={org.organizationId}
                     bordered={false}
-                    expandIconPosition="end"
+                    expandIconPosition='end'
                     expandIcon={({ isActive }) => (
                       <UpOutlined
-                        className="custom-icon"
+                        className='custom-icon'
                         rotate={isActive ? 180 : 0}
                       />
                     )}
-                    className="organization-collapse"
-                  >
+                    className='organization-collapse'>
                     <Panel
                       key={org.organizationId}
-                      className="Panel-Class"
+                      className='Panel-Class'
                       header={
                         <>
                           <div onClick={(e) => e.stopPropagation()}>
@@ -1235,12 +876,11 @@ const ViewOrganization = () => {
                               rows={[org]}
                               column={headerColumn}
                               pagination={false}
-                              className="custom-table"
+                              className='custom-table'
                             />
                           </div>
                         </>
-                      }
-                    >
+                      }>
                       <div onClick={(e) => e.stopPropagation()}>
                         <Table
                           rows={viewOrganizationInsideData.filter(
@@ -1248,7 +888,7 @@ const ViewOrganization = () => {
                           )}
                           column={columns}
                           pagination={false}
-                          className="custom-table"
+                          className='custom-table'
                         />
                       </div>
                     </Panel>
@@ -1258,48 +898,25 @@ const ViewOrganization = () => {
             </>
           ) : (
             <>
-              <Row className="mt-5">
+              <Row className='mt-5'>
                 <Col
                   lg={12}
                   md={12}
                   sm={12}
-                  className="view-organization-section"
-                >
+                  className='view-organization-section'>
                   <img
                     src={NoOrganizationIcon}
                     width={"110px"}
-                    alt="View Organization"
+                    alt='View Organization'
                   />
 
-                  <span className="Main-Title-ViewOrganization">
+                  <span className='Main-Title-ViewOrganization'>
                     {t("No-View-Organization")}
                   </span>
                 </Col>
               </Row>
             </>
-          )}
-        </Col>
-      </Row>
-      <EditOrganizationSubscriptions
-        editOrganizationID={editOrganizationID}
-        editOrganzationName={editOrganzationName}
-        editSubscriptionName={editSubscriptionName}
-        setShowSearchText={setShowSearchText}
-        setUserNameSearch={setUserNameSearch}
-      />
-
-      <EditSubscriptionModals
-        editSubscriptionOrgID={editSubscriptionOrgID}
-        subcriptionStartDate={subcriptionStartDate}
-        subcriptionExpiry={subcriptionExpiry}
-        editCurrentSubscriptionName={editCurrentSubscriptionName}
-        duration={duration}
-        headData={headData}
-        editSubModal={editSubModal}
-        setShowSearchText={setShowSearchText}
-        setUserNameSearch={setUserNameSearch}
-      />
-      <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
+          )} */}
 
       <Notification
         show={openNotification.historyFlag}

@@ -3,12 +3,16 @@ import {
   EditOrganizationAPI,
   EditSubscriptionAPI,
   getAllOrganizationApi,
+  getAllTrailRejectedApi,
+  getAllTrailRequestedApi,
   searchOrganizationApi,
 } from "../Actions/ViewOrganizationActions";
 
 const initialState = {
   loading: false,
   searchOrganizationData: null,
+  trailRequestData: null,
+  rejectedRequestData: null,
   editSubscriptionData: null,
   editOrganizationData: null,
   getAllOrganizationData: [],
@@ -73,9 +77,26 @@ const searchOrganization = createSlice({
         state.Responsemessage = "Success";
       })
       .addCase(getAllOrganizationApi.rejected, (state, action) => {
-        state.getAllOrganizationData = [];
         state.Responsemessage = action.payload || "";
-      });
+      })
+
+      .addCase(getAllTrailRejectedApi.fulfilled, (state, action) => {
+        state.rejectedRequestData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getAllTrailRejectedApi.rejected, (state, action) => {
+        state.rejectedRequestData = null;
+        state.Responsemessage = action.payload || "";
+      })
+      .addCase(getAllTrailRequestedApi.fulfilled, (state, action) => {
+        state.trailRequestData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getAllTrailRequestedApi.rejected, (state, action) => {
+        state.trailRequestData = null;
+        state.Responsemessage = action.payload || "";
+      })
+ 
   },
 });
 

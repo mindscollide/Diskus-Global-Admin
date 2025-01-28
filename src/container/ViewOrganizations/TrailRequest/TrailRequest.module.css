@@ -1,0 +1,47 @@
+.TrailRequestBox__Wrapper {
+  max-height: 70vh !important;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
+  margin-top: 15px !important;
+}
+.TrailRequestBox {
+  background-color: #fff;
+  border: none;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.TrailRequestBox__label {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6172d6;
+}
+.TrailRequestBox__RejectBtn {
+  padding: 12px 30px;
+  color: #fff;
+  background: #f16b6b !important;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+.TrailRequestBox__AcceptBtn {
+  padding: 12px 30px;
+  color: #fff;
+  background: #55ce5c !important;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+.TrailRequestBox__value {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #5a5a5a;
+}

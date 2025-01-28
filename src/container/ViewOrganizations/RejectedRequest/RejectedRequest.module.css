@@ -1,0 +1,39 @@
+.RejectedRequestBox__Wrapper {
+  max-height: 70vh !important;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
+  margin-top: 15px !important;
+}
+.RejectedRequestBox {
+  background-color: #fff;
+  border: none;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.RejectedRequestBox__label {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6172d6;
+}
+.RejectedRequestBox__ReconsiderBtn {
+  padding: 15px 70px;
+  background: #6172d6 !important;
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 4px;
+}
+.RejectedRequestBox__value {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #5a5a5a;
+}

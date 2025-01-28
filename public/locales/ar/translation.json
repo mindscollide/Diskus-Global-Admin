@@ -347,5 +347,9 @@
   "Failed-to-update-package": "Failed to Update Package",
   "Failed-to-create-mapping": "Failed to create mapping",
   "Add-features-by-searching": "Add features by searching",
-  "Allow-changes-in-the-Agenda-items-after-the-meeting-has-been-started": "Allow changes in the Agenda items after the meeting has been started"
+  "Allow-changes-in-the-Agenda-items-after-the-meeting-has-been-started": "Allow changes in the Agenda items after the meeting has been started",
+  "Current-organizations": "Current Organizations",
+  "Trail-requests": "Trail Requests",
+  "Rejected-requests": "Rejected Requests",
+  "Trail-request-date": "Trail Request Date"
 }

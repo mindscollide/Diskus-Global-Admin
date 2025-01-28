@@ -4,6 +4,8 @@ import {
   editOrganization,
   editSubscription,
   getAllOrganization,
+  searchAllTrailRejectedOrganizationsRM,
+  searchAllTrialRequestedOrganizationsRM,
   searchOrganization,
 } from "../../common/apis/Api_Config";
 import { adminURL } from "../../common/apis/Api_endPoints";
@@ -328,6 +330,168 @@ export const getAllOrganizationApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(viewOrganizationLoader(false));
+
+      return rejectWithValue(t("Something-went-wrong"));
+    }
+  }
+);
+
+// for get All Trail Rejected API
+
+export const getAllTrailRejectedApi = createAsyncThunk(
+  "Organization/getAllTrailRejectedApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { newData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append(
+      "RequestMethod",
+      searchAllTrailRejectedOrganizationsRM.RequestMethod
+    );
+    form.append("RequestData", JSON.stringify(newData));
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SearchAllTrialRejectedOrganizations_01".toLowerCase()
+              )
+          ) {
+            dispatch(viewOrganizationLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetAllOrganization_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SearchAllTrialRejectedOrganizations_02".toLowerCase()
+              )
+          ) {
+            dispatch(viewOrganizationLoader(false));
+            return rejectWithValue("");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SearchAllTrialRejectedOrganizations_03".toLowerCase()
+              )
+          ) {
+            dispatch(viewOrganizationLoader(false));
+            return rejectWithValue(t("Something-went-wrong"));
+          } else {
+            dispatch(viewOrganizationLoader(false));
+            return rejectWithValue(t("Something-went-wrong"));
+          }
+        } else {
+          dispatch(viewOrganizationLoader(false));
+          return rejectWithValue(t("Something-went-wrong"));
+        }
+      } else {
+        dispatch(viewOrganizationLoader(false));
+        return rejectWithValue(t("Something-went-wrong"));
+      }
+    } catch (error) {
+      dispatch(viewOrganizationLoader(false));
+
+      return rejectWithValue(t("Something-went-wrong"));
+    }
+  }
+);
+
+// for get All Trail Requested API
+
+export const getAllTrailRequestedApi = createAsyncThunk(
+  "getAllTrailRequestedApi/getAllTrailRequestedApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { newData, navigate, t } = requestData;
+    let form = new FormData();
+    form.append(
+      "RequestMethod",
+      searchAllTrialRequestedOrganizationsRM.RequestMethod
+    );
+    form.append("RequestData", JSON.stringify(newData));
+    try {
+      const response = await axios({
+        method: "post",
+        url: adminURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SearchAllTrialRequestedOrganizations_01".toLowerCase()
+              )
+          ) {
+            dispatch(viewOrganizationLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetAllOrganization_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SearchAllTrialRequestedOrganizations_02".toLowerCase()
+              )
+          ) {
+            dispatch(viewOrganizationLoader(false));
+            return rejectWithValue("");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Admin_AdminServiceManager_SearchAllTrialRequestedOrganizations_03".toLowerCase()
+              )
+          ) {
+            dispatch(viewOrganizationLoader(false));
+            return rejectWithValue(t("Something-went-wrong"));
+          } else {
+            dispatch(viewOrganizationLoader(false));
+            return rejectWithValue(t("Something-went-wrong"));
+          }
+        } else {
+          dispatch(viewOrganizationLoader(false));
+          return rejectWithValue(t("Something-went-wrong"));
+        }
+      } else {
+        dispatch(viewOrganizationLoader(false));
+        return rejectWithValue(t("Something-went-wrong"));
+      }
+    } catch (error) {
+      dispatch(viewOrganizationLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
