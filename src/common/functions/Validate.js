@@ -21,3 +21,7 @@ export const validationEmail = (value) => {
     return false;
   }
 };
+
+export const getActionValue = (url, key) => {
+  return url.split(key)[1];
+};

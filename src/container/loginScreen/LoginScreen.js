@@ -74,6 +74,8 @@ const LoginScreen = () => {
 
   useEffect(() => {
     let RememberEmailLocal = JSON.parse(localStorage.getItem("rememberEmail"));
+    let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
+    let orgTrialReject = localStorage.getItem("orgTrialReject_action");
     let RememberPasswordLocal = JSON.parse(
       localStorage.getItem("remeberPassword")
     );
@@ -88,6 +90,12 @@ const LoginScreen = () => {
         "rememberPasswordValue"
       );
       localStorage.clear();
+      if (orgTrialAccept !== null) {
+        localStorage.setItem("orgTrialAccept_action", orgTrialAccept);
+      }
+      if (orgTrialReject !== null) {
+        localStorage.setItem("orgTrialReject_action", orgTrialReject);
+      }
       localStorage.setItem("currentLanguage", currentLanguage);
       localStorage.setItem("remeberPassword", RememberPasswordLocal);
       localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
@@ -98,6 +106,12 @@ const LoginScreen = () => {
     } else if (RememberEmailLocal === true) {
       let RememberEmailLocalValue = localStorage.getItem("rememberEmailValue");
       localStorage.clear();
+      if (orgTrialAccept !== null) {
+        localStorage.setItem("orgTrialAccept_action", orgTrialAccept);
+      }
+      if (orgTrialReject !== null) {
+        localStorage.setItem("orgTrialReject_action", orgTrialReject);
+      }
       localStorage.setItem("rememberEmail", RememberEmailLocal);
       localStorage.setItem("rememberEmailValue", RememberEmailLocalValue);
       localStorage.setItem("currentLanguage", currentLanguage);
@@ -109,11 +123,23 @@ const LoginScreen = () => {
         "rememberPasswordValue"
       );
       localStorage.clear();
+      if (orgTrialAccept !== null) {
+        localStorage.setItem("orgTrialAccept_action", orgTrialAccept);
+      }
+      if (orgTrialReject !== null) {
+        localStorage.setItem("orgTrialReject_action", orgTrialReject);
+      }
       localStorage.setItem("remeberPassword", RememberPasswordLocal);
       localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
       localStorage.setItem("currentLanguage", currentLanguage);
     } else {
       localStorage.clear();
+      if (orgTrialAccept !== null) {
+        localStorage.setItem("orgTrialAccept_action", orgTrialAccept);
+      }
+      if (orgTrialReject !== null) {
+        localStorage.setItem("orgTrialReject_action", orgTrialReject);
+      }
       localStorage.setItem("rememberEmail", false);
       localStorage.setItem("rememberEmailValue", "");
       localStorage.setItem("remeberPassword", false);
@@ -184,9 +210,8 @@ const LoginScreen = () => {
           lg={12}
           md={12}
           sm={12}
-          className="my-4 d-flex justify-content-center"
-        >
-          <span className="sign-in-text">{t("Sign-in")}</span>
+          className='my-4 d-flex justify-content-center'>
+          <span className='sign-in-text'>{t("Sign-in")}</span>
         </Col>
       </Row>
 
@@ -207,23 +232,22 @@ const LoginScreen = () => {
       </Row>
 
       <Row>
-        <Col sm={12} md={12} lg={12} className="d-flex gap-2">
+        <Col sm={12} md={12} lg={12} className='d-flex gap-2'>
           <Checkbox
-            classNameDiv=""
+            classNameDiv=''
             checked={rememberEmail}
             onChange={rememberChangeEmail}
           />
-          <span className="remember-email">{t("Remember-email")}</span>
+          <span className='remember-email'>{t("Remember-email")}</span>
         </Col>
       </Row>
 
-      <Row className="mt-3">
+      <Row className='mt-3'>
         <Col
           lg={12}
           md={12}
           sm={12}
-          className="d-flex justify-content-center w-100"
-        >
+          className='d-flex justify-content-center w-100'>
           <Button
             text={t("Next")}
             onClick={onClickSignIn}

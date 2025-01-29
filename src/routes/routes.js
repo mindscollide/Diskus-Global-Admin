@@ -24,7 +24,7 @@ export const router = createHashRouter(
       <Route exact path="/" element={<LoginCard />} />
       {/* <Route path="/admin" element={<LoginCard />} /> */}
       {/* </Route> */}
-      {/* <Route element={<PrivateRoutes />}> */}
+      <Route element={<PrivateRoutes />}>
       <Route exact path="/GlobalAdmin/" element={<DashBoard />}>
         <Route path="" element={<GlobalAdminDashboard />} />
         <Route path="GlobalDashboard" element={<GlobalAdminDashboard />} />
@@ -38,7 +38,7 @@ export const router = createHashRouter(
         <Route path="GlobalLevelSettings" element={<GlobalLevelSettings />} />
         <Route path="Summary" element={<CashFlowSummary />} />
       </Route>
-      {/* </Route> */}
+      </Route>
     </>
   )
 );
