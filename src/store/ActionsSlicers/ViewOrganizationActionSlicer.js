@@ -3,15 +3,23 @@ import {
   EditOrganizationAPI,
   EditSubscriptionAPI,
   getAllOrganizationApi,
+  getAllTrailRejectedApi,
+  getAllTrailRequestedApi,
   searchOrganizationApi,
+  updateOrganizationTrailRequestStatusApi,
+  validateEncryptedStringForOrganizationTrialEmailApi,
 } from "../Actions/ViewOrganizationActions";
 
 const initialState = {
   loading: false,
   searchOrganizationData: null,
+  trailRequestData: null,
+  rejectedRequestData: null,
   editSubscriptionData: null,
   editOrganizationData: null,
   getAllOrganizationData: [],
+  updateOrganizationTrailRequest: null,
+  confirmationModal: false,
   Responsemessage: "",
 };
 
@@ -21,6 +29,9 @@ const searchOrganization = createSlice({
   reducers: {
     viewOrganizationLoader: (state, { payload }) => {
       state.loading = payload;
+    },
+    confirmatioModalFunc: (state, { payload }) => {
+      state.confirmationModal = payload;
     },
   },
   extraReducers: (builder) => {
@@ -73,11 +84,43 @@ const searchOrganization = createSlice({
         state.Responsemessage = "Success";
       })
       .addCase(getAllOrganizationApi.rejected, (state, action) => {
-        state.getAllOrganizationData = [];
         state.Responsemessage = action.payload || "";
-      });
+      })
+
+      .addCase(getAllTrailRejectedApi.fulfilled, (state, action) => {
+        state.rejectedRequestData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getAllTrailRejectedApi.rejected, (state, action) => {
+        state.rejectedRequestData = null;
+        state.Responsemessage = action.payload || "";
+      })
+      .addCase(getAllTrailRequestedApi.fulfilled, (state, action) => {
+        state.trailRequestData = action.payload;
+        state.Responsemessage = "Success";
+      })
+      .addCase(getAllTrailRequestedApi.rejected, (state, action) => {
+        state.trailRequestData = null;
+        state.Responsemessage = action.payload || "";
+      })
+      .addCase(
+        updateOrganizationTrailRequestStatusApi.fulfilled,
+        (state, action) => {
+          state.updateOrganizationTrailRequest = action.payload;
+          state.Responsemessage = action.payload.message;
+        }
+      )
+      .addCase(
+        updateOrganizationTrailRequestStatusApi.rejected,
+        (state, action) => {
+          state.updateOrganizationTrailRequest = null;
+          state.Responsemessage = action.payload;
+        }
+      )
+
   },
 });
 
-export const { viewOrganizationLoader } = searchOrganization.actions;
+export const { viewOrganizationLoader, confirmatioModalFunc } =
+  searchOrganization.actions;
 export default searchOrganization.reducer;

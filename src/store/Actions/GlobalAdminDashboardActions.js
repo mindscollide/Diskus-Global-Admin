@@ -124,6 +124,8 @@ export const StatsOfActiveLicenseApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -197,6 +199,8 @@ export const organziationStatsBySubscriptionApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -271,6 +275,8 @@ export const OrganizationsByActiveLicenseApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -345,6 +351,8 @@ export const GetAllBillingDueApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -419,6 +427,8 @@ export const TotalThisMonthDueApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -541,6 +551,8 @@ export const OrganizationSubscriptionTypeApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -615,6 +627,8 @@ export const SendInvoiceApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -692,6 +706,8 @@ export const GetAllPackagesWithFeaturesGlobalAdminApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -766,6 +782,8 @@ export const UpdatePackagePriceGlobalAdminApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -839,6 +857,8 @@ export const GetSystemConfigurationsApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -917,6 +937,8 @@ export const UpdateAllOrganizationLevelConfigurationApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1001,6 +1023,8 @@ export const ChangePasswordApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1075,6 +1099,8 @@ export const getCashFlowMainApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1149,6 +1175,8 @@ export const getCashOutStandingFlowMainApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1223,6 +1251,8 @@ export const getListTrialSubscription = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1297,6 +1327,8 @@ export const getListOfExtendedTrailSubscriptions = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1374,6 +1406,8 @@ export const getListOfSubscribedSubscriptions = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1448,6 +1482,8 @@ export const getListOfExpiredSubscriptions = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1523,6 +1559,8 @@ export const trialRenewApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -1615,10 +1653,14 @@ export const trialSubscribeReportApi = createAsyncThunk(
         dispatch(globalAdminDashBoardLoader(false));
       } else {
         // Handle other status codes if needed
+        dispatch(globalAdminDashBoardLoader(false));
+
         return rejectWithValue("Error downloading file");
       }
     } catch (error) {
       // Handle errors
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(error.message);
     }
   }
@@ -2324,6 +2366,8 @@ export const premiumDownloadExportApi = createAsyncThunk(
       }
     } catch (error) {
       // Handle errors
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(error.message);
     }
   }
@@ -2397,6 +2441,8 @@ export const getGlobalLevelConfigurationsApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -2472,6 +2518,8 @@ export const UpdateGlobalLevelConfigurationApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -2545,6 +2593,8 @@ export const getAllPackagesDynamicTabsApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -2619,6 +2669,8 @@ export const listOfPackageLisencesMainApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -2693,6 +2745,7 @@ export const getAllOrganizationNameMainApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
@@ -2745,6 +2798,7 @@ export const dynamicalyDownloadReportApi = createAsyncThunk(
     } catch (error) {
       // Handle errors
       return rejectWithValue(error.message);
+      dispatch(globalAdminDashBoardLoader(false));
     }
   }
 );
@@ -2867,6 +2921,8 @@ export const getUserInfoMainApi = createAsyncThunk(
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      dispatch(globalAdminDashBoardLoader(false));
+
       return rejectWithValue(t("Something-went-wrong"));
     }
   }
