@@ -12,6 +12,7 @@ import {
   getAllOrganizationApi,
   getAllTrailRejectedApi,
   getAllTrailRequestedApi,
+  validateEncryptedStringForOrganizationTrialEmailApi,
 } from "../../store/Actions/ViewOrganizationActions";
 import "./ViewOrganizations.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,6 +64,8 @@ const ViewOrganization = () => {
   const [aminNameSearch, setAminNameSearch] = useState("");
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
+  let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
+  let orgTrialReject = localStorage.getItem("orgTrialReject_action");
 
   const [userNameSearch, setUserNameSearch] = useState("");
 
@@ -115,8 +118,17 @@ const ViewOrganization = () => {
 
   //Calling Organization Api
   useEffect(() => {
-    dispatch(globalAdminDashBoardLoader(true));
-    dispatch(getAllOrganizationNameMainApi({ navigate, t }));
+    if (
+      localStorage.getItem("orgTrialReject_action") !== null ||
+      localStorage.getItem("orgTrialAccept_action") !== null
+    ) {
+      setCurrentTab(2);
+    } else {
+      dispatch(globalAdminDashBoardLoader(true));
+      dispatch(getAllOrganizationNameMainApi({ navigate, t }));
+      setCurrentTab(1);
+    }
+
     return () => {
       setSearchOrganizationData({
         OrganizationContactName: "",
@@ -261,27 +273,66 @@ const ViewOrganization = () => {
     setSearchOrganizationData(updatedData);
     // Clear the current data before fetching new data
 
-    let newData = {
-      OrganizationContactName: updatedData.OrganizationContactName,
-      OrganizationContactEmail: updatedData.OrganizationContactEmail,
-      OrganizationDateTo: updatedData.OrganizationDateTo
-        ? `${updatedData.OrganizationDateTo}000000`
-        : "",
-      OrganizationDateFrom: updatedData.OrganizationDateFrom
-        ? `${updatedData.OrganizationDateFrom}000000`
-        : "",
-      OrganizationSubscriptionStatus:
-        updatedData.OrganizationSubscriptionStatus.value,
-      OrganizationName: updatedOrganizationDataValue
-        ? updatedOrganizationDataValue.label
-        : "",
-      sRow: 0,
-      eRow: 10,
-    };
-    setShowSearchText(false);
-    setUserNameSearch("");
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ newData, navigate, t }));
+    if (currentTab === 1) {
+      let newData = {
+        OrganizationContactName: searchOrganizationData.OrganizationContactName,
+        OrganizationContactEmail: "",
+        OrganizationDateTo: searchOrganizationData.OrganizationDateTo
+          ? `${searchOrganizationData.OrganizationDateTo}000000`
+          : "",
+        OrganizationDateFrom: searchOrganizationData.OrganizationDateFrom
+          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+          : "",
+        OrganizationSubscriptionStatus: Number(
+          searchOrganizationData.OrganizationSubscriptionStatus.value
+        ),
+        OrganizationName: organizationDataValue
+          ? organizationDataValue.label
+          : "",
+        sRow: 0,
+        eRow: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllOrganizationApi({ newData, navigate, t }));
+      setSearchBox(false);
+      setShowSearchText(true);
+    } else if (currentTab === 2) {
+      let newData = {
+        OrganizationName: organizationDataValue
+          ? organizationDataValue.label
+          : "",
+        ContactPersonName: searchOrganizationData.OrganizationContactName,
+        ContactPersonEmail: "",
+        DateTimeTo: searchOrganizationData.OrganizationDateTo
+          ? `${searchOrganizationData.OrganizationDateTo}000000`
+          : "",
+        DateTimeFrom: searchOrganizationData.OrganizationDateFrom
+          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+          : "",
+        SkipRows: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+    } else if (currentTab === 3) {
+      let newData = {
+        OrganizationName: organizationDataValue
+          ? organizationDataValue.label
+          : "",
+        ContactPersonName: searchOrganizationData.OrganizationContactName,
+        ContactPersonEmail: "",
+        DateTimeTo: searchOrganizationData.OrganizationDateTo
+          ? `${searchOrganizationData.OrganizationDateTo}000000`
+          : "",
+        DateTimeFrom: searchOrganizationData.OrganizationDateFrom
+          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+          : "",
+        SkipRows: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+    }
   };
 
   // search Button Handler
@@ -364,6 +415,47 @@ const ViewOrganization = () => {
       OrganizationDateToView: "",
       OrganizationDateFromView: "",
     });
+    if (currentTab === 1) {
+      // Current Organizations
+      let newData = {
+        OrganizationContactName: "",
+        OrganizationContactEmail: "",
+        OrganizationDateTo: "",
+        OrganizationDateFrom: "",
+        OrganizationSubscriptionStatus: 0,
+        OrganizationName: "",
+        sRow: 0,
+        eRow: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllOrganizationApi({ newData, navigate, t }));
+    } else if (currentTab === 2) {
+      // Trail Requests
+      let newData = {
+        OrganizationName: "",
+        ContactPersonName: "",
+        ContactPersonEmail: "",
+        DateTimeTo: "",
+        DateTimeFrom: "",
+        SkipRows: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+    } else if (currentTab === 3) {
+      // Rejected Requests
+      let newData = {
+        OrganizationName: "",
+        ContactPersonName: "",
+        ContactPersonEmail: "",
+        DateTimeTo: "",
+        DateTimeFrom: "",
+        SkipRows: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+    }
   };
 
   const handleCancelSearchbox = () => {
@@ -796,7 +888,11 @@ const ViewOrganization = () => {
           sm={12}
           className='d-flex gap-2 justify-content-start'>
           <span
-            onClick={() => setCurrentTab(1)}
+            onClick={() => {
+              localStorage.removeItem("orgTrialAccept_action");
+              localStorage.removeItem("orgTrialReject_action");
+              setCurrentTab(1);
+            }}
             className={
               currentTab === 1
                 ? "currenrOrganizationTab_active"
@@ -805,7 +901,11 @@ const ViewOrganization = () => {
             {t("Current-organizations")}
           </span>
           <span
-            onClick={() => setCurrentTab(2)}
+            onClick={() => {
+              setCurrentTab(2);
+              localStorage.removeItem("orgTrialAccept_action");
+              localStorage.removeItem("orgTrialReject_action");
+            }}
             className={
               currentTab === 2
                 ? "currenrOrganizationTab_active"
@@ -814,7 +914,11 @@ const ViewOrganization = () => {
             {t("Trail-requests")}
           </span>
           <span
-            onClick={() => setCurrentTab(3)}
+            onClick={() => {
+              setCurrentTab(3);
+              localStorage.removeItem("orgTrialAccept_action");
+              localStorage.removeItem("orgTrialReject_action");
+            }}
             className={
               currentTab === 3
                 ? "currenrOrganizationTab_active"

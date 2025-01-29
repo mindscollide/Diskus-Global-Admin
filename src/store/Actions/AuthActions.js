@@ -129,6 +129,8 @@ export const PasswordVerificationApi = createAsyncThunk(
     let { password, navigate, t } = requestData;
     console.log(navigate, "PasswordValidationPasswordValidation");
     let userID = localStorage.getItem("userID");
+    let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
+    let orgTrialReject = localStorage.getItem("orgTrialReject_action");
     let data = {
       UserID: Number(userID),
       Device: "Browser",
@@ -197,7 +199,11 @@ export const PasswordVerificationApi = createAsyncThunk(
               response.data.responseResult.authToken.name
             );
             localStorage.setItem("currentLanguage", "en");
-            navigate("/GlobalAdmin/");
+            if (orgTrialAccept !== null || orgTrialReject !== null) {
+              navigate("/GlobalAdmin/ViewOrganizations");
+            } else {
+              navigate("/GlobalAdmin/");
+            }
             try {
               return {
                 result: response.data.responseResult,
@@ -236,7 +242,11 @@ export const PasswordVerificationApi = createAsyncThunk(
             );
             localStorage.setItem("currentLanguage", "en");
 
-            navigate("/GlobalAdmin/");
+            if (orgTrialAccept !== null || orgTrialReject !== null) {
+              navigate("/GlobalAdmin/ViewOrganizations");
+            } else {
+              navigate("/GlobalAdmin/");
+            }
             try {
               return {
                 result: response.data.responseResult,

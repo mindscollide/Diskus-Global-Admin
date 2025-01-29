@@ -7,6 +7,7 @@ import {
   getAllTrailRequestedApi,
   searchOrganizationApi,
   updateOrganizationTrailRequestStatusApi,
+  validateEncryptedStringForOrganizationTrialEmailApi,
 } from "../Actions/ViewOrganizationActions";
 
 const initialState = {
@@ -115,7 +116,8 @@ const searchOrganization = createSlice({
           state.updateOrganizationTrailRequest = null;
           state.Responsemessage = action.payload;
         }
-      );
+      )
+
   },
 });
 

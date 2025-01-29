@@ -320,6 +320,10 @@ const searchAllTrialRequestedOrganizationsRM = {
 const UpdateOrganizationTrialRequestRM = {
   RequestMethod: "ServiceManager.UpdateOrganizationTrialRequestStatus",
 };
+
+const ValidateEncryptedStringForOrganizationTrialEmailRM = {
+  RequestMethod: "ServiceManager.ValidateEncryptedStringForOrganizationTrialEmail",
+}
 export {
   loginAPi,
   passwordVerify,
@@ -388,4 +392,5 @@ export {
   searchAllTrialRequestedOrganizationsRM,
   searchAllTrailRejectedOrganizationsRM,
   UpdateOrganizationTrialRequestRM,
+  ValidateEncryptedStringForOrganizationTrialEmailRM
 };

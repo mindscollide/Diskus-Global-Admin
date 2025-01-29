@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
   UpdateOrganizationTrialRequestRM,
+  ValidateEncryptedStringForOrganizationTrialEmailRM,
   editOrganization,
   editSubscription,
   getAllOrganization,
@@ -535,7 +536,9 @@ export const updateOrganizationTrailRequestStatusApi = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationTrialRequestStatus_01".toLowerCase()
               )
           ) {
-            setStatus("");
+            if (typeof setStatus === "function") {
+              setStatus("");
+            }
             dispatch(viewOrganizationLoader(false));
             dispatch(confirmatioModalFunc(false));
             if (currentTab) {
