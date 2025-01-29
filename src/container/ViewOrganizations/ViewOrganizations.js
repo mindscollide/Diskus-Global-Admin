@@ -1,19 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Collapse, Spin } from "antd";
-import {
-  Button,
-  Notification,
-  Table,
-  TextField,
-} from "../../components/elements";
-import { UpOutlined } from "@ant-design/icons";
-import { ChevronDown } from "react-bootstrap-icons";
+import { Button, Notification, TextField } from "../../components/elements";
 import { useTranslation } from "react-i18next";
-import { Col, Container, Row } from "react-bootstrap";
-import DatePicker, { DateObject } from "react-multi-date-picker";
+import { Col, Row } from "react-bootstrap";
+import DatePicker from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import Select from "react-select";
-import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization.png";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
@@ -23,31 +14,14 @@ import {
   getAllTrailRequestedApi,
 } from "../../store/Actions/ViewOrganizationActions";
 import "./ViewOrganizations.css";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
-import {
-  convertUTCDateToLocalDate,
-  convertUTCDateToLocalDateView,
-  formatDate,
-} from "../../common/functions/dateFormatters";
-import ViewOrganizationModal from "./ViewOrganizationModal/ViewOrganizationModal";
+import { formatDate } from "../../common/functions/dateFormatters";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
-import {
-  editOrganizationModalOpen,
-  editOrganizationSubscriptionModalOpen,
-  editSubscriptionModalOpen,
-} from "../../store/ActionsSlicers/UIModalsActions";
-import EditOrganizationSubscriptions from "./EditOrganizationSubscriptionModal/EditOrganizationSubscription";
-import EditSubscriptionModals from "./EditSubscriptionModal/EditSubscriptionModal";
-import {
-  getAllOrganizationNameMainApi,
-  getPackageDetailGlobalApi,
-} from "../../store/Actions/GlobalAdminDashboardActions";
-import FlagCountryName from "./CountryFlagFunctionality/CountryFlag";
+import { getAllOrganizationNameMainApi } from "../../store/Actions/GlobalAdminDashboardActions";
 import {
   globalAdminDashBoardLoader,
   resetResponseMessage,
@@ -56,29 +30,19 @@ import CurrenrOrganization from "./CurrentOrganizations/CurrentOrganizations";
 import TrailRequest from "./TrailRequest/TrailRequest";
 import RejectedRequest from "./RejectedRequest/RejectedRequest";
 
-const { Panel } = Collapse;
-
 const ViewOrganization = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const calendRef = useRef();
-  const ModalReducer = useSelector((state) => state.modal);
   const [currentTab, setCurrentTab] = useState(1);
 
   // current language set in local storage
   let currentLanguage = localStorage.getItem("currentLanguage");
-  const local = currentLanguage === "en" ? "en-US" : "ar-SA";
 
   // for response message
   const Responsemessage = useSelector(
     (state) => state.searchOrganization.Responsemessage
-  );
-  console.log(Responsemessage, "ResponseMessageResponseMessage");
-
-  // reducer for get All Organization In Organization Dropdown
-  const organizationIdData = useSelector(
-    (state) => state.searchOrganization.getAllOrganizationData
   );
 
   // reducer for get All Organization but in dropdown
@@ -86,40 +50,13 @@ const ViewOrganization = () => {
     (state) => state.globalAdminDashboardReducer.getOrganizationNames
   );
 
-  console.log(organizationIdData, "organizationIdDataResponseMessage");
-
   const [searchBox, setSearchBox] = useState(false);
   const [organizationDataValue, setOrganizationDataValue] = useState(null);
 
   // state for view Organizer Table data
-  const [viewOrganizationData, setViewOrganizationData] = useState([]);
-  const [viewOrganizationInsideData, setOrganizationInsideData] = useState([]);
 
   // for dropdown lazy loading state:
   const [organization, setOrganization] = useState([]);
-
-  // for lazy Loading state
-  const [isRowsData, setSRowsData] = useState(0);
-  const [totalRecords, setTotalRecords] = useState(0);
-  const [isScroll, setIsScroll] = useState(false);
-
-  // view organization modal
-  const [viewOrganizationsModal, setViewOrganizationsModal] = useState("");
-
-  // edit state Modal
-  const [editOrganizationID, setEditOrganizationID] = useState(0);
-  const [editOrganzationName, setEditOrganzationName] = useState("");
-  const [editSubscriptionName, setEditSubscriptionName] = useState("");
-
-  // edit Subscription Update Modal
-  const [editCurrentSubscriptionName, setCurrentEditSubscriptionName] =
-    useState("");
-  const [editSubscriptionOrgID, setEditSubscriptionOrgID] = useState(0);
-  const [subcriptionStartDate, setSubcriptionStartDate] = useState("");
-  const [subcriptionExpiry, setSubcriptionExpiry] = useState("");
-  const [duration, setDuration] = useState(0);
-  const [headData, setHeadData] = useState([]);
-  const [editSubModal, setEditSubModal] = useState("");
 
   // states for search
   const [showsearchText, setShowSearchText] = useState(false);
@@ -128,7 +65,6 @@ const ViewOrganization = () => {
   const [localValue, setLocalValue] = useState(gregorian_en);
 
   const [userNameSearch, setUserNameSearch] = useState("");
-  console.log(userNameSearch, "userNameSearchuserNameSearch");
 
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
@@ -278,10 +214,6 @@ const ViewOrganization = () => {
         sRow: 0,
         eRow: 10,
       };
-      setViewOrganizationData([]);
-      setOrganizationInsideData([]);
-      setSRowsData(0);
-      setTotalRecords(0);
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllOrganizationApi({ newData, navigate, t }));
     }
@@ -328,10 +260,6 @@ const ViewOrganization = () => {
 
     setSearchOrganizationData(updatedData);
     // Clear the current data before fetching new data
-    setViewOrganizationData([]);
-    setOrganizationInsideData([]);
-    setSRowsData(0);
-    setTotalRecords(0);
 
     let newData = {
       OrganizationContactName: updatedData.OrganizationContactName,
@@ -358,32 +286,66 @@ const ViewOrganization = () => {
 
   // search Button Handler
   const handleSearchButton = () => {
-    let newData = {
-      OrganizationContactName: searchOrganizationData.OrganizationContactName,
-      OrganizationContactEmail: "",
-      OrganizationDateTo: searchOrganizationData.OrganizationDateTo
-        ? `${searchOrganizationData.OrganizationDateTo}000000`
-        : "",
-      OrganizationDateFrom: searchOrganizationData.OrganizationDateFrom
-        ? `${searchOrganizationData.OrganizationDateFrom}000000`
-        : "",
-      OrganizationSubscriptionStatus: Number(
-        searchOrganizationData.OrganizationSubscriptionStatus.value
-      ),
-      OrganizationName: organizationDataValue
-        ? organizationDataValue.label
-        : "",
-      sRow: 0,
-      eRow: 10,
-    };
-    setViewOrganizationData([]);
-    setOrganizationInsideData([]);
-    setTotalRecords(0);
-    setSRowsData(0);
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ newData, navigate, t }));
-    setSearchBox(false);
-    setShowSearchText(true);
+    if (currentTab === 1) {
+      let newData = {
+        OrganizationContactName: searchOrganizationData.OrganizationContactName,
+        OrganizationContactEmail: "",
+        OrganizationDateTo: searchOrganizationData.OrganizationDateTo
+          ? `${searchOrganizationData.OrganizationDateTo}000000`
+          : "",
+        OrganizationDateFrom: searchOrganizationData.OrganizationDateFrom
+          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+          : "",
+        OrganizationSubscriptionStatus: Number(
+          searchOrganizationData.OrganizationSubscriptionStatus.value
+        ),
+        OrganizationName: organizationDataValue
+          ? organizationDataValue.label
+          : "",
+        sRow: 0,
+        eRow: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllOrganizationApi({ newData, navigate, t }));
+      setSearchBox(false);
+      setShowSearchText(true);
+    } else if (currentTab === 2) {
+      let newData = {
+        OrganizationName: organizationDataValue
+          ? organizationDataValue.label
+          : "",
+        ContactPersonName: searchOrganizationData.OrganizationContactName,
+        ContactPersonEmail: "",
+        DateTimeTo: searchOrganizationData.OrganizationDateTo
+          ? `${searchOrganizationData.OrganizationDateTo}000000`
+          : "",
+        DateTimeFrom: searchOrganizationData.OrganizationDateFrom
+          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+          : "",
+        SkipRows: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+    } else if (currentTab === 3) {
+      let newData = {
+        OrganizationName: organizationDataValue
+          ? organizationDataValue.label
+          : "",
+        ContactPersonName: searchOrganizationData.OrganizationContactName,
+        ContactPersonEmail: "",
+        DateTimeTo: searchOrganizationData.OrganizationDateTo
+          ? `${searchOrganizationData.OrganizationDateTo}000000`
+          : "",
+        DateTimeFrom: searchOrganizationData.OrganizationDateFrom
+          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+          : "",
+        SkipRows: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+    }
   };
 
   // to reset field on handler reset button
@@ -473,10 +435,6 @@ const ViewOrganization = () => {
             sRow: 0,
             eRow: 10,
           };
-          // setViewOrganizationData([]);
-          // setOrganizationInsideData([]);
-          // setSRowsData(0);
-          // setTotalRecords(0);
           dispatch(viewOrganizationLoader(true));
           dispatch(getAllOrganizationApi({ newData, navigate, t }));
         } else if (currentTab === 2) {
@@ -870,93 +828,6 @@ const ViewOrganization = () => {
       {currentTab === 1 && <CurrenrOrganization />}
       {currentTab === 2 && <TrailRequest currentTab={currentTab} />}
       {currentTab === 3 && <RejectedRequest currentTab={currentTab} />}
-
-      {/* {viewOrganizationData !== null &&
-          viewOrganizationData !== undefined &&
-          viewOrganizationData.length > 0 ? (
-            <>
-              <InfiniteScroll
-                dataLength={viewOrganizationData.length}
-                next={handleScroll}
-                height={"75vh"} // Adjust height as needed
-                className={"cashFLowClass-infinite"}
-                hasMore={viewOrganizationData.length < totalRecords} // Simplified condition
-                loader={
-                  isRowsData <= totalRecords && isScroll ? (
-                    <Row>
-                      <Col
-                        sm={12}
-                        md={12}
-                        lg={12}
-                        className='d-flex justify-content-center mt-2'>
-                        <Spin />
-                      </Col>
-                    </Row>
-                  ) : null
-                }>
-                {viewOrganizationData.map((org) => (
-                  <Collapse
-                    key={org.organizationId}
-                    bordered={false}
-                    expandIconPosition='end'
-                    expandIcon={({ isActive }) => (
-                      <UpOutlined
-                        className='custom-icon'
-                        rotate={isActive ? 180 : 0}
-                      />
-                    )}
-                    className='organization-collapse'>
-                    <Panel
-                      key={org.organizationId}
-                      className='Panel-Class'
-                      header={
-                        <>
-                          <div onClick={(e) => e.stopPropagation()}>
-                            <Table
-                              rows={[org]}
-                              column={headerColumn}
-                              pagination={false}
-                              className='custom-table'
-                            />
-                          </div>
-                        </>
-                      }>
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <Table
-                          rows={viewOrganizationInsideData.filter(
-                            (data) => data.organizationId === org.organizationID
-                          )}
-                          column={columns}
-                          pagination={false}
-                          className='custom-table'
-                        />
-                      </div>
-                    </Panel>
-                  </Collapse>
-                ))}
-              </InfiniteScroll>
-            </>
-          ) : (
-            <>
-              <Row className='mt-5'>
-                <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
-                  className='view-organization-section'>
-                  <img
-                    src={NoOrganizationIcon}
-                    width={"110px"}
-                    alt='View Organization'
-                  />
-
-                  <span className='Main-Title-ViewOrganization'>
-                    {t("No-View-Organization")}
-                  </span>
-                </Col>
-              </Row>
-            </>
-          )} */}
 
       <Notification
         show={openNotification.historyFlag}
