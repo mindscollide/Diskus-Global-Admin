@@ -6,6 +6,7 @@ import {
   getAllTrailRejectedApi,
   getAllTrailRequestedApi,
   searchOrganizationApi,
+  updateOrganizationTrailRequestStatusApi,
 } from "../Actions/ViewOrganizationActions";
 
 const initialState = {
@@ -16,6 +17,8 @@ const initialState = {
   editSubscriptionData: null,
   editOrganizationData: null,
   getAllOrganizationData: [],
+  updateOrganizationTrailRequest: null,
+  confirmationModal: false,
   Responsemessage: "",
 };
 
@@ -25,6 +28,9 @@ const searchOrganization = createSlice({
   reducers: {
     viewOrganizationLoader: (state, { payload }) => {
       state.loading = payload;
+    },
+    confirmatioModalFunc: (state, { payload }) => {
+      state.confirmationModal = payload;
     },
   },
   extraReducers: (builder) => {
@@ -96,9 +102,23 @@ const searchOrganization = createSlice({
         state.trailRequestData = null;
         state.Responsemessage = action.payload || "";
       })
- 
+      .addCase(
+        updateOrganizationTrailRequestStatusApi.fulfilled,
+        (state, action) => {
+          state.updateOrganizationTrailRequest = action.payload;
+          state.Responsemessage = action.payload.message;
+        }
+      )
+      .addCase(
+        updateOrganizationTrailRequestStatusApi.rejected,
+        (state, action) => {
+          state.updateOrganizationTrailRequest = null;
+          state.Responsemessage = action.payload;
+        }
+      );
   },
 });
 
-export const { viewOrganizationLoader } = searchOrganization.actions;
+export const { viewOrganizationLoader, confirmatioModalFunc } =
+  searchOrganization.actions;
 export default searchOrganization.reducer;

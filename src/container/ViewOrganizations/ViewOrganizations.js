@@ -17,7 +17,11 @@ import NoOrganizationIcon from "../../assets/images/OutletImages/No_Organization
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
-import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
+import {
+  getAllOrganizationApi,
+  getAllTrailRejectedApi,
+  getAllTrailRequestedApi,
+} from "../../store/Actions/ViewOrganizationActions";
 import "./ViewOrganizations.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
@@ -457,22 +461,51 @@ const ViewOrganization = () => {
   const handleKeyDownSearch = (e) => {
     if (e.key === "Enter") {
       if (userNameSearch !== "") {
-        let newData = {
-          OrganizationContactName: "",
-          OrganizationContactEmail: "",
-          OrganizationDateTo: "",
-          OrganizationDateFrom: "",
-          OrganizationSubscriptionStatus: 0,
-          OrganizationName: userNameSearch,
-          sRow: 0,
-          eRow: 10,
-        };
-        setViewOrganizationData([]);
-        setOrganizationInsideData([]);
-        setSRowsData(0);
-        setTotalRecords(0);
-        dispatch(viewOrganizationLoader(true));
-        dispatch(getAllOrganizationApi({ newData, navigate, t }));
+        if (currentTab === 1) {
+          // Current Organizations
+          let newData = {
+            OrganizationContactName: "",
+            OrganizationContactEmail: "",
+            OrganizationDateTo: "",
+            OrganizationDateFrom: "",
+            OrganizationSubscriptionStatus: 0,
+            OrganizationName: userNameSearch,
+            sRow: 0,
+            eRow: 10,
+          };
+          // setViewOrganizationData([]);
+          // setOrganizationInsideData([]);
+          // setSRowsData(0);
+          // setTotalRecords(0);
+          dispatch(viewOrganizationLoader(true));
+          dispatch(getAllOrganizationApi({ newData, navigate, t }));
+        } else if (currentTab === 2) {
+          // Trail Requests
+          let newData = {
+            OrganizationName: userNameSearch,
+            ContactPersonName: "",
+            ContactPersonEmail: "",
+            DateTimeTo: "",
+            DateTimeFrom: "",
+            SkipRows: 0,
+            Length: 10,
+          };
+          dispatch(viewOrganizationLoader(true));
+          dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+        } else if (currentTab === 3) {
+          // Rejected Requests
+          let newData = {
+            OrganizationName: userNameSearch,
+            ContactPersonName: "",
+            ContactPersonEmail: "",
+            DateTimeTo: "",
+            DateTimeFrom: "",
+            SkipRows: 0,
+            Length: 10,
+          };
+          dispatch(viewOrganizationLoader(true));
+          dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+        }
       }
       setShowSearchText(true);
     }
@@ -727,7 +760,7 @@ const ViewOrganization = () => {
                           placeholder={t("Date-to")}
                           render={
                             <InputIcon
-                              placeholder={t("Date-from")}
+                              placeholder={t("Date-to")}
                               className={"UserLoginHistory_datePicker"}
                             />
                           }
@@ -743,29 +776,36 @@ const ViewOrganization = () => {
                         />
                       </Col>
                     </Row>
-                    <Row className='mt-3'>
-                      <Col lg={6} md={6} sm={6}>
-                        <Select
-                          value={
-                            searchOrganizationData.OrganizationSubscriptionStatus
-                          }
-                          placeholder={t("Subscription-status")}
-                          options={options}
-                          onChange={handleStatusChange}
-                        />
-                      </Col>
-                      <Col lg={6} md={6} sm={6}>
-                        <Select
-                          value={organizationDataValue}
-                          placeholder={t("Organization")}
-                          options={organization.map((item) => ({
-                            value: item.organizationID,
-                            label: item.organizationName,
-                          }))}
-                          onChange={organizerChangeHandler}
-                        />
-                      </Col>
-                    </Row>
+
+                    {currentTab === 1 && (
+                      <Row className='mt-3'>
+                        <Col lg={6} md={6} sm={6}>
+                          <Select
+                            value={
+                              searchOrganizationData
+                                .OrganizationSubscriptionStatus?.value !== 0
+                                ? searchOrganizationData.OrganizationSubscriptionStatus
+                                : null
+                            }
+                            placeholder={t("Subscription-status")}
+                            options={options}
+                            onChange={handleStatusChange}
+                          />
+                        </Col>
+                        <Col lg={6} md={6} sm={6}>
+                          <Select
+                            value={organizationDataValue}
+                            placeholder={t("Organization")}
+                            options={organization.map((item) => ({
+                              value: item.organizationID,
+                              label: item.organizationName,
+                            }))}
+                            onChange={organizerChangeHandler}
+                          />
+                        </Col>
+                      </Row>
+                    )}
+
                     <Row className='mt-3'>
                       <Col
                         lg={12}
@@ -828,8 +868,8 @@ const ViewOrganization = () => {
       </Row>
 
       {currentTab === 1 && <CurrenrOrganization />}
-      {currentTab === 2 && <TrailRequest />}
-      {currentTab === 3 && <RejectedRequest />}
+      {currentTab === 2 && <TrailRequest currentTab={currentTab} />}
+      {currentTab === 3 && <RejectedRequest currentTab={currentTab} />}
 
       {/* {viewOrganizationData !== null &&
           viewOrganizationData !== undefined &&

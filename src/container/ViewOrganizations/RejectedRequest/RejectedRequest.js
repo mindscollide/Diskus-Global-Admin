@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { getAllTrailRejectedApi } from "../../../store/Actions/ViewOrganizationActions";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  getAllTrailRejectedApi,
+  updateOrganizationTrailRequestStatusApi,
+} from "../../../store/Actions/ViewOrganizationActions";
 import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
-import { viewOrganizationLoader } from "../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
+import {
+  confirmatioModalFunc,
+  viewOrganizationLoader,
+} from "../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { getAllOrganizationNameMainApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +15,10 @@ import { useTranslation } from "react-i18next";
 import { Col, Row } from "react-bootstrap";
 import styles from "./RejectedRequest.module.css";
 import CustomButton from "../../../components/elements/button/Button";
+import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
+import ConfirmationModal from "../confirmationModal/ConfirmationModal";
 
-const RejectedRequest = () => {
+const RejectedRequest = ({ currentTab }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -19,7 +27,13 @@ const RejectedRequest = () => {
     (state) => state.searchOrganization.rejectedRequestData
   );
   // Local State for Data
-  const [totalRecord, setTotalRecords] = useState(0);
+  const scrollableElementRef = useRef(null);
+  const [status, setStatus] = useState("");
+  const [organizationID, setOrganizationID] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [isRowsData, setSRowsData] = useState(0);
+
+  const [totalRecords, setTotalRecords] = useState(0);
   const [rejectedRequestData, setRejectedRequestData] = useState([]);
 
   //Calling Organization Api
@@ -28,7 +42,8 @@ const RejectedRequest = () => {
       OrganizationName: "",
       ContactPersonName: "",
       ContactPersonEmail: "",
-      DateTime: "",
+      DateTimeTo: "",
+      DateTimeFrom: "",
       SkipRows: 0,
       Length: 10,
     };
@@ -59,15 +74,98 @@ const RejectedRequest = () => {
         rejctedRequestData?.result !== null &&
         rejctedRequestData?.result?.organizations.length > 0
       ) {
-        setRejectedRequestData(rejctedRequestData.result.organizations);
+        const newRejectedData = isScrolling
+          ? [...rejectedRequestData, ...rejctedRequestData.result.organizations]
+          : rejctedRequestData.result.organizations;
+        setRejectedRequestData(newRejectedData);
+        setSRowsData(newRejectedData.length);
         setTotalRecords(rejctedRequestData.result.totalCount);
+        setIsScrolling(false);
       }
-    } catch (error) {}
+    } catch (error) {
+      setRejectedRequestData([]);
+      setSRowsData(0);
+      setTotalRecords(0);
+      setIsScrolling(false);
+    }
   }, [rejctedRequestData]);
+
+  const handleScrollApiCall = () => {
+    const scrollableElement = scrollableElementRef.current;
+    if (scrollableElement) {
+      if (
+        scrollableElement.scrollTop + scrollableElement.clientHeight >=
+        scrollableElement.scrollHeight
+      ) {
+        if (isRowsData <= totalRecords) {
+          setIsScrolling(true);
+          let newData = {
+            OrganizationName: "",
+            ContactPersonName: "",
+            ContactPersonEmail: "",
+            DateTimeTo: "",
+            DateTimeFrom: "",
+            SkipRows: Number(isRowsData),
+            Length: 10,
+          };
+          dispatch(viewOrganizationLoader(true));
+          dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+        } else {
+          setIsScrolling(false);
+        }
+        console.log("You have reached the bottom of the element!");
+        // Trigger API call or load more content
+      }
+    }
+  };
+
+  useEffect(() => {
+    const scrollableElement = scrollableElementRef.current;
+    if (scrollableElement) {
+      scrollableElement.addEventListener("scroll", handleScrollApiCall);
+    }
+
+    return () => {
+      if (scrollableElement) {
+        scrollableElement.removeEventListener("scroll", handleScrollApiCall);
+      }
+    };
+  }, []);
+
+  const handleConsiderFunc = (organizationID) => {
+    dispatch(confirmatioModalFunc(true));
+    setOrganizationID(organizationID);
+    setStatus("Accept");
+  };
+
+  const handleCancel = useCallback(() => {
+    dispatch(confirmatioModalFunc(false));
+    setStatus("");
+  }, []);
+
+  const handleProceed = useCallback(() => {
+    const Data = {
+      OrganizationID: organizationID,
+      IsAccepted: true,
+    };
+
+    dispatch(
+      updateOrganizationTrailRequestStatusApi({
+        Data,
+        setStatus,
+        currentTab,
+        navigate,
+        t,
+      })
+    );
+    // setStatus("");
+  }, [organizationID]);
 
   return (
     <>
-      <section className={styles["RejectedRequestBox__Wrapper"]}>
+      <section
+        className={styles["RejectedRequestBox__Wrapper"]}
+        ref={scrollableElementRef}>
         {rejectedRequestData.length > 0 &&
           rejectedRequestData.map((item, index) => {
             return (
@@ -111,6 +209,9 @@ const RejectedRequest = () => {
                             className={
                               styles["RejectedRequestBox__ReconsiderBtn"]
                             }
+                            onClick={() =>
+                              handleConsiderFunc(item.organizationID)
+                            }
                           />
                         </Col>
                         <Col sm={4} lg={4} md={4} className='mt-2'>
@@ -126,7 +227,9 @@ const RejectedRequest = () => {
                           <p className={styles["RejectedRequestBox__label"]}>
                             {t("Contact-number")}
                           </p>
-                          <p className={styles["RejectedRequestBox__value"]}>
+                          <p
+                            className={`${styles["RejectedRequestBox__value"]} d-flex justify-content-start align-items-center gap-1`}>
+                            <FlagCountryName countryCode={item.mobileCode} />
                             {item.contactPersonNumber}
                           </p>
                         </Col>
@@ -138,6 +241,11 @@ const RejectedRequest = () => {
             );
           })}
       </section>
+      <ConfirmationModal
+        status={status}
+        handleClose={handleCancel}
+        handleProceedUpdate={handleProceed}
+      />
     </>
   );
 };

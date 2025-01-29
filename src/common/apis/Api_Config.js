@@ -316,6 +316,10 @@ const searchAllTrailRejectedOrganizationsRM = {
 const searchAllTrialRequestedOrganizationsRM = {
   RequestMethod: "ServiceManager.SearchAllTrialRequestedOrganizations",
 };
+
+const UpdateOrganizationTrialRequestRM = {
+  RequestMethod: "ServiceManager.UpdateOrganizationTrialRequestStatus",
+};
 export {
   loginAPi,
   passwordVerify,
@@ -383,4 +387,5 @@ export {
   setLastSelectedLanguage,
   searchAllTrialRequestedOrganizationsRM,
   searchAllTrailRejectedOrganizationsRM,
+  UpdateOrganizationTrialRequestRM,
 };
