@@ -356,5 +356,7 @@
   "Rejected-requests": "Rejected Requests",
   "Trail-request-date": "Trail Request Date",
   "Are-you-sure-you-want-to-reject-the-request": "Are you sure you want to reject the request?",
-  "Are-you-sure-you-want-to-accept-the-request": "Are you sure you want to accept the request?"
+  "Are-you-sure-you-want-to-accept-the-request": "Are you sure you want to accept the request?",
+  "Error-404": "Error 404",
+  "This-page-could-not-be-found": "This page could not be found"
 }

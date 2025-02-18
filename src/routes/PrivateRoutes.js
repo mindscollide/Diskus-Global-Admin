@@ -29,7 +29,7 @@ const PrivateRoutes = () => {
     } catch (error) {}
   }, [currentURL]);
 
-  return RoleID === "0" && token ? (
+  return RoleID !== null && Number(RoleID) === 0 && token ? (
     <Outlet />
   ) : (
     <Navigate

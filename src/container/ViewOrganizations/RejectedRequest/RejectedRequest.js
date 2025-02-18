@@ -18,7 +18,7 @@ import CustomButton from "../../../components/elements/button/Button";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 import ConfirmationModal from "../confirmationModal/ConfirmationModal";
 
-const RejectedRequest = ({ currentTab }) => {
+const RejectedRequest = ({ currentTab,setCurrentTab}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -153,7 +153,7 @@ const RejectedRequest = ({ currentTab }) => {
       updateOrganizationTrailRequestStatusApi({
         Data,
         setStatus,
-        currentTab,
+        setCurrentTab,
         navigate,
         t,
       })

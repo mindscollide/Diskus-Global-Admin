@@ -14,6 +14,7 @@ import GlobalLevelSettings from "../container/GlobalLevelSettings/GlobalLevelSet
 import CashFlowSummary from "../container/CashFlowSumarry/CashFlowSummary";
 // import NewViewOrganization from "../container/NewViewOrganization/NewViewOrganization";
 import ViewOrganizations from "../container/ViewOrganizations/ViewOrganizations";
+import NotFound from "../container/NotFound/NotFound";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -24,6 +25,9 @@ export const router = createHashRouter(
       <Route exact path="/" element={<LoginCard />} />
       {/* <Route path="/admin" element={<LoginCard />} /> */}
       {/* </Route> */}
+      <Route path='*' element={<NotFound />} />
+      <Route path='404' element={<NotFound />} />
+
       <Route element={<PrivateRoutes />}>
       <Route exact path="/GlobalAdmin/" element={<DashBoard />}>
         <Route path="" element={<GlobalAdminDashboard />} />
@@ -37,6 +41,7 @@ export const router = createHashRouter(
         />
         <Route path="GlobalLevelSettings" element={<GlobalLevelSettings />} />
         <Route path="Summary" element={<CashFlowSummary />} />
+
       </Route>
       </Route>
     </>

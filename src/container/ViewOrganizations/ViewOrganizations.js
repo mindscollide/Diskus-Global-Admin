@@ -122,7 +122,15 @@ const ViewOrganization = () => {
       localStorage.getItem("orgTrialReject_action") !== null ||
       localStorage.getItem("orgTrialAccept_action") !== null
     ) {
-      setCurrentTab(2);
+      let Data = { EncryptedString: orgTrialAccept || orgTrialReject };
+      dispatch(
+        validateEncryptedStringForOrganizationTrialEmailApi({
+          Data,
+          navigate,
+          t,
+          setCurrentTab,
+        })
+      );
     } else {
       dispatch(globalAdminDashBoardLoader(true));
       dispatch(getAllOrganizationNameMainApi({ navigate, t }));
@@ -889,8 +897,6 @@ const ViewOrganization = () => {
           className='d-flex gap-2 justify-content-start'>
           <span
             onClick={() => {
-              localStorage.removeItem("orgTrialAccept_action");
-              localStorage.removeItem("orgTrialReject_action");
               setCurrentTab(1);
             }}
             className={
@@ -903,8 +909,6 @@ const ViewOrganization = () => {
           <span
             onClick={() => {
               setCurrentTab(2);
-              localStorage.removeItem("orgTrialAccept_action");
-              localStorage.removeItem("orgTrialReject_action");
             }}
             className={
               currentTab === 2
@@ -916,8 +920,6 @@ const ViewOrganization = () => {
           <span
             onClick={() => {
               setCurrentTab(3);
-              localStorage.removeItem("orgTrialAccept_action");
-              localStorage.removeItem("orgTrialReject_action");
             }}
             className={
               currentTab === 3
@@ -930,8 +932,15 @@ const ViewOrganization = () => {
       </Row>
 
       {currentTab === 1 && <CurrenrOrganization />}
-      {currentTab === 2 && <TrailRequest currentTab={currentTab} />}
-      {currentTab === 3 && <RejectedRequest currentTab={currentTab} />}
+      {currentTab === 2 && (
+        <TrailRequest currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      )}
+      {currentTab === 3 && (
+        <RejectedRequest
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+        />
+      )}
 
       <Notification
         show={openNotification.historyFlag}

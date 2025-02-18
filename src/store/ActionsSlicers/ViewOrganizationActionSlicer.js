@@ -19,6 +19,7 @@ const initialState = {
   editOrganizationData: null,
   getAllOrganizationData: [],
   updateOrganizationTrailRequest: null,
+  validateEncryptedStringForOrganizationTrialEmail: null,
   confirmationModal: false,
   Responsemessage: "",
 };
@@ -117,7 +118,21 @@ const searchOrganization = createSlice({
           state.Responsemessage = action.payload;
         }
       )
-
+      .addCase(
+        validateEncryptedStringForOrganizationTrialEmailApi.fulfilled,
+        (state, action) => {
+          state.validateEncryptedStringForOrganizationTrialEmail =
+            action.payload;
+          state.Responsemessage = "Success";
+        }
+      )
+      .addCase(
+        validateEncryptedStringForOrganizationTrialEmailApi.rejected,
+        (state, action) => {
+          state.validateEncryptedStringForOrganizationTrialEmail = null;
+          state.Responsemessage = action.payload;
+        }
+      );
   },
 });
 

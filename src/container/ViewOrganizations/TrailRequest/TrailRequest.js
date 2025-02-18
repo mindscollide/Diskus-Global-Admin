@@ -21,7 +21,7 @@ import ConfirmationModal from "../confirmationModal/ConfirmationModal";
 import { use } from "react";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 
-const TrailRequest = ({ currentTab }) => {
+const TrailRequest = ({ currentTab, setCurrentTab }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -83,7 +83,6 @@ const TrailRequest = ({ currentTab }) => {
         trailRequesRequestData?.result !== null &&
         trailRequesRequestData?.result?.organizations.length > 0
       ) {
-     
         const OrganizationsData = isScrolling
           ? [
               ...trailRequesRequestData.result.organizations,
@@ -138,7 +137,7 @@ const TrailRequest = ({ currentTab }) => {
       updateOrganizationTrailRequestStatusApi({
         Data,
         setStatus,
-        currentTab,
+        setCurrentTab,
         navigate,
         t,
       })

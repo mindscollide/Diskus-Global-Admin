@@ -509,7 +509,7 @@ export const updateOrganizationTrailRequestStatusApi = createAsyncThunk(
   async (requestData, { rejectWithValue, dispatch }) => {
     console.log(requestData, "requestDatarequestData");
     let token = localStorage.getItem("token");
-    let { Data, navigate, t, setStatus, currentTab } = requestData;
+    let { Data, navigate, t, setStatus, setCurrentTab } = requestData;
     let form = new FormData();
     form.append(
       "RequestMethod",
@@ -536,38 +536,42 @@ export const updateOrganizationTrailRequestStatusApi = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationTrialRequestStatus_01".toLowerCase()
               )
           ) {
+            if (typeof setCurrentTab === "function") {
+              let tab = Data.IsAccepted === true ? 1 : 3;
+              setCurrentTab(tab);
+            }
             if (typeof setStatus === "function") {
               setStatus("");
             }
             dispatch(viewOrganizationLoader(false));
             dispatch(confirmatioModalFunc(false));
-            if (currentTab) {
-              if (currentTab === 2) {
-                let newData = {
-                  OrganizationName: "",
-                  ContactPersonName: "",
-                  ContactPersonEmail: "",
-                  DateTimeTo: "",
-                  DateTimeFrom: "",
-                  SkipRows: 0,
-                  Length: 10,
-                };
-                dispatch(viewOrganizationLoader(true));
-                dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
-              } else if (currentTab === 3) {
-                let newData = {
-                  OrganizationName: "",
-                  ContactPersonName: "",
-                  ContactPersonEmail: "",
-                  DateTimeTo: "",
-                  DateTimeFrom: "",
-                  SkipRows: 0,
-                  Length: 10,
-                };
-                dispatch(viewOrganizationLoader(true));
-                dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
-              }
-            }
+            // if (currentTab) {
+            //   if (currentTab === 2) {
+            //     let newData = {
+            //       OrganizationName: "",
+            //       ContactPersonName: "",
+            //       ContactPersonEmail: "",
+            //       DateTimeTo: "",
+            //       DateTimeFrom: "",
+            //       SkipRows: 0,
+            //       Length: 10,
+            //     };
+            //     dispatch(viewOrganizationLoader(true));
+            //     dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+            //   } else if (currentTab === 3) {
+            //     let newData = {
+            //       OrganizationName: "",
+            //       ContactPersonName: "",
+            //       ContactPersonEmail: "",
+            //       DateTimeTo: "",
+            //       DateTimeFrom: "",
+            //       SkipRows: 0,
+            //       Length: 10,
+            //     };
+            //     dispatch(viewOrganizationLoader(true));
+            //     dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+            //   }
+            // }
             try {
               return {
                 result: response.data.responseResult,
@@ -614,3 +618,121 @@ export const updateOrganizationTrailRequestStatusApi = createAsyncThunk(
     }
   }
 );
+
+export const validateEncryptedStringForOrganizationTrialEmailApi =
+  createAsyncThunk(
+    "Organization/validateEncryptedStringForOrganizationTrialEmailApi",
+    async (requestData, { rejectWithValue, dispatch }) => {
+      console.log(requestData, "requestDatarequestData");
+      let token = localStorage.getItem("token");
+      let { Data, navigate, t, setCurrentTab } = requestData;
+      let form = new FormData();
+      form.append(
+        "RequestMethod",
+        ValidateEncryptedStringForOrganizationTrialEmailRM.RequestMethod
+      );
+      form.append("RequestData", JSON.stringify(Data));
+      try {
+        const response = await axios({
+          method: "post",
+          url: adminURL,
+          data: form,
+          headers: {
+            _token: token,
+          },
+        });
+
+        if (response.data.responseCode === 417) {
+        } else if (response.data.responseCode === 200) {
+          if (response.data.responseResult.isExecuted === true) {
+            if (
+              response.data.responseResult.responseMessage
+                .toLowerCase()
+                .includes(
+                  "Admin_AdminServiceManager_ValidateEncryptedStringForOrganizationTrialEmail_01".toLowerCase()
+                )
+            ) {
+              localStorage.removeItem("orgTrialAccept_action");
+              localStorage.removeItem("orgTrialReject_action");
+              let Data = {
+                OrganizationID:
+                  response.data.responseResult.data.organizationID,
+                IsAccepted: response.data.responseResult.data.isAccepted,
+              };
+              dispatch(
+                updateOrganizationTrailRequestStatusApi({
+                  Data,
+                  t,
+                  navigate,
+                  setCurrentTab,
+                })
+              );
+              try {
+                return {
+                  result: response.data.responseResult,
+                  code: "UpdateOrganizationTrialRequestStatus_01",
+                  message: t("Successfully-updated"),
+                };
+              } catch (error) {
+                console.log(error);
+              }
+            } else if (
+              response.data.responseResult.responseMessage
+                .toLowerCase()
+                .includes(
+                  "Admin_AdminServiceManager_ValidateEncryptedStringForOrganizationTrialEmail_02".toLowerCase()
+                )
+            ) {
+              localStorage.removeItem("orgTrialAccept_action");
+              localStorage.removeItem("orgTrialReject_action");
+              dispatch(viewOrganizationLoader(false));
+              return rejectWithValue(t("No-record-updated"));
+            } else if (
+              response.data.responseResult.responseMessage
+                .toLowerCase()
+                .includes(
+                  "Admin_AdminServiceManager_ValidateEncryptedStringForOrganizationTrialEmail_03".toLowerCase()
+                )
+            ) {
+              localStorage.removeItem("orgTrialAccept_action");
+              localStorage.removeItem("orgTrialReject_action");
+              dispatch(viewOrganizationLoader(false));
+              return rejectWithValue(t("Something-went-wrong"));
+            } else if (
+              response.data.responseResult.responseMessage
+                .toLowerCase()
+                .includes(
+                  "Admin_AdminServiceManager_ValidateEncryptedStringForOrganizationTrialEmail_04".toLowerCase()
+                )
+            ) {
+              localStorage.removeItem("orgTrialAccept_action");
+              localStorage.removeItem("orgTrialReject_action");
+              dispatch(viewOrganizationLoader(false));
+              return rejectWithValue(t("Something-went-wrong"));
+            } else {
+              localStorage.removeItem("orgTrialAccept_action");
+              localStorage.removeItem("orgTrialReject_action");
+              dispatch(viewOrganizationLoader(false));
+              return rejectWithValue(t("Something-went-wrong"));
+            }
+          } else {
+            localStorage.removeItem("orgTrialAccept_action");
+            localStorage.removeItem("orgTrialReject_action");
+            dispatch(viewOrganizationLoader(false));
+            return rejectWithValue(t("Something-went-wrong"));
+          }
+        } else {
+          localStorage.removeItem("orgTrialAccept_action");
+          localStorage.removeItem("orgTrialReject_action");
+          dispatch(viewOrganizationLoader(false));
+          return rejectWithValue(t("Something-went-wrong"));
+        }
+      } catch (error) {
+        localStorage.removeItem("orgTrialAccept_action");
+        localStorage.removeItem("orgTrialReject_action");
+        dispatch(viewOrganizationLoader(false));
+
+        return rejectWithValue(t("Something-went-wrong"));
+      }
+    }
+  );
