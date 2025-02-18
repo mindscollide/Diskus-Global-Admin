@@ -218,7 +218,7 @@ const TrailRequest = ({ currentTab, setCurrentTab }) => {
 
                         <Col sm={2} lg={2} md={2}>
                           <p className={styles["TrailRequestBox__label"]}>
-                            {t("Trail-request-date")}
+                            {t("Trial-request-date")}
                           </p>
                           <p className={styles["TrailRequestBox__value"]}>
                             {moment(

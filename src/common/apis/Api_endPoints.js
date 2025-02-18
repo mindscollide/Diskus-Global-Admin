@@ -1,13 +1,13 @@
-const baseURL = "https://ga.letsdiskus.com";
+const baseURL = "http://192.168.18.241";
 
 //Services EndPoints
-const serviceAutheticationURL = "/DAuth/";
+const serviceAutheticationURL = ":11001/ERM_Auth";
 
 //Admin Endpoint
-const adminApi = "/DAdmin/";
+const adminApi = ":11009/Admin";
 
 //Excel Report
-const excelReport = "/DReportDownload/";
+const excelReport = ":11020/ExcelReport";
 
 //Services URL
 

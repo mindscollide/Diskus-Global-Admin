@@ -193,7 +193,7 @@ const RejectedRequest = ({ currentTab,setCurrentTab}) => {
 
                         <Col sm={2} lg={2} md={2}>
                           <p className={styles["RejectedRequestBox__label"]}>
-                            {t("Trail-request-date")}
+                            {t("Trial-request-date")}
                           </p>
                           <p className={styles["RejectedRequestBox__value"]}>
                             {item.creationDateTime}

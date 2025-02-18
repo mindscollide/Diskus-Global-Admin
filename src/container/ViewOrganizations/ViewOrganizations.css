@@ -163,29 +163,28 @@ body[dir="rtl"] .Search_Bar_icon_class {
   right: auto !important;
 }
 
-.SearchablesItems {
+/* .SearchablesItems {
   padding: 7px 12px !important;
   border-radius: 4px !important;
   background: #6172d6;
   display: flex;
   align-items: center;
   gap: 35px;
-  min-width: 50px; /* Minimum width */
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */
 
-.Searches {
-  flex: 1; /* Allow text to stretch */
+/* .Searches {
+  flex: 1; 
   font-size: 12px !important;
   color: #fff !important;
   font-weight: 700 !important;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
+} */
 .CrossIcon_Class {
   cursor: pointer !important;
 }
@@ -373,18 +372,23 @@ body[dir="rtl"] .Search_Bar_icon_class {
 }
 
 .SearchablesItems {
-  padding: 5px 20px !important;
+  padding: 5px 10px !important;
   border-radius: 4px !important;
   background: #6172d6;
   display: flex;
   text-align: center !important;
-  gap: 35px !important;
+  gap: 10px !important;
 }
 
 .Searches {
   font-size: 12px !important;
   color: #fff !important;
   font-weight: 700 !important;
+  max-width: 110px !important;
+  font-weight: 700 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .UserLoginHistory_datePicker {
@@ -450,7 +454,6 @@ body[dir="rtl"] span.Main-Title-ViewOrganization {
   font-size: 12px;
   cursor: pointer;
   font-weight: 600;
-
 }
 .currenrOrganizationTab_active {
   background: #6172d6;

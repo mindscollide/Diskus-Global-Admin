@@ -67,7 +67,6 @@ const ViewOrganization = () => {
   let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
   let orgTrialReject = localStorage.getItem("orgTrialReject_action");
 
-  const [userNameSearch, setUserNameSearch] = useState("");
 
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
@@ -89,7 +88,10 @@ const ViewOrganization = () => {
     OrganizationDateToView: "",
     OrganizationDateFromView: "",
   });
-
+  console.log(
+    { searchOrganizationData, showsearchText },
+    "showsearchTextshowsearchText"
+  );
   useEffect(() => {
     if (
       Responsemessage !== "" &&
@@ -203,6 +205,10 @@ const ViewOrganization = () => {
   // onChange Handler for organizer Dropdown
   const organizerChangeHandler = (selectedOrganizer) => {
     setOrganizationDataValue(selectedOrganizer);
+    setSearchOrganizationData({
+      ...searchOrganizationData,
+      OrganizationName: selectedOrganizer.label,
+    });
   };
   //onChange for View Orgniazation Search
   const searchViewOrganizationHandler = (event) => {
@@ -222,21 +228,6 @@ const ViewOrganization = () => {
 
   // to open search box handler
   const HandleopenSearchBox = () => {
-    if (aminNameSearch !== "") {
-      setAminNameSearch("");
-      let newData = {
-        OrganizationContactName: "",
-        OrganizationContactEmail: "",
-        OrganizationDateTo: "",
-        OrganizationDateFrom: "",
-        OrganizationSubscriptionStatus: 0,
-        OrganizationName: "",
-        sRow: 0,
-        eRow: 10,
-      };
-      dispatch(viewOrganizationLoader(true));
-      dispatch(getAllOrganizationApi({ newData, navigate, t }));
-    }
     setSearchOrganizationData({
       ...searchOrganizationData,
       OrganizationContactName: searchOrganizationData.OrganizationContactName,
@@ -256,90 +247,87 @@ const ViewOrganization = () => {
   // handler searched button
   const handleSearches = (fieldName) => {
     let updatedData = { ...searchOrganizationData };
-    let updatedOrganizationDataValue = organizationDataValue;
-    // Reset only the targeted date field
-    if (
-      fieldName === "OrganizationDateFrom" ||
-      fieldName === "OrganizationDateTo"
-    ) {
+    if (fieldName === "OrganizationContactName") {
+      updatedData.OrganizationContactName = "";
+    } else if (fieldName === "OrganizationContactEmail") {
+      updatedData.OrganizationContactEmail = "";
+    } else if (fieldName === "OrganizationDateFrom") {
       updatedData.OrganizationDateFrom = "";
       updatedData.OrganizationDateFromView = "";
+    } else if (fieldName === "OrganizationDateTo") {
       updatedData.OrganizationDateTo = "";
       updatedData.OrganizationDateToView = "";
-    } else if (fieldName === "OrganizationContactName") {
-      updatedData.OrganizationContactName = "";
-    } else if (fieldName === "organizationName") {
-      updatedOrganizationDataValue = null;
-      setUserNameSearch("");
-      setOrganizationDataValue(null);
-    } else if (fieldName === "OrganizationSubscriptionStatus") {
+    } else if (fieldName === "TotalActiveSubscription") {
       updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
-    } else {
-      updatedData[fieldName] = "";
+    } else if(fieldName === "OrganizationName") {
+      updatedData.OrganizationName = ""
     }
 
+    console.log(updatedData, "updatedDataupdatedDataupdatedData");
+    setShowSearchText(true);
     setSearchOrganizationData(updatedData);
     // Clear the current data before fetching new data
 
     if (currentTab === 1) {
       let newData = {
-        OrganizationContactName: searchOrganizationData.OrganizationContactName,
+        OrganizationContactName: updatedData.OrganizationContactName,
         OrganizationContactEmail: "",
-        OrganizationDateTo: searchOrganizationData.OrganizationDateTo
-          ? `${searchOrganizationData.OrganizationDateTo}000000`
+        OrganizationDateTo: updatedData.OrganizationDateTo
+          ? `${updatedData.OrganizationDateTo}000000`
           : "",
-        OrganizationDateFrom: searchOrganizationData.OrganizationDateFrom
-          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+        OrganizationDateFrom: updatedData.OrganizationDateFrom
+          ? `${updatedData.OrganizationDateFrom}000000`
           : "",
         OrganizationSubscriptionStatus: Number(
-          searchOrganizationData.OrganizationSubscriptionStatus.value
+          updatedData.OrganizationSubscriptionStatus.value
         ),
-        OrganizationName: organizationDataValue
-          ? organizationDataValue.label
-          : "",
+        OrganizationName: updatedData.OrganizationName,
         sRow: 0,
         eRow: 10,
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllOrganizationApi({ newData, navigate, t }));
       setSearchBox(false);
-      setShowSearchText(true);
+      setShowSearchText(false);
+      setSearchOrganizationData(updatedData);
     } else if (currentTab === 2) {
       let newData = {
-        OrganizationName: organizationDataValue
-          ? organizationDataValue.label
-          : "",
-        ContactPersonName: searchOrganizationData.OrganizationContactName,
+        OrganizationName: updatedData.OrganizationName,
+        ContactPersonName: updatedData.OrganizationContactName,
         ContactPersonEmail: "",
-        DateTimeTo: searchOrganizationData.OrganizationDateTo
-          ? `${searchOrganizationData.OrganizationDateTo}000000`
+        DateTimeTo: updatedData.OrganizationDateTo
+          ? `${updatedData.OrganizationDateTo}000000`
           : "",
-        DateTimeFrom: searchOrganizationData.OrganizationDateFrom
-          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+        DateTimeFrom: updatedData.OrganizationDateFrom
+          ? `${updatedData.OrganizationDateFrom}000000`
           : "",
         SkipRows: 0,
         Length: 10,
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+      setSearchBox(false);
+      setShowSearchText(false);
+      setSearchOrganizationData(updatedData);
     } else if (currentTab === 3) {
       let newData = {
-        OrganizationName: organizationDataValue
-          ? organizationDataValue.label
-          : "",
-        ContactPersonName: searchOrganizationData.OrganizationContactName,
+        OrganizationName: updatedData.OrganizationName,
+        ContactPersonName: updatedData.OrganizationContactName,
         ContactPersonEmail: "",
-        DateTimeTo: searchOrganizationData.OrganizationDateTo
-          ? `${searchOrganizationData.OrganizationDateTo}000000`
+        DateTimeTo: updatedData.OrganizationDateTo
+          ? `${updatedData.OrganizationDateTo}000000`
           : "",
-        DateTimeFrom: searchOrganizationData.OrganizationDateFrom
-          ? `${searchOrganizationData.OrganizationDateFrom}000000`
+        DateTimeFrom: updatedData.OrganizationDateFrom
+          ? `${updatedData.OrganizationDateFrom}000000`
           : "",
         SkipRows: 0,
         Length: 10,
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+      setSearchBox(false);
+      setShowSearchText(false);
+      setSearchOrganizationData(updatedData);
     }
   };
 
@@ -367,7 +355,7 @@ const ViewOrganization = () => {
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllOrganizationApi({ newData, navigate, t }));
       setSearchBox(false);
-      setShowSearchText(true);
+      // setShowSearchText(false);
     } else if (currentTab === 2) {
       let newData = {
         OrganizationName: organizationDataValue
@@ -386,6 +374,8 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+      setSearchBox(false);
+      // setShowSearchText(false);
     } else if (currentTab === 3) {
       let newData = {
         OrganizationName: organizationDataValue
@@ -404,12 +394,18 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+      setSearchBox(false);
+      // setShowSearchText(false);
     }
+    setShowSearchText(true);
   };
 
   // to reset field on handler reset button
   const handleResetButton = () => {
     setOrganizationDataValue(null);
+    setShowSearchText(false);
+    setSearchBox(false);
+
     setSearchOrganizationData({
       OrganizationContactName: "",
       OrganizationContactEmail: "",
@@ -509,20 +505,16 @@ const ViewOrganization = () => {
   };
 
   const onChangeEventForSearch = (e) => {
-    let value = e.target.value;
-    setShowSearchText(false);
-
-    // Check if the first character is a space and remove it if it is
-    if (value.charAt(0) === " ") {
-      value = value.trimStart();
-    }
-    setUserNameSearch(value);
-    console.log("value", value);
+    setSearchOrganizationData({
+      ...searchOrganizationData,
+      OrganizationName: e.target.value.trimStart()
+    })
+    // setUserNameSearch(e.target.value.trimStart());
   };
 
   const handleKeyDownSearch = (e) => {
     if (e.key === "Enter") {
-      if (userNameSearch !== "") {
+      if (searchOrganizationData.OrganizationName !== "") {
         if (currentTab === 1) {
           // Current Organizations
           let newData = {
@@ -531,7 +523,7 @@ const ViewOrganization = () => {
             OrganizationDateTo: "",
             OrganizationDateFrom: "",
             OrganizationSubscriptionStatus: 0,
-            OrganizationName: userNameSearch,
+            OrganizationName: searchOrganizationData.OrganizationName,
             sRow: 0,
             eRow: 10,
           };
@@ -540,7 +532,7 @@ const ViewOrganization = () => {
         } else if (currentTab === 2) {
           // Trail Requests
           let newData = {
-            OrganizationName: userNameSearch,
+            OrganizationName: searchOrganizationData.OrganizationName,
             ContactPersonName: "",
             ContactPersonEmail: "",
             DateTimeTo: "",
@@ -553,7 +545,7 @@ const ViewOrganization = () => {
         } else if (currentTab === 3) {
           // Rejected Requests
           let newData = {
-            OrganizationName: userNameSearch,
+            OrganizationName: searchOrganizationData.OrganizationName,
             ContactPersonName: "",
             ContactPersonEmail: "",
             DateTimeTo: "",
@@ -582,8 +574,8 @@ const ViewOrganization = () => {
             <TextField
               onKeyDown={handleKeyDownSearch}
               change={onChangeEventForSearch}
-              placeholder={t("Search")}
-              value={userNameSearch}
+              placeholder={t("Search-organizations")}
+              value={searchOrganizationData.OrganizationName}
               name={"organizationName"}
               labelClass={"d-none"}
               applyClass={"NewMeetingFileds"}
@@ -608,26 +600,21 @@ const ViewOrganization = () => {
               }
               iconClassName={"d-block"}
             />
+
             <Row>
-              <Col lg={4} md={4} sm={4}>
-                {showsearchText && userNameSearch !== "" ? (
+              <Col lg={12} md={12} sm={12} className='d-flex gap-2 flex-wrap'>
+                {showsearchText && searchOrganizationData.OrganizationName !== "" ? (
                   <div className={"SearchablesItems"}>
-                    <span className={"Searches"}>{userNameSearch}</span>
+                    <span className={"Searches"}>{searchOrganizationData.OrganizationName}</span>
                     <img
                       src={Crossicon}
                       alt=''
                       className={"CrossIcon_Class"}
                       width={13}
-                      onClick={() =>
-                        handleSearches(userNameSearch, "organizationName")
-                      }
+                      onClick={() => handleSearches("OrganizationName")}
                     />
                   </div>
                 ) : null}
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={12} md={12} sm={12} className='d-flex gap-2 flex-wrap'>
                 {showsearchText &&
                   searchOrganizationData.OrganizationContactName && (
                     <div className={"SearchablesItems"}>
@@ -657,12 +644,7 @@ const ViewOrganization = () => {
                       alt=''
                       className={"CrossIcon_Class"}
                       width={13}
-                      onClick={() =>
-                        handleSearches(
-                          searchOrganizationData.OrganizationContactEmail,
-                          "OrganizationContactEmail"
-                        )
-                      }
+                      onClick={() => handleSearches("OrganizationContactEmail")}
                     />
                   </div>
                 ) : null}
@@ -705,7 +687,7 @@ const ViewOrganization = () => {
                     </div>
                   )}
 
-                {showsearchText && organizationDataValue && (
+                {/* {showsearchText && organizationDataValue && (
                   <div className='SearchablesItems'>
                     <span className='Searches'>
                       {organizationDataValue.label}
@@ -718,7 +700,7 @@ const ViewOrganization = () => {
                       onClick={() => handleSearches("organizationName")}
                     />
                   </div>
-                )}
+                )} */}
 
                 {showsearchText &&
                   searchOrganizationData.OrganizationSubscriptionStatus
@@ -736,7 +718,7 @@ const ViewOrganization = () => {
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() =>
-                          handleSearches("OrganizationSubscriptionStatus")
+                          handleSearches("TotalActiveSubscription")
                         }
                       />
                     </div>
@@ -851,7 +833,7 @@ const ViewOrganization = () => {
                           />
                         </Col>
                         <Col lg={6} md={6} sm={6}>
-                          <Select
+                          {/* <Select
                             value={organizationDataValue}
                             placeholder={t("Organization")}
                             options={organization.map((item) => ({
@@ -859,7 +841,7 @@ const ViewOrganization = () => {
                               label: item.organizationName,
                             }))}
                             onChange={organizerChangeHandler}
-                          />
+                          /> */}
                         </Col>
                       </Row>
                     )}
@@ -915,7 +897,7 @@ const ViewOrganization = () => {
                 ? "currenrOrganizationTab_active"
                 : "currenrOrganizationTab"
             }>
-            {t("Trail-requests")}
+            {t("Trial-requests")}
           </span>
           <span
             onClick={() => {
