@@ -67,7 +67,6 @@ const ViewOrganization = () => {
   let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
   let orgTrialReject = localStorage.getItem("orgTrialReject_action");
 
-
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
     historyNotification: "",
@@ -259,8 +258,8 @@ const ViewOrganization = () => {
       updatedData.OrganizationDateToView = "";
     } else if (fieldName === "TotalActiveSubscription") {
       updatedData.OrganizationSubscriptionStatus = { value: 0, label: "" };
-    } else if(fieldName === "OrganizationName") {
-      updatedData.OrganizationName = ""
+    } else if (fieldName === "OrganizationName") {
+      updatedData.OrganizationName = "";
     }
 
     console.log(updatedData, "updatedDataupdatedDataupdatedData");
@@ -507,8 +506,8 @@ const ViewOrganization = () => {
   const onChangeEventForSearch = (e) => {
     setSearchOrganizationData({
       ...searchOrganizationData,
-      OrganizationName: e.target.value.trimStart()
-    })
+      OrganizationName: e.target.value.trimStart(),
+    });
     // setUserNameSearch(e.target.value.trimStart());
   };
 
@@ -578,7 +577,9 @@ const ViewOrganization = () => {
               value={searchOrganizationData.OrganizationName}
               name={"organizationName"}
               labelClass={"d-none"}
-              applyClass={"NewMeetingFileds"}
+              applyClass={
+                searchBox ? "NewMeetingFileds_boxOpen" : "NewMeetingFileds"
+              }
               inputicon={
                 <>
                   <Row>
@@ -603,9 +604,12 @@ const ViewOrganization = () => {
 
             <Row>
               <Col lg={12} md={12} sm={12} className='d-flex gap-2 flex-wrap'>
-                {showsearchText && searchOrganizationData.OrganizationName !== "" ? (
+                {showsearchText &&
+                searchOrganizationData.OrganizationName !== "" ? (
                   <div className={"SearchablesItems"}>
-                    <span className={"Searches"}>{searchOrganizationData.OrganizationName}</span>
+                    <span className={"Searches"}>
+                      {searchOrganizationData.OrganizationName}
+                    </span>
                     <img
                       src={Crossicon}
                       alt=''

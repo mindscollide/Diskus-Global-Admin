@@ -139,6 +139,15 @@
   color: #a2a2a2 !important;
   margin-top: 4px !important;
 }
+.NewMeetingFileds_boxOpen {
+  height: 39px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #a2a2a2 !important;
+  margin-top: 4px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
 
 .NewMeetingFileds_withIcon {
   height: 39px !important;

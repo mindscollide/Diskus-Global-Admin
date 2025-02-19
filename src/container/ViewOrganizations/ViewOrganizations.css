@@ -77,10 +77,6 @@ h1 {
   overflow-y: auto !important;
 }
 
-.above-table {
-  /* margin-top: 30px !important; */
-}
-
 .custom-table .ant-table-thead > tr > th {
   border: none !important;
 }
@@ -163,28 +159,6 @@ body[dir="rtl"] .Search_Bar_icon_class {
   right: auto !important;
 }
 
-/* .SearchablesItems {
-  padding: 7px 12px !important;
-  border-radius: 4px !important;
-  background: #6172d6;
-  display: flex;
-  align-items: center;
-  gap: 35px;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} */
-
-/* .Searches {
-  flex: 1; 
-  font-size: 12px !important;
-  color: #fff !important;
-  font-weight: 700 !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-} */
 .CrossIcon_Class {
   cursor: pointer !important;
 }
@@ -192,14 +166,16 @@ body[dir="rtl"] .Search_Bar_icon_class {
 .SearchBox {
   width: 100% !important;
   height: auto !important;
-  min-height: 260px !important;
+  padding: 20px;
   background: #ffffff !important;
   position: absolute;
   right: 0;
   z-index: 1 !important;
-  top: 39px !important;
+  top: 43px !important;
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
 }
 
 body[dir="rtl"] .SearchBox {
