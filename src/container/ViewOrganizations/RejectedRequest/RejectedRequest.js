@@ -17,6 +17,8 @@ import styles from "./RejectedRequest.module.css";
 import CustomButton from "../../../components/elements/button/Button";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 import ConfirmationModal from "../confirmationModal/ConfirmationModal";
+import moment from "moment";
+import { utcConvertintoGMT } from "../../../common/functions/dateFormatters";
 
 const RejectedRequest = ({ currentTab,setCurrentTab}) => {
   const dispatch = useDispatch();
@@ -196,7 +198,11 @@ const RejectedRequest = ({ currentTab,setCurrentTab}) => {
                             {t("Trial-request-date")}
                           </p>
                           <p className={styles["RejectedRequestBox__value"]}>
-                            {item.creationDateTime}
+                            {moment(
+                              utcConvertintoGMT(
+                                item.creationDateTime
+                              ).toString()
+                            ).format("MMM - DD - yyyy")}
                           </p>
                         </Col>
                         <Col

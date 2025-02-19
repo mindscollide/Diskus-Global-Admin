@@ -225,7 +225,7 @@ const TrailRequest = ({ currentTab, setCurrentTab }) => {
                               utcConvertintoGMT(
                                 item.creationDateTime
                               ).toString()
-                            ).format("MM - DD - yyyy")}
+                            ).format("MMM - DD - yyyy")}
                           </p>
                         </Col>
                         <Col
