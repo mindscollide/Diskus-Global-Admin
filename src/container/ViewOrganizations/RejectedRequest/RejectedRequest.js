@@ -202,7 +202,7 @@ const RejectedRequest = ({ currentTab,setCurrentTab}) => {
                               utcConvertintoGMT(
                                 item.creationDateTime
                               ).toString()
-                            ).format("MMM - DD - yyyy")}
+                            ).format("DD - MM - YYYY")}
                           </p>
                         </Col>
                         <Col
