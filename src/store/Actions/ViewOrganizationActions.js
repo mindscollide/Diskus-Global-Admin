@@ -271,7 +271,7 @@ export const getAllOrganizationApi = createAsyncThunk(
   "getAllOrganization/getAllOrganization",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { newData, navigate, t } = requestData;
+    let { newData, navigate, t, setIsFound } = requestData;
     let form = new FormData();
     form.append("RequestMethod", getAllOrganization.RequestMethod);
     form.append("RequestData", JSON.stringify(newData));
@@ -311,6 +311,13 @@ export const getAllOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetAllOrganization_02".toLowerCase()
               )
           ) {
+            if (
+              typeof setIsFound === "function" &&
+              response.data.responseResult.getAllOrganizations.length === 0
+            ) {
+              setIsFound(false);
+            }
+
             dispatch(viewOrganizationLoader(false));
             return rejectWithValue("");
           } else if (

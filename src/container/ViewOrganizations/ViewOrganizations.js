@@ -8,6 +8,7 @@ import Select from "react-select";
 import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import Crossicon from "../../assets/images/OutletImages/WhiteCrossIcon.svg";
+import EmptyState from "../../assets/images/EmptySearchPNGDataRoom.png";
 import {
   getAllOrganizationApi,
   getAllTrailRejectedApi,
@@ -62,6 +63,7 @@ const ViewOrganization = () => {
   // states for search
   const [showsearchText, setShowSearchText] = useState(false);
   const [aminNameSearch, setAminNameSearch] = useState("");
+  const [isFound, setIsFound] = useState(true);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
   let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
@@ -285,7 +287,7 @@ const ViewOrganization = () => {
         eRow: 10,
       };
       dispatch(viewOrganizationLoader(true));
-      dispatch(getAllOrganizationApi({ newData, navigate, t }));
+      dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
       setSearchBox(false);
       setShowSearchText(false);
       setSearchOrganizationData(updatedData);
@@ -352,7 +354,7 @@ const ViewOrganization = () => {
         eRow: 10,
       };
       dispatch(viewOrganizationLoader(true));
-      dispatch(getAllOrganizationApi({ newData, navigate, t }));
+      dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
       setSearchBox(false);
       // setShowSearchText(false);
     } else if (currentTab === 2) {
@@ -431,7 +433,7 @@ const ViewOrganization = () => {
         eRow: 10,
       };
       dispatch(viewOrganizationLoader(true));
-      dispatch(getAllOrganizationApi({ newData, navigate, t }));
+      dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
     } else if (currentTab === 2) {
       // Trail Requests
       let newData = {
@@ -527,7 +529,7 @@ const ViewOrganization = () => {
             eRow: 10,
           };
           dispatch(viewOrganizationLoader(true));
-          dispatch(getAllOrganizationApi({ newData, navigate, t }));
+          dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
         } else if (currentTab === 2) {
           // Trail Requests
           let newData = {
@@ -557,6 +559,66 @@ const ViewOrganization = () => {
         }
       }
       setShowSearchText(true);
+    }
+  };
+
+  const handleClickTab = (value) => {
+    setIsFound(true);
+    setCurrentTab(value);
+    setShowSearchText(false);
+    setSearchOrganizationData({
+      OrganizationContactName: "",
+      OrganizationContactEmail: "",
+      OrganizationDateFrom: "",
+      OrganizationDateTo: "",
+      OrganizationName: "",
+      OrganizationSubscriptionStatus: {
+        value: 0,
+        label: "",
+      },
+      OrganizationDateToView: "",
+      OrganizationDateFromView: "",
+    });
+    if (value === 1) {
+      // Current Organizations
+      let newData = {
+        OrganizationContactName: "",
+        OrganizationContactEmail: "",
+        OrganizationDateTo: "",
+        OrganizationDateFrom: "",
+        OrganizationSubscriptionStatus: 0,
+        OrganizationName: "",
+        sRow: 0,
+        eRow: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
+    } else if (value === 2) {
+      // Trail Requests
+      let newData = {
+        OrganizationName: "",
+        ContactPersonName: "",
+        ContactPersonEmail: "",
+        DateTimeTo: "",
+        DateTimeFrom: "",
+        SkipRows: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+    } else {
+      // Rejected Requests
+      let newData = {
+        OrganizationName: "",
+        ContactPersonName: "",
+        ContactPersonEmail: "",
+        DateTimeTo: "",
+        DateTimeFrom: "",
+        SkipRows: 0,
+        Length: 10,
+      };
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
     }
   };
 
@@ -883,7 +945,7 @@ const ViewOrganization = () => {
           className='d-flex gap-2 justify-content-start'>
           <span
             onClick={() => {
-              setCurrentTab(1);
+              handleClickTab(1);
             }}
             className={
               currentTab === 1
@@ -894,7 +956,7 @@ const ViewOrganization = () => {
           </span>
           <span
             onClick={() => {
-              setCurrentTab(2);
+              handleClickTab(2);
             }}
             className={
               currentTab === 2
@@ -905,7 +967,7 @@ const ViewOrganization = () => {
           </span>
           <span
             onClick={() => {
-              setCurrentTab(3);
+              handleClickTab(3);
             }}
             className={
               currentTab === 3
@@ -916,8 +978,15 @@ const ViewOrganization = () => {
           </span>
         </Col>
       </Row>
-
-      {currentTab === 1 && <CurrenrOrganization />}
+      {isFound === false && (
+        <>
+          <section className='emptyState'>
+            <img src={EmptyState} />
+            <span>{t("No-match-found")}</span>
+          </section>
+        </>
+      )}
+      {currentTab === 1 && isFound === true ? <CurrenrOrganization /> : null}
       {currentTab === 2 && (
         <TrailRequest currentTab={currentTab} setCurrentTab={setCurrentTab} />
       )}
