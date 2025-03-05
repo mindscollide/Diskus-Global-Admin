@@ -272,7 +272,7 @@ const ViewOrganization = () => {
     if (currentTab === 1) {
       let newData = {
         OrganizationContactName: updatedData.OrganizationContactName,
-        OrganizationContactEmail: "",
+        OrganizationContactEmail: updatedData.OrganizationContactEmail,
         OrganizationDateTo: updatedData.OrganizationDateTo
           ? `${updatedData.OrganizationDateTo}000000`
           : "",
@@ -295,7 +295,7 @@ const ViewOrganization = () => {
       let newData = {
         OrganizationName: updatedData.OrganizationName,
         ContactPersonName: updatedData.OrganizationContactName,
-        ContactPersonEmail: "",
+        ContactPersonEmail: updatedData.OrganizationContactEmail,
         DateTimeTo: updatedData.OrganizationDateTo
           ? `${updatedData.OrganizationDateTo}000000`
           : "",
@@ -314,7 +314,7 @@ const ViewOrganization = () => {
       let newData = {
         OrganizationName: updatedData.OrganizationName,
         ContactPersonName: updatedData.OrganizationContactName,
-        ContactPersonEmail: "",
+        ContactPersonEmail: updatedData.OrganizationContactEmail,
         DateTimeTo: updatedData.OrganizationDateTo
           ? `${updatedData.OrganizationDateTo}000000`
           : "",
