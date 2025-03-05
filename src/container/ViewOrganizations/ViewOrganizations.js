@@ -62,13 +62,13 @@ const ViewOrganization = () => {
 
   // states for search
   const [showsearchText, setShowSearchText] = useState(false);
-  const [aminNameSearch, setAminNameSearch] = useState("");
   const [isFound, setIsFound] = useState(true);
+  const [isScroll, setIsScroll] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
   let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
   let orgTrialReject = localStorage.getItem("orgTrialReject_action");
-
+  console.log(isFound, "isFoundisFoundisFound");
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
     historyNotification: "",
@@ -265,6 +265,18 @@ const ViewOrganization = () => {
     }
 
     console.log(updatedData, "updatedDataupdatedDataupdatedData");
+    if (
+      updatedData.OrganizationContactEmail === "" &&
+      updatedData.OrganizationContactName === "" &&
+      updatedData.OrganizationDateFrom === "" &&
+      updatedData.OrganizationDateFromView === "" &&
+      updatedData.OrganizationDateTo === "" &&
+      updatedData.OrganizationDateToView === "" &&
+      updatedData.OrganizationSubscriptionStatus.value === 0 &&
+      updatedData.OrganizationName === ""
+    ) {
+      setShowSearchText(false);
+    }
     setShowSearchText(true);
     setSearchOrganizationData(updatedData);
     // Clear the current data before fetching new data
@@ -286,10 +298,11 @@ const ViewOrganization = () => {
         sRow: 0,
         eRow: 10,
       };
+      setIsFound(true);
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
-      setSearchBox(false);
-      setShowSearchText(false);
+      // setSearchBox(false);
+      // setShowSearchText(false);
       setSearchOrganizationData(updatedData);
     } else if (currentTab === 2) {
       let newData = {
@@ -307,8 +320,8 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
-      setSearchBox(false);
-      setShowSearchText(false);
+      // setSearchBox(false);
+      // setShowSearchText(false);
       setSearchOrganizationData(updatedData);
     } else if (currentTab === 3) {
       let newData = {
@@ -326,8 +339,8 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
-      setSearchBox(false);
-      setShowSearchText(false);
+      // setSearchBox(false);
+      // setShowSearchText(false);
       setSearchOrganizationData(updatedData);
     }
   };
@@ -337,7 +350,8 @@ const ViewOrganization = () => {
     if (currentTab === 1) {
       let newData = {
         OrganizationContactName: searchOrganizationData.OrganizationContactName,
-        OrganizationContactEmail: "",
+        OrganizationContactEmail:
+          searchOrganizationData.OrganizationContactEmail,
         OrganizationDateTo: searchOrganizationData.OrganizationDateTo
           ? `${searchOrganizationData.OrganizationDateTo}000000`
           : "",
@@ -363,7 +377,7 @@ const ViewOrganization = () => {
           ? organizationDataValue.label
           : "",
         ContactPersonName: searchOrganizationData.OrganizationContactName,
-        ContactPersonEmail: "",
+        ContactPersonEmail: searchOrganizationData.OrganizationContactEmail,
         DateTimeTo: searchOrganizationData.OrganizationDateTo
           ? `${searchOrganizationData.OrganizationDateTo}000000`
           : "",
@@ -383,7 +397,7 @@ const ViewOrganization = () => {
           ? organizationDataValue.label
           : "",
         ContactPersonName: searchOrganizationData.OrganizationContactName,
-        ContactPersonEmail: "",
+        ContactPersonEmail: searchOrganizationData.OrganizationContactEmail,
         DateTimeTo: searchOrganizationData.OrganizationDateTo
           ? `${searchOrganizationData.OrganizationDateTo}000000`
           : "",
@@ -563,7 +577,7 @@ const ViewOrganization = () => {
   };
 
   const handleClickTab = (value) => {
-    setIsFound(true);
+    setIsScroll(false);
     setCurrentTab(value);
     setShowSearchText(false);
     setSearchOrganizationData({
@@ -978,22 +992,29 @@ const ViewOrganization = () => {
           </span>
         </Col>
       </Row>
-      {isFound === false && (
-        <>
-          <section className='emptyState'>
-            <img src={EmptyState} />
-            <span>{t("No-match-found")}</span>
-          </section>
-        </>
-      )}
-      {currentTab === 1 && isFound === true ? <CurrenrOrganization /> : null}
+
+      {currentTab === 1 ? (
+        <CurrenrOrganization
+          setIsScroll={setIsScroll}
+          isScroll={isScroll}
+          setIsFound={setIsFound}
+          isFound={isFound}
+        />
+      ) : null}
       {currentTab === 2 && (
-        <TrailRequest currentTab={currentTab} setCurrentTab={setCurrentTab} />
+        <TrailRequest
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+          setIsScroll={setIsScroll}
+          isScroll={isScroll}
+        />
       )}
       {currentTab === 3 && (
         <RejectedRequest
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
+          setIsScroll={setIsScroll}
+          isScroll={isScroll}
         />
       )}
 

@@ -21,7 +21,7 @@ import ConfirmationModal from "../confirmationModal/ConfirmationModal";
 import { use } from "react";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 
-const TrailRequest = ({ currentTab, setCurrentTab }) => {
+const TrailRequest = ({ currentTab, setCurrentTab, setIsScroll, isScroll }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -36,7 +36,6 @@ const TrailRequest = ({ currentTab, setCurrentTab }) => {
   const [isRowsData, setSRowsData] = useState(0);
   const [organizationID, setOrganizationID] = useState(0);
 
-  const [isScrolling, setIsScrolling] = useState(false);
   const [status, setStatus] = useState("");
 
   const [trailRequestData, setTrailRequestData] = useState([]);
@@ -83,7 +82,7 @@ const TrailRequest = ({ currentTab, setCurrentTab }) => {
         trailRequesRequestData?.result !== null &&
         trailRequesRequestData?.result?.organizations.length > 0
       ) {
-        const OrganizationsData = isScrolling
+        const OrganizationsData = isScroll
           ? [
               ...trailRequesRequestData.result.organizations,
               ...trailRequestData,
@@ -92,18 +91,18 @@ const TrailRequest = ({ currentTab, setCurrentTab }) => {
         setSRowsData(OrganizationsData.length);
         setTrailRequestData(OrganizationsData);
         setTotalRecords(trailRequesRequestData.result.totalCount);
-        setIsScrolling(false);
+        setIsScroll(false);
       } else {
         setSRowsData([]);
         setTrailRequestData([]);
         setTotalRecords(0);
-        setIsScrolling(false);
+        setIsScroll(false);
       }
     } catch (error) {
       setSRowsData([]);
       setTrailRequestData([]);
       setTotalRecords(0);
-      setIsScrolling(false);
+      setIsScroll(false);
     }
   }, [trailRequesRequestData]);
 
@@ -152,7 +151,7 @@ const TrailRequest = ({ currentTab, setCurrentTab }) => {
         scrollableElement.scrollHeight
       ) {
         if (isRowsData <= totalRecords) {
-          setIsScrolling(true);
+          setIsScroll(true);
           let newData = {
             OrganizationName: "",
             ContactPersonName: "",
@@ -165,7 +164,7 @@ const TrailRequest = ({ currentTab, setCurrentTab }) => {
           dispatch(viewOrganizationLoader(true));
           dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
         } else {
-          setIsScrolling(false);
+          setIsScroll(false);
         }
         console.log("You have reached the bottom of the element!");
         // Trigger API call or load more content

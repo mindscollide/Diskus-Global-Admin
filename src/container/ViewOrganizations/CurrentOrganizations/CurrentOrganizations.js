@@ -14,6 +14,8 @@ import DatePicker, { DateObject } from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import Select from "react-select";
 import NoOrganizationIcon from "../../../assets/images/OutletImages/No_Organization.png";
+import EmptyState from "../../../assets/images/EmptySearchPNGDataRoom.png";
+
 import SearchIcon from "../../../assets/images/OutletImages/searchicon.svg";
 import BlackCrossicon from "../../../assets/images/OutletImages/BlackCrossIconModals.svg";
 import Crossicon from "../../../assets/images/OutletImages/WhiteCrossIcon.svg";
@@ -51,7 +53,12 @@ import {
 
 const { Panel } = Collapse;
 
-const CurrentOrganization = () => {
+const CurrentOrganization = ({
+  setIsScroll,
+  isScroll,
+  setIsFound,
+  isFound,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -93,7 +100,6 @@ const CurrentOrganization = () => {
   // for lazy Loading state
   const [isRowsData, setSRowsData] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [isScroll, setIsScroll] = useState(false);
 
   // view organization modal
   const [viewOrganizationsModal, setViewOrganizationsModal] = useState("");
@@ -167,7 +173,7 @@ const CurrentOrganization = () => {
       eRow: 10,
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ newData, navigate, t }));
+    dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
     return () => {};
   }, []);
 
@@ -566,15 +572,20 @@ const CurrentOrganization = () => {
     dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
   };
 
-
-
   return (
     <>
       <Row>
         <Col lg={12} md={12} sm={12}>
-          {viewOrganizationData !== null &&
-          viewOrganizationData !== undefined &&
-          viewOrganizationData.length > 0 ? (
+          {isFound === false ? (
+            <>
+              <section className='emptyState'>
+                <img src={EmptyState} />
+                <span>{t("No-match-found")}</span>
+              </section>
+            </>
+          ) : viewOrganizationData !== null &&
+            viewOrganizationData !== undefined &&
+            viewOrganizationData.length > 0 ? (
             <>
               <InfiniteScroll
                 dataLength={viewOrganizationData.length}

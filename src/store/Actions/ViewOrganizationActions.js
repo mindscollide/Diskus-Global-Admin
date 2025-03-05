@@ -295,7 +295,13 @@ export const getAllOrganizationApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetAllOrganization_01".toLowerCase()
               )
           ) {
+            if (typeof setIsFound === "function") {
+              console.log("Checking");
+
+              setIsFound(true);
+            }
             dispatch(viewOrganizationLoader(false));
+
             try {
               return {
                 result: response.data.responseResult,
@@ -304,6 +310,7 @@ export const getAllOrganizationApi = createAsyncThunk(
             } catch (error) {
               console.log(error);
             }
+   
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -315,6 +322,8 @@ export const getAllOrganizationApi = createAsyncThunk(
               typeof setIsFound === "function" &&
               response.data.responseResult.getAllOrganizations.length === 0
             ) {
+              console.log("Checking");
+
               setIsFound(false);
             }
 
