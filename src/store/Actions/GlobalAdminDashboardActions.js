@@ -2821,9 +2821,7 @@ export const downloadInvoiceReportMainApi = createAsyncThunk(
         data: form,
         headers: {
           _token: token,
-          "Content-Disposition": "attachment; filename=template.pdf",
-          "Content-Type":
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "Content-Type": "application/pdf", // or omit to let browser auto-detect
         },
         responseType: "blob",
       });
@@ -2831,13 +2829,14 @@ export const downloadInvoiceReportMainApi = createAsyncThunk(
       console.log(response, "responseresponseresponseresponse");
       if (response.status === 200) {
         // Create a temporary URL for the blob data
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        // Create a link element and simulate a click to trigger the download
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", "download-Invoice.pdf");
+        link.setAttribute("download", "download-invoice.pdf");
         document.body.appendChild(link);
         link.click();
+        link.remove();
         // Dispatch action to update loading state or handle other logic
         dispatch(globalAdminDashBoardLoader(false));
       } else {
