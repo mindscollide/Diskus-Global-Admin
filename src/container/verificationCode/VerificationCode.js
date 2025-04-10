@@ -169,10 +169,10 @@ const VerificationCode = ({ onClickGoBack }) => {
 
   return (
     <>
-      <Row className="mt-5">
+      <Row className='mt-5'>
         <Col lg={12} md={12} sm={12}>
           <>
-            <span className="verification-subheading">
+            <span className='verification-subheading'>
               {t("Enter-verification-code")}
             </span>
           </>
@@ -183,7 +183,7 @@ const VerificationCode = ({ onClickGoBack }) => {
         <Col sm={12} md={12} lg={12}>
           <VerificationInputField
             fields={6}
-            applyClass="OTPInput"
+            applyClass='OTPInput'
             change={changeHandler}
             key={key}
             value={verifyOTP}
@@ -192,10 +192,14 @@ const VerificationCode = ({ onClickGoBack }) => {
       </Row>
 
       <Row>
-        <Col lg={12} md={12} sm={12}>
+        <Col
+          lg={12}
+          md={12}
+          sm={12}
+          className='d-flex justify-content-start align-items-center gap-2'>
           {/* <span>{t("Resend-code")}</span> */}
           <Button
-            className="resendCode_btn"
+            className='resendCode_btn'
             disableBtn={seconds > 0 || minutes > 0}
             text={t("Resend-code")}
             onClick={sendRequestResend}
@@ -212,8 +216,7 @@ const VerificationCode = ({ onClickGoBack }) => {
               errorBar
                 ? ` ${"errorMessage-OTP"} `
                 : `${"errorMessage-OTP_hidden"}`
-            }
-          >
+            }>
             {errorMessage}
           </p>
         </Col>
@@ -224,10 +227,9 @@ const VerificationCode = ({ onClickGoBack }) => {
           lg={12}
           md={12}
           sm={12}
-          className="d-flex justify-content-center mt-4"
-        >
+          className='d-flex justify-content-center mt-4'>
           <Button
-            className="SendCode-button-color"
+            className='SendCode-button-color'
             text={t("Verify")}
             onClick={verifyOTPClickHandler}
           />
@@ -239,9 +241,8 @@ const VerificationCode = ({ onClickGoBack }) => {
           lg={12}
           md={12}
           sm={12}
-          className="d-flex justify-content-center mt-4"
-        >
-          <span className="go-back-text" onClick={onClickGoBack}>
+          className='d-flex justify-content-center mt-4'>
+          <span className='go-back-text' onClick={onClickGoBack}>
             {t("Go-back")}
           </span>
         </Col>
