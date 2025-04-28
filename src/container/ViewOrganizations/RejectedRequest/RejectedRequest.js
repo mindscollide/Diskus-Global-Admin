@@ -17,8 +17,15 @@ import styles from "./RejectedRequest.module.css";
 import CustomButton from "../../../components/elements/button/Button";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 import ConfirmationModal from "../confirmationModal/ConfirmationModal";
+import moment from "moment";
+import { utcConvertintoGMT } from "../../../common/functions/dateFormatters";
 
-const RejectedRequest = ({ currentTab }) => {
+const RejectedRequest = ({
+  currentTab,
+  setCurrentTab,
+  setIsScroll,
+  isScroll,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -30,7 +37,6 @@ const RejectedRequest = ({ currentTab }) => {
   const scrollableElementRef = useRef(null);
   const [status, setStatus] = useState("");
   const [organizationID, setOrganizationID] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
   const [isRowsData, setSRowsData] = useState(0);
 
   const [totalRecords, setTotalRecords] = useState(0);
@@ -74,19 +80,19 @@ const RejectedRequest = ({ currentTab }) => {
         rejctedRequestData?.result !== null &&
         rejctedRequestData?.result?.organizations.length > 0
       ) {
-        const newRejectedData = isScrolling
+        const newRejectedData = isScroll
           ? [...rejectedRequestData, ...rejctedRequestData.result.organizations]
           : rejctedRequestData.result.organizations;
         setRejectedRequestData(newRejectedData);
         setSRowsData(newRejectedData.length);
         setTotalRecords(rejctedRequestData.result.totalCount);
-        setIsScrolling(false);
+        setIsScroll(false);
       }
     } catch (error) {
       setRejectedRequestData([]);
       setSRowsData(0);
       setTotalRecords(0);
-      setIsScrolling(false);
+      setIsScroll(false);
     }
   }, [rejctedRequestData]);
 
@@ -98,7 +104,7 @@ const RejectedRequest = ({ currentTab }) => {
         scrollableElement.scrollHeight
       ) {
         if (isRowsData <= totalRecords) {
-          setIsScrolling(true);
+          setIsScroll(true);
           let newData = {
             OrganizationName: "",
             ContactPersonName: "",
@@ -111,7 +117,7 @@ const RejectedRequest = ({ currentTab }) => {
           dispatch(viewOrganizationLoader(true));
           dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
         } else {
-          setIsScrolling(false);
+          setIsScroll(false);
         }
         console.log("You have reached the bottom of the element!");
         // Trigger API call or load more content
@@ -153,7 +159,7 @@ const RejectedRequest = ({ currentTab }) => {
       updateOrganizationTrailRequestStatusApi({
         Data,
         setStatus,
-        currentTab,
+        setCurrentTab,
         navigate,
         t,
       })
@@ -193,10 +199,14 @@ const RejectedRequest = ({ currentTab }) => {
 
                         <Col sm={2} lg={2} md={2}>
                           <p className={styles["RejectedRequestBox__label"]}>
-                            {t("Trail-request-date")}
+                            {t("Trial-request-date")}
                           </p>
                           <p className={styles["RejectedRequestBox__value"]}>
-                            {item.creationDateTime}
+                            {moment(
+                              utcConvertintoGMT(
+                                item.creationDateTime
+                              ).toString()
+                            ).format("DD - MM - YYYY")}
                           </p>
                         </Col>
                         <Col

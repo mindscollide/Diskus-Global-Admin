@@ -14,10 +14,14 @@ import { useTranslation } from "react-i18next";
 import { changeScreen } from "../../store/ActionsSlicers/AuthScreenActionSlicer";
 import { validationEmail } from "../../common/functions/Validate";
 import { async } from "q";
+import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
 
 const LoginScreen = () => {
   const navigate = useNavigate();
-
+  const ResponseMessage = useSelector(
+    (state) => state.AuthActions.Responsemessage
+  );
+  console.log(ResponseMessage, "authReducer");
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
@@ -147,6 +151,28 @@ const LoginScreen = () => {
       localStorage.setItem("currentLanguage", currentLanguage);
     }
   }, []);
+
+  useEffect(() => {
+    if (
+      ResponseMessage !== null &&
+      ResponseMessage !== undefined &&
+      ResponseMessage !== ""
+    ) {
+      setOpenNotification({
+        ...openNotification,
+        loginFlag: true,
+        loginNotification: ResponseMessage,
+        severity: "error",
+      });
+      setTimeout(() => {
+        setOpenNotification({
+          ...openNotification,
+          loginFlag: false,
+        });
+      }, 3000);
+      dispatch(resetAuthResponseMessage(""))
+    }
+  }, [ResponseMessage]);
 
   const onClickSignIn = async (e) => {
     e.preventDefault();

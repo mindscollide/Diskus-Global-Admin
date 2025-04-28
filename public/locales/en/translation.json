@@ -352,9 +352,14 @@
   "Subscribed-organizations": "Subscribed Organizations",
   "Allow-changes-in-the-Agenda-items-after-the-meeting-has-been-started": "Allow changes in the Agenda items after the meeting has been started",
   "Current-organizations": "Current Organizations",
-  "Trail-requests": "Trail Requests",
+  "Trial-requests": "Trial Requests",
   "Rejected-requests": "Rejected Requests",
-  "Trail-request-date": "Trail Request Date",
+  "Trial-request-date": "Trial Request Date",
   "Are-you-sure-you-want-to-reject-the-request": "Are you sure you want to reject the request?",
-  "Are-you-sure-you-want-to-accept-the-request": "Are you sure you want to accept the request?"
+  "Are-you-sure-you-want-to-accept-the-request": "Are you sure you want to accept the request?",
+  "Error-404": "Error 404",
+  "This-page-could-not-be-found": "This page could not be found",
+  "Search-organizations": "Search Organizations",
+  "No-match-found": "No Match Found"
+
 }

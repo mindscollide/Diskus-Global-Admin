@@ -136,13 +136,12 @@ body[dir="rtl"] .resend-heading {
 }
 
 .resendCode_btn {
-  margin-right: 5px;
   background: none !important;
-  color: #000;
-  margin: 0;
+  color: #000 !important;
+  margin: 0 !important;
   user-select: none;
   border: none !important;
-  padding: 0;
+  padding: 0 !important;
   text-decoration: underline !important;
   font-size: calc(16px - 20%) !important;
 }
@@ -152,13 +151,12 @@ body[dir="rtl"] .resendCode_btn {
 }
 
 .resendCode_bt:hover {
-  margin-right: 5px;
   background: none !important;
-  color: #000;
-  margin: 0;
+  color: #000 !important;
+  margin: 0 !important;
   user-select: none;
   border: none !important;
-  padding: 0;
+  padding: 0 !important;
   text-decoration: underline !important;
 }
 
