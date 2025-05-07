@@ -299,7 +299,7 @@ const AuditTrial = () => {
         return (
           <>
             <Button
-              text={t("View-Action")}
+              text={t("View-action")}
               className={styles["ViewActions"]}
               onClick={() => handleViewActionModal(record)}
             />
