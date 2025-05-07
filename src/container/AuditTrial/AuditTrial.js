@@ -302,7 +302,6 @@ const AuditTrial = () => {
               text={t("View-Action")}
               className={styles["ViewActions"]}
               onClick={() => handleViewActionModal(record)}
-              //   dispatch(viewActionModalState(false));
             />
           </>
         );
@@ -766,7 +765,7 @@ const AuditTrial = () => {
           </Col>
         </Row>
       </>
-      <ViewActionModal />
+      <ViewActionModal viewActionModalDataState={viewActionModalDataState} />
     </Container>
   );
 };
