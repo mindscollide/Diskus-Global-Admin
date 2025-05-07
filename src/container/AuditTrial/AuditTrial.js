@@ -33,6 +33,9 @@ const AuditTrial = () => {
   const GetAuditListingReducerGlobalState = useSelector(
     (state) => state.globalAdminDashboardReducer.getOrganizationAuditListingData
   );
+  const GetUserActionsAuditData = useSelector(
+    (state) => state.globalAdminDashboardReducer.getAuditActions
+  );
 
   // Local States
   const [auditTrialListingTableData, setAuditTrialListingTableData] = useState(
@@ -532,8 +535,8 @@ const AuditTrial = () => {
   return (
     <Container fluid>
       <>
-        <Row className="mt-5">
-          <Col lg={8} md={8} sm={8}>
+        <Row className="mt-2">
+          <Col lg={8} md={8} sm={8} className="d-flex">
             <span className={styles["AuditTrialHeading"]}>
               {t("Audit-trial")}
             </span>
@@ -689,7 +692,18 @@ const AuditTrial = () => {
                         />
                       </div>
                     </Col>
-                    <Col lg={6} md={6} sm={6}></Col>
+                    <Col lg={6} md={6} sm={6}>
+                      <div className="d-flex flex-column flex-wrap gap-1">
+                        <span className={styles["SearchBoxEntities"]}>
+                          {t("Organization")}
+                        </span>
+                        <Select
+                          placeholder={t("Organization")}
+                          // options={DeviceIdType}
+                          // onChange={handleChangeInterface}
+                        />
+                      </div>
+                    </Col>
                   </Row>
                   <Row className="mt-3">
                     <Col
@@ -715,7 +729,7 @@ const AuditTrial = () => {
             )}
           </Col>
         </Row>
-        <Row className="mt-4">
+        <Row className="mt-2">
           <Col lg={12} md={12} sm={12}>
             <span className={styles["AuditTrial_Box"]}>
               <Row>
@@ -765,7 +779,10 @@ const AuditTrial = () => {
           </Col>
         </Row>
       </>
-      <ViewActionModal viewActionModalDataState={viewActionModalDataState} />
+      <ViewActionModal
+        viewActionModalDataState={viewActionModalDataState}
+        GetUserActionsAuditData={GetUserActionsAuditData}
+      />
     </Container>
   );
 };

@@ -361,5 +361,6 @@
   "Error-404": "Error 404",
   "This-page-could-not-be-found": "This page could not be found",
   "Search-organizations": "Search Organizations",
-  "No-match-found": "No Match Found"
+  "No-match-found": "No Match Found",
+  "No-activity": "No Activity"
 }

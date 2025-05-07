@@ -10,7 +10,10 @@ import Excelicon from "../../../assets/images/OutletImages/ExcelIcon.png";
 import { viewActionModalState } from "../../../store/ActionsSlicers/UIModalsActions";
 import { AuditTrialDateTimeFunctionViewActionDetails } from "../../../common/functions/dateFormatters";
 import { Button, Modal } from "../../../components/elements";
-const ViewActionModal = ({ viewActionModalDataState }) => {
+const ViewActionModal = ({
+  viewActionModalDataState,
+  GetUserActionsAuditData,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const locale = localStorage.getItem("i18nextLng");
@@ -21,20 +24,14 @@ const ViewActionModal = ({ viewActionModalDataState }) => {
   //Local state
   const [auditActionsData, setAuditActionsData] = useState([]);
 
-  const GetUserActionsAuditData = useSelector(
-    (state) => state.globalAdminDashboardReducer.getAuditActions
-  );
-
   console.log(GetUserActionsAuditData, "GetUserActionsAuditData");
+  console.log(GetUserActionsAuditData?.result, "GetUserActionsAuditData");
 
   // //Extracting the Audit actions data
   useEffect(() => {
     try {
-      if (
-        GetUserActionsAuditData &&
-        GetUserActionsAuditData.result &&
-        GetUserActionsAuditData.result.userLoginAuditActions
-      ) {
+      const result = GetUserActionsAuditData?.result;
+      if (result && result.userLoginAuditActions?.length > 0) {
         setAuditActionsData(
           GetUserActionsAuditData.result.userLoginAuditActions
         );
@@ -42,7 +39,7 @@ const ViewActionModal = ({ viewActionModalDataState }) => {
     } catch (error) {
       console.log("Error in fetching audit actions:", error);
     }
-  }, []);
+  }, [GetUserActionsAuditData]);
 
   console.log(auditActionsData, "GetUserActionsAuditData");
 
