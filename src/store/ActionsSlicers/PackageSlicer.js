@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useTranslation } from "react-i18next";
 import {
   getAllPackageApi,
   deleteMainPackageApi,
@@ -28,6 +29,9 @@ const packageAdminReducer = createSlice({
     packageAdminLoader: (state, { payload }) => {
       state.loading = payload;
     },
+    resetResponseMessage: (state, { payload }) => {
+      state.ResponseMessage = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -41,7 +45,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(getAllPackageApi.rejected, (state, action) => {
         state.packagesFeaturesGlobalData = null;
-        state.ResponseMessage = action.payload || "An error occurred";
+        state.ResponseMessage = action.payload || "";
       })
 
       // delete Main Package Api
@@ -54,7 +58,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(deleteMainPackageApi.rejected, (state, action) => {
         state.deleteMainPackageData = null;
-        state.ResponseMessage = action.payload || "An error occurred";
+        state.ResponseMessage = action.payload || "";
       })
 
       // Add Create Main Package Api
@@ -62,12 +66,14 @@ const packageAdminReducer = createSlice({
         // state.loading = true;
       })
       .addCase(addUpdatePackagesMainApi.fulfilled, (state, action) => {
+        console.log("addPackageFeatureApiaddPackageFeatureApi", action);
+
+        state.ResponseMessage = action.payload.code || "";
         state.addCreatePackageData = action.payload;
-        state.ResponseMessage = "Success";
       })
       .addCase(addUpdatePackagesMainApi.rejected, (state, action) => {
         state.addCreatePackageData = null;
-        state.ResponseMessage = action.payload || "An error occurred";
+        state.ResponseMessage = action.payload || "";
       })
 
       // delete Package Feature Api
@@ -80,7 +86,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(deletePackageFeatureApi.rejected, (state, action) => {
         state.deletePackageFeatureData = null;
-        state.ResponseMessage = action.payload || "An error occurred";
+        state.ResponseMessage = action.payload || "";
       })
 
       //getPackageFeatureApi Cases
@@ -93,7 +99,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(getPackageFeaturesApi.rejected, (state, action) => {
         state.getPackageFeatureData = null;
-        state.ResponseMessage = action.payload || "An error occurred";
+        state.ResponseMessage = action.payload || "";
       })
 
       // Add Package Features from Dropdown Main Api
@@ -106,7 +112,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(addPackageFeatureApi.rejected, (state, action) => {
         state.addPackageFeaturesData = null;
-        state.ResponseMessage = action.payload || "An error occurred";
+        state.ResponseMessage = action.payload || "";
       })
 
       // Create Package Features Mapping Main Api
@@ -119,10 +125,11 @@ const packageAdminReducer = createSlice({
       })
       .addCase(createPackageFeaturesApi.rejected, (state, action) => {
         state.createPackageData = null;
-        state.ResponseMessage = action.payload || "An error occurred";
+        state.ResponseMessage = action.payload || "";
       });
   },
 });
 
-export const { packageAdminLoader } = packageAdminReducer.actions;
+export const { packageAdminLoader, resetResponseMessage } =
+  packageAdminReducer.actions;
 export default packageAdminReducer.reducer;

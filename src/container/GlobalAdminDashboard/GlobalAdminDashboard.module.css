@@ -172,6 +172,7 @@ body[dir="rtl"] .OrgazationStatusHeading {
   border-radius: 4px !important;
   background: #fff !important;
   cursor: pointer !important;
+  pointer-events: all !important;
 }
 
 .OuterBoxPieChart:is(:hover) {
@@ -195,9 +196,31 @@ body[dir="rtl"] .OrgazationStatusHeading {
   border-radius: 4px !important;
   background: #fff !important;
   cursor: pointer !important;
+  pointer-events: all !important;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
   -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
   -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.42);
+}
+
+.chart-container {
+  position: relative;
+  display: inline-block;
+  pointer-events: none !important;
+}
+
+.chart-container * {
+  pointer-events: auto !important;
+}
+
+.click-preventer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 10;
+  cursor: not-allowed;
 }
 
 .ButtonsDashboard {
@@ -209,6 +232,10 @@ body[dir="rtl"] .OrgazationStatusHeading {
   color: #5a5a5a !important;
   font-weight: 700 !important;
   height: 37px !important;
+  text-overflow: ellipsis; /* Add this */
+  overflow: hidden; /* Add this */
+  white-space: nowrap; /* Add this */
+  display: inline-block;
 }
 
 body[dir="rtl"] .ButtonsDashboard {
@@ -220,6 +247,10 @@ body[dir="rtl"] .ButtonsDashboard {
   color: #5a5a5a !important;
   font-weight: 700 !important;
   height: 37px !important;
+  text-overflow: ellipsis; /* Add this */
+  overflow: hidden; /* Add this */
+  white-space: nowrap; /* Add this */
+  display: inline-block;
 }
 
 .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
@@ -242,6 +273,10 @@ body[dir="rtl"] .ButtonsDashboard {
   color: #fff !important;
   font-weight: 700 !important;
   height: 37px !important;
+  text-overflow: ellipsis; /* Add this */
+  overflow: hidden; /* Add this */
+  white-space: nowrap; /* Add this */
+  display: inline-block;
 }
 
 body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
@@ -253,6 +288,10 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   color: #fff !important;
   font-weight: 700 !important;
   height: 37px !important;
+  text-overflow: ellipsis; /* Add this */
+  overflow: hidden; /* Add this */
+  white-space: nowrap; /* Add this */
+  display: inline-block;
 }
 
 .ButtonsDashboard-Licenses {
@@ -590,8 +629,8 @@ body[dir="rtl"] .CrossIcon_Class-users {
 }
 
 .dropdown-container-companyName {
-  width: 200px; /* Adjust as needed */
-  position: relative; /* Ensure relative positioning */
+  width: 160px !important;
+  position: relative !important; /* Ensure relative positioning */
 }
 
 .CompanyName-select {
@@ -666,7 +705,17 @@ body[dir="rtl"] .class-billing-table {
 .inside-pie-chart {
   position: absolute !important;
   top: 43% !important;
-  left: 24% !important;
+  left: 27% !important;
+  /* transform: translate(-50%, -50%) !important; */
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #5a5a5a !important;
+}
+
+.pie-value-zero {
+  position: absolute !important;
+  top: 43% !important;
+  left: 30% !important;
   /* transform: translate(-50%, -50%) !important; */
   font-size: 20px !important;
   font-weight: 700 !important;
@@ -676,7 +725,7 @@ body[dir="rtl"] .class-billing-table {
 body[dir="rtl"] .inside-pie-chart {
   position: absolute !important;
   top: 43% !important;
-  left: 35% !important;
+  left: 27% !important;
   /* transform: translate(-50%, -50%) !important; */
   font-size: 20px !important;
   font-weight: 700 !important;
@@ -690,7 +739,7 @@ body[dir="rtl"] .inside-pie-chart {
   width: 60vw; */
   display: flex;
   align-items: center;
-  width: 60vw;
+  width: 100%;
 }
 
 .scrollButton {
@@ -711,7 +760,6 @@ body[dir="rtl"] .inside-pie-chart {
   display: flex;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  width: 50%;
   padding: 10px 0;
   margin: 0px 7px;
   position: relative;
@@ -724,4 +772,57 @@ body[dir="rtl"] .inside-pie-chart {
 .button-slides-class {
   font-size: 23px !important;
   cursor: pointer;
+}
+
+body[dir="rtl"] .button-slides-class {
+  font-size: 23px !important;
+  cursor: pointer !important;
+  transform: rotateY(180deg) !important;
+}
+.emptyCircle {
+  border: 40px solid #e1e1e1;
+  width: 155.81px;
+  height: 155.81px;
+  display: block;
+  border-radius: 50%;
+}
+
+.emptyCircle-empty-box {
+  padding: 23px 6px !important;
+}
+
+.div-in-row-empty {
+  display: flex;
+  flex-direction: row !important;
+}
+
+.font-size-in-Data {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  margin-top: 10px;
+  margin-left: 5px !important;
+  color: #5a5a5a !important;
+}
+body[dir="rtl"] .font-size-in-Data {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  margin-right: 5px !important;
+  margin-top: 10px;
+  color: #5a5a5a !important;
+}
+
+.font-size-in-Data-active {
+  margin-left: 15px !important;
+  margin-top: 25px !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #5a5a5a !important;
+}
+
+body[dir="rtl"] .font-size-in-Data-active {
+  margin-right: 15px !important;
+  margin-top: 25px !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #5a5a5a !important;
 }

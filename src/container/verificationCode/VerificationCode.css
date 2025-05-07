@@ -1,0 +1,199 @@
+.verification-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 30px !important;
+  display: flex !important;
+  justify-content: start !important;
+  margin-top: 10px !important;
+}
+
+body[dir="rtl"] .verification-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 30px !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 10px !important;
+}
+
+.verification-subheading {
+  color: #6172d6 !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  text-align: left !important;
+  display: flex !important;
+  justify-content: start !important;
+}
+
+body[dir="rtl"] .verification-subheading {
+  color: #6172d6 !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  display: flex !important;
+  justify-content: right !important;
+  /* margin-right: 10px !important; */
+}
+
+.enter-code-subheading {
+  color: #5a5a5a !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  text-align: left !important;
+}
+
+body[dir="rtl"] .enter-code-subheading {
+  color: #5a5a5a !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  text-align: left !important;
+  margin-right: 55px !important;
+}
+
+.SendCode-button-color {
+  width: 100% !important;
+  height: 37px !important;
+  padding: 0px !important;
+  background-color: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 2px !important;
+  font-size: 16px !important;
+  font-weight: 600;
+  border: none !important;
+}
+
+body[dir="rtl"] .SendCode-button-color {
+  width: 100% !important;
+  height: 37px !important;
+  padding: 0px !important;
+  background-color: #6172d6 !important;
+  color: #fff !important;
+  border-radius: 2px !important;
+  font-size: 16px !important;
+  font-weight: 500;
+  border: none !important;
+}
+
+.textfield-forget-password-class {
+  width: 300px !important;
+  height: 37px !important;
+  padding: 0px 8px !important;
+  border: 1px solid #eee !important;
+  border-radius: 4px !important;
+}
+
+.go-back-text {
+  color: #5a5a5a !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-decoration: underline !important;
+}
+
+.go-back-text:hover {
+  opacity: 0.8 !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+}
+
+.icon {
+  margin-right: 8px !important; /* Adjust the margin as needed */
+}
+
+.Enter-Code-Label label {
+  font-size: calc(16px - 20%) !important;
+  margin-left: 40px !important;
+}
+
+body[dir="rtl"] .Enter-Code-Label label {
+  font-size: calc(16px - 20%) !important;
+  margin-right: 10px !important;
+}
+
+.OTPInput {
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  margin: 0;
+  padding: 0;
+}
+
+.resend-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  text-align: left !important;
+  display: flex !important;
+  justify-content: start !important;
+  margin-bottom: 5px !important;
+}
+
+body[dir="rtl"] .resend-heading {
+  color: #5a5a5a !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  display: flex !important;
+  justify-content: start !important;
+  margin-bottom: 5px !important;
+  margin-right: 55px !important;
+}
+
+.resendCode_btn {
+  background: none !important;
+  color: #000 !important;
+  margin: 0 !important;
+  user-select: none;
+  border: none !important;
+  padding: 0 !important;
+  text-decoration: underline !important;
+  font-size: calc(16px - 20%) !important;
+}
+
+body[dir="rtl"] .resendCode_btn {
+  font-weight: 400 !important;
+}
+
+.resendCode_bt:hover {
+  background: none !important;
+  color: #000 !important;
+  margin: 0 !important;
+  user-select: none;
+  border: none !important;
+  padding: 0 !important;
+  text-decoration: underline !important;
+}
+
+.resendCode_btn:disabled {
+  opacity: 30% !important;
+  color: #000 !important;
+}
+
+.resendCode_btn span {
+  user-select: none !important;
+}
+
+.resendCode_btn:hover {
+  color: #000 !important;
+  background: none !important;
+  border: none !important;
+  text-decoration: none;
+}
+
+.errorMessage-OTP {
+  margin: 0 0 10px 0;
+  height: 13px;
+  color: #f16b6b;
+  visibility: visible;
+}
+
+body[dir="rtl"] .errorMessage-OTP {
+  font-weight: 500 !important;
+}
+
+.errorMessage-OTP_hidden {
+  visibility: hidden;
+  margin: 0 0 10px 0;
+  height: 13px;
+  color: #f16b6b;
+}
+
+body[dir="rtl"] .errorMessage-OTP_hidden {
+  font-weight: 500 !important;
+}

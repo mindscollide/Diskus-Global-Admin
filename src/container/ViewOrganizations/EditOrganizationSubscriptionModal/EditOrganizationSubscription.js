@@ -14,6 +14,8 @@ const EditOrganizationSubscriptions = ({
   editOrganizationID,
   editOrganzationName,
   editSubscriptionName,
+  setShowSearchText,
+  setUserNameSearch,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
@@ -60,8 +62,6 @@ const EditOrganizationSubscriptions = ({
     }
   }, [ModalReducer.editOraganizationSubscriptionModal, editSubscriptionName]);
 
-  console.log(organzationStatus.value, "organzationStatusorganzationStatus");
-
   const handleChange = (option) => {
     setOrganzationStatus(option);
   };
@@ -89,14 +89,14 @@ const EditOrganizationSubscriptions = ({
 
   //hardCode Organization subscription Status
   const options = [
-    { value: 1, label: "Active" },
-    { value: 2, label: "InActive" },
-    { value: 3, label: "suspended" },
-    { value: 4, label: "Closed" },
-    { value: 5, label: "Terminated Requested" },
-    { value: 6, label: "Deleted" },
-    { value: 7, label: "Archived" },
-    { value: 8, label: "Locked By Global Admin" },
+    { value: 1, label: t("Active") },
+    { value: 2, label: t("In-active") },
+    { value: 3, label: t("Suspended") },
+    { value: 4, label: t("Closed") },
+    { value: 5, label: t("Termination-requested") },
+    { value: 6, label: t("Deleted") },
+    { value: 7, label: t("Archived") },
+    { value: 8, label: t("Locked-by-global-admin") },
   ];
 
   const organizationOption = options.find(
@@ -185,6 +185,8 @@ const EditOrganizationSubscriptions = ({
       <EditOrganizationConfirmations
         organzationStatus={organzationStatus.value}
         editOrganizationID={editOrganizationID}
+        setShowSearchText={setShowSearchText}
+        setUserNameSearch={setUserNameSearch}
       />
     </>
   );

@@ -3,6 +3,9 @@ import {
   GlobalAdminLogOutApi,
   PasswordVerificationApi,
   enterEmailValidation,
+  forgotPasswordMainnApi,
+  otpVerifyMainApi,
+  passwordCreationMainApi,
 } from "../Actions/AuthActions";
 
 const initialState = {
@@ -10,13 +13,20 @@ const initialState = {
   Authresponse: null,
   Responsemessage: "",
   passwordVerifyData: null,
+  forgotPasswordData: null,
   logOutData: null,
+  OtpData: null,
+  passwordCreateData: null,
 };
 
 const AuthActionsSlice = createSlice({
   name: "Auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetAuthResponseMessage: (state, { payload }) => {
+      state.Responsemessage = "";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(enterEmailValidation.pending, (state) => {
@@ -31,12 +41,12 @@ const AuthActionsSlice = createSlice({
         }
         state.loading = false;
         state.Authresponse = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = action.payload.code || "";
       })
       .addCase(enterEmailValidation.rejected, (state, action) => {
         state.loading = false;
         state.Authresponse = null;
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       })
       .addCase(PasswordVerificationApi.pending, (state) => {
         state.loading = true;
@@ -49,7 +59,7 @@ const AuthActionsSlice = createSlice({
       .addCase(PasswordVerificationApi.rejected, (state, action) => {
         state.loading = false;
         state.passwordVerifyData = null;
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
       })
 
       .addCase(GlobalAdminLogOutApi.pending, (state) => {
@@ -63,9 +73,52 @@ const AuthActionsSlice = createSlice({
       .addCase(GlobalAdminLogOutApi.rejected, (state, action) => {
         state.loading = false;
         state.logOutData = null;
-        state.Responsemessage = action.payload || "An error occurred";
+        state.Responsemessage = action.payload || "";
+      })
+
+      .addCase(forgotPasswordMainnApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(forgotPasswordMainnApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordData = action.payload;
+        state.Responsemessage = action.payload.code || "";
+      })
+      .addCase(forgotPasswordMainnApi.rejected, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordData = null;
+        state.Responsemessage = action.payload || "";
+      })
+
+      .addCase(otpVerifyMainApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(otpVerifyMainApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.logOutData = action.payload;
+        state.Responsemessage = action.payload.code || "";
+      })
+      .addCase(otpVerifyMainApi.rejected, (state, action) => {
+        state.loading = false;
+        state.logOutData = null;
+        state.Responsemessage = action.payload || "";
+      })
+
+      .addCase(passwordCreationMainApi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(passwordCreationMainApi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.passwordCreateData = action.payload;
+        state.Responsemessage = action.payload.code || "";
+      })
+      .addCase(passwordCreationMainApi.rejected, (state, action) => {
+        state.loading = false;
+        state.passwordCreateData = null;
+        state.Responsemessage = action.payload || "";
       });
   },
 });
 
+export const { resetAuthResponseMessage } = AuthActionsSlice.actions;
 export default AuthActionsSlice.reducer;

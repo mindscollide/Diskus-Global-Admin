@@ -14,17 +14,21 @@ import { useTranslation } from "react-i18next";
 import { changeScreen } from "../../store/ActionsSlicers/AuthScreenActionSlicer";
 import { validationEmail } from "../../common/functions/Validate";
 import { async } from "q";
+import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
 
 const LoginScreen = () => {
   const navigate = useNavigate();
-
+  const ResponseMessage = useSelector(
+    (state) => state.AuthActions.Responsemessage
+  );
+  console.log(ResponseMessage, "authReducer");
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
   const [openNotification, setOpenNotification] = useState({
-    passwordFlag: false,
-    passwordNotification: null,
+    loginFlag: false,
+    loginNotification: null,
     severity: "none",
   });
 
@@ -74,9 +78,15 @@ const LoginScreen = () => {
 
   useEffect(() => {
     let RememberEmailLocal = JSON.parse(localStorage.getItem("rememberEmail"));
+    let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
+    let orgTrialReject = localStorage.getItem("orgTrialReject_action");
     let RememberPasswordLocal = JSON.parse(
       localStorage.getItem("remeberPassword")
     );
+    let currentLanguage =
+      localStorage.getItem("currentLanguage") !== null
+        ? localStorage.getItem("currentLanguage")
+        : "en";
     if (RememberEmailLocal === true && RememberPasswordLocal === true) {
       let RememberEmailLocalValue = localStorage.getItem("rememberEmailValue");
 
@@ -84,6 +94,13 @@ const LoginScreen = () => {
         "rememberPasswordValue"
       );
       localStorage.clear();
+      if (orgTrialAccept !== null) {
+        localStorage.setItem("orgTrialAccept_action", orgTrialAccept);
+      }
+      if (orgTrialReject !== null) {
+        localStorage.setItem("orgTrialReject_action", orgTrialReject);
+      }
+      localStorage.setItem("currentLanguage", currentLanguage);
       localStorage.setItem("remeberPassword", RememberPasswordLocal);
       localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
       localStorage.setItem("rememberEmail", RememberEmailLocal);
@@ -93,8 +110,16 @@ const LoginScreen = () => {
     } else if (RememberEmailLocal === true) {
       let RememberEmailLocalValue = localStorage.getItem("rememberEmailValue");
       localStorage.clear();
+      if (orgTrialAccept !== null) {
+        localStorage.setItem("orgTrialAccept_action", orgTrialAccept);
+      }
+      if (orgTrialReject !== null) {
+        localStorage.setItem("orgTrialReject_action", orgTrialReject);
+      }
       localStorage.setItem("rememberEmail", RememberEmailLocal);
       localStorage.setItem("rememberEmailValue", RememberEmailLocalValue);
+      localStorage.setItem("currentLanguage", currentLanguage);
+
       setRemeberEmail(RememberEmailLocal);
       setEmail(RememberEmailLocalValue);
     } else if (RememberPasswordLocal === true) {
@@ -102,16 +127,52 @@ const LoginScreen = () => {
         "rememberPasswordValue"
       );
       localStorage.clear();
+      if (orgTrialAccept !== null) {
+        localStorage.setItem("orgTrialAccept_action", orgTrialAccept);
+      }
+      if (orgTrialReject !== null) {
+        localStorage.setItem("orgTrialReject_action", orgTrialReject);
+      }
       localStorage.setItem("remeberPassword", RememberPasswordLocal);
       localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
+      localStorage.setItem("currentLanguage", currentLanguage);
     } else {
       localStorage.clear();
+      if (orgTrialAccept !== null) {
+        localStorage.setItem("orgTrialAccept_action", orgTrialAccept);
+      }
+      if (orgTrialReject !== null) {
+        localStorage.setItem("orgTrialReject_action", orgTrialReject);
+      }
       localStorage.setItem("rememberEmail", false);
       localStorage.setItem("rememberEmailValue", "");
       localStorage.setItem("remeberPassword", false);
       localStorage.setItem("rememberPasswordValue", "");
+      localStorage.setItem("currentLanguage", currentLanguage);
     }
   }, []);
+
+  useEffect(() => {
+    if (
+      ResponseMessage !== null &&
+      ResponseMessage !== undefined &&
+      ResponseMessage !== ""
+    ) {
+      setOpenNotification({
+        ...openNotification,
+        loginFlag: true,
+        loginNotification: ResponseMessage,
+        severity: "error",
+      });
+      setTimeout(() => {
+        setOpenNotification({
+          ...openNotification,
+          loginFlag: false,
+        });
+      }, 3000);
+      dispatch(resetAuthResponseMessage(""))
+    }
+  }, [ResponseMessage]);
 
   const onClickSignIn = async (e) => {
     e.preventDefault();
@@ -119,7 +180,7 @@ const LoginScreen = () => {
       setOpenNotification({
         ...openNotification,
         loginFlag: true,
-        loginNotification: t("Please-fill-Input-field"),
+        loginNotification: t("Please-enter-email"),
         severity: "error",
       });
 
@@ -134,7 +195,7 @@ const LoginScreen = () => {
       setOpenNotification({
         ...openNotification,
         loginFlag: true,
-        loginNotification: t("Email-format-is-incorrect"),
+        loginNotification: t("Invalid-email-format"),
         severity: "error",
       });
 
@@ -161,6 +222,13 @@ const LoginScreen = () => {
     }
   };
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onClickSignIn(e);
+    }
+  };
+
   return (
     <>
       <Row>
@@ -168,9 +236,8 @@ const LoginScreen = () => {
           lg={12}
           md={12}
           sm={12}
-          className="my-4 d-flex justify-content-center"
-        >
-          <span className="sign-in-text">{t("Sign-in")}</span>
+          className='my-4 d-flex justify-content-center'>
+          <span className='sign-in-text'>{t("Sign-in")}</span>
         </Col>
       </Row>
 
@@ -179,32 +246,34 @@ const LoginScreen = () => {
           <TextField
             applyClass={"addOraganizer"}
             labelClass={"d-none"}
+            // className={"inputEmailField"}
             name={"email"}
+            placeholder={t("Email")}
             change={emailChangeHandler}
             value={email || ""}
             maxLength={250}
+            onKeyPress={handleKeyPress}
           />
         </Col>
       </Row>
 
       <Row>
-        <Col sm={12} md={12} lg={12} className="d-flex gap-2">
+        <Col sm={12} md={12} lg={12} className='d-flex gap-2'>
           <Checkbox
-            classNameDiv=""
+            classNameDiv=''
             checked={rememberEmail}
             onChange={rememberChangeEmail}
           />
-          <span className="remember-email">{t("Remember-email")}</span>
+          <span className='remember-email'>{t("Remember-email")}</span>
         </Col>
       </Row>
 
-      <Row className="mt-3">
+      <Row className='mt-3'>
         <Col
           lg={12}
           md={12}
           sm={12}
-          className="d-flex justify-content-center w-100"
-        >
+          className='d-flex justify-content-center w-100'>
           <Button
             text={t("Next")}
             onClick={onClickSignIn}
@@ -221,7 +290,7 @@ const LoginScreen = () => {
         notificationClass={
           openNotification.severity
             ? "notification-error"
-            : "notification-email"
+            : "notification-success"
         }
       />
     </>

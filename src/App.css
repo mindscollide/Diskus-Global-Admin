@@ -17,6 +17,18 @@ div {
   font-family: "Montserrat" !important;
 }
 
+body[dir="rtl"] h1,
+body[dir="rtl"] h2,
+body[dir="rtl"] h3,
+body[dir="rtl"] h4,
+body[dir="rtl"] h5,
+body[dir="rtl"] h6,
+body[dir="rtl"] p,
+body[dir="rtl"] label,
+body[dir="rtl"] div {
+  font-family: "IBM Plex Sans Arabic" !important;
+}
+
 body {
   font-family: "Montserrat" !important;
   font-weight: 400 !important;
@@ -25,6 +37,10 @@ body {
   line-height: 1.5;
   background-color: #f6fafd !important;
   overflow: hidden auto;
+}
+
+body[dir="rtl"] {
+  font-family: "IBM Plex Sans Arabic" !important;
 }
 
 ::-webkit-scrollbar {
@@ -219,21 +235,21 @@ body[dir="rtl"] span.Sub-Title.Table {
 /* Snackbar Notification CSS */
 .MuiAlert-filledError.notification-error {
   width: 100% !important;
-  background: #cc0000 !important;
+  background: #6172d6 !important;
   position: relative !important;
   box-shadow: none !important;
 }
 
 .MuiAlert-filledSuccess.notification-success {
   width: 100% !important;
-  background: #55c5d1 !important;
+  background: #6172d6 !important;
   position: relative !important;
   box-shadow: none !important;
 }
 
 body[dir="rtl"] .MuiAlert-filledSuccess.notification-success {
   width: 100% !important;
-  background: #55c5d1 !important;
+  background: #6172d6 !important;
   position: relative !important;
   box-shadow: none !important;
   right: 10px !important;
@@ -298,13 +314,13 @@ body[dir="rtl"] .MuiSnackbar-anchorOriginTopLeft .MuiAlert-action {
 body[dir="rtl"] .billingTable .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 body[dir="rtl"] .TrialTableDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 .TrialExtendedDashboard .ant-table-thead > tr * {
@@ -316,7 +332,7 @@ body[dir="rtl"] .TrialTableDashboard .ant-table-thead > tr * {
 body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 .EssentialTable .ant-table-thead > tr * {
@@ -328,7 +344,7 @@ body[dir="rtl"] .TrialExtendedDashboard .ant-table-thead > tr * {
 body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
   font-size: 12px !important;
   padding: 1px 0px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 .rmdp-day.rmdp-today span {
@@ -359,6 +375,17 @@ body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
   cursor: pointer;
 }
 
+body[dir="rtl"] .eye_icon.valid-feedback {
+  display: block;
+  position: absolute;
+  top: 85px;
+  font-size: 22px;
+  right: 43% !important;
+  left: 0 !important;
+  width: 30px !important;
+  cursor: pointer;
+}
+
 .eye_icon_newPassowrd.valid-feedback {
   display: block;
   position: absolute;
@@ -369,12 +396,34 @@ body[dir="rtl"] .EssentialTable .ant-table-thead > tr * {
   cursor: pointer;
 }
 
+body[dir="rtl"] .eye_icon_newPassowrd.valid-feedback {
+  display: block;
+  position: absolute;
+  top: 153px;
+  font-size: 22px;
+  right: 43% !important;
+  left: 0 !important;
+  width: 30px !important;
+  cursor: pointer;
+}
+
 .eye_icon_ConfirmPassword.valid-feedback {
   display: block;
   position: absolute;
   top: 221px;
   font-size: 22px;
   right: 53% !important;
+  width: 30px !important;
+  cursor: pointer;
+}
+
+body[dir="rtl"] .eye_icon_ConfirmPassword.valid-feedback {
+  display: block;
+  position: absolute;
+  top: 221px;
+  font-size: 22px;
+  right: 43% !important;
+  left: 0 !important;
   width: 30px !important;
   cursor: pointer;
 }
@@ -440,6 +489,12 @@ span.package-icon-style {
   margin-left: 150px;
 }
 
+body[dir="rtl"] .userProfileModal .modal-content {
+  width: 503px !important;
+  height: 447px !important;
+  margin-right: 150px;
+}
+
 /* Class for PackageDetails modal */
 .PackageDetails .modal-content {
   height: auto !important;
@@ -461,6 +516,12 @@ span.package-icon-style {
   width: 600px !important;
   height: 170px !important;
   margin-left: 50px;
+}
+
+body[dir="rtl"] .confirmationModal .modal-content {
+  width: 600px !important;
+  height: 170px !important;
+  margin-right: 60px;
 }
 
 /* class for update subscription modal in view organization */
@@ -713,4 +774,47 @@ body[dir="rtl"] .userlogin_history_tableP .ant-table-thead > tr * {
 
 body[dir="rtl"] .class-table-loginhistory {
   text-align: right !important;
+}
+
+/* this is for when header dropdown open then on active color is this */
+a.dropdown-item.dropdown-item:hover {
+  background: #f9f9f9;
+}
+
+.valid span {
+  font-weight: bold;
+  color: #6172d6 !important;
+}
+
+body[dir="rtl"] .valid span {
+  font-weight: 500;
+}
+
+.invalid span {
+  color: #ff0000 !important;
+  font-weight: bold;
+}
+
+body[dir="rtl"] .invalid span {
+  font-weight: 500;
+}
+
+/* for notification show */
+.MuiAlert-filledSuccess {
+  color: #fff;
+  font-weight: 500;
+  background-color: #6172d6 !important;
+}
+
+/* for packages counter arrow */
+
+:where(.css-1drr2mu).ant-input-number .ant-input-number-handler:hover {
+  height: 0% !important;
+}
+:where(.css-1drr2mu).ant-input-number .ant-input-number-handler-up-inner svg,
+:where(.css-1drr2mu).ant-input-number .ant-input-number-handler-down-inner svg {
+  display: inline-block;
+  color: #6172d6 !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
 }

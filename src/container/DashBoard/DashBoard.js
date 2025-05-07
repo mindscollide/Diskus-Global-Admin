@@ -16,6 +16,9 @@ const DashBoard = () => {
   const globalAdminDashboardLoader = useSelector(
     (state) => state.globalAdminDashboardReducer.loading
   );
+  const LanguageReducerLoader = useSelector(
+    (state) => state.LanguageReducer.loading
+  );
 
   const ViewOrganizationData = useSelector(
     (state) => state.searchOrganization.loading
@@ -51,7 +54,8 @@ const DashBoard = () => {
           {LoginHistoryLoader ||
           authStateLoader ||
           ViewOrganizationData ||
-          globalAdminDashboardLoader ? (
+          globalAdminDashboardLoader ||
+          LanguageReducerLoader ? (
             <Loader />
           ) : null}
         </Layout>

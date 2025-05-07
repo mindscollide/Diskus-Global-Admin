@@ -1,13 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, TextField } from "./../../components/elements";
 import { Row, Col, Container } from "react-bootstrap";
 import styles from "./UserInfoModal.module.css";
-import Form from "react-bootstrap/Form";
-// import { countryName } from "../../AllUsers/AddUser/CountryJson";
 import ReactFlagsSelect from "react-flags-select";
 import { useTranslation } from "react-i18next";
-import arabic_ar from "react-date-object/locales/arabic_ar";
-import gregorian_en from "react-date-object/locales/gregorian_en";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CrossIcon from "../../assets/images/OutletImages/Cross-Chat-Icon.png";
 import {
@@ -20,51 +17,80 @@ import {
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { regexOnlyNumbers } from "../../common/functions/Regex";
 import UserConfirmationModal from "../userConfirmationModal/UserConfirmationModal";
+import { getUserInfoMainApi } from "../../store/Actions/GlobalAdminDashboardActions";
 
 const UserProfileModal = () => {
-  //For Localization
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  // Reducer for modal in UIModalsActions
   const ModalReducer = useSelector((state) => state.modal);
+  const getUserInfoData = useSelector(
+    (state) => state.globalAdminDashboardReducer.getUserInfoData
+  );
 
-  console.log("confirmationModalStateconfirmationModalState", ModalReducer);
-
-  // get email and organizationName from local storage
   const userEmail = localStorage.getItem("userEmail");
   const orgName = localStorage.getItem("adminname");
-  console.log(orgName, "userEmailuserEmail");
 
-  // error state to show error on empty field
   const [errorBar, setErrorBar] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  // select for country dropdown
-  const [select, setSelect] = useState("");
-
   const [selected, setSelected] = useState("US");
   const [selectedCountry, setSelectedCountry] = useState({});
-  console.log(selectedCountry, "selectedCountry");
+  const [userDataInfo, setUserDataInfo] = useState([]);
 
-  // state for User Information Modal
   const [userInfoState, setUserInfoState] = useState({
-    CountryCode: 0,
-    Number: "",
+    CountryCode: {
+      value: 0,
+      errorMessage: "",
+      errorStatus: false,
+    },
+    Number: {
+      value: "",
+      errorMessage: "",
+      errorStatus: false,
+    },
   });
 
-  console.log(userInfoState, "orgNameSelected");
+  useEffect(() => {
+    if (getUserInfoData && getUserInfoData?.result?.data) {
+      const { mobileCode, mobileNumber, fK_WorldCountryID } =
+        getUserInfoData.result.data;
+      const country = Object.keys(countryNameforPhoneNumber).find(
+        (key) => countryNameforPhoneNumber[key].secondary === mobileCode
+      );
 
-  // on Change handler
+      setUserInfoState({
+        CountryCode: {
+          value: fK_WorldCountryID,
+          errorMessage: "",
+          errorStatus: false,
+        },
+        Number: {
+          value: mobileNumber,
+          errorMessage: "",
+          errorStatus: false,
+        },
+      });
+
+      setUserDataInfo(getUserInfoData?.result?.data);
+      setSelected(country);
+    }
+  }, [getUserInfoData]);
+
   const onChangeHandler = (e) => {
-    const { name, value } = e.target;
+    let name = e.target.name;
+    let value = e.target.value;
 
-    if (name === "number") {
-      const valueCheck = regexOnlyNumbers(value);
+    if (name === "number" && name !== "") {
+      let valueCheck = regexOnlyNumbers(value);
       if (valueCheck !== 0) {
         setUserInfoState({
           ...userInfoState,
-          Number: valueCheck.trimStart(),
+          Number: {
+            value: valueCheck.trimStart(),
+            errorMessage: "",
+            errorStatus: false,
+          },
         });
       }
     }
@@ -73,35 +99,73 @@ const UserProfileModal = () => {
   const handleClose = () => {
     dispatch(userInfoOpenModal(false));
     setUserInfoState({
-      ...userInfoState,
-      CountryCode: "",
-      Number: "",
+      CountryCode: {
+        value: 0,
+        errorMessage: "",
+        errorStatus: false,
+      },
+      Number: {
+        value: "",
+        errorMessage: "",
+        errorStatus: false,
+      },
     });
+    setSelected("US");
     setErrorBar(false);
     setSubmitted(false);
   };
 
   const handleSelect = (country) => {
     setSelected(country);
-    setSelectedCountry(country);
-    let a = Object.values(countryNameforPhoneNumber).find((obj) => {
-      return obj.primary === country;
-    });
+    const selectedCountry = countryNameforPhoneNumber[country];
+    setSelectedCountry(selectedCountry);
     setUserInfoState({
       ...userInfoState,
-      CountryCode: a.id,
+      CountryCode: {
+        value: selectedCountry.id,
+      },
     });
   };
 
   const openConfirmationModal = () => {
-    // setSubmitted(true);
-    setErrorBar(false);
-    console.log(
-      "Opening confirmation modal with userInfoState:",
-      userInfoState
-    );
-    dispatch(userInfoOpenModal(false));
-    dispatch(userConifrmationOpenModal(true));
+    setSubmitted(true);
+    if (
+      userInfoState.Number.value !== "" &&
+      userInfoState.CountryCode.value !== 0
+    ) {
+      setErrorBar(false);
+      dispatch(userInfoOpenModal(false));
+      dispatch(userConifrmationOpenModal(true));
+    } else {
+      setErrorBar(true);
+    }
+  };
+
+  const onClickRevert = () => {
+    if (getUserInfoData && getUserInfoData?.result?.data) {
+      const { mobileCode, mobileNumber, fK_WorldCountryID } =
+        getUserInfoData.result.data;
+      const country = Object.keys(countryNameforPhoneNumber).find(
+        (key) => countryNameforPhoneNumber[key].secondary === mobileCode
+      );
+
+      setUserInfoState({
+        CountryCode: {
+          value: fK_WorldCountryID,
+          errorMessage: "",
+          errorStatus: false,
+        },
+        Number: {
+          value: mobileNumber,
+          errorMessage: "",
+          errorStatus: false,
+        },
+      });
+
+      setUserDataInfo(getUserInfoData?.result?.data);
+      setSelected(country);
+      setSubmitted(false);
+    }
   };
 
   return (
@@ -171,30 +235,29 @@ const UserProfileModal = () => {
                     <ReactFlagsSelect
                       selected={selected}
                       onSelect={handleSelect}
-                      value={userInfoState.CountryCode}
+                      value={userInfoState.CountryCode.value}
                       fullWidth={false}
                       searchable={true}
                       placeholder={"Select Co...."}
                       customLabels={countryNameforPhoneNumber}
                       className={styles["userProfileFlagSelect"]}
                     />
-                    {/* {errorBar && select === "" && submitted === true ? (
-                      <Row className="mt-4">
-                        <Col>
-                          <p
-                            className={
-                              errorBar && select === "" && submitted === true
-                                ? styles["errorMessage"]
-                                : styles["errorMessage-hidden"]
-                            }
-                          >
-                            {t("Please-Select-this-field")}
-                          </p>
-                        </Col>
-                      </Row>
-                    ) : (
-                      <></>
-                    )} */}
+
+                    <Row className="mt-4">
+                      <Col>
+                        <p
+                          className={
+                            errorBar &&
+                            userInfoState.CountryCode.value === 0 &&
+                            submitted === true
+                              ? styles["errorMessage"]
+                              : styles["errorMessage-hidden"]
+                          }
+                        >
+                          {t("Please-Select-this-field")}
+                        </p>
+                      </Col>
+                    </Row>
                   </Col>
 
                   <Col lg={6} md={6} sm={6} className={styles["flex-columns"]}>
@@ -204,62 +267,58 @@ const UserProfileModal = () => {
                     </label>
                     <TextField
                       name="number"
-                      value={userInfoState.Number}
+                      value={userInfoState.Number.value}
                       change={onChangeHandler}
                       labelClass="d-none"
                       className={"react-flag-field"}
                     />
-                    {errorBar &&
-                    userInfoState.Number === "" &&
-                    submitted === true ? (
-                      <Row className="mt-2">
-                        <Col>
-                          <p
-                            className={
-                              errorBar &&
-                              userInfoState.Number === "" &&
-                              submitted === true
-                                ? styles["errorMessage"]
-                                : styles["errorMessage-hidden"]
-                            }
-                          >
-                            {t("Fill-the-number-field")}
-                          </p>
-                        </Col>
-                      </Row>
-                    ) : (
-                      <></>
-                    )}
+
+                    <Row className="mt-2">
+                      <Col>
+                        <p
+                          className={
+                            errorBar &&
+                            userInfoState.Number.value === "" &&
+                            submitted === true
+                              ? styles["errorMessage"]
+                              : styles["errorMessage-hidden"]
+                          }
+                        >
+                          {t("Fill-the-number-field")}
+                        </p>
+                      </Col>
+                    </Row>
                   </Col>
                 </Row>
               </Container>
             </>
           }
           ModalFooter={
-            <>
-              <Row className="mb-5 mt-2">
-                <Col lg={6} md={6} sm={6} xs={12}>
-                  <Button
-                    text={t("Revert")}
-                    className={styles["reset-User-btn"]}
-                  />
-                </Col>
-
-                <Col lg={6} md={6} sm={6} xs={12}>
-                  <Button
-                    text={t("Update")}
-                    className={styles["save-User-btn"]}
-                    onClick={openConfirmationModal}
-                  />
-                </Col>
-              </Row>
-            </>
+            <Row className="mb-5 mt-2">
+              <Col
+                lg={6}
+                md={6}
+                sm={6}
+                className="d-flex justify-content-start"
+              >
+                <Button
+                  text={t("Revert")}
+                  className={styles["reset-User-btn"]}
+                  onClick={onClickRevert}
+                />
+              </Col>
+              <Col lg={6} md={6} sm={6} className="d-flex justify-content-end">
+                <Button
+                  text={t("Update")}
+                  className={styles["save-User-btn"]}
+                  onClick={openConfirmationModal}
+                />
+              </Col>
+            </Row>
           }
         />
       </Container>
-      {ModalReducer.ConfirmationInfoModal ? (
-        <UserConfirmationModal userInfoState={userInfoState} />
-      ) : null}
+      <UserConfirmationModal userInfoState={userInfoState} />
     </>
   );
 };

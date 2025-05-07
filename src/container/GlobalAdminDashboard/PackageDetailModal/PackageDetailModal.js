@@ -19,63 +19,28 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
-  console.log(
-    subscribedPackageDetail,
-    "subscribedPackageDetailsubscribedPackageDetail"
-  );
 
   // Reducer for modal in UIModalActions
   const ModalReducer = useSelector((state) => state.modal);
+
+  const [emailState, setEmailState] = useState("");
+  const [subscriptionCustomer, setSubscriptionCustomer] = useState("");
+  const [packageDetails, setPackageDetails] = useState([]);
 
   // Reducer for getting Data
   const packageDetailModalData = useSelector(
     (state) => state.globalAdminDashboardReducer.packageDetailModalData
   );
-  console.log(packageDetailModalData, "packageDetailStatepackageDetailState");
 
-  const packageDetails =
-    packageDetailModalData?.result?.details?.packageDetails || [];
-
-  console.log(packageDetails, "daadadadadadda");
-
-  const emailState = packageDetailModalData?.result?.details.organizationEmail;
-
-  // state for packageDetail Modal
-  const [packageDetailState, setPackageDetailState] = useState({
-    OrganizationName: {
-      value: "",
-      errorMessage: "",
-      errorStatus: false,
-    },
-
-    OrganizationEmail: {
-      value: "",
-      errorMessage: "",
-      errorStatus: false,
-    },
-  });
-
-  // api for getting data in PackageDetail
-  // useEffect(() => {
-  //   let data = {
-  //     OrganizationID: subscribedPackageDetail.organizationName,
-  //     SubscriptionID: 347,
-  //   };
-  //   dispatch(globalAdminDashBoardLoader(true));
-  //   dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
-  // }, []);
-
-  // useEffect to getData from reducer
-
-  // useEffect(() => {
-  //   if (
-  //     packageDetailModalData &&
-  //     packageDetailModalData.details !== null &&
-  //     packageDetailModalData.packageDetails.length > 0
-  //   ) {
-  //     setPackageDetailState(packageDetailModalData.details);
-  //   }
-  // }, [packageDetailModalData]);
+  useEffect(() => {
+    if (packageDetailModalData?.result?.details) {
+      setEmailState(packageDetailModalData.result.details.organizationEmail);
+      setSubscriptionCustomer(
+        packageDetailModalData.result.details.subscriptionCustomerNumber
+      );
+      setPackageDetails(packageDetailModalData.result.details.packageDetails);
+    }
+  }, [packageDetailModalData]);
 
   const handleClose = () => {
     dispatch(dashboardSendInvoiceOpenModal(false));
@@ -151,10 +116,10 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
                   <Col lg={12} md={12} sm={12}>
                     <div className={styles["column-container"]}>
                       <span className={styles["send-invoice-subHeading"]}>
-                        {t("Subscription")}
+                        {t("Subscription-customer-number")}
                       </span>
                       <span className={styles["send-invoice-subheading-2"]}>
-                        {subscribedPackageDetail.subscriptionID}
+                        {subscriptionCustomer}
                       </span>
                     </div>
                   </Col>
@@ -174,7 +139,7 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
                     <div className={styles["custom-table-row"]}>
                       <div className={styles["custom-table-cell"]}>
                         <span className={styles["custom-table-header"]}>
-                          License Name
+                          {t("License-name")}
                         </span>
                       </div>
                       {packageDetails.map((detail, index) => (
@@ -193,7 +158,7 @@ const PackageDetailModal = ({ subscribedPackageDetail }) => {
                     <div className={styles["custom-table-row"]}>
                       <div className={styles["custom-table-cell"]}>
                         <span className={styles["custom-table-header"]}>
-                          No. of Licenses
+                          {t("No-of-Licenses")}
                         </span>
                       </div>
                       {packageDetails.map((detail, index) => (

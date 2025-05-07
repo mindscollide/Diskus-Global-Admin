@@ -134,17 +134,17 @@ const trialRenewModal = {
 
 // for download ListOfExtendedTrailSubscriptions report on subscribe trial
 const downloadTrialExtendedReport = {
-  RequestMethod: "ServiceManager.ListOfExtendedTrailSubscriptions",
+  RequestMethod: "ServiceManager.ExportListOfExtendedTrailSubscriptions",
 };
 
 // for download ListOfSubscribedSubscriptions report on subscribe trial
 const downloadTrialSubscribedReport = {
-  RequestMethod: "ServiceManager.ListOfSubscribedSubscriptions",
+  RequestMethod: "ServiceManager.ExportListOfSubscribedSubscriptions",
 };
 
 // for download ListOfExpiredTrialSubscriptions report on expired Subscription trial
 const downloadExpiredTrialSubscriptionReport = {
-  RequestMethod: "ServiceManager.ListOfExpiredSubscriptions",
+  RequestMethod: "ServiceManager.ExportListOfExpiredSubscriptions",
 };
 
 // for Package Details Modal
@@ -274,6 +274,67 @@ const getorganizationAuditlActionsApi = {
   RequestMethod: "ServiceManager.GetUserAuditActions",
 };
 
+// for download Invoice Api
+const downloadInvoiceApi = {
+  RequestMethod: "ServiceManager.DownloadInvoice",
+};
+
+// for get GetUserMobileAndCode on userInformation
+const getUserInfoApi = {
+  RequestMethod: "ServiceManager.GetUserMobileAndCode",
+};
+
+// forget password API on global Admin
+const forgotPasswordApi = {
+  RequestMethod: "ServiceManager.ForgotPassword",
+};
+
+// verify Otp for email on Global Admin
+const verifyOtpMailApi = {
+  RequestMethod: "ServiceManager.UserEmailVerification",
+};
+
+// Resend Otp email on Global Admin
+const resendOTPApi = {
+  RequestMethod: "ServiceManager.GenerateOTP",
+};
+
+// password update on password creation
+const passwordCreationUpdation = {
+  RequestMethod: "ServiceManager.PasswordUpdationOnForgetPassword",
+};
+
+// get system supported Language
+const getSystemSupportedLanguage = {
+  RequestMethod: "ServiceManager.GetSystemSupportedLanguage",
+};
+
+// get Last Selected Language
+const getLastSelectedLanguage = {
+  RequestMethod: "ServiceManager.GetLastSelectedLanguage",
+};
+
+// set Last Selected Language
+const setLastSelectedLanguage = {
+  RequestMethod: "ServiceManager.SetLastSelectedLanguage",
+};
+
+const searchAllTrailRejectedOrganizationsRM = {
+  RequestMethod: "ServiceManager.SearchAllTrialRejectedOrganizations",
+};
+
+const searchAllTrialRequestedOrganizationsRM = {
+  RequestMethod: "ServiceManager.SearchAllTrialRequestedOrganizations",
+};
+
+const UpdateOrganizationTrialRequestRM = {
+  RequestMethod: "ServiceManager.UpdateOrganizationTrialRequestStatus",
+};
+
+const ValidateEncryptedStringForOrganizationTrialEmailRM = {
+  RequestMethod:
+    "ServiceManager.ValidateEncryptedStringForOrganizationTrialEmail",
+};
 export {
   loginAPi,
   passwordVerify,
@@ -332,4 +393,17 @@ export {
   dynamicallyReportOfActivePackageLicensesApi,
   getorganizationAuditlistingApi,
   getorganizationAuditlActionsApi,
+  downloadInvoiceApi,
+  getUserInfoApi,
+  forgotPasswordApi,
+  verifyOtpMailApi,
+  resendOTPApi,
+  passwordCreationUpdation,
+  getSystemSupportedLanguage,
+  getLastSelectedLanguage,
+  setLastSelectedLanguage,
+  searchAllTrialRequestedOrganizationsRM,
+  searchAllTrailRejectedOrganizationsRM,
+  UpdateOrganizationTrialRequestRM,
+  ValidateEncryptedStringForOrganizationTrialEmailRM,
 };

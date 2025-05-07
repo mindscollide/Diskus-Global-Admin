@@ -67,7 +67,7 @@ body[dir="rtl"] .reset-User-btn {
 }
 
 body[dir="rtl"] .save-User-btn {
-  margin-right: 125px !important;
+  margin-right: 90px !important;
 }
 
 .save-User-btn:hover {
@@ -215,6 +215,12 @@ body[dir="rtl"] .save-User-btn {
   padding: 10px 90px !important;
 }
 
+body[dir="rtl"] .modal-userprofile-footer {
+  display: contents;
+  margin: 20px 0px !important;
+  padding: 10px 90px !important;
+}
+
 /* For phoneInput number */
 .react-User-Profile {
   height: 30px !important;
@@ -328,7 +334,7 @@ body[dir="rtl"] .save-User-btn {
 }
 
 .aesterick-class {
-  color: red !important;
+  color: #f16b6b !important;
 }
 
 .Cross-X {
@@ -339,8 +345,20 @@ body[dir="rtl"] .save-User-btn {
   cursor: pointer;
 }
 
+body[dir="rtl"] .Cross-X {
+  position: relative;
+  top: -20px !important;
+  right: 10px !important;
+  font-size: 10px !important;
+  cursor: pointer;
+}
+
 .errorMessage {
   color: #f24a4a !important;
   font-size: 12px !important;
   font-weight: 400 !important;
+}
+
+.errorMessage-hidden {
+  display: none !important;
 }

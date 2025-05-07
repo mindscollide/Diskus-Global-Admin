@@ -68,15 +68,13 @@ h1 {
 .custom-icon {
   font-size: 30px !important; /* Adjust the size as needed */
   color: #5a5a5a !important;
+  pointer-events: all !important;
+  margin-top: 150px !important;
 }
 
 .custom-table {
   max-height: 150px !important;
   overflow-y: auto !important;
-}
-
-.above-table {
-  /* margin-top: 30px !important; */
 }
 
 .custom-table .ant-table-thead > tr > th {
@@ -107,6 +105,24 @@ h1 {
   flex-wrap: nowrap;
   align-items: flex-start;
   padding-right: 40px;
+  margin-right: 10px !important;
+  color: rgba(0, 0, 0, 0.88);
+  line-height: 1.5714285714285714;
+  cursor: pointer;
+  transition: all 0.3s, visibility 0s;
+}
+
+body[dir="rtl"]
+  :where(.css-dev-only-do-not-override-1drr2mu).ant-collapse
+  > .ant-collapse-item
+  > .ant-collapse-header {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  padding-right: 40px;
+  margin-left: 10px !important;
+  background-color: #fff !important;
   color: rgba(0, 0, 0, 0.88);
   line-height: 1.5714285714285714;
   cursor: pointer;
@@ -143,20 +159,6 @@ body[dir="rtl"] .Search_Bar_icon_class {
   right: auto !important;
 }
 
-.SearchablesItems {
-  padding: 5px 20px !important;
-  border-radius: 4px !important;
-  background: #6172d6;
-  display: flex;
-  text-align: center !important;
-  gap: 35px !important;
-}
-
-.Searches {
-  font-size: 12px !important;
-  color: #fff !important;
-  font-weight: 700 !important;
-}
 .CrossIcon_Class {
   cursor: pointer !important;
 }
@@ -164,14 +166,16 @@ body[dir="rtl"] .Search_Bar_icon_class {
 .SearchBox {
   width: 100% !important;
   height: auto !important;
-  min-height: 260px !important;
+  padding: 20px;
   background: #ffffff !important;
   position: absolute;
   right: 0;
   z-index: 1 !important;
-  top: 39px !important;
+  top: 43px !important;
   border-radius: 4px !important;
   border: 1px solid #e1e1e1 !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
 }
 
 body[dir="rtl"] .SearchBox {
@@ -318,13 +322,13 @@ body[dir="rtl"] .inner-sub-Heading {
 .inner-sub-Heading-insidetable {
   color: #5a5a5a !important;
   font-size: 16px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
 }
 
 body[dir="rtl"] .inner-sub-Heading-insidetable {
   color: #5a5a5a !important;
   font-size: 16px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
 }
 
 .Search_Bar_icon_class {
@@ -344,18 +348,23 @@ body[dir="rtl"] .Search_Bar_icon_class {
 }
 
 .SearchablesItems {
-  padding: 5px 20px !important;
+  padding: 5px 10px !important;
   border-radius: 4px !important;
   background: #6172d6;
   display: flex;
   text-align: center !important;
-  gap: 35px !important;
+  gap: 10px !important;
 }
 
 .Searches {
   font-size: 12px !important;
   color: #fff !important;
   font-weight: 700 !important;
+  max-width: 110px !important;
+  font-weight: 700 !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .UserLoginHistory_datePicker {
@@ -411,4 +420,37 @@ body[dir="rtl"] span.Main-Title-ViewOrganization {
   justify-content: center !important;
   align-items: center !important;
   margin-top: 80px;
+}
+.currenrOrganizationTab {
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #e1e1e1;
+  color: #5a5a5a;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.currenrOrganizationTab_active {
+  background: #6172d6;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.emptyState {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.emptyState span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5a5a5a;
 }

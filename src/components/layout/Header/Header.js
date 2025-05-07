@@ -18,11 +18,16 @@ import { useTranslation } from "react-i18next";
 import { GlobalAdminLogOutApi } from "../../../store/Actions/AuthActions";
 import UserProfileModal from "../../../container/userInformationModal/UserInfoModal";
 import UserConfirmationModal from "../../../container/userConfirmationModal/UserConfirmationModal";
+import { getUserInfoMainApi } from "../../../store/Actions/GlobalAdminDashboardActions";
+import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 const Header = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  let getGlobalAdminName = localStorage.getItem("adminname");
+  console.log(getGlobalAdminName, "getGlobalAdminNamegetGlobalAdminName");
 
   const handleChangePasswordModal = () => {
     dispatch(ChangePasswordModalOpen(true));
@@ -30,6 +35,8 @@ const Header = () => {
 
   const handleUserModal = () => {
     dispatch(userInfoOpenModal(true));
+    dispatch(globalAdminDashBoardLoader(true));
+    dispatch(getUserInfoMainApi({ navigate, t }));
   };
 
   const handleDashboard = () => {
@@ -38,8 +45,6 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(GlobalAdminLogOutApi({ navigate, t }));
-    // navigate("/");
-    // localStorage.removeItem("token");
   };
 
   return (
@@ -59,32 +64,6 @@ const Header = () => {
 
           <Nav className="ml-auto align-items-center">
             <LanguageSelector />
-            {/* <Nav.Link className="me-2">
-              <div className="dropdown-btn_dotted">
-                <DropdownButton
-                  id="dropdown-btn_dotted"
-                  className="dropdown-btn_dotted"
-                  title={
-                    <img
-                      src={DiskusNotificationIcon}
-                      alt=""
-                      width={28}
-                      draggable="false"
-                    />
-                  }
-                >
-                  <Dropdown.Item className="d-flex title-className">
-                    <span>{"Quick-meeting"}</span>
-                  </Dropdown.Item>
-                  <Dropdown.Item className="d-flex title-className">
-                    {"Upload-document"}
-                  </Dropdown.Item>
-                  <Dropdown.Item className="d-flex title-className">
-                    {"Recently-added-files"}
-                  </Dropdown.Item>
-                </DropdownButton>
-              </div>
-            </Nav.Link> */}
             <Dropdown className="profilebtn-dropdown">
               <Dropdown.Toggle className="dropdown-toggle">
                 <img
@@ -94,7 +73,7 @@ const Header = () => {
                   alt=""
                   draggable="false"
                 />
-                <p className={"user-name me-2"}>SAIF UL ISLAM</p>
+                <p className={"user-name me-2"}>{getGlobalAdminName}</p>
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown_menu_admin">
                 <Dropdown.Item className={" text-black"}>

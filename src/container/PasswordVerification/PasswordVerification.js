@@ -13,8 +13,9 @@ import PasswordHideEyeIcon from "../../assets/images/OutletImages/password_hide.
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PasswordVerificationApi } from "../../store/Actions/AuthActions";
+import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
 
-const PasswordVerification = ({ onClickForgetPasswordText }) => {
+const PasswordVerification = ({ onClickForgetPasswordText, onClickGoBack }) => {
   const { t } = useTranslation();
 
   const passwordRef = useRef();
@@ -24,6 +25,11 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
   const dispatch = useDispatch();
 
   const state = useSelector((state) => state);
+
+  const Responsemessage = useSelector(
+    (state) => state.AuthActions.Responsemessage
+  );
+  console.log(Responsemessage, "ResponsemessageResponsemessage");
 
   const [openNotification, setOpenNotification] = useState({
     passwordFlag: false,
@@ -101,7 +107,33 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
       localStorage.setItem("rememberPasswordValue", "");
     }
   };
-  console.log(password, "password");
+
+  // for response Message
+  // useEffect(() => {
+  //   if (
+  //     Responsemessage !== "" &&
+  //     Responsemessage !== t("No-data-available") &&
+  //     Responsemessage !== "Success" &&
+  //     Responsemessage !== "Something-went-wrong" &&
+  //     Responsemessage !== "No Data available"
+  //   ) {
+  //     setOpenNotification({
+  //       passwordFlag: true,
+  //       passwordNotification: Responsemessage,
+  //       severity: t("User's-password-is-created") ? "success" : "error",
+  //     });
+
+  //     setTimeout(() => {
+  //       dispatch(resetAuthResponseMessage());
+  //       setOpenNotification({
+  //         ...openNotification,
+  //         passwordFlag: false,
+  //         passwordNotification: "",
+  //         severity: "none",
+  //       });
+  //     }, 400000);
+  //   }
+  // }, [Responsemessage]);
 
   //Form Submission Login Handler
   const loginHandler = (e) => {
@@ -145,6 +177,13 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
     passwordRef.current.focus();
   }, []);
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      loginHandler(e);
+    }
+  };
+
   return (
     <>
       <Row>
@@ -177,6 +216,7 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
               labelClass="lightLabel"
               autoComplete="off"
               maxLength={200}
+              onKeyPress={handleKeyPress}
             />
             <span className={styles["passwordIcon"]} onClick={showNewPassowrd}>
               {showNewPasswordIcon ? (
@@ -226,7 +266,6 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
             />
           </Col>
         </Row>
-
         <Row>
           <Col
             lg={12}
@@ -235,10 +274,25 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
             className="d-flex justify-content-center mt-2"
           >
             <span
-              className="forget-paswword-text"
+              className={styles["forget-paswword-text"]}
               onClick={onClickForgetPasswordText}
             >
               {t("Forget-password")}
+            </span>
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            lg={12}
+            md={12}
+            sm={12}
+            className="d-flex justify-content-center mt-4"
+          >
+            <span
+              className={styles["go-back-text-for-pass"]}
+              onClick={onClickGoBack}
+            >
+              {t("Go-back")}
             </span>
           </Col>
         </Row>
@@ -252,7 +306,7 @@ const PasswordVerification = ({ onClickForgetPasswordText }) => {
         notificationClass={
           openNotification.severity
             ? "notification-error"
-            : "notification-email"
+            : "notification-success"
         }
       />
     </>

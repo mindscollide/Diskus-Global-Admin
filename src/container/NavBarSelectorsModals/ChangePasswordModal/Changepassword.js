@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ChangePassword.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Button, Modal, TextField } from "../../../components/elements";
+import {
+  Button,
+  Modal,
+  TextField,
+  Notification,
+} from "../../../components/elements";
 import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
 import PasswordEyeIcon from "../../../assets/images/OutletImages/password.svg";
 import PasswordHideEyeIcon from "../../../assets/images/OutletImages/password_hide.svg";
 import { Col, Container, Row } from "react-bootstrap";
 import PasswordChecklist from "react-password-checklist";
-import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import { ChangePasswordApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useNavigate } from "react-router-dom";
 
 const Changepassword = () => {
   const ModalReducer = useSelector((state) => state.modal);
+  const Responsemessage = useSelector(
+    (state) => state.globalAdminDashboardReducer.Responsemessage
+  );
+
+  console.log(Responsemessage, "ResponsemessageResponsemessage");
 
   let userID = localStorage.getItem("userID");
   let Email = localStorage.getItem("userEmail");
@@ -25,6 +38,12 @@ const Changepassword = () => {
   const [Password, setPassword] = useState({
     newPassword: "",
     ConfirmPassword: "",
+  });
+
+  const [openNotification, setOpenNotification] = useState({
+    changePasswordFlag: false,
+    changePasswordNotification: null,
+    severity: "none",
   });
 
   const dispatch = useDispatch();
@@ -44,6 +63,12 @@ const Changepassword = () => {
 
   const handleClose = () => {
     dispatch(ChangePasswordModalOpen(false));
+    setPassword({
+      ...Password,
+      newPassword: "",
+      ConfirmPassword: "",
+    });
+    setOldPassword("");
   };
 
   const handleShowOldPassword = () => {
@@ -71,22 +96,50 @@ const Changepassword = () => {
   };
 
   const handleChangePassword = () => {
-    dispatch(globalAdminDashBoardLoader(true));
     // let data = {
     //   UserID: Number(userID),
     //   Email: Email,
-    //   Password: Password.newPassword,
-    //   ConfirmPassword: Password.ConfirmPassword,
+    //   Password: oldPassword,
+    //   ConfirmPassword: Password.newPassword,
     //   DeviceID: "1",
     // };
+
     let data = {
       UserID: Number(userID),
       OldPassword: oldPassword,
       NewPassword: Password.newPassword,
       DeviceID: "1",
     };
+
+    dispatch(globalAdminDashBoardLoader(true));
     dispatch(ChangePasswordApi({ data, navigate, t }));
   };
+
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
+    ) {
+      setOpenNotification({
+        changePasswordFlag: true,
+        changePasswordNotification: Responsemessage,
+        severity: t("Updated-Successfully") ? "success" : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          changePasswordFlag: false,
+          changePasswordNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [Responsemessage]);
 
   return (
     <>
@@ -124,6 +177,7 @@ const Changepassword = () => {
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
+                        applyClass={"addOraganizer"}
                         labelClass={"d-none"}
                         placeholder={t("Old-password")}
                         value={oldPassword || ""}
@@ -162,6 +216,7 @@ const Changepassword = () => {
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
+                        applyClass={"addOraganizer"}
                         labelClass={"d-none"}
                         type={shownewPassword ? "text" : "password"}
                         placeholder={t("New-password")}
@@ -201,6 +256,7 @@ const Changepassword = () => {
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
                       <TextField
+                        applyClass={"addOraganizer"}
                         labelClass={"d-none"}
                         type={showconfirmPassword ? "text" : "password"}
                         placeholder={t("Confirm-password")}
@@ -314,6 +370,17 @@ const Changepassword = () => {
               </Row>
             </Container>
           </>
+        }
+      />
+      <Notification
+        show={openNotification.changePasswordFlag}
+        hide={setOpenNotification}
+        message={openNotification.changePasswordNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
         }
       />
     </>

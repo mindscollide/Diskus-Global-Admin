@@ -14,7 +14,7 @@ import SecurityIcon from "../../assets/images/OutletImages/SecuritySetting.svg";
 import TodoIcon from "../../assets/images/OutletImages/Todo_icon.svg";
 import GroupIcon from "../../assets/images/OutletImages/GroupSetting.svg";
 import ResolutionIcon from "../../assets/images/OutletImages/new_ResolutionIcon2.svg";
-import { Button, TextField } from "../../components/elements";
+import { Button, Notification, TextField } from "../../components/elements";
 import {
   MonthOptions,
   MonthValues,
@@ -26,13 +26,21 @@ import {
   GetSystemConfigurationsApi,
   UpdateAllOrganizationLevelConfigurationApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
-import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 const OrganizationLevelSettings = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  // for response message
+  const Responsemessage = useSelector(
+    (state) => state.globalAdminDashboardReducer.Responsemessage
+  );
 
   const [securitystate, setSecuritystate] = useState(true);
   const [todo, setTodo] = useState(false);
@@ -43,8 +51,6 @@ const OrganizationLevelSettings = () => {
   const [resolution, setResolution] = useState(false);
   const [polls, setpolls] = useState(false);
   const roleID = localStorage.getItem("roleID");
-  const [worldCountryID, setWorldCountryID] = useState(0);
-  const [timezone, setTimeZone] = useState([]);
   const [timeZoneValue, setTimeZoneValue] = useState({
     label: "",
     value: "",
@@ -65,345 +71,266 @@ const OrganizationLevelSettings = () => {
     dispatch(GetSystemConfigurationsApi({ navigate, t }));
   }, []);
 
-  const [userOrganizationSetting, setUserOrganizationSetting] = useState({
-    Is2FAEnabled: false,
-    EmailOnNewMeeting: false,
-    EmailEditMeeting: false,
-    EmailCancelOrDeleteMeeting: false,
-    PushNotificationonNewMeeting: false,
-    PushNotificationEditMeeting: false,
-    PushNotificationCancelledOrDeleteMeeting: false,
-    ShowNotificationOnParticipantJoining: false,
-    AllowCalenderSync: false,
-    AllowMicrosoftCalenderSync: false,
-    EmailWhenAddedToCommittee: false,
-    EmailWhenRemovedFromCommittee: false,
-    EmailWhenCommitteeIsDissolvedOrArchived: false,
-    EmailWhenCommitteeIsInactive: false,
-    EmailWhenCommitteeIsactive: false,
-    PushNotificationWhenAddedToCommittee: false,
-    PushNotificationWhenRemovedFromCommittee: false,
-    PushNotificationWhenCommitteeIsDissolvedOrArchived: false,
-    PushNotificationWhenCommitteeIsInActive: false,
-    PushNotificationWhenCommitteeSetIsInActive: false,
-    EmailWhenAddedToGroup: false,
-    EmailWhenRemovedFromGroup: false,
-    EmailWhenGroupIsDissolvedOrArchived: false,
-    EmailWhenGroupisInactive: false,
-    EmailWhenGroupisactive: false,
-    PushNotificationWhenAddedToGroup: false,
-    PushNotificationWhenRemovedFromGroup: false,
-    PushNotificationWhenGroupIsDissolvedOrArchived: false,
-    PushNotificationWhenGroupIsInActive: false,
-    PushNotificationWhenGroupSetIsInActive: false,
-    EmailWhenResolutionIsCirculated: false,
-    EmailWhenNewResolutionIsCancelledAfterCirculation: false,
-    EmailWhenResolutionIsClosed: false,
-    PushNotificationWhenNewResolutionIsCirculated: false,
-    PushNotificationWhenNewResolutionIsCancelledAfterCirculated: false,
-    PushNotificationWhenResolutionISClosed: false,
-    EmailWhenNewPollIsPublished: false,
-    EmailWhenPollDueDateIsPassed: false,
-    EmailWhenPublishedPollIsDeleted: false,
-    EmailWhenPublishedPollIsUpdated: false,
-    PushNotificationWhenNewPollIsPublished: false,
-    PushNotificationWhenPollDueDateIsPassed: false,
-    PushNotificationWhenPublishedPollIsDeleted: false,
-    PushNotificationWhenPublishedPollIsUpdated: false,
-    DormatInactiveUsersforDays: 0,
-    MaximumMeetingDuration: 0,
-    CalenderMonthsSpan: 0,
-    AutoCloseResolution: 0,
-    TimeZoneId: 0,
-    worldCountryID: 0,
-    EmailWhenGroupisActive: false,
-    EmailWhenGroupIsSetInActive: false,
-    PushNotificationWhenGroupisActive: false,
-    PushNotificationWhenGroupisSetInActive: false,
-    EmailWhenCommitteeisActive: false,
-    EmailWhenCommitteeIsSetInActive: false,
-    PushNotificationWhenCommitteeisActive: false,
-    PushNotificationWhenCommitteeisSetInActive: false,
-    PushNotificationWhenNewTODOAssigned: false,
-    PushNotificationWhenNewTODODeleted: false,
-    PushNotificationWhenNewTODOEdited: false,
-    PushNotificationWhenNewCommentAdded: false,
-    PushNotificationWhenCommentDeleted: false,
-    EmailWhenCommentDeleted: false,
-    EmailWhenNewCommentAdded: false,
-    EmailWhenNewTODOAssigned: false,
-    EmailWhenNewTODODeleted: false,
-    EmailWhenNewTODOEdited: false,
+  // for toaste notification
+  const [openNotification, setOpenNotification] = useState({
+    historyFlag: false,
+    historyNotification: "",
+    severity: "none",
   });
+
   const [newData, setNewData] = useState({
     MAXIMUM_MEETING_DURATION: {
       configKey: "MAXIMUM_MEETING_DURATION",
-      configValue: "15",
+      configValue: "",
     },
     EMAIL_ON_NEW_MEETINGS: {
       configKey: "EMAIL_ON_NEW_MEETINGS",
-      configValue: "false",
+      configValue: "",
     },
     EMAIL_EDIT_MEETING: {
       configKey: "EMAIL_EDIT_MEETING",
-      configValue: "false",
+      configValue: "",
     },
     PUSH_NOTIFICATION_ON_NEW_MEETING: {
       configKey: "PUSH_NOTIFICATION_ON_NEW_MEETING",
-      configValue: "false",
+      configValue: "",
     },
     PUSH_NOTIFICATION_ON_EDIT_MEETINGS: {
       configKey: "PUSH_NOTIFICATION_ON_EDIT_MEETINGS",
-      configValue: "false",
+      configValue: "",
     },
     SHOW_NOTIFICATION_ON_PARTICIPANT_JOINING: {
       configKey: "SHOW_NOTIFICATION_ON_PARTICIPANT_JOINING",
-      configValue: "false",
+      configValue: "",
     },
     DORMANT_INACTIVE_USERS_FOR_DAYS: {
       configKey: "DORMANT_INACTIVE_USERS_FOR_DAYS",
-      configValue: "30",
+      configValue: "",
     },
-    IS_2FA_ENABLED: { configKey: "IS_2FA_ENABLED", configValue: "false" },
+    IS_2FA_ENABLED: { configKey: "IS_2FA_ENABLED", configValue: "" },
+
     Email_When_Added_To_Committee: {
       configKey: "Email_When_Added_To_Committee",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Removed_From_Committee: {
       configKey: "Email_When_Removed_From_Committee",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Committee_Is_Dissolved_Archived: {
       configKey: "Email_When_Committee_Is_Dissolved_Archived",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Committee_Is_InActive: {
       configKey: "Email_When_Committee_Is_InActive",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Added_To_Group: {
       configKey: "Email_When_Added_To_Group",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Removed_From_Group: {
       configKey: "Email_When_Removed_From_Group",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Group_Is_Closed_Archived: {
       configKey: "Email_When_Group_Is_Closed_Archived",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Group_Is_In_Active: {
       configKey: "Email_When_Group_Is_In_Active",
-      configValue: "false",
+      configValue: "",
     },
     Email_On_Cancelled_Deleted_Meeting: {
       configKey: "Email_On_Cancelled_Deleted_Meeting",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_on_Cancelled_Deleted_Meeting: {
       configKey: "Push_Notification_on_Cancelled_Deleted_Meeting",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Added_to_Committee: {
       configKey: "Push_Notification_when_Added_to_Committee",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Removed_from_Committee: {
       configKey: "Push_Notification_when_Removed_from_Committee",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Committee_is_Dissolved_Archived: {
       configKey: "Push_Notification_when_Committee_is_Dissolved_Archived",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Committee_is_set_InActive: {
       configKey: "Push_Notification_when_Committee_is_set_InActive",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Added_to_Group: {
       configKey: "Push_Notification_when_Added_to_Group",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Removed_from_Group: {
       configKey: "Push_Notification_when_Removed_from_Group",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Group_is_Closed_Archived: {
       configKey: "Push_Notification_when_Group_is_Closed_Archived",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Group_is_set_InActive: {
       configKey: "Push_Notification_when_Group_is_set_InActive",
-      configValue: "false",
+      configValue: "",
     },
     Email_when_New_Resolution_is_Circulated: {
       configKey: "Email_when_New_Resolution_is_Circulated",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_New_Resolution_is_Circulated: {
       configKey: "Push_Notification_when_New_Resolution_is_Circulated",
-      configValue: "false",
+      configValue: "",
     },
     Email_when_Resolution_is_Cancelled_after_Circulation: {
       configKey: "Email_when_Resolution_is_Cancelled_after_Circulation",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Resolution_is_Cancelled_after_Circulation: {
       configKey:
         "Push_Notification_when_Resolution_is_Cancelled_after_Circulation",
-      configValue: "false",
+      configValue: "",
     },
     Email_when_a_Resolution_is_Closed: {
       configKey: "Email_when_a_Resolution_is_Closed",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Resolution_is_Closed: {
       configKey: "Push_Notification_when_Resolution_is_Closed",
-      configValue: "false",
-    },
-    Allow_Google_Calendar_Synch: {
-      configKey: "Allow_Google_Calendar_Synch",
-      configValue: "false",
-    },
-    Allow_Microsoft_Calendar_Synch: {
-      configKey: "Allow_Microsoft_Calendar_Synch",
-      configValue: "false",
+      configValue: "",
     },
     User_Allow_Google_Calendar_Synch: {
       configKey: "User_Allow_Google_Calendar_Synch",
-      configValue: "false",
+      configValue: "",
     },
     User_Allow_Microsoft_Calendar_Synch: {
       configKey: "User_Allow_Microsoft_Calendar_Synch",
-      configValue: "false",
+      configValue: "",
     },
     Calender_Months_Span: {
       configKey: "Calender_Months_Span",
-      configValue: "15",
-    },
-    Google_Event_Color: {
-      configKey: "Google_Event_Color",
-      configValue: "#F16B6B",
-    },
-    Office_Event_Color: {
-      configKey: "Office_Event_Color",
-      configValue: "#FFD343",
-    },
-    Diskus_Event_Color: {
-      configKey: "Diskus_Event_Color",
-      configValue: "#5F78D6",
+      configValue: "",
     },
     AUTO_CLOSE_RESOLUTION: {
       configKey: "AUTO_CLOSE_RESOLUTION",
-      configValue: "30",
+      configValue: "",
     },
     Email_When_New_Poll_Is_Published: {
       configKey: "Email_When_New_Poll_Is_Published",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_Poll_Is_Published: {
       configKey: "Push_Notification_When_New_Poll_Is_Published",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Published_Poll_Is_Updated: {
       configKey: "Email_When_Published_Poll_Is_Updated",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_Published_Poll_Is_Updated: {
       configKey: "Push_Notification_When_Published_Poll_Is_Updated",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Poll_Due_Date_Is_Passed: {
       configKey: "Email_When_Poll_Due_Date_Is_Passed",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_Poll_Due_Date_Is_Passed: {
       configKey: "Push_Notification_When_Poll_Due_Date_Is_Passed",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Published_Poll_Is_Deleted: {
       configKey: "Email_When_Published_Poll_Is_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_Published_Poll_Is_Deleted: {
       configKey: "Push_Notification_When_Published_Poll_Is_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Committee_is_set_Active: {
       configKey: "Push_Notification_when_Committee_is_set_Active",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Committee_Is_Active: {
       configKey: "Email_When_Committee_Is_Active",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_when_Group_is_set_Active: {
       configKey: "Push_Notification_when_Group_is_set_Active",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Group_Is_Active: {
       configKey: "Email_When_Group_Is_Active",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_New_TODO_Assigned: {
       configKey: "Email_When_New_TODO_Assigned",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_TODO_Assigned: {
       configKey: "Push_Notification_When_New_TODO_Assigned",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_New_TODO_Edited: {
       configKey: "Email_When_New_TODO_Edited",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_TODO_Edited: {
       configKey: "Push_Notification_When_New_TODO_Edited",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_New_TODO_Deleted: {
       configKey: "Email_When_New_TODO_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_TODO_Deleted: {
       configKey: "Push_Notification_When_New_TODO_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_New_Comment_Added: {
       configKey: "Email_When_New_Comment_Added",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_New_Comment_Added: {
       configKey: "Push_Notification_When_New_Comment_Added",
-      configValue: "false",
+      configValue: "",
     },
     Email_When_Comment_Deleted: {
       configKey: "Email_When_Comment_Deleted",
-      configValue: "false",
+      configValue: "",
     },
     Push_Notification_When_Comment_Deleted: {
       configKey: "Push_Notification_When_Comment_Deleted",
-      configValue: "false",
+      configValue: "",
     },
-    Push_Notification_when_Resolution_Reminder_Sent: {
-      configKey: "Push_Notification_when_Resolution_Reminder_Sent",
-      configValue: "false",
+    Push_Notification_when_microsoft_calendar_is_changed: {
+      configKey: "Push_Notification_when_microsoft_calendar_is_changed",
+      configValue: "",
     },
-    Push_Notification_when_Notes_Created: {
-      configKey: "Push_Notification_when_Notes_Created",
-      configValue: "false",
+    Push_Notification_when_google_calendar_is_changed: {
+      configKey: "Push_Notification_when_google_calendar_is_changed",
+      configValue: "",
+    },
+    AutomatedReminderDaysForWorkFlowExpiry: {
+      configKey: "AutomatedReminderDaysForWorkFlowExpiry",
+      configValue: "",
+    },
+    Active_Meeting_Agenda_Edit_Email: {
+      configKey: "Active_Meeting_Agenda_Edit_Email",
+      configValue: "",
     },
   });
 
   console.log(newData.AUTO_CLOSE_RESOLUTION, "hsgashagahsgah");
 
   console.log({ newData }, "newData");
-
-  console.log(
-    userOrganizationSetting,
-    "userOrganizationSettinguserOrganizationSetting"
-  );
 
   useEffect(() => {
     if (
@@ -433,7 +360,31 @@ const OrganizationLevelSettings = () => {
     }
   }, [GetSystemConfigurationsData]);
 
-  console.log("updatedSettings.Is2FAEnabled", userOrganizationSetting);
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
+    ) {
+      setOpenNotification({
+        historyFlag: true,
+        historyNotification: Responsemessage,
+        severity: t("Updated-Successfully") ? "success" : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          historyFlag: false,
+          historyNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [Responsemessage]);
 
   const openSecurityTab = () => {
     setSecuritystate(true);
@@ -591,129 +542,6 @@ const OrganizationLevelSettings = () => {
     }));
   };
 
-  // Time Zone Change Handler
-  const timezoneChangeHandler = (event) => {
-    setUserOrganizationSetting({
-      ...userOrganizationSetting,
-      TimeZoneId: event.value,
-    });
-    setTimeZoneValue({
-      label: event.label,
-      value: event.value,
-    });
-  };
-
-  // const updateOrganizationLevelSettings = async () => {
-  //   let Data = {
-  //     CalenderMonthsSpan: userOrganizationSetting.CalenderMonthsSpan,
-  //     DormantInactiveUsersForDays:
-  //       userOrganizationSetting.DormatInactiveUsersforDays,
-  //     EmailOnCancelledDeletedMeeting:
-  //       userOrganizationSetting.EmailCancelOrDeleteMeeting,
-  //     EmailOnEditMeeting: userOrganizationSetting.EmailEditMeeting,
-  //     EmailOnNewMeeting: userOrganizationSetting.EmailOnNewMeeting,
-  //     EmailWhenAddedToCommittee:
-  //       userOrganizationSetting.EmailWhenAddedToCommittee,
-  //     EmailWhenAddedToGroup: userOrganizationSetting.EmailWhenAddedToGroup,
-  //     EmailWhenCommitteeIsActive:
-  //       userOrganizationSetting.EmailWhenCommitteeisActive,
-  //     EmailWhenCommitteeIsDissolvedArchived:
-  //       userOrganizationSetting.EmailWhenCommitteeIsDissolvedOrArchived,
-  //     EmailWhenCommitteeIsInActive:
-  //       userOrganizationSetting.EmailWhenCommitteeisActive,
-  //     EmailWhenGroupIsActive: userOrganizationSetting.EmailWhenGroupisActive,
-  //     EmailWhenGroupIsClosedArchived:
-  //       userOrganizationSetting.EmailWhenGroupIsDissolvedOrArchived,
-  //     EmailWhenGroupIsInActive:
-  //       userOrganizationSetting.EmailWhenGroupIsSetInActive,
-  //     EmailWhenNewPollIsPublished:
-  //       userOrganizationSetting.EmailWhenNewPollIsPublished,
-  //     EmailWhenPollDueDateIsPassed:
-  //       userOrganizationSetting.EmailWhenPollDueDateIsPassed,
-  //     EmailWhenPublishedPollIsDeleted:
-  //       userOrganizationSetting.EmailWhenPublishedPollIsDeleted,
-  //     EmailWhenPublishedPollIsUpdated:
-  //       userOrganizationSetting.EmailWhenPublishedPollIsUpdated,
-  //     EmailWhenRemovedFromCommittee:
-  //       userOrganizationSetting.EmailWhenRemovedFromCommittee,
-  //     EmailWhenRemovedFromGroup:
-  //       userOrganizationSetting.EmailWhenRemovedFromGroup,
-  //     EmailwhenNewResolutionisCirculated:
-  //       userOrganizationSetting.EmailWhenResolutionIsCirculated,
-  //     EmailwhenResolutionisCancelledafterCirculation:
-  //       userOrganizationSetting.EmailWhenNewResolutionIsCancelledAfterCirculation,
-  //     EmailwhenaResolutionisClosed:
-  //       userOrganizationSetting.EmailWhenResolutionIsClosed,
-  //     FK_OrganizationID: JSON.parse(OrganizationID),
-  //     FK_TZID: userOrganizationSetting.TimeZoneId,
-  //     FK_WorldCountryID: userOrganizationSetting.worldCountryID,
-  //     Is2FAEnabled: userOrganizationSetting.Is2FAEnabled,
-  //     MaximumMeetingDuration: userOrganizationSetting.MaximumMeetingDuration,
-  //     PushNotificationOnEditMeeting:
-  //       userOrganizationSetting.PushNotificationEditMeeting,
-  //     PushNotificationOnNewMeeting:
-  //       userOrganizationSetting.PushNotificationonNewMeeting,
-  //     PushNotificationWhenNewPollIsPublished:
-  //       userOrganizationSetting.PushNotificationWhenNewPollIsPublished,
-  //     PushNotificationWhenPollDueDateIsPassed:
-  //       userOrganizationSetting.PushNotificationWhenPollDueDateIsPassed,
-  //     PushNotificationWhenPublishedPollIsDeleted:
-  //       userOrganizationSetting.PushNotificationWhenPublishedPollIsDeleted,
-  //     PushNotificationWhenPublishedPollIsUpdated:
-  //       userOrganizationSetting.PushNotificationWhenPublishedPollIsUpdated,
-  //     PushNotificationWhenResolutionIsClosed:
-  //       userOrganizationSetting.PushNotificationWhenResolutionISClosed,
-  //     PushNotificationonCancelledDeletedMeeting:
-  //       userOrganizationSetting.PushNotificationCancelledOrDeleteMeeting,
-  //     PushNotificationwhenAddedtoCommittee:
-  //       userOrganizationSetting.PushNotificationWhenAddedToCommittee,
-  //     PushNotificationwhenAddedtoGroup:
-  //       userOrganizationSetting.PushNotificationWhenAddedToGroup,
-  //     PushNotificationwhenCommitteeisDissolvedArchived:
-  //       userOrganizationSetting.PushNotificationWhenCommitteeIsDissolvedOrArchived,
-  //     PushNotificationwhenCommitteeissetActive:
-  //       userOrganizationSetting.PushNotificationWhenCommitteeisActive,
-  //     PushNotificationwhenCommitteeissetInActive:
-  //       userOrganizationSetting.PushNotificationWhenCommitteeisSetInActive,
-  //     PushNotificationwhenGroupisClosedArchived:
-  //       userOrganizationSetting.PushNotificationWhenGroupIsDissolvedOrArchived,
-  //     PushNotificationwhenGroupissetActive:
-  //       userOrganizationSetting.PushNotificationWhenGroupisSetInActive,
-  //     PushNotificationwhenGroupissetInActive:
-  //       userOrganizationSetting.PushNotificationWhenGroupisActive,
-  //     PushNotificationwhenNewResolutionisCirculated:
-  //       userOrganizationSetting.PushNotificationWhenNewResolutionIsCirculated,
-  //     PushNotificationwhenRemovedfromCommittee:
-  //       userOrganizationSetting.PushNotificationWhenRemovedFromCommittee,
-  //     PushNotificationwhenRemovedfromGroup:
-  //       userOrganizationSetting.PushNotificationWhenRemovedFromGroup,
-  //     PushNotificationwhenResolutionisCancelledafterCirculation:
-  //       userOrganizationSetting.PushNotificationWhenNewResolutionIsCancelledAfterCirculated,
-  //     ShowNotificationOnParticipantJoining:
-  //       userOrganizationSetting.ShowNotificationOnParticipantJoining,
-  //     UserAllowGoogleCalendarSynch: userOrganizationSetting.AllowCalenderSync,
-  //     UserAllowMicrosoftCalendarSynch:
-  //       userOrganizationSetting.AllowMicrosoftCalenderSync,
-  //     PushNotificationWhenNewTODOAssigned:
-  //       userOrganizationSetting.PushNotificationWhenNewTODOAssigned,
-  //     PushNotificationWhenNewTODODeleted:
-  //       userOrganizationSetting.PushNotificationWhenNewTODODeleted,
-  //     PushNotificationWhenNewTODOEdited:
-  //       userOrganizationSetting.PushNotificationWhenNewTODOEdited,
-  //     PushNotificationWhenNewCommentAdded:
-  //       userOrganizationSetting.PushNotificationWhenNewCommentAdded,
-  //     PushNotificationWhenCommentDeleted:
-  //       userOrganizationSetting.PushNotificationWhenCommentDeleted,
-  //     EmailWhenCommentDeleted: userOrganizationSetting.EmailWhenCommentDeleted,
-  //     EmailWhenNewCommentAdded:
-  //       userOrganizationSetting.EmailWhenNewCommentAdded,
-  //     EmailWhenNewTODOAssigned:
-  //       userOrganizationSetting.EmailWhenNewTODOAssigned,
-  //     EmailWhenNewTODODeleted: userOrganizationSetting.EmailWhenNewTODODeleted,
-  //     EmailWhenNewTODOEdited: userOrganizationSetting.EmailWhenNewTODOEdited,
-  //   };
-  // };
-
   const updateOrganizationLevelSettingss = () => {
     // Transform the state data into the required format
     const transformedData = Object.keys(newData).map((key) => {
@@ -808,7 +636,7 @@ const OrganizationLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Todo")}
+                      {t("Tasks")}
                     </span>
                   </Col>
                 </Row>
@@ -870,7 +698,7 @@ const OrganizationLevelSettings = () => {
                           : styles["Options_headings"]
                       }
                     >
-                      {t("Calender")}
+                      {t("Calendar")}
                     </span>
                   </Col>
                 </Row>
@@ -1414,6 +1242,32 @@ const OrganizationLevelSettings = () => {
                       </Checkbox>
                     </Col>
                   </Row>
+                  <Row className="mt-0">
+                    <Col lg={12} md={12} sm={12}>
+                      <Checkbox
+                        onChange={(event) =>
+                          globalOnChangeFunction(
+                            newData.Active_Meeting_Agenda_Edit_Email,
+                            event.target.checked
+                          )
+                        }
+                        checked={
+                          newData.Active_Meeting_Agenda_Edit_Email
+                            .configValue === "true"
+                            ? true
+                            : false
+                        }
+                      >
+                        <span className={styles["Class_CheckBox"]}>
+                          <p className={styles["new-data-text"]}>
+                            {t(
+                              "Allow-changes-in-the-Agenda-items-after-the-meeting-has-been-started"
+                            )}
+                          </p>
+                        </span>
+                      </Checkbox>
+                    </Col>
+                  </Row>
                 </>
               ) : null}
               {calender ? (
@@ -1435,7 +1289,7 @@ const OrganizationLevelSettings = () => {
                         }
                       >
                         <span className={styles["Class_CheckBox"]}>
-                          {t("User-Allow-Google-Calendar-Synch")}
+                          {t("User-allow-google-calendar-synch")}
                         </span>
                       </Checkbox>
                     </Col>
@@ -1457,7 +1311,7 @@ const OrganizationLevelSettings = () => {
                         }
                       >
                         <span className={styles["Class_CheckBox"]}>
-                          {t("User-Allow-Microsoft-Calendar-Synch")}
+                          {t("User-allow-microsoft-calendar-synch")}
                         </span>
                       </Checkbox>
                     </Col>
@@ -2399,6 +2253,17 @@ const OrganizationLevelSettings = () => {
           />
         </Col>
       </Row>
+      <Notification
+        show={openNotification.historyFlag}
+        hide={setOpenNotification}
+        message={openNotification.historyNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
+      />
     </section>
   );
 };

@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 const EditSubscriptionConfirmationModal = ({
   subsciptionStatus,
   editSubscriptionOrgID,
+  setShowSearchText,
+  setUserNameSearch,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
   console.log(
@@ -45,6 +47,8 @@ const EditSubscriptionConfirmationModal = ({
     };
     dispatch(viewOrganizationLoader(true));
     dispatch(EditSubscriptionAPI({ data, navigate, t }));
+    setShowSearchText(false);
+    setUserNameSearch("");
     dispatch(editSubscriptionConfirmationModalOpen(false));
   };
 

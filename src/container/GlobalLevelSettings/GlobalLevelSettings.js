@@ -5,12 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import line from "../../assets/images/OutletImages/Line 27.svg";
-import MeetingIcon from "../../assets/images/OutletImages/MeetingSetting.svg";
+import MailSettings from "../../assets/images/OutletImages/MailSettings.svg";
 import Calender from "../../assets/images/OutletImages/CalenderSetting.svg";
 import Committee from "../../assets/images/OutletImages/CommitteSetting.svg";
-import SecurityIcon from "../../assets/images/OutletImages/SecuritySetting.svg";
+import FunctionalSettings from "../../assets/images/OutletImages/FunctionalSettings.svg";
+import UserAccountsetting from "../../assets/images/OutletImages/UserAccountsetting.svg";
+import OrganizationAccountSettings from "../../assets/images/OutletImages/OrganizationAccountSettings.svg";
+import SMSSettings from "../../assets/images/OutletImages/SMSSettings.svg";
 import TodoIcon from "../../assets/images/OutletImages/Todo_icon.svg";
-import { Button, TextField } from "../../components/elements";
+import { Button, Notification, TextField } from "../../components/elements";
 import Profilepicture from "../../assets/images/OutletImages/newprofile.png";
 
 import { Checkbox } from "antd";
@@ -25,7 +28,10 @@ import {
   getGlobalLevelConfigurationsApi,
   UpdateGlobalLevelConfigurationApi,
 } from "../../store/Actions/GlobalAdminDashboardActions";
-import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 const GlobalLevelSettings = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -35,6 +41,13 @@ const GlobalLevelSettings = () => {
     (state) => state.globalAdminDashboardReducer.getGlobalLevelConfigData
   );
 
+  // for response message
+  const Responsemessage = useSelector(
+    (state) => state.globalAdminDashboardReducer.Responsemessage
+  );
+
+  console.log(getGlobalLevelConfigData, "ajgvajsvjavjavsjv");
+
   // const new states for Global Configuration
   const [mailState, setMailState] = useState(true);
   const [functionalState, setFunctionalState] = useState(false);
@@ -42,6 +55,13 @@ const GlobalLevelSettings = () => {
   const [organizationAccountState, setOrganizationAccountState] =
     useState(false);
   const [smsSettingState, setSmsSettingState] = useState(false);
+
+  // for toaste notification
+  const [openNotification, setOpenNotification] = useState({
+    historyFlag: false,
+    historyNotification: "",
+    severity: "none",
+  });
 
   // useEffect to hit Api of Global Level Configuration
   useEffect(() => {
@@ -52,282 +72,133 @@ const GlobalLevelSettings = () => {
   const [newData, setNewData] = useState({
     MailUser: {
       configKey: "MailUser",
-      configValue: "no-reply@axis-work.com",
+      configValue: "",
     },
     MailDisplayName: {
       configKey: "MailDisplayName",
-      configValue: "Diskus",
+      configValue: "",
     },
     MailPassword: {
       configKey: "MailPassword",
-      configValue: "rj+MJQ[Z}Qyg",
+      configValue: "",
     },
     MailHost: {
       configKey: "MailHost",
-      configValue: "mail.axis-work.com",
+      configValue: "",
     },
     MailPort: {
       configKey: "MailPort",
-      configValue: "587",
+      configValue: "",
     },
     HBL_URL_FOR_EMAIL: {
       configKey: "HBL_URL_FOR_EMAIL",
-      configValue: "https://www.hbl.com",
+      configValue: "",
     },
     MailEnableSSL: {
       configKey: "MailEnableSSL",
-      configValue: "false",
+      configValue: "",
     },
     MailIsSmtpNetworkDeliveryMethodEnabled: {
       configKey: "MailIsSmtpNetworkDeliveryMethodEnabled",
-      configValue: "false",
+      configValue: "",
     },
     LoginURL: {
       configKey: "LoginURL",
-      configValue: "http://192.168.18.241:9026",
+      configValue: "",
     },
     MaxAllowedFailedLoginAttempts: {
       configKey: "MaxAllowedFailedLoginAttempts",
-      configValue: "3",
+      configValue: "",
     },
     IdleTimeout: {
       configKey: "IdleTimeout",
-      configValue: "720",
+      configValue: "",
     },
     AccountDormantDays: {
       configKey: "AccountDormantDays",
-      configValue: "90",
+      configValue: "",
     },
-    TokenValidationURL: {
-      configKey: "TokenValidationURL",
-      configValue: "http://192.168.18.241:11001/ERM_Auth",
-    },
-    DocumentPath: {
-      configKey: "DocumentPath",
-      configValue: "C:\\Diskus\\Services\\Setting",
-    },
+
     DEFAULT_PROFILE_PICTURE_ORIGINAL_NAME: {
       configKey: "DEFAULT_PROFILE_PICTURE_ORIGINAL_NAME",
-      configValue: "logo.png",
+      configValue: "",
     },
     DEFAULT_PROFILE_PICTURE_DISPLAY_NAME: {
       configKey: "DEFAULT_PROFILE_PICTURE_DISPLAY_NAME",
-      configValue: "logo.png",
+      configValue: "",
     },
     OTP_RECREATION_TIME_LEFT: {
       configKey: "OTP_RECREATION_TIME_LEFT",
-      configValue: "5",
+      configValue: "",
     },
     DATA_ARCHIVING_GRACE_DAY: {
       configKey: "DATA_ARCHIVING_GRACE_DAY",
-      configValue: "30",
+      configValue: "",
     },
     Invoice_Clearance_Days_Margin: {
       configKey: "Invoice_Clearance_Days_Margin",
-      configValue: "10",
+      configValue: "",
     },
     Late_Fees_Days_Margin: {
       configKey: "Late_Fees_Days_Margin",
-      configValue: "5",
+      configValue: "",
     },
     Days_Before_Expiry_For_Invoice: {
       configKey: "Days_Before_Expiry_For_Invoice",
-      configValue: "2",
+      configValue: "",
     },
-    MQTT_IPAdress: {
-      configKey: "MQTT_IPAdress",
-      configValue: "192.168.18.241",
-    },
-    MQTT_Port: {
-      configKey: "MQTT_Port",
-      configValue: "11111",
-    },
+
     SMS_SERVICE_USERNAME: {
       configKey: "SMS_SERVICE_USERNAME",
-      configValue: "923008385450",
+      configValue: "",
     },
     SMS_SERVICE_PASSWORD: {
       configKey: "SMS_SERVICE_PASSWORD",
-      configValue: "8547",
+      configValue: "",
     },
     SMS_SERVICE_SENDER: {
       configKey: "SMS_SERVICE_SENDER",
-      configValue: "Diskus",
+      configValue: "",
     },
     SMS_SERVICE_BUNDLE_ID: {
       configKey: "SMS_SERVICE_BUNDLE_ID",
-      configValue: "1",
-    },
-    TALK_URL: {
-      configKey: "TALK_URL",
-      configValue: "http://192.168.18.241:11014/Talk",
-    },
-    TODO_URL: {
-      configKey: "TODO_URL",
-      configValue: "http://192.168.18.241:11003/ToDoList",
-    },
-    MEETING_URL: {
-      configKey: "MEETING_URL",
-      configValue: "http://192.168.18.241:11002/Meeting",
-    },
-    TIME_ZONE_API_BASE_URL: {
-      configKey: "TIME_ZONE_API_BASE_URL",
-      configValue: "http://api.timezonedb.com/v2.1/",
-    },
-    TIME_ZONE_API_KEY: {
-      configKey: "TIME_ZONE_API_KEY",
-      configValue: "ZIB76EZFWELX",
+      configValue: "",
     },
     MaxOTPFailedAttemptCount: {
       configKey: "MaxOTPFailedAttemptCount",
-      configValue: "3",
-    },
-    GOOGLE_CALENDER_URL: {
-      configKey: "GOOGLE_CALENDER_URL",
-      configValue: "https://www.googleapis.com/calendar/v3/calendars",
+      configValue: "",
     },
     Meeting_Started_Minutes_Ago: {
       configKey: "Meeting_Started_Minutes_Ago",
-      configValue: "4",
+      configValue: "",
+    },
+    Number_Of_Recently_Uploaded: {
+      configKey: "Number_Of_Recently_Uploaded",
+      configValue: "",
     },
     Join_Meeting_Before_Minutes: {
       configKey: "Join_Meeting_Before_Minutes",
-      configValue: "15",
+      configValue: "",
+    },
+    DATA_ROOM_LAZY_LOADING_LENGTH: {
+      configKey: "DATA_ROOM_LAZY_LOADING_LENGTH",
+      configValue: "",
+    },
+    Video_Call_Ringer_Timeout_Seconds: {
+      configKey: "Video_Call_Ringer_Timeout_Seconds",
+      configValue: "",
     },
     Share_Folder_Base_Link: {
       configKey: "Share_Folder_Base_Link",
-      configValue: "http://localhost:3000/#/",
-    },
-    Share_Folder_Sub_Link: {
-      configKey: "Share_Folder_Sub_Link",
-      configValue: "DisKus/dataroom?action=",
+      configValue: "",
     },
     RSVP_BASE_URL: {
       configKey: "RSVP_BASE_URL",
-      configValue: "http://localhost:3000/#/",
+      configValue: "",
     },
-    RSVP_SERVICE_URL: {
-      configKey: "RSVP_SERVICE_URL",
-      configValue: "DisKus/Meeting/Useravailabilityformeeting?action=",
-    },
-    MICROSOFT_CALENDER_URL: {
-      configKey: "MICROSOFT_CALENDER_URL",
-      configValue: "https://graph.microsoft.com/v1.0/me/calendar/events",
-    },
-    DataRoomApiUrl: {
-      configKey: "DataRoomApiUrl",
-      configValue: "http://localhost:11017/DataRoom",
-    },
-    LibreOfficePath: {
-      configKey: "LibreOfficePath",
-      configValue:
-        "D:\\Diskus\\Services\\Third Party Libraries\\LibreOfficePortable\\App\\libreoffice\\program\\soffice.exe",
-    },
-    SignatureDocumentsFolderName: {
-      configKey: "SignatureDocumentsFolderName",
-      configValue: "Signature Flow Documents",
-    },
-
-    PROPOSE_MEETING_PARTICIPANT_SUBLINK: {
-      configKey: "PROPOSE_MEETING_PARTICIPANT_SUBLINK",
-      configValue: "DisKus/Meeting/Meetingproposed?action=",
-    },
-    PROPOSE_MEETING_ORGANIZER_SUBLINK: {
-      configKey: "PROPOSE_MEETING_ORGANIZER_SUBLINK",
-      configValue: "DisKus/Meeting/Usermeetingproposedatespoll?action=",
-    },
-
     Meeting_Extra_Time_Active: {
       configKey: "Meeting_Extra_Time_Active",
-      configValue: "12",
-    },
-    Minute_Collab_Url: {
-      configKey: "Minute_Collab_Url",
-      configValue: "DisKus/Meeting?Meetingminutecollaborate_action=",
-    },
-    Agenda_Contributor_Add_Url: {
-      configKey: "Agenda_Contributor_Add_Url",
-      configValue: "DisKus/Meeting?Addagendacontributor_action=",
-    },
-    Agenda_Contributor_Update_Url: {
-      configKey: "Agenda_Contributor_Update_Url",
-      configValue: "DisKus/Meeting?Updateagendacontributor_action=",
-    },
-    Meeting_Organizer_Add_Url: {
-      configKey: "Meeting_Organizer_Add_Url",
-      configValue: "DisKus/Meeting?Addorganizer_action=",
-    },
-    Meeting_Organizer_Update_Url: {
-      configKey: "Meeting_Organizer_Update_Url",
-      configValue: "DisKus/Meeting?Updateorganizer_action=",
-    },
-    Meeting_Cancel_Url: {
-      configKey: "Meeting_Cancel_Url",
-      configValue: "DisKus/Meeting?Cancelmeeting_action=",
-    },
-    Meeting_Delete_Url: {
-      configKey: "Meeting_Delete_Url",
-      configValue: "DisKus/Meeting?Deletemeeting_action=",
-    },
-    Meeting_Update_Url: {
-      configKey: "Meeting_Update_Url",
-      configValue: "DisKus/Meeting?Updatemeeting_action=",
-    },
-    Meeting_Start_Url: {
-      configKey: "Meeting_Start_Url",
-      configValue: "DisKus/Meeting?Startmeeting_action=",
-    },
-    Poll_Expire_Url: {
-      configKey: "Poll_Expire_Url",
-      configValue: "DisKus/polling?PollExpire_action=",
-    },
-    Grp_Poll_Expire_Url: {
-      configKey: "Grp_Poll_Expire_Url",
-      configValue: "DisKus/groups?GroupPollExpire_action=",
-    },
-    Com_Poll_Expire_Url: {
-      configKey: "Com_Poll_Expire_Url",
-      configValue: "DisKus/committee?CommitteePollExpire_action=",
-    },
-    Poll_Published_Url: {
-      configKey: "Poll_Published_Url",
-      configValue: "DisKus/polling?PollPublished_action=",
-    },
-    Grp_Poll_Published_Url: {
-      configKey: "Grp_Poll_Published_Url",
-      configValue: "DisKus/groups?GroupPollPublished_action=",
-    },
-    Com_Poll_Published_Url: {
-      configKey: "Com_Poll_Published_Url",
-      configValue: "DisKus/committee?CommitteePollPublished_action=",
-    },
-    Poll_Updated_Url: {
-      configKey: "Poll_Updated_Url",
-      configValue: "DisKus/polling?PollUpdated_action=",
-    },
-    Grp_Poll_Updated_Url: {
-      configKey: "Grp_Poll_Updated_Url",
-      configValue: "DisKus/groups?GroupPollUpdate_action=",
-    },
-    Com_Poll_Updated_Url: {
-      configKey: "Com_Poll_Updated_Url",
-      configValue: "DisKus/committee?CommitteePollUpdate_action=",
-    },
-    Resolution_Reminder_Url: {
-      configKey: "Resolution_Reminder_Url",
-      configValue: "DisKus/resolution?ResolutionReminder_action=",
-    },
-    Org_Status_Enabled_Url: {
-      configKey: "Org_Status_Enabled_Url",
-      configValue: "Admin?OrganizationSubscriptionEnable_action=",
-    },
-    Org_Sub_Status_Enabled_Url: {
-      configKey: "Org_Sub_Status_Enabled_Url",
-      configValue: "Admin?OrganizationStatusEnable_action=",
-    },
-    EdfaPayRedirectionUrl: {
-      configKey: "EdfaPayRedirectionUrl",
-      configValue: "http://192.168.18.241:2024?Payment_action=",
+      configValue: "",
     },
   });
 
@@ -356,6 +227,32 @@ const GlobalLevelSettings = () => {
       }
     }
   }, [getGlobalLevelConfigData]);
+
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
+    ) {
+      setOpenNotification({
+        historyFlag: true,
+        historyNotification: Responsemessage,
+        severity: t("Updated-Successfully") ? "success" : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          historyFlag: false,
+          historyNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [Responsemessage]);
 
   // to open mail Tab
   const openMailTab = () => {
@@ -405,7 +302,10 @@ const GlobalLevelSettings = () => {
   const regexPatterns = {
     numberOnlyState: onlyNumbersPattern,
     Meeting_Started_Minutes_Ago: onlyNumbersPattern,
+    Number_Of_Recently_Uploaded: onlyNumbersPattern,
     Join_Meeting_Before_Minutes: onlyNumbersPattern,
+    DATA_ROOM_LAZY_LOADING_LENGTH: onlyNumbersPattern,
+    Video_Call_Ringer_Timeout_Seconds: onlyNumbersPattern,
     Meeting_Extra_Time_Active: onlyNumbersPattern,
     MaxAllowedFailedLoginAttempts: onlyNumbersPattern,
     IdleTimeout: onlyNumbersPattern,
@@ -424,6 +324,7 @@ const GlobalLevelSettings = () => {
   // Single onChange Handler for Global Admin
   const onChangeHandlerGlobal = (key, value) => {
     if (
+      value !== "" &&
       regexPatterns[key.configKey] &&
       !regexPatterns[key.configKey].test(value)
     ) {
@@ -490,10 +391,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={SecurityIcon}
+                      src={MailSettings}
                       alt=""
-                      width="25.51px"
-                      height="30.69px"
+                      width="35.8px"
+                      height="33.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} sm={12}>
@@ -521,10 +422,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={TodoIcon}
+                      src={FunctionalSettings}
                       alt=""
-                      width="30px"
-                      height="30px"
+                      width="40.8px"
+                      height="38.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} sm={12}>
@@ -552,10 +453,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={MeetingIcon}
+                      src={UserAccountsetting}
                       alt=""
-                      width="35.79px"
-                      height="27.3px"
+                      width="37.8px"
+                      height="35.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -586,10 +487,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={Calender}
+                      src={OrganizationAccountSettings}
                       alt=""
-                      width="28.47px"
-                      height="28.47px"
+                      width="40.8px"
+                      height="40.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -617,10 +518,10 @@ const GlobalLevelSettings = () => {
                   >
                     <img
                       draggable="false"
-                      src={Committee}
+                      src={SMSSettings}
                       alt=""
-                      width="35.8px"
-                      height="34.63px"
+                      width="40.8px"
+                      height="38.63px"
                     />
                   </Col>
                   <Col lg={10} md={10} ms={12}>
@@ -823,8 +724,15 @@ const GlobalLevelSettings = () => {
                       <TextField
                         labelClass="d-none"
                         name="dataroom"
-                        // change={changeHandler}
-                        // value={functionalSettingState.dataroomlength.value}
+                        change={(e) =>
+                          onChangeHandlerGlobal(
+                            newData.DATA_ROOM_LAZY_LOADING_LENGTH,
+                            e.target.value
+                          )
+                        }
+                        value={
+                          newData.DATA_ROOM_LAZY_LOADING_LENGTH.configValue
+                        }
                       />
                     </Col>
                     <Col lg={6} md={6} sm={6}>
@@ -833,8 +741,15 @@ const GlobalLevelSettings = () => {
                       </span>
                       <TextField
                         name="videoringer"
-                        // change={changeHandler}
-                        // value={functionalSettingState.videoRinger.value}
+                        change={(e) =>
+                          onChangeHandlerGlobal(
+                            newData.Video_Call_Ringer_Timeout_Seconds,
+                            e.target.value
+                          )
+                        }
+                        value={
+                          newData.Video_Call_Ringer_Timeout_Seconds.configValue
+                        }
                         labelClass="d-none"
                       />
                     </Col>
@@ -862,8 +777,13 @@ const GlobalLevelSettings = () => {
                       </span>
                       <TextField
                         name="numberUploaded"
-                        // change={changeHandler}
-                        // value={functionalSettingState.numberuploaded.value}
+                        change={(e) =>
+                          onChangeHandlerGlobal(
+                            newData.Number_Of_Recently_Uploaded,
+                            e.target.value
+                          )
+                        }
+                        value={newData.Number_Of_Recently_Uploaded.configValue}
                         labelClass="d-none"
                       />
                     </Col>
@@ -1030,7 +950,7 @@ const GlobalLevelSettings = () => {
                     </Col>
                   </Row>
 
-                  <Row className="mt-4">
+                  {/* <Row className="mt-4">
                     <Col lg={6} md={6} sm={6}>
                       <span className={styles["Class_CheckBox"]}>
                         {t("Default-organizer-name")}
@@ -1051,7 +971,7 @@ const GlobalLevelSettings = () => {
                         width={50}
                       />
                     </Col>
-                  </Row>
+                  </Row> */}
                 </>
               ) : null}
               {organizationAccountState ? (
@@ -1231,6 +1151,18 @@ const GlobalLevelSettings = () => {
           />
         </Col>
       </Row>
+
+      <Notification
+        show={openNotification.historyFlag}
+        hide={setOpenNotification}
+        message={openNotification.historyNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
+      />
     </section>
   );
 };

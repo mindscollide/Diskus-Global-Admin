@@ -14,10 +14,13 @@ import {
   TwoFaScreen,
   PasswordVerification,
 } from "../../../container";
+import VerificationCode from "../../../container/verificationCode/VerificationCode";
 import { useDispatch, useSelector } from "react-redux";
 import { changeScreen } from "../../../store/ActionsSlicers/AuthScreenActionSlicer";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../components/elements/loader/Loader";
+import PasswordCreation from "../../../container/CreatePasswordPage/PasswordCreation";
+import UpdatedPassword from "../../../container/UpdatedPassword/UpdatedPassword";
 
 const LoginCard = () => {
   const { t } = useTranslation();
@@ -39,10 +42,14 @@ const LoginCard = () => {
     dispatch(changeScreen("login"));
   };
 
+  const onClickGoBackForgotScreen = () => {
+    dispatch(changeScreen("forgotPassword"));
+  };
+
   // Function to switch to the Enter Password screen
-  // const onClickToEnterpassword = () => {
-  //   dispatch(changeScreen("EnterPassword"));
-  // };
+  const onClickToVerification = () => {
+    dispatch(changeScreen("VerificationCode"));
+  };
 
   return (
     <>
@@ -82,14 +89,38 @@ const LoginCard = () => {
                   {screenName === "forgotPassword" && (
                     <ForgotPassword
                       onClickGoBack={onClickGoBack}
-                      onClickForgetPasswordText={onClickForgetPasswordText}
+                      onClickToVerification={onClickToVerification}
                     />
                   )}
                   {screenName === "TwoFaScreen" && (
                     <TwoFaScreen onClickGoBack={onClickGoBack} />
                   )}
                   {screenName === "PasswordVerification" && (
-                    <PasswordVerification />
+                    <PasswordVerification
+                      onClickGoBack={onClickGoBack}
+                      onClickForgetPasswordText={onClickForgetPasswordText}
+                    />
+                  )}
+
+                  {screenName === "VerificationCode" && (
+                    <VerificationCode
+                      onClickGoBack={onClickGoBackForgotScreen}
+                      onClickToVerification={onClickToVerification}
+                    />
+                  )}
+
+                  {screenName === "PasswordCreation" && (
+                    <PasswordCreation
+                      onClickGoBack={onClickGoBack}
+                      // onClickToVerification={onClickToVerification}
+                    />
+                  )}
+
+                  {screenName === "UpdatedPassword" && (
+                    <UpdatedPassword
+                      onClickGoBack={onClickGoBack}
+                      // onClickToVerification={onClickToVerification}
+                    />
                   )}
                 </Col>
               </Row>
@@ -142,7 +173,8 @@ const LoginCard = () => {
               <>
                 <img
                   src={img7}
-                  width="100%"
+                  width="500px"
+                  height="450px"
                   alt="verification"
                   className={styles["phone-verification-image"]}
                 />
@@ -212,6 +244,44 @@ const LoginCard = () => {
             )}
 
             {screenName === "PasswordVerification" && (
+              <>
+                <div className={styles["login-screen-headings"]}>
+                  <h1 className={styles["heading-1"]}>
+                    {t("Simplify-management")}
+                  </h1>
+                  <h1 className={styles["heading-2"]}>{t("Collaborate")}</h1>
+                  <h1 className={styles["heading-1"]}>{t("Prioritize")}</h1>
+                </div>
+                <div className="Diskus_rounded_logo">
+                  <img
+                    src={DiskusRoundLogo}
+                    alt="login-round-logo"
+                    className={styles["round-circle-class"]}
+                  />
+                </div>
+              </>
+            )}
+
+            {screenName === "PasswordCreation" && (
+              <>
+                <div className={styles["login-screen-headings"]}>
+                  <h1 className={styles["heading-1"]}>
+                    {t("Simplify-management")}
+                  </h1>
+                  <h1 className={styles["heading-2"]}>{t("Collaborate")}</h1>
+                  <h1 className={styles["heading-1"]}>{t("Prioritize")}</h1>
+                </div>
+                <div className="Diskus_rounded_logo">
+                  <img
+                    src={DiskusRoundLogo}
+                    alt="login-round-logo"
+                    className={styles["round-circle-class"]}
+                  />
+                </div>
+              </>
+            )}
+
+            {screenName === "UpdatedPassword" && (
               <>
                 <div className={styles["login-screen-headings"]}>
                   <h1 className={styles["heading-1"]}>

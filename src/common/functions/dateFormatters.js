@@ -2,6 +2,8 @@ import moment from "moment";
 
 // ================================== function which support end arabic both ======================================== //
 
+import moment from "moment/moment";
+
 // currently using in Session Duration in Login History
 export const convertUtcDateAndTimeToCurrentTimeZone = (
   utcDateTimes,
@@ -158,6 +160,11 @@ function convertNumbersToArabic(value) {
   const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
   return String(value).replace(/\d/g, (digit) => arabicNumbers[digit]);
 }
+
+export function convertNumbersInToArabic(value) {
+  const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+  return String(value).replace(/\d/g, (digit) => arabicNumbers[digit]);
+}
 // ================================== function which support end arabic both ======================================== //
 export const utcConvertintoGMT = (date) => {
   let fullDateyear =
@@ -250,6 +257,7 @@ export const ExtractMonthAndYear = (fullDate) => {
 // currently using in Session Duration in Organization List
 export const convertUTCDateToLocalDateView = (utcDateTime, locale) => {
   try {
+    // Parse the UTC date string
     const date = new Date(
       Date.UTC(
         parseInt(utcDateTime.slice(0, 4)),
@@ -261,26 +269,8 @@ export const convertUTCDateToLocalDateView = (utcDateTime, locale) => {
       )
     );
 
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    const day = date.getUTCDate();
-    const month = months[date.getUTCMonth()];
-    const year = date.getUTCFullYear();
-
-    return `${day}-${month}-${year}`;
+    // Use moment to format the date
+    return moment(date).format("MMM D, YYYY");
   } catch (error) {
     console.error("Error converting UTC date:", error);
     return null;
@@ -342,4 +332,42 @@ export const AuditTrialDateTimeFunctionViewActionDetails = (
 
   // Format: YYYY-MM-DD | hh:mm A
   return momentObj.format("YYYY-MM-DD | hh:mm A");
+  // to show date in MMM dd, yyyy HH:mm AM/PM
+};
+
+export const newDateForLoginUserHistory = (dateTime) => {
+  console.log(dateTime, "newDateForLoginUserHistory");
+  let fullDateyear =
+    dateTime?.slice(0, 4) +
+    "-" +
+    dateTime?.slice(4, 6) +
+    "-" +
+    dateTime?.slice(6, 8) +
+    "T" +
+    dateTime?.slice(8, 10) +
+    ":" +
+    dateTime?.slice(10, 12) +
+    ":" +
+    dateTime?.slice(12, 14) +
+    ".000Z";
+  let _dateTime = new Date(fullDateyear).toString("YYYYMMDDHHmmss");
+  return moment(_dateTime).format("MMM d, YYYY hh:mm A");
+};
+
+export const getTimeDifference = (dateLogin, dateLogOut) => {
+  let loginTime = utcConvertintoGMT(dateLogin).getTime();
+  let logoutTime = utcConvertintoGMT(dateLogOut).getTime();
+
+  let timeDifference = logoutTime - loginTime;
+  if (timeDifference < 0) {
+    return "";
+  }
+
+  let hours = Math.floor(timeDifference / (1000 * 60 * 60));
+  let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+  return `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 };

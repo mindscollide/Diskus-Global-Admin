@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 const EditOrganizationConfirmations = ({
   organzationStatus,
   editOrganizationID,
+  setShowSearchText,
+  setUserNameSearch,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
   console.log(editOrganizationID, "ModalReducerModalReducerModalReducer");
@@ -47,7 +49,9 @@ const EditOrganizationConfirmations = ({
       StatusID: Number(organzationStatus),
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(EditOrganizationAPI({ data, navigate, t }));
+    dispatch(EditOrganizationAPI({ data, navigate, t, setUserNameSearch }));
+    setShowSearchText(false);
+    setUserNameSearch("");
     dispatch(editOrganizationConfirmation(false));
   };
 

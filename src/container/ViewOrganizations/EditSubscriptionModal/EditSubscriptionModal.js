@@ -19,6 +19,8 @@ const EditSubscriptionModals = ({
   editCurrentSubscriptionName,
   headData,
   editSubModal,
+  setUserNameSearch,
+  setShowSearchText,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
 
@@ -26,23 +28,22 @@ const EditSubscriptionModals = ({
     (state) => state.modal.editSubscriptionConfirmationModal
   );
 
+  const [packageDetails, setPackageDetails] = useState([]);
+
   // Reducer for getting Data
   const packageDetailModalData = useSelector(
     (state) => state.globalAdminDashboardReducer.packageDetailModalData
   );
 
-  const packageDetails =
-    packageDetailModalData?.result?.details?.packageDetails || [];
-
-  console.log(
-    editSubscriptionOrgID,
-    "editSubscriptionOrgIDeditSubscriptionOrgID"
-  );
+  useEffect(() => {
+    if (packageDetailModalData?.result?.details) {
+      setPackageDetails(packageDetailModalData.result.details.packageDetails);
+    }
+  }, [packageDetailModalData]);
 
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
-  console.log(editSubModal, "currentSubscriptionNameacduwvuc");
 
   const [subsciptionStatus, setSubsciptionStatus] = useState({
     value: 0,
@@ -62,8 +63,6 @@ const EditSubscriptionModals = ({
       setOrganizationName(headData[0].organizationName);
     }
   }, [headData]);
-
-  console.log(organizationName, "organizationNameqewecew");
 
   //states
   useEffect(() => {
@@ -115,23 +114,14 @@ const EditSubscriptionModals = ({
     dispatch(editSubscriptionModalOpen(false));
   };
 
-  // hardcoded license data
-  const [licenses, setLicenses] = useState([
-    { type: "Essential Licenses", value: 0 },
-    { type: "Professional Licenses", value: 4 },
-    { type: "Premium License", value: 4 },
-  ]);
-
-  // console.log(subscriptionOption, "vlayeeeee");
-
   //hardCode subscription Status
   const options = [
-    { value: 1, label: "Active" },
-    { value: 2, label: "InActive" },
-    { value: 3, label: "suspended" },
-    { value: 4, label: "Closed" },
-    { value: 5, label: "Terminated Request" },
-    { value: 6, label: "Cancelled" },
+    { value: 1, label: t("Active") },
+    { value: 2, label: t("In-active") },
+    { value: 3, label: t("Suspended") },
+    { value: 4, label: t("Closed") },
+    { value: 5, label: t("Termination-requested") },
+    { value: 6, label: t("Cancelled") },
   ];
 
   const subscriptionOption = options.find(
@@ -206,7 +196,7 @@ const EditSubscriptionModals = ({
                 className="d-flex flex-column flex-wrap"
               >
                 <span className={styles["EditSubscriptionSubHeading"]}>
-                  {t("Duration")}
+                  {t("Subscription")}
                 </span>
                 <span className={styles["Data"]}>
                   {duration === 1 ? (
@@ -259,7 +249,7 @@ const EditSubscriptionModals = ({
                 className="d-flex flex-column flex-wrap"
               >
                 <span className={styles["EditSubscriptionSubHeading"]}>
-                  {t("Subscription-status")}
+                  {t("Subscription-statuses")}
                 </span>
                 <Select
                   options={options}
@@ -300,6 +290,8 @@ const EditSubscriptionModals = ({
       <EditSubscriptionConfirmationModal
         subsciptionStatus={subsciptionStatus.value}
         editSubscriptionOrgID={editSubscriptionOrgID}
+        setShowSearchText={setShowSearchText}
+        setUserNameSearch={setUserNameSearch}
       />
     </>
   );

@@ -1,22 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ViewOrganizationModal.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { editOrganizationModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
 import { Button, Modal } from "../../../components/elements";
 import { Col, Row } from "react-bootstrap";
-import { convertUTCDateToLocalDate } from "../../../common/functions/dateFormatters";
 
 const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
   const ModalReducer = useSelector((state) => state.modal);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  // this is my state in which I set data from useEffect
+  const [organizationData, setOrganizationData] = useState(null);
+
+  //this is my useEffect in which I extract data from viewOrganizationsModal
   useEffect(() => {
-    return () => {
-      // Cleanup logic here if needed
-    };
-  }, []);
+    if (viewOrganizationsModal) {
+      setOrganizationData(viewOrganizationsModal);
+    }
+  }, [viewOrganizationsModal]);
 
   const handleClose = () => {
     dispatch(editOrganizationModalOpen(false));
@@ -27,16 +30,11 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
   };
 
   // Check if viewOrganizationsModal and subscriptions are defined
-  if (!viewOrganizationsModal || !viewOrganizationsModal.subscriptions) {
+  if (!organizationData) {
     return null; // or display a loading indicator or error message
   }
 
-  // Aggregate subscription expiry dates and statuses
-  const subscriptionExpiryDates = viewOrganizationsModal.subscriptions.map(
-    (subscription) =>
-      convertUTCDateToLocalDate(subscription.subscriptionExpiryDate)
-  );
-  const subscriptionStatuses = viewOrganizationsModal.subscriptions.map(
+  const subscriptionStatuses = organizationData.subscriptions.map(
     (subscription) => {
       switch (subscription.fK_SubscriptionStatusID) {
         case 1:
@@ -56,6 +54,13 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
       }
     }
   );
+
+  // to show active from subscriptionStatusesZ
+  const activeCount = subscriptionStatuses.filter(
+    (status) => status === "Active"
+  ).length;
+
+  console.log("Active Count:", activeCount);
 
   return (
     <>
@@ -91,7 +96,7 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                     {t("Organization-name")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    {viewOrganizationsModal.organizationName}
+                    {organizationData.organizationName}
                   </span>
                 </Col>
               </Row>
@@ -107,7 +112,7 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                     {t("Admin-name")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    {viewOrganizationsModal.contactPersonName}
+                    {organizationData.contactPersonName}
                   </span>
                 </Col>
               </Row>
@@ -123,7 +128,7 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                     {t("Admin-email")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    {viewOrganizationsModal.emailAddress}
+                    {organizationData.contactPersonEmail}
                   </span>
                 </Col>
               </Row>
@@ -139,12 +144,12 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                     {t("Contact")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    {viewOrganizationsModal.contactPersonNumber}
+                    {organizationData.contactPersonNumber}
                   </span>
                 </Col>
               </Row>
               {/* Render subscription expiry dates */}
-              <Row className="mt-4">
+              {/* <Row className="mt-4">
                 <Col lg={1} md={1} sm={1}></Col>
                 <Col
                   lg={11}
@@ -161,57 +166,52 @@ const ViewOrganizationModal = ({ viewOrganizationsModal }) => {
                     </span>
                   ))}
                 </Col>
-              </Row>
+              </Row> */}
               {/* Render subscription statuses */}
               <Row className="mt-4">
-                <Col lg={1} md={1} sm={1}></Col>
+                <Col lg={1} md={1} sm={1} />
                 <Col
-                  lg={11}
-                  md={11}
-                  sm={11}
+                  lg={5}
+                  md={5}
+                  sm={5}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
                     {t("Subscription-status")}
                   </span>
-                  {subscriptionStatuses.map((status, index) => (
-                    <span key={index} className={styles["DetialsSubHeading"]}>
-                      {status}
-                    </span>
-                  ))}
+                  <div className={styles["DetialsSubHeading"]}>
+                    {activeCount}
+                  </div>
                 </Col>
-              </Row>
-              {/* Render organization status */}
-              <Row className="mt-4">
-                <Col lg={1} md={1} sm={1}></Col>
                 <Col
-                  lg={11}
-                  md={11}
-                  sm={11}
+                  lg={6}
+                  md={6}
+                  sm={6}
                   className="d-flex flex-column flex-wrap"
                 >
                   <span className={styles["SubHeadingsOrganizationDetails"]}>
                     {t("Organization-status")}
                   </span>
                   <span className={styles["DetialsSubHeading"]}>
-                    {viewOrganizationsModal.organizationStatus === 1
+                    {organizationData.organizationStatus === 1
                       ? t("Active")
-                      : viewOrganizationsModal.organizationStatus === 2
+                      : organizationData.organizationStatus === 2
                       ? t("In-active")
-                      : viewOrganizationsModal.organizationStatus === 3
+                      : organizationData.organizationStatus === 3
                       ? t("Suspended")
-                      : viewOrganizationsModal.organizationStatus === 4
+                      : organizationData.organizationStatus === 4
                       ? t("Closed")
-                      : viewOrganizationsModal.organizationStatus === 5
+                      : organizationData.organizationStatus === 5
                       ? t("Termination-requested")
-                      : viewOrganizationsModal.organizationStatus === 6
+                      : organizationData.organizationStatus === 6
                       ? t("Deleted")
-                      : viewOrganizationsModal.organizationStatus === 7
+                      : organizationData.organizationStatus === 7
                       ? t("Archived")
                       : null}
                   </span>
                 </Col>
               </Row>
+              {/* Render organization status */}
             </section>
           </>
         }

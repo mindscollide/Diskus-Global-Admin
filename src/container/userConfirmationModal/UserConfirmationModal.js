@@ -1,5 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Modal, TextField } from "./../../components/elements";
+import {
+  Button,
+  Modal,
+  Notification,
+  TextField,
+} from "./../../components/elements";
 import { Row, Col, Container } from "react-bootstrap";
 import styles from "./UserConfirmationModal.module.css";
 import Form from "react-bootstrap/Form";
@@ -12,29 +17,73 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userConifrmationOpenModal } from "../../store/ActionsSlicers/UIModalsActions";
 import { UpdateGlobalAdminUserApi } from "../../store/Actions/GlobalAdminDashboardActions";
-import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import {
+  globalAdminDashBoardLoader,
+  resetResponseMessage,
+} from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 
-const UserConfirmationModal = ({ userInfoState }) => {
+const UserConfirmationModal = ({
+  userDataInfo,
+  selectedCountry,
+  userInfoState,
+}) => {
   //For Localization
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const ModalReducer = useSelector((state) => state.modal);
+
+  const Responsemessage = useSelector(
+    (state) => state.globalAdminDashboardReducer.Responsemessage
+  );
   console.log(userInfoState, "userInfoStateuserInfoState");
+
+  const [openNotification, setOpenNotification] = useState({
+    changePasswordFlag: false,
+    changePasswordNotification: null,
+    severity: "none",
+  });
+
+  useEffect(() => {
+    if (
+      Responsemessage !== "" &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "Success" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
+    ) {
+      setOpenNotification({
+        changePasswordFlag: true,
+        changePasswordNotification: Responsemessage,
+        severity: t("Updated-Successfully") ? "success" : "error",
+      });
+
+      setTimeout(() => {
+        dispatch(resetResponseMessage());
+        setOpenNotification({
+          ...openNotification,
+          changePasswordFlag: false,
+          changePasswordNotification: "",
+          severity: "none",
+        });
+      }, 4000);
+    }
+  }, [Responsemessage]);
 
   const handleClose = () => {
     dispatch(userConifrmationOpenModal(false));
   };
 
-  const handleProceedUpdate = () => {
-    let data = {
-      CountryCodeID: Number(userInfoState.CountryCode),
-      MobileNumber: userInfoState.Number,
-    };
+  const handleProceedUpdate = async () => {
+    let phoneNumber = userInfoState.Number.value;
 
+    const data = {
+      CountryCodeID: Number(userInfoState.CountryCode.value),
+      MobileNumber: phoneNumber,
+    };
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(UpdateGlobalAdminUserApi({ data, navigate, t }));
+    await dispatch(UpdateGlobalAdminUserApi({ data, navigate, t }));
   };
 
   return (
@@ -74,6 +123,7 @@ const UserConfirmationModal = ({ userInfoState }) => {
                 <Col lg={6} md={6} sm={6} xs={12}>
                   <Button
                     text={t("Cancel")}
+                    onClick={handleClose}
                     className={styles["reset-User-btn"]}
                   />
                 </Col>
@@ -90,6 +140,17 @@ const UserConfirmationModal = ({ userInfoState }) => {
           }
         />
       </Container>
+      <Notification
+        show={openNotification.changePasswordFlag}
+        hide={setOpenNotification}
+        message={openNotification.changePasswordNotification}
+        severity={openNotification.severity}
+        notificationClass={
+          openNotification.severity
+            ? "notification-error"
+            : "notification-success"
+        }
+      />
     </>
   );
 };
