@@ -15,6 +15,7 @@ import GlobalLevelSettings from "../container/GlobalLevelSettings/GlobalLevelSet
 import CashFlowSummary from "../container/CashFlowSumarry/CashFlowSummary";
 // import NewViewOrganization from "../container/NewViewOrganization/NewViewOrganization";
 import ViewOrganizations from "../container/ViewOrganizations/ViewOrganizations";
+import AuditTrial from "../container/AuditTrial/AuditTrial";
 
 export const router = createHashRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ export const router = createHashRouter(
         />
         <Route path="GlobalLevelSettings" element={<GlobalLevelSettings />} />
         <Route path="Summary" element={<CashFlowSummary />} />
+        <Route path="AuditTrial" element={<AuditTrial />} />
       </Route>
       {/* </Route> */}
 

@@ -110,6 +110,17 @@ const AdminOptionsNavBar = () => {
                     >
                       {t("User-login-history")}
                     </NavDropdown.Item>
+
+                    {/* Audit New Added  */}
+                    <NavDropdown.Item
+                      as={Link}
+                      to="AuditTrial"
+                      // onClick={handleOpenModal}
+                      eventKey="link-8"
+                      className="text-black border-none  bg-white"
+                    >
+                      {t("Audit-trial")}
+                    </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               </Navbar.Collapse>

@@ -289,5 +289,9 @@
   "Update-subscription": "Update Subscription",
   "Status": "Status",
   "No-View-Organization": "No View Organization",
-  "No-organization-found": "No Organization Found"
+  "No-organization-found": "No Organization Found",
+  "Audit-trial": "Audit Trial",
+  "Login-date": "Login Date",
+  "Logout-date": "Logout Date",
+  "View-action": "View Action"
 }

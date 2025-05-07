@@ -264,6 +264,16 @@ const dynamicallyReportOfActivePackageLicensesApi = {
   RequestMethod: "ServiceManager.ActivePackageLicenses",
 };
 
+//Get Audit listing Orgnization
+const getorganizationAuditlistingApi = {
+  RequestMethod: "ServiceManager.GetOrganizationUsersAuditListing",
+};
+
+//Get Audit Action
+const getorganizationAuditlActionsApi = {
+  RequestMethod: "ServiceManager.GetUserAuditActions",
+};
+
 export {
   loginAPi,
   passwordVerify,
@@ -320,4 +330,6 @@ export {
   listOfPackageLisences,
   getAllOrganizationNamesApi,
   dynamicallyReportOfActivePackageLicensesApi,
+  getorganizationAuditlistingApi,
+  getorganizationAuditlActionsApi,
 };
