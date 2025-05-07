@@ -1,5 +1,3 @@
-import moment from "moment";
-
 // ================================== function which support end arabic both ======================================== //
 
 import moment from "moment/moment";
