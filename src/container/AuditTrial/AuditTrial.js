@@ -12,6 +12,7 @@ import InputIcon from "react-multi-date-picker/components/input_icon";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Table, TextField } from "../../components/elements";
 import {
+  getAllOrganizationNameMainApi,
   getOrganizationUserAuditActionsAPI,
   getOrganizationUserAuditListingAPI,
 } from "../../store/Actions/GlobalAdminDashboardActions";
@@ -21,20 +22,24 @@ import DatePicker from "react-multi-date-picker";
 import { AuditTrialDateTimeFunction } from "../../common/functions/dateFormatters";
 import { Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { viewActionModalState } from "../../store/ActionsSlicers/UIModalsActions";
 import ViewActionModal from "./ViewActionModal/ViewActionModal";
 const AuditTrial = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const locale = localStorage.getItem("currentLanguage");
-  console.log(locale, "localelocale");
+  const currentlang = localStorage.getItem("currentLanguage");
+  console.log(currentlang, "localelocale");
   //Calling Get Audit Listing
   const GetAuditListingReducerGlobalState = useSelector(
     (state) => state.globalAdminDashboardReducer.getOrganizationAuditListingData
   );
+  //Get Audit Action Data
   const GetUserActionsAuditData = useSelector(
     (state) => state.globalAdminDashboardReducer.getAuditActions
+  );
+
+  const organizationIdData = useSelector(
+    (state) => state.globalAdminDashboardReducer.getOrganizationNames
   );
 
   // Local States
@@ -43,11 +48,17 @@ const AuditTrial = () => {
   );
   const [totalRecords, setTotalRecords] = useState(0);
   const [isScroll, setIsScroll] = useState(false);
+  const [organization, setOrganization] = useState([]);
   const [isRowsData, setSRowsData] = useState(0);
   const [searchBar, setSearchBar] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
-  const [searchText, setSearchText] = useState([]);
+  const [enterPressedSearch, setEnterPressedSearch] = useState(false);
+  const [selectOrganization, setSelectOrganization] = useState({
+    value: 0,
+    label: "",
+  });
+  console.log(enterPressedSearch, "enterPressedSearch");
   const [viewActionModalDataState, setViewActionModalDataState] = useState([]);
   const [auditTrialSearch, setAuditTrialSearch] = useState({
     title: "",
@@ -81,6 +92,7 @@ const AuditTrial = () => {
         Length: 10,
       };
       dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
+      dispatch(getAllOrganizationNameMainApi({ navigate, t }));
     } catch (error) {
       console.log(error, "errorerrorerror");
     }
@@ -103,11 +115,6 @@ const AuditTrial = () => {
       });
     };
   }, []);
-
-  console.log(
-    GetAuditListingReducerGlobalState?.result,
-    "GetAuditListingReducerGlobalState"
-  );
 
   // Extracting the Audit listing Data
   useEffect(() => {
@@ -147,20 +154,35 @@ const AuditTrial = () => {
     }
   }, [GetAuditListingReducerGlobalState]);
 
-  console.log(auditTrialListingTableData, "GetAuditListingReducerGlobalState");
+  //Extracting the Orgnaizaitons Names Data
+  useEffect(() => {
+    if (
+      organizationIdData !== null &&
+      organizationIdData !== undefined &&
+      organizationIdData?.result?.organizations.length > 0
+    ) {
+      const formatted = organizationIdData.result.organizations.map((org) => ({
+        value: org.organizationID,
+        label: org.organizationName,
+      }));
+      setOrganization(formatted);
+    } else {
+      setOrganization([]);
+    }
+  }, [organizationIdData]);
 
   //Handling the Arabic
   useEffect(() => {
-    if (locale !== null && locale !== undefined) {
-      if (locale === "en") {
+    if (currentlang !== null && currentlang !== undefined) {
+      if (currentlang === "en") {
         setCalendarValue(gregorian);
         setLocalValue(gregorian_en);
-      } else if (locale === "ar") {
+      } else if (currentlang === "ar") {
         setCalendarValue(gregorian);
         setLocalValue(gregorian_ar);
       }
     }
-  }, [locale]);
+  }, [currentlang]);
 
   //handle View ActionModal
   const handleViewActionModal = (record) => {
@@ -250,7 +272,7 @@ const AuditTrial = () => {
         return (
           <>
             <span className={styles["NameStylesTable"]}>
-              {AuditTrialDateTimeFunction(record.dateLogin, locale)}
+              {AuditTrialDateTimeFunction(record.dateLogin, currentlang)}
             </span>
           </>
         );
@@ -286,7 +308,7 @@ const AuditTrial = () => {
         return (
           <>
             <span className={styles["NameStylesTable"]}>
-              {AuditTrialDateTimeFunction(record.dateLogOut, locale)}
+              {AuditTrialDateTimeFunction(record.dateLogOut, currentlang)}
             </span>
           </>
         );
@@ -355,17 +377,18 @@ const AuditTrial = () => {
     return ipRegex.test(value);
   };
 
+  //Devices
   const DeviceIdType = [
     {
       label: "Browser",
       value: 1,
     },
     {
-      label: "Tablet",
+      label: "Mobile",
       value: 2,
     },
     {
-      label: "Mobile",
+      label: "Tablet",
       value: 3,
     },
   ];
@@ -433,6 +456,11 @@ const AuditTrial = () => {
     });
   };
 
+  // Handle Change organization
+  const handleChangeOrganization = (option) => {
+    setSelectOrganization(option);
+  };
+
   //handle Login Date Change
   const handleChangeLoginDate = (date) => {
     let getDate = new Date(date);
@@ -444,6 +472,7 @@ const AuditTrial = () => {
     });
   };
 
+  // Handle Logout Date Change
   const handleChangeLogoutDate = (date) => {
     let getDate = new Date(date);
     let utcDate = getDate.toISOString().slice(0, 10).replace(/-/g, "");
@@ -454,6 +483,7 @@ const AuditTrial = () => {
     });
   };
 
+  //handle Search Button in Search Popup
   const handleSearchAuditTrialListing = () => {
     let data = {
       Username: auditTrialSearch.userName || "",
@@ -463,7 +493,7 @@ const AuditTrial = () => {
         : "",
       DateLogin: auditTrialSearch.LoginDate || "",
       DateLogOut: auditTrialSearch.LogoutDate || "",
-      OrganizationName: "",
+      OrganizationName: selectOrganization.label || "",
       sRow: 0,
       Length: 10,
     };
@@ -481,11 +511,13 @@ const AuditTrial = () => {
         DeviceID: "",
         DateLogin: "",
         DateLogOut: "",
+        OrganizationName: "",
         sRow: 0,
         Length: 10,
       };
       dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
       setSearchBar(false);
+      setEnterPressedSearch(false);
       setAuditTrialSearch({
         ...auditTrialSearch,
         userName: "",
@@ -503,11 +535,59 @@ const AuditTrial = () => {
           label: "",
         },
       });
+      setSelectOrganization({
+        value: 0,
+        label: "",
+      });
     } catch (error) {
       console.log(error, "errorerror");
     }
   };
 
+  //Handle Enter Pressed Search
+  const handlePressedEnterSearch = () => {
+    try {
+      let data = {
+        Username: "",
+        IpAddress: "",
+        DeviceID: "",
+        DateLogin: "",
+        DateLogOut: "",
+        OrganizationName: "",
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
+      setSearchBar(false);
+      setEnterPressedSearch(false);
+      setAuditTrialSearch({
+        ...auditTrialSearch,
+        title: "",
+        userName: "",
+        IpAddress: "",
+        LoginDate: "",
+        LoginDateView: "",
+        LogoutDate: "",
+        LogoutDateView: "",
+        LogoutTime: "",
+        LogoutTimeView: "",
+        LoginTime: "",
+        LoginTimeView: "",
+        Interface: {
+          value: 0,
+          label: "",
+        },
+      });
+      setSelectOrganization({
+        value: 0,
+        label: "",
+      });
+    } catch (error) {
+      console.log(error, "errorerror");
+    }
+  };
+
+  //Enter key pressed Search
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       let data = {
@@ -523,7 +603,7 @@ const AuditTrial = () => {
         Length: 10,
       };
       dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
-      setSearchText([...searchText, auditTrialSearch.Title]);
+      setEnterPressedSearch(true);
     }
   };
 
@@ -565,6 +645,14 @@ const AuditTrial = () => {
                 }
               />
             </section>
+            {enterPressedSearch && (
+              <img
+                src={CrossIcon}
+                className={styles["SearchFieldCrossIcon"]}
+                onClick={handlePressedEnterSearch}
+                alt=""
+              />
+            )}
             {searchBar && (
               <>
                 <span className={styles["SearchBoxAuditTrial"]}>
@@ -699,8 +787,13 @@ const AuditTrial = () => {
                         </span>
                         <Select
                           placeholder={t("Organization")}
-                          // options={DeviceIdType}
-                          // onChange={handleChangeInterface}
+                          options={organization}
+                          value={
+                            selectOrganization.value !== 0
+                              ? selectOrganization
+                              : null
+                          }
+                          onChange={handleChangeOrganization}
                         />
                       </div>
                     </Col>

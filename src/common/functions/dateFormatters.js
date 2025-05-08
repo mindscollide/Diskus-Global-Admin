@@ -277,6 +277,7 @@ export const convertUTCDateToLocalDateView = (utcDateTime, locale) => {
 
 //Audit trial function
 export const AuditTrialDateTimeFunction = (dateTime, locale = "en") => {
+  console.log({ dateTime, locale }, "localelocale");
   if (!dateTime || dateTime.length !== 14) return "";
 
   // Construct ISO datetime string
@@ -299,9 +300,9 @@ export const AuditTrialDateTimeFunction = (dateTime, locale = "en") => {
   if (locale === "en") {
     return momentObj.format("hh:mm A - Do MMMM, YYYY");
   } else if (locale === "ar") {
-    return momentObj.format("hh:mm A - Do MMMM, YYYY"); // Arabic locale applies automatically
+    return momentObj.format("hh:mm A - Do MMMM, YYYY");
   } else {
-    return momentObj.format("hh:mm A - Do MMMM, YYYY"); // fallback to default
+    return momentObj.format("hh:mm A - Do MMMM, YYYY");
   }
 };
 
@@ -309,6 +310,8 @@ export const AuditTrialDateTimeFunctionViewActionDetails = (
   dateTime,
   locale = "en"
 ) => {
+  console.log({ dateTime, locale }, "localelocale");
+
   if (!dateTime || dateTime.length !== 14) return "";
 
   // Construct ISO datetime string

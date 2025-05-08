@@ -22,7 +22,10 @@ const LanguageSelector = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
-
+  console.log(
+    "LanguageSelector",
+    moment.locale(localStorage.getItem("currentLanguage"))
+  );
   const LanguageReducer = useSelector(
     (state) => state.LanguageReducer.getSystemLanguage
   );
