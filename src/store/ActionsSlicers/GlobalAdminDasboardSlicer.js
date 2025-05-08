@@ -39,6 +39,8 @@ import {
   listOfPackageLisencesMainApi,
   getAllOrganizationNameMainApi,
   dynamicalyDownloadReportApi,
+  getOrganizationUserAuditListingAPI,
+  getOrganizationUserAuditActionsAPI,
   downloadInvoiceReportMainApi,
   getUserInfoMainApi,
 } from "../Actions/GlobalAdminDashboardActions";
@@ -80,6 +82,8 @@ const initialState = {
   downloadInvoiceData: null,
   getUserInfoData: null,
   Responsemessage: "",
+  getOrganizationAuditListingData: null,
+  getAuditActions: null,
 };
 
 const globalAdminDashboardReducer = createSlice({
@@ -616,6 +620,39 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(dynamicalyDownloadReportApi.rejected, (state, action) => {
         state.downloadDynamicallyReportData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //Get All Organization Audit Listing
+      .addCase(getOrganizationUserAuditListingAPI.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(
+        getOrganizationUserAuditListingAPI.fulfilled,
+        (state, action) => {
+          state.getOrganizationAuditListingData = action.payload;
+          state.Responsemessage = "Success";
+        }
+      )
+      .addCase(getOrganizationUserAuditListingAPI.rejected, (state, action) => {
+        state.getOrganizationAuditListingData = null;
+        state.Responsemessage = action.payload || "An error occurred";
+      })
+
+      //Get All Organization Audit Actions
+      .addCase(getOrganizationUserAuditActionsAPI.pending, (state) => {
+        // state.loading = true;
+      })
+      .addCase(
+        getOrganizationUserAuditActionsAPI.fulfilled,
+        (state, action) => {
+          state.getAuditActions = action.payload;
+          state.Responsemessage = "Success";
+        }
+      )
+      .addCase(getOrganizationUserAuditActionsAPI.rejected, (state, action) => {
+        state.getAuditActions = null;
+        state.Responsemessage = action.payload || "An error occurred";
         state.Responsemessage = action.payload || "";
       })
 

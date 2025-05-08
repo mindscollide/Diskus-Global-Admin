@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
   adminURL,
+  auditURL,
   authenticationURL,
   excelURL,
 } from "../../common/apis/Api_endPoints";
@@ -45,6 +46,8 @@ import {
   listOfPackageLisences,
   getAllOrganizationNamesApi,
   dynamicallyReportOfActivePackageLicensesApi,
+  getorganizationAuditlistingApi,
+  getorganizationAuditlActionsApi,
   downloadInvoiceApi,
   getUserInfoApi,
 } from "../../common/apis/Api_Config";
@@ -54,6 +57,7 @@ import {
   htmlInvoiceModalOpen,
   trialRenewOpenModal,
   userConifrmationOpenModal,
+  viewActionModalState,
 } from "../ActionsSlicers/UIModalsActions";
 
 //StatsOfActiveLicense  Api
@@ -2923,6 +2927,155 @@ export const getUserInfoMainApi = createAsyncThunk(
       dispatch(globalAdminDashBoardLoader(false));
 
       return rejectWithValue(t("Something-went-wrong"));
+    }
+  }
+);
+
+//Get Audit listing Orgnization
+export const getOrganizationUserAuditListingAPI = createAsyncThunk(
+  "getOrganizationUserAuditListingAPI/getOrganizationUserAuditListingAPI",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestMethod", getorganizationAuditlistingApi.RequestMethod);
+    form.append("RequestData", JSON.stringify(data));
+    try {
+      const response = await axios({
+        method: "post",
+        url: auditURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Audit_AuditServiceManager_GetOrganizationUsersAuditListing_01".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetOrganizationUsersAuditListing_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Audit_AuditServiceManager_GetOrganizationUsersAuditListing_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No Data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Audit_AuditServiceManager_GetOrganizationUsersAuditListing_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
+    }
+  }
+);
+
+//Get Audit listing Orgnization
+export const getOrganizationUserAuditActionsAPI = createAsyncThunk(
+  "getOrganizationUserAuditActionsAPI/getOrganizationUserAuditActionsAPI",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    let token = localStorage.getItem("token");
+    let { data, navigate, t } = requestData;
+    let form = new FormData();
+    form.append("RequestMethod", getorganizationAuditlActionsApi.RequestMethod);
+    form.append("RequestData", JSON.stringify(data));
+    try {
+      const response = await axios({
+        method: "post",
+        url: auditURL,
+        data: form,
+        headers: {
+          _token: token,
+        },
+      });
+
+      if (response.data.responseCode === 417) {
+      } else if (response.data.responseCode === 200) {
+        if (response.data.responseResult.isExecuted === true) {
+          if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Audit_AuditServiceManager_GetUserAuditActions_01".toLowerCase()
+              )
+          ) {
+            dispatch(viewActionModalState(true));
+            dispatch(globalAdminDashBoardLoader(false));
+            try {
+              return {
+                result: response.data.responseResult,
+                code: "GetUserAuditActions_01",
+              };
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Audit_AuditServiceManager_GetUserAuditActions_02".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("No Data available");
+          } else if (
+            response.data.responseResult.responseMessage
+              .toLowerCase()
+              .includes(
+                "Audit_AuditServiceManager_GetUserAuditActions_03".toLowerCase()
+              )
+          ) {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          } else {
+            dispatch(globalAdminDashBoardLoader(false));
+            return rejectWithValue("Something-went-wrong");
+          }
+        } else {
+          dispatch(globalAdminDashBoardLoader(false));
+          return rejectWithValue("Something-went-wrong");
+        }
+      } else {
+        dispatch(globalAdminDashBoardLoader(false));
+        return rejectWithValue("Something-went-wrong");
+      }
+    } catch (error) {
+      return rejectWithValue("Something-went-wrong");
     }
   }
 );
