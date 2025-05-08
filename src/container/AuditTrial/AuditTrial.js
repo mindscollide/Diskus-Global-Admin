@@ -58,7 +58,6 @@ const AuditTrial = () => {
     value: 0,
     label: "",
   });
-  console.log(enterPressedSearch, "enterPressedSearch");
   const [viewActionModalDataState, setViewActionModalDataState] = useState([]);
   const [auditTrialSearch, setAuditTrialSearch] = useState({
     title: "",
