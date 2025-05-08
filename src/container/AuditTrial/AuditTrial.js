@@ -33,10 +33,6 @@ const AuditTrial = () => {
   const GetAuditListingReducerGlobalState = useSelector(
     (state) => state.globalAdminDashboardReducer.getOrganizationAuditListingData
   );
-  //Get Audit Action Data
-  const GetUserActionsAuditData = useSelector(
-    (state) => state.globalAdminDashboardReducer.getAuditActions
-  );
 
   //All Orgniazations Data
   const organizationIdData = useSelector(
@@ -644,182 +640,186 @@ const AuditTrial = () => {
                   />
                 }
               />
+              {enterPressedSearch && (
+                <img
+                  src={CrossIcon}
+                  className={styles["SearchFieldCrossIcon"]}
+                  onClick={handlePressedEnterSearch}
+                  alt=""
+                />
+              )}
+              {searchBar && (
+                <>
+                  <span className={styles["SearchBoxAuditTrial"]}>
+                    <Row className="mt-2">
+                      <Col
+                        lg={12}
+                        md={12}
+                        sm={12}
+                        className="d-flex justify-content-end align-items-center"
+                      >
+                        <img
+                          src={CrossIcon}
+                          className="cursor-pointer"
+                          alt=""
+                          onClick={handleCrossIcon}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mt-2">
+                      <Col lg={6} md={6} sm={6}>
+                        <TextField
+                          labelclass={"d-none"}
+                          label={
+                            <>
+                              <span className={styles["SearchBoxEntities"]}>
+                                {t("User")}
+                              </span>
+                            </>
+                          }
+                          applyClass={"SearchTextFiled"}
+                          width={"100%"}
+                          value={auditTrialSearch.userName}
+                          iconclassname={"d-block"}
+                          placeholder={`${t("UserName")}...`}
+                          name={"UserName"}
+                          change={handeSearchBoxTextField}
+                        />
+                      </Col>
+                      <Col lg={6} md={6} sm={6}>
+                        <TextField
+                          labelclass={"d-none"}
+                          label={
+                            <>
+                              <span className={styles["SearchBoxEntities"]}>
+                                {t("IP")}
+                              </span>
+                            </>
+                          }
+                          applyClass={"SearchTextFiled"}
+                          width={"100%"}
+                          value={auditTrialSearch.IpAddress}
+                          iconclassname={"d-block"}
+                          placeholder={`${t("IP")}`}
+                          name={"IPAddress"}
+                          change={handeSearchBoxTextField}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mt-2">
+                      <Col lg={6} md={6} sm={6}>
+                        <div className="d-flex flex-column flex-wrap  gap-1">
+                          <span className={styles["SearchBoxEntities"]}>
+                            {t("Login-date")}
+                          </span>
+
+                          <DatePicker
+                            format={"DD/MM/YYYY"}
+                            placeholder={t("Login-date")}
+                            value={auditTrialSearch.LoginDateView}
+                            render={
+                              <InputIcon
+                                placeholder={t("Date-from")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
+                              />
+                            }
+                            editable={false}
+                            className="datePickerTodoCreate2"
+                            containerClassName={styles["datePicker_Container"]}
+                            onOpenPickNewDate={true}
+                            inputMode=""
+                            calendar={calendarValue}
+                            locale={localValue}
+                            onFocusedDateChange={handleChangeLoginDate}
+                          />
+                        </div>
+                      </Col>
+                      <Col lg={6} md={6} sm={6}>
+                        <div className="d-flex flex-column flex-wrap gap-1">
+                          <span className={styles["SearchBoxEntities"]}>
+                            {t("Logout-date")}
+                          </span>
+
+                          <DatePicker
+                            format={"DD/MM/YYYY"}
+                            placeholder={t("Logout-date")}
+                            value={auditTrialSearch.LogoutDateView}
+                            render={
+                              <InputIcon
+                                placeholder={t("Logout-date")}
+                                className={
+                                  styles["UserLoginHistory_datePicker"]
+                                }
+                              />
+                            }
+                            editable={false}
+                            className="datePickerTodoCreate2"
+                            onOpenPickNewDate={true}
+                            containerClassName={styles["datePicker_Container"]}
+                            inputMode=""
+                            calendar={calendarValue}
+                            locale={localValue}
+                            onFocusedDateChange={handleChangeLogoutDate}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                    <Row className="mt-2">
+                      <Col lg={6} md={6} sm={6}>
+                        <div className="d-flex flex-column flex-wrap gap-1">
+                          <span className={styles["SearchBoxEntities"]}>
+                            {t("Interface")}
+                          </span>
+                          <Select
+                            placeholder={t("Interface")}
+                            options={DeviceIdType}
+                            onChange={handleChangeInterface}
+                          />
+                        </div>
+                      </Col>
+                      <Col lg={6} md={6} sm={6}>
+                        <div className="d-flex flex-column flex-wrap gap-1">
+                          <span className={styles["SearchBoxEntities"]}>
+                            {t("Organization")}
+                          </span>
+                          <Select
+                            placeholder={t("Organization")}
+                            options={organization}
+                            value={
+                              selectOrganization.value !== 0
+                                ? selectOrganization
+                                : null
+                            }
+                            onChange={handleChangeOrganization}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                    <Row className="mt-3">
+                      <Col
+                        lg={12}
+                        md={12}
+                        sm={12}
+                        className="d-flex justify-content-end gap-2 align-items-center"
+                      >
+                        <Button
+                          text={t("Reset")}
+                          className={styles["ResetBtn"]}
+                          onClick={handleResetButton}
+                        />
+                        <Button
+                          text={t("Search")}
+                          className={styles["SearchBtn"]}
+                          onClick={handleSearchAuditTrialListing}
+                        />
+                      </Col>
+                    </Row>
+                  </span>
+                </>
+              )}
             </section>
-            {enterPressedSearch && (
-              <img
-                src={CrossIcon}
-                className={styles["SearchFieldCrossIcon"]}
-                onClick={handlePressedEnterSearch}
-                alt=""
-              />
-            )}
-            {searchBar && (
-              <>
-                <span className={styles["SearchBoxAuditTrial"]}>
-                  <Row className="mt-2">
-                    <Col
-                      lg={12}
-                      md={12}
-                      sm={12}
-                      className="d-flex justify-content-end align-items-center"
-                    >
-                      <img
-                        src={CrossIcon}
-                        className="cursor-pointer"
-                        alt=""
-                        onClick={handleCrossIcon}
-                      />
-                    </Col>
-                  </Row>
-                  <Row className="mt-2">
-                    <Col lg={6} md={6} sm={6}>
-                      <TextField
-                        labelclass={"d-none"}
-                        label={
-                          <>
-                            <span className={styles["SearchBoxEntities"]}>
-                              {t("User")}
-                            </span>
-                          </>
-                        }
-                        applyClass={"SearchTextFiled"}
-                        width={"100%"}
-                        value={auditTrialSearch.userName}
-                        iconclassname={"d-block"}
-                        placeholder={`${t("UserName")}...`}
-                        name={"UserName"}
-                        change={handeSearchBoxTextField}
-                      />
-                    </Col>
-                    <Col lg={6} md={6} sm={6}>
-                      <TextField
-                        labelclass={"d-none"}
-                        label={
-                          <>
-                            <span className={styles["SearchBoxEntities"]}>
-                              {t("IP")}
-                            </span>
-                          </>
-                        }
-                        applyClass={"SearchTextFiled"}
-                        width={"100%"}
-                        value={auditTrialSearch.IpAddress}
-                        iconclassname={"d-block"}
-                        placeholder={`${t("IP")}`}
-                        name={"IPAddress"}
-                        change={handeSearchBoxTextField}
-                      />
-                    </Col>
-                  </Row>
-                  <Row className="mt-2">
-                    <Col lg={6} md={6} sm={6}>
-                      <div className="d-flex flex-column flex-wrap  gap-1">
-                        <span className={styles["SearchBoxEntities"]}>
-                          {t("Login-date")}
-                        </span>
-
-                        <DatePicker
-                          format={"DD/MM/YYYY"}
-                          placeholder={t("Login-date")}
-                          value={auditTrialSearch.LoginDateView}
-                          render={
-                            <InputIcon
-                              placeholder={t("Date-from")}
-                              className={styles["UserLoginHistory_datePicker"]}
-                            />
-                          }
-                          editable={false}
-                          className="datePickerTodoCreate2"
-                          containerClassName={styles["datePicker_Container"]}
-                          onOpenPickNewDate={true}
-                          inputMode=""
-                          calendar={calendarValue}
-                          locale={localValue}
-                          onFocusedDateChange={handleChangeLoginDate}
-                        />
-                      </div>
-                    </Col>
-                    <Col lg={6} md={6} sm={6}>
-                      <div className="d-flex flex-column flex-wrap gap-1">
-                        <span className={styles["SearchBoxEntities"]}>
-                          {t("Logout-date")}
-                        </span>
-
-                        <DatePicker
-                          format={"DD/MM/YYYY"}
-                          placeholder={t("Logout-date")}
-                          value={auditTrialSearch.LogoutDateView}
-                          render={
-                            <InputIcon
-                              placeholder={t("Logout-date")}
-                              className={styles["UserLoginHistory_datePicker"]}
-                            />
-                          }
-                          editable={false}
-                          className="datePickerTodoCreate2"
-                          onOpenPickNewDate={true}
-                          containerClassName={styles["datePicker_Container"]}
-                          inputMode=""
-                          calendar={calendarValue}
-                          locale={localValue}
-                          onFocusedDateChange={handleChangeLogoutDate}
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row className="mt-2">
-                    <Col lg={6} md={6} sm={6}>
-                      <div className="d-flex flex-column flex-wrap gap-1">
-                        <span className={styles["SearchBoxEntities"]}>
-                          {t("Interface")}
-                        </span>
-                        <Select
-                          placeholder={t("Interface")}
-                          options={DeviceIdType}
-                          onChange={handleChangeInterface}
-                        />
-                      </div>
-                    </Col>
-                    <Col lg={6} md={6} sm={6}>
-                      <div className="d-flex flex-column flex-wrap gap-1">
-                        <span className={styles["SearchBoxEntities"]}>
-                          {t("Organization")}
-                        </span>
-                        <Select
-                          placeholder={t("Organization")}
-                          options={organization}
-                          value={
-                            selectOrganization.value !== 0
-                              ? selectOrganization
-                              : null
-                          }
-                          onChange={handleChangeOrganization}
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row className="mt-3">
-                    <Col
-                      lg={12}
-                      md={12}
-                      sm={12}
-                      className="d-flex justify-content-end gap-2 align-items-center"
-                    >
-                      <Button
-                        text={t("Reset")}
-                        className={styles["ResetBtn"]}
-                        onClick={handleResetButton}
-                      />
-                      <Button
-                        text={t("Search")}
-                        className={styles["SearchBtn"]}
-                        onClick={handleSearchAuditTrialListing}
-                      />
-                    </Col>
-                  </Row>
-                </span>
-              </>
-            )}
           </Col>
         </Row>
         <Row className="mt-2">
@@ -872,10 +872,7 @@ const AuditTrial = () => {
           </Col>
         </Row>
       </>
-      <ViewActionModal
-        viewActionModalDataState={viewActionModalDataState}
-        GetUserActionsAuditData={GetUserActionsAuditData}
-      />
+      <ViewActionModal viewActionModalDataState={viewActionModalDataState} />
     </Container>
   );
 };

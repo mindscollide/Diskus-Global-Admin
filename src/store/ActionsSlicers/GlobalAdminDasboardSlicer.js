@@ -652,7 +652,6 @@ const globalAdminDashboardReducer = createSlice({
       )
       .addCase(getOrganizationUserAuditActionsAPI.rejected, (state, action) => {
         state.getAuditActions = null;
-        state.Responsemessage = action.payload || "An error occurred";
         state.Responsemessage = action.payload || "";
       })
 

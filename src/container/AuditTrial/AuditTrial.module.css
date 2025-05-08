@@ -63,7 +63,8 @@ body[dir="rtl"] .searchbox_icon_userhistoryLogin {
 
 .SearchBoxAuditTrial {
   background: #fff !important;
-  width: 589px !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-height: 300px !important;
   border: 1px solid #e1e1e1 !important;
   position: absolute !important;
