@@ -162,16 +162,16 @@ body[dir="rtl"] .Search_Bar_icon_class {
 
 .SearchFieldCrossIcon {
   cursor: pointer;
-  top: 18.7%;
+  top: 57.7%;
   position: absolute;
   left: auto;
-  right: 5%;
+  right: 6%;
 }
 
 body[dir="rtl"] .SearchFieldCrossIcon {
   cursor: pointer;
-  top: 18.7%;
+  top: 58.7%;
   position: absolute;
-  left: 5% !important;
+  left: 6% !important;
   right: auto !important;
 }

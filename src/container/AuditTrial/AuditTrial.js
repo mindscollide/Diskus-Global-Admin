@@ -830,7 +830,7 @@ const AuditTrial = () => {
                   <InfiniteScroll
                     dataLength={auditTrialListingTableData.length}
                     next={handleScroll}
-                    height={"55vh"}
+                    height={"50vh"}
                     hasMore={
                       auditTrialListingTableData.length === totalRecords
                         ? false
