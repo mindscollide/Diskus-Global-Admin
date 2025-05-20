@@ -87,7 +87,7 @@ const ViewActionModal = ({ viewActionModalDataState }) => {
                   {t("User")}
                   {""}
                   <span>
-                    :{""}
+                    :&nbsp;
                     {viewActionModalDataState.userName}
                   </span>
                 </span>
@@ -97,7 +97,7 @@ const ViewActionModal = ({ viewActionModalDataState }) => {
                   {t("Interface")}
                   {""}
                   <span>
-                    :{""}{" "}
+                    :&nbsp;
                     {viewActionModalDataState.deviceID === "1"
                       ? "Web"
                       : viewActionModalDataState.deviceID === "2"
@@ -169,6 +169,18 @@ const ViewActionModal = ({ viewActionModalDataState }) => {
                       </Col>
                     </Row>
                   )}
+                  <span
+                    className={`
+                        ${styles["item-base"]}
+                        ${styles["item-border-top"]}
+                      `}
+                  >
+                    {`${AuditTrialDateTimeFunctionViewActionDetails(
+                      viewActionModalDataState.dateLogOut,
+                      locale
+                    )} – `}
+                    {t("Logged-out")}
+                  </span>
                 </div>
               </Col>
             </Row>
