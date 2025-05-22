@@ -496,6 +496,7 @@ const AuditTrial = () => {
     console.log(data, "handleSearchAuditTrialListing");
     console.log(typeof data.Username, "handleSearchAuditTrialListing");
     dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
+    setSearchBar(false);
   };
 
   //Handle Reset Button
