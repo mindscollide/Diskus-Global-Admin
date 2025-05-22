@@ -10,13 +10,14 @@ import Excelicon from "../../../assets/images/OutletImages/ExcelIcon.png";
 import { viewActionModalState } from "../../../store/ActionsSlicers/UIModalsActions";
 import { AuditTrialDateTimeFunctionViewActionDetails } from "../../../common/functions/dateFormatters";
 import { Button, Modal } from "../../../components/elements";
-const ViewActionModal = ({
-  viewActionModalDataState,
-  GetUserActionsAuditData,
-}) => {
+const ViewActionModal = ({ viewActionModalDataState }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const locale = localStorage.getItem("i18nextLng");
+  //Get Audit Action Data
+  const GetUserActionsAuditData = useSelector(
+    (state) => state.globalAdminDashboardReducer.getAuditActions
+  );
   const ModalReducer = useSelector((state) => state.modal);
 
   console.log(viewActionModalDataState, "viewActionModalDataState");
@@ -35,6 +36,8 @@ const ViewActionModal = ({
         setAuditActionsData(
           GetUserActionsAuditData.result.userLoginAuditActions
         );
+      } else {
+        setAuditActionsData([]);
       }
     } catch (error) {
       console.log("Error in fetching audit actions:", error);
@@ -84,7 +87,7 @@ const ViewActionModal = ({
                   {t("User")}
                   {""}
                   <span>
-                    :{""}
+                    :&nbsp;
                     {viewActionModalDataState.userName}
                   </span>
                 </span>
@@ -94,7 +97,7 @@ const ViewActionModal = ({
                   {t("Interface")}
                   {""}
                   <span>
-                    :{""}{" "}
+                    :&nbsp;
                     {viewActionModalDataState.deviceID === "1"
                       ? "Web"
                       : viewActionModalDataState.deviceID === "2"
@@ -166,6 +169,18 @@ const ViewActionModal = ({
                       </Col>
                     </Row>
                   )}
+                  <span
+                    className={`
+                        ${styles["item-base"]}
+                        ${styles["item-border-top"]}
+                      `}
+                  >
+                    {`${AuditTrialDateTimeFunctionViewActionDetails(
+                      viewActionModalDataState.dateLogOut,
+                      locale
+                    )} – `}
+                    {t("Logged-out")}
+                  </span>
                 </div>
               </Col>
             </Row>

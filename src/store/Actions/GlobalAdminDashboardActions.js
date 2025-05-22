@@ -3051,6 +3051,7 @@ export const getOrganizationUserAuditActionsAPI = createAsyncThunk(
                 "Audit_AuditServiceManager_GetUserAuditActions_02".toLowerCase()
               )
           ) {
+            dispatch(viewActionModalState(true));
             dispatch(globalAdminDashBoardLoader(false));
             return rejectWithValue("No Data available");
           } else if (
