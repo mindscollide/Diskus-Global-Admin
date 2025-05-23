@@ -814,7 +814,7 @@ const AuditTrial = () => {
                     rows={auditTrialListingTableData}
                     pagination={false}
                     footer={false}
-                    className="userlogin_history_tableP"
+                    className={"userlogin_history_tableP"}
                     size="small"
                     scroll={{ y: "49vh", x: "100%" }}
                   />
