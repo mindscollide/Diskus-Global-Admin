@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import Select from "react-select";
-import { LoadingOutlined } from "@ant-design/icons";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,9 +19,8 @@ import SearchIcon from "../../assets/images/OutletImages/searchicon.svg";
 import CrossIcon from "../../assets/images/NewElements/BlackCrossIconModals.svg";
 import DatePicker from "react-multi-date-picker";
 import { AuditTrialDateTimeFunction } from "../../common/functions/dateFormatters";
-import { Spin } from "antd";
-import InfiniteScroll from "react-infinite-scroll-component";
 import ViewActionModal from "./ViewActionModal/ViewActionModal";
+import { useTableScrollBottom } from "../../common/functions/useTableScrollBottom";
 const AuditTrial = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -125,19 +123,14 @@ const AuditTrial = () => {
         const newData = result.organizationUserAuditListingModel;
 
         if (isScroll) {
-          setIsScroll(false);
-
-          setAuditTrialListingTableData((prevData) => [
-            ...prevData,
-            ...newData,
-          ]);
-          setSRowsData((prev) => prev + newData.length);
+          setAuditTrialListingTableData((prev) => [...prev, ...newData]);
         } else {
           setAuditTrialListingTableData(newData);
-          setSRowsData(newData.length);
         }
 
+        setSRowsData((prev) => prev + newData.length);
         setTotalRecords(result.totalCount);
+        setIsScroll(false);
       } else {
         if (!isScroll) {
           setAuditTrialListingTableData([]);
@@ -329,38 +322,6 @@ const AuditTrial = () => {
       },
     },
   ];
-
-  //Handle Scroll Function
-  const handleScroll = async (e) => {
-    if (isRowsData <= totalRecords) {
-      setIsScroll(true);
-
-      let data = {
-        Username: "",
-        IpAddress: "",
-        DeviceID: "",
-        DateLogin: "",
-        DateLogOut: "",
-        OrganizationName: "",
-        sRow: Number(isRowsData),
-        Length: 10,
-      };
-
-      dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
-    } else {
-      setIsScroll(false);
-    }
-  };
-
-  //Spinner Styles in Lazy Loading
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 36,
-      }}
-      spin
-    />
-  );
 
   //Handle Search icon
   const handleSearchIcon = () => {
@@ -606,8 +567,65 @@ const AuditTrial = () => {
 
   //Search bar cross icon
   const handleCrossIcon = () => {
-    setSearchBar(false);
+    try {
+      let data = {
+        Username: "",
+        IpAddress: "",
+        DeviceID: "",
+        DateLogin: "",
+        DateLogOut: "",
+        OrganizationName: "",
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
+      setSearchBar(false);
+      setEnterPressedSearch(false);
+      setAuditTrialSearch({
+        ...auditTrialSearch,
+        userName: "",
+        IpAddress: "",
+        LoginDate: "",
+        LoginDateView: "",
+        LogoutDate: "",
+        LogoutDateView: "",
+        LogoutTime: "",
+        LogoutTimeView: "",
+        LoginTime: "",
+        LoginTimeView: "",
+        Interface: {
+          value: 0,
+          label: "",
+        },
+      });
+      setSelectOrganization({
+        value: 0,
+        label: "",
+      });
+    } catch (error) {
+      console.log(error, "errorerror");
+    }
   };
+
+  //Handle Scroll Function
+  useTableScrollBottom(async () => {
+    if (auditTrialListingTableData.length >= totalRecords) return;
+
+    setIsScroll(true);
+
+    const data = {
+      Username: "",
+      IpAddress: "",
+      DeviceID: "",
+      DateLogin: "",
+      DateLogOut: "",
+      OrganizationName: "",
+      sRow: isRowsData, // starting row
+      Length: 10,
+    };
+
+    await dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
+  });
 
   return (
     <Container fluid>
@@ -828,45 +846,15 @@ const AuditTrial = () => {
             <span className={styles["AuditTrial_Box"]}>
               <Row>
                 <Col lg={12} md={12} sm={12}>
-                  <InfiniteScroll
-                    dataLength={auditTrialListingTableData.length}
-                    next={handleScroll}
-                    height={"50vh"}
-                    hasMore={
-                      auditTrialListingTableData.length === totalRecords
-                        ? false
-                        : true
-                    }
-                    loader={
-                      isRowsData <= totalRecords && isScroll ? (
-                        <>
-                          <Row>
-                            <Col
-                              sm={12}
-                              md={12}
-                              lg={12}
-                              className="d-flex justify-content-center mt-2"
-                            >
-                              <Spin indicator={antIcon} />
-                            </Col>
-                          </Row>
-                        </>
-                      ) : null
-                    }
-                    scrollableTarget="scrollableDiv"
-                  >
-                    <Table
-                      column={AuditTrialColumns}
-                      rows={auditTrialListingTableData}
-                      pagination={false}
-                      footer={false}
-                      className={"userlogin_history_tableP"}
-                      size={"small"}
-                      scroll={{
-                        x: false,
-                      }}
-                    />
-                  </InfiniteScroll>
+                  <Table
+                    column={AuditTrialColumns}
+                    rows={auditTrialListingTableData}
+                    pagination={false}
+                    footer={false}
+                    className={"userlogin_history_tableP"}
+                    size="small"
+                    scroll={{ y: "49vh", x: "100%" }}
+                  />
                 </Col>
               </Row>
             </span>
