@@ -567,7 +567,44 @@ const AuditTrial = () => {
 
   //Search bar cross icon
   const handleCrossIcon = () => {
-    setSearchBar(false);
+    try {
+      let data = {
+        Username: "",
+        IpAddress: "",
+        DeviceID: "",
+        DateLogin: "",
+        DateLogOut: "",
+        OrganizationName: "",
+        sRow: 0,
+        Length: 10,
+      };
+      dispatch(getOrganizationUserAuditListingAPI({ data, navigate, t }));
+      setSearchBar(false);
+      setEnterPressedSearch(false);
+      setAuditTrialSearch({
+        ...auditTrialSearch,
+        userName: "",
+        IpAddress: "",
+        LoginDate: "",
+        LoginDateView: "",
+        LogoutDate: "",
+        LogoutDateView: "",
+        LogoutTime: "",
+        LogoutTimeView: "",
+        LoginTime: "",
+        LoginTimeView: "",
+        Interface: {
+          value: 0,
+          label: "",
+        },
+      });
+      setSelectOrganization({
+        value: 0,
+        label: "",
+      });
+    } catch (error) {
+      console.log(error, "errorerror");
+    }
   };
 
   //Handle Scroll Function
