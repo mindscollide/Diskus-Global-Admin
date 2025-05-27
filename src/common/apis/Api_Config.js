@@ -335,6 +335,11 @@ const ValidateEncryptedStringForOrganizationTrialEmailRM = {
   RequestMethod:
     "ServiceManager.ValidateEncryptedStringForOrganizationTrialEmail",
 };
+
+//Login History Blling Due Report
+const AuditTrialReport = {
+  RequestMethod: "ServiceManager.DownloadAuditReport",
+};
 export {
   loginAPi,
   passwordVerify,
@@ -406,4 +411,5 @@ export {
   searchAllTrailRejectedOrganizationsRM,
   UpdateOrganizationTrialRequestRM,
   ValidateEncryptedStringForOrganizationTrialEmailRM,
+  AuditTrialReport,
 };

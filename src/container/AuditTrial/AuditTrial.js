@@ -614,12 +614,14 @@ const AuditTrial = () => {
     setIsScroll(true);
 
     const data = {
-      Username: "",
-      IpAddress: "",
-      DeviceID: "",
-      DateLogin: "",
-      DateLogOut: "",
-      OrganizationName: "",
+      Username: auditTrialSearch.userName || auditTrialSearch.title || "",
+      IpAddress: auditTrialSearch.IpAddress || "",
+      DeviceID: auditTrialSearch.Interface?.value
+        ? String(auditTrialSearch.Interface.value)
+        : "",
+      DateLogin: auditTrialSearch.LoginDate || "",
+      DateLogOut: auditTrialSearch.LogoutDate || "",
+      OrganizationName: selectOrganization.label || "",
       sRow: isRowsData, // starting row
       Length: 10,
     };
