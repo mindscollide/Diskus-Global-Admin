@@ -57,7 +57,22 @@ const CurrentOrganization = ({
   isScroll,
   setIsFound,
   isFound,
+  SearchOrganizationName,
+  SearchOrganizationEmail,
+  SearchOrganizationDateFrom,
+  SearchOrganizationDateTo,
+  SearchOrganizationStatus,
 }) => {
+  console.log(
+    {
+      SearchOrganizationName,
+      SearchOrganizationEmail,
+      SearchOrganizationDateFrom,
+      SearchOrganizationDateTo,
+      SearchOrganizationStatus,
+    },
+    "SearchOrganizationStatus"
+  );
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -248,11 +263,11 @@ const CurrentOrganization = ({
     if (isRowsData <= totalRecords) {
       setIsScroll(true);
       let newData = {
-        OrganizationContactName: "",
-        OrganizationContactEmail: "",
-        OrganizationDateTo: "",
-        OrganizationDateFrom: "",
-        OrganizationSubscriptionStatus: 0,
+        OrganizationContactName: SearchOrganizationName,
+        OrganizationContactEmail: SearchOrganizationEmail,
+        OrganizationDateTo: SearchOrganizationDateFrom,
+        OrganizationDateFrom: SearchOrganizationDateTo,
+        OrganizationSubscriptionStatus: Number(SearchOrganizationStatus.value),
         OrganizationName: "",
         sRow: Number(isRowsData),
         eRow: 10,
