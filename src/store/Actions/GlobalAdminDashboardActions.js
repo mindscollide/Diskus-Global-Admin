@@ -1950,7 +1950,7 @@ export const getInvoiceHtmlApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "Admin_AdminServiceManager_GetInvoiceHtmlByOrganizationID_01".toLowerCase()
+                "Admin_AdminServiceManager_GetGlobalAdminInvoiceHtmlByOrganizationID_01".toLowerCase()
               )
           ) {
             setSendInvoiceData(data);
@@ -1968,7 +1968,7 @@ export const getInvoiceHtmlApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "Admin_AdminServiceManager_GetInvoiceHtmlByOrganizationID_02".toLowerCase()
+                "Admin_AdminServiceManager_GetGlobalAdminInvoiceHtmlByOrganizationID_02".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));

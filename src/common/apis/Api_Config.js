@@ -164,7 +164,7 @@ const downloadTrialReport = {
 
 // for getInvoiceHTMLbyorganizationID modal on sendInvoice Button
 const getInvoiceHtmlOrganization = {
-  RequestMethod: "ServiceManager.GetInvoiceHtmlByOrganizationID",
+  RequestMethod: "ServiceManager.GetGlobalAdminInvoiceHtmlByOrganizationID",
 };
 
 // for Get All Package Names in Essential, Professional and Premium dynamic tabs
