@@ -1,7 +1,7 @@
 import Paho from "paho-mqtt";
-import { useEffect } from "react";
 // import { setClient } from "../../store/actions/Auth2_actions";
 import Helper from "./historyLogout";
+import { decrypt } from "./Regex";
 let newClient;
 
 export const onConnected = (newClient, subscribeID) => {
@@ -18,33 +18,51 @@ export const onConnectionLost = (subscribeID) => {
 };
 
 export const mqttConnection = (subscribeID) => {
-  var min = 10000;
-  console.log("mqtt resquest ");
-  var max = 90000;
-  var id = min + Math.random() * (max - min);
+  try {
+    if (newClient && newClient.isConnected()) {
+      console.log("MQTT client already connected");
+      return;
+    }
 
-  newClient = new Paho.Client(
-    "192.168.18.241",
-    8228,
-    parseInt(subscribeID) + "-" + id
-  );
+    const min = 10000;
+    const max = 90000;
+    const id = min + Math.random() * (max - min);
+    const clientId = `${subscribeID}-${id}`;
+    // Construct the correct broker URL
 
-  var options = {
-    onSuccess: () => {
-      console.log("Connected to MQTT broker");
-      onConnected(newClient, subscribeID);
-    },
+    if (process.env.REACT_APP_ENV === "dev") {
+      newClient = new Paho.Client("192.168.18.243", 8228, clientId);
+    } else {
+      const brokerUrl = `wss://${process.env.REACT_APP_MQTT}:${process.env.REACT_APP_MQTT_PORT}/mqtt`;
 
-    onFailure: () => {
-      console.log("Connected to MQTT broker onFailedConnect");
-      setTimeout(onConnectionLost(subscribeID), 6000);
-    },
-    keepAliveInterval: 30,
-    reconnect: true, // Enable automatic reconnect
-    userName: process.env.REACT_APP_MQTT_User,
-    password: process.env.REACT_APP_MQTT_Pass,
-  };
-  newClient.connect(options);
-  Helper.socket = newClient;
-  //   setClient(newClient);
+      newClient = new Paho.Client(brokerUrl, clientId);
+    }
+    const options = {
+      onSuccess: () => {
+        console.log("Connected to MQTT broker");
+        onConnected(newClient, subscribeID);
+      },
+
+      onFailure: () => {
+        console.log("Connected to MQTT broker onFailedConnect");
+        setTimeout(onConnectionLost(subscribeID), 6000);
+      },
+      keepAliveInterval: 30,
+      reconnect: true, // Enable automatic reconnect
+      userName: decrypt(
+        process.env.REACT_APP_MQTT_User,
+        process.env.REACT_APP_SECERETKEY
+      ),
+      password: decrypt(
+        process.env.REACT_APP_MQTT_Pass,
+        process.env.REACT_APP_SECERETKEY
+      ),
+    };
+    newClient.connect(options);
+
+    Helper.socket = newClient;
+  } catch (error) {
+    console.log("Error checking MQTT client connection:", error);
+  }
+
 };

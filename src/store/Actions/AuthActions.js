@@ -15,6 +15,7 @@ import {
   getLastLanguageMainApi,
   setLastSelectedLanguageMainApi,
 } from "./LanguageActions";
+import { mqttConnection } from "../../common/functions/mqttConnection";
 
 const logoutChannel = new BroadcastChannel("logout");
 //Email Verification
@@ -182,6 +183,7 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_04".toLowerCase()
               )
           ) {
+            mqttConnection(response.data.responseResult.authToken.userID);
             localStorage.setItem(
               "token",
               response.data.responseResult.authToken.token
@@ -219,7 +221,7 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_05".toLowerCase()
               )
           ) {
-            console.log(response.data.responseResult, "includesincludes");
+            mqttConnection(response.data.responseResult.authToken.userID);
             localStorage.setItem(
               "userEmail",
               response.data.responseResult.authToken.userName
