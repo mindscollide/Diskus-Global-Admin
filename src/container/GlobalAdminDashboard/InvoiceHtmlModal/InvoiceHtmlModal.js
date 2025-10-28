@@ -43,6 +43,7 @@ const InvoiceHtmlModal = ({
   return (
     <Modal
       show={ModalReducer.htmlInvoiceModal}
+      modalHeaderClassName={"d-none"} 
       htmlCode={invoiceHtml}
       size={"xl"}
       modalBodyClassName={styles["InvocieHTMLPreview"]}
