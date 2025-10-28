@@ -44,37 +44,6 @@ const TrailRequest = ({ currentTab, setCurrentTab, setIsScroll, isScroll }) => {
     "trailRequestDatatrailRequestData"
   );
 
-  //Calling Organization Api
-  useEffect(() => {
-    let newData = {
-      OrganizationName: "",
-      ContactPersonName: "",
-      ContactPersonEmail: "",
-      DateTimeTo: "",
-      DateTimeFrom: "",
-      SkipRows: 0,
-      Length: 10,
-    };
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
-
-    return () => {
-      // setSearchOrganizationData({
-      //   OrganizationContactName: "",
-      //   OrganizationContactEmail: "",
-      //   OrganizationDateFrom: "",
-      //   OrganizationDateTo: "",
-      //   OrganizationName: "",
-      //   OrganizationSubscriptionStatus: {
-      //     value: 0,
-      //     label: "",
-      //   },
-      //   OrganizationDateToView: "",
-      //   OrganizationDateFromView: "",
-      // });
-    };
-  }, []);
-
   useEffect(() => {
     try {
       if (

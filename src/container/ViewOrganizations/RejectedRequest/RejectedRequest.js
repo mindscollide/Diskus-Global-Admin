@@ -42,36 +42,7 @@ const RejectedRequest = ({
   const [totalRecords, setTotalRecords] = useState(0);
   const [rejectedRequestData, setRejectedRequestData] = useState([]);
 
-  //Calling Organization Api
-  useEffect(() => {
-    let newData = {
-      OrganizationName: "",
-      ContactPersonName: "",
-      ContactPersonEmail: "",
-      DateTimeTo: "",
-      DateTimeFrom: "",
-      SkipRows: 0,
-      Length: 10,
-    };
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
 
-    return () => {
-      // setSearchOrganizationData({
-      //   OrganizationContactName: "",
-      //   OrganizationContactEmail: "",
-      //   OrganizationDateFrom: "",
-      //   OrganizationDateTo: "",
-      //   OrganizationName: "",
-      //   OrganizationSubscriptionStatus: {
-      //     value: 0,
-      //     label: "",
-      //   },
-      //   OrganizationDateToView: "",
-      //   OrganizationDateFromView: "",
-      // });
-    };
-  }, []);
 
   useEffect(() => {
     try {

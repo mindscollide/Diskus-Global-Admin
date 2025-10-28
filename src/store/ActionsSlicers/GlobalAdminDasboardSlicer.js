@@ -641,7 +641,7 @@ const globalAdminDashboardReducer = createSlice({
 
       //Get All Organization Audit Actions
       .addCase(getOrganizationUserAuditActionsAPI.pending, (state) => {
-        // state.loading = true;
+        state.loading = true;
       })
       .addCase(
         getOrganizationUserAuditActionsAPI.fulfilled,

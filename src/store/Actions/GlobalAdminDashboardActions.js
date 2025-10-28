@@ -53,6 +53,7 @@ import {
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
+  ChangePasswordModalOpen,
   dashboardSendInvoiceOpenModal,
   htmlInvoiceModalOpen,
   trialRenewOpenModal,
@@ -978,6 +979,8 @@ export const ChangePasswordApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_01".toLowerCase()
               )
           ) {
+            dispatch(ChangePasswordModalOpen(false));
+
             dispatch(globalAdminDashBoardLoader(false));
             try {
               return {
@@ -2998,6 +3001,7 @@ export const getOrganizationUserAuditListingAPI = createAsyncThunk(
       } else {
         dispatch(globalAdminDashBoardLoader(false));
         return rejectWithValue("Something-went-wrong");
+    dispatch(ChangePasswordModalOpen(false));
       }
     } catch (error) {
       return rejectWithValue("Something-went-wrong");

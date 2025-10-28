@@ -174,22 +174,6 @@ const CurrentOrganization = ({
     }
   }, [Responsemessage]);
 
-  //Calling Organization Api
-  useEffect(() => {
-    let newData = {
-      OrganizationContactName: "",
-      OrganizationContactEmail: "",
-      OrganizationDateTo: "",
-      OrganizationDateFrom: "",
-      OrganizationSubscriptionStatus: 0,
-      OrganizationName: "",
-      sRow: 0,
-      eRow: 10,
-    };
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
-    return () => {};
-  }, []);
 
   // useEffect for dropdown select organization Names
   useEffect(() => {
@@ -697,6 +681,10 @@ const CurrentOrganization = ({
         editSubscriptionName={editSubscriptionName}
         setShowSearchText={setShowSearchText}
         setUserNameSearch={setUserNameSearch}
+        SearchOrganizationStatus={SearchOrganizationStatus}
+        showsearchText={showsearchText}
+        userNameSearch={userNameSearch}
+
       />
 
       <EditSubscriptionModals
@@ -709,6 +697,9 @@ const CurrentOrganization = ({
         editSubModal={editSubModal}
         setShowSearchText={setShowSearchText}
         setUserNameSearch={setUserNameSearch}
+        showsearchText={showsearchText}
+        userNameSearch={userNameSearch}
+        SearchOrganizationStatus={SearchOrganizationStatus}
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
 
