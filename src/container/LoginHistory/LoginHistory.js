@@ -39,8 +39,6 @@ import {
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Spin } from "antd";
 import { loginHistoryLoader } from "../../store/ActionsSlicers/LoginHistorySlicer";
-import { viewOrganizationLoader } from "../../store/ActionsSlicers/ViewOrganizationActionSlicer";
-import { getAllOrganizationApi } from "../../store/Actions/ViewOrganizationActions";
 import { getAllOrganizationNameMainApi } from "../../store/Actions/GlobalAdminDashboardActions";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 

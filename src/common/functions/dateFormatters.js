@@ -275,7 +275,67 @@ export const convertUTCDateToLocalDateView = (utcDateTime, locale) => {
   }
 };
 
-// to show date in MMM dd, yyyy HH:mm AM/PM
+//Audit trial function
+export const AuditTrialDateTimeFunction = (dateTime, locale = "en") => {
+  console.log({ dateTime, locale }, "localelocale");
+  if (!dateTime || dateTime.length !== 14) return "";
+
+  // Construct ISO datetime string
+  let isoString =
+    dateTime.slice(0, 4) +
+    "-" +
+    dateTime.slice(4, 6) +
+    "-" +
+    dateTime.slice(6, 8) +
+    "T" +
+    dateTime.slice(8, 10) +
+    ":" +
+    dateTime.slice(10, 12) +
+    ":" +
+    dateTime.slice(12, 14) +
+    "Z";
+
+  const momentObj = moment(isoString).locale(locale);
+
+  if (locale === "en") {
+    return momentObj.format("hh:mm A - Do MMMM, YYYY");
+  } else if (locale === "ar") {
+    return momentObj.format("hh:mm A - Do MMMM, YYYY");
+  } else {
+    return momentObj.format("hh:mm A - Do MMMM, YYYY");
+  }
+};
+
+export const AuditTrialDateTimeFunctionViewActionDetails = (
+  dateTime,
+  locale = "en"
+) => {
+  console.log({ dateTime, locale }, "localelocale");
+
+  if (!dateTime || dateTime.length !== 14) return "";
+
+  // Construct ISO datetime string
+  let isoString =
+    dateTime.slice(0, 4) +
+    "-" +
+    dateTime.slice(4, 6) +
+    "-" +
+    dateTime.slice(6, 8) +
+    "T" +
+    dateTime.slice(8, 10) +
+    ":" +
+    dateTime.slice(10, 12) +
+    ":" +
+    dateTime.slice(12, 14) +
+    "Z";
+
+  const momentObj = moment(isoString).locale(locale);
+
+  // Format: YYYY-MM-DD | hh:mm A
+  return momentObj.format("YYYY-MM-DD | hh:mm A");
+  // to show date in MMM dd, yyyy HH:mm AM/PM
+};
+
 export const newDateForLoginUserHistory = (dateTime) => {
   console.log(dateTime, "newDateForLoginUserHistory");
   let fullDateyear =

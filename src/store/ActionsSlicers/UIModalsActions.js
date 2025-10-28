@@ -18,6 +18,7 @@ const initialState = {
   createPackageModal: false,
   packageDeleteModal: false,
   htmlInvoiceModal: false,
+  viewActionModalState: false,
 };
 
 export const modalSlice = createSlice({
@@ -92,6 +93,11 @@ export const modalSlice = createSlice({
     htmlInvoiceModalOpen: (state, { payload }) => {
       state.htmlInvoiceModal = payload;
     },
+
+    // to open html Invoice modal
+    viewActionModalState: (state, { payload }) => {
+      state.viewActionModalState = payload;
+    },
   },
 });
 
@@ -112,6 +118,7 @@ export const {
   packageCreateOpenModal,
   deletePackageOpenModal,
   htmlInvoiceModalOpen,
+  viewActionModalState,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

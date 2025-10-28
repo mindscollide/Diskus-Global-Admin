@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  AuditTrialReportApi,
   LoginHistoryAPI,
   LogingHistoryReportApi,
 } from "../Actions/LoginHistoryActions";
@@ -42,6 +43,17 @@ const loginHistorySlice = createSlice({
         state.Responsemessage = "Success";
       })
       .addCase(LogingHistoryReportApi.rejected, (state, action) => {
+        state.Responsemessage = action.payload || "";
+      })
+
+      //Audit Trial Report
+      .addCase(AuditTrialReportApi.pending, (state) => {
+        // state.loading = false;
+      })
+      .addCase(AuditTrialReportApi.fulfilled, (state, action) => {
+        state.Responsemessage = "Success";
+      })
+      .addCase(AuditTrialReportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
       });
   },

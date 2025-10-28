@@ -7,7 +7,6 @@ import {
   TextField,
 } from "../../../components/elements";
 import { UpOutlined } from "@ant-design/icons";
-import { ChevronDown } from "react-bootstrap-icons";
 import { useTranslation } from "react-i18next";
 import { Col, Container, Row } from "react-bootstrap";
 import DatePicker, { DateObject } from "react-multi-date-picker";
@@ -58,7 +57,22 @@ const CurrentOrganization = ({
   isScroll,
   setIsFound,
   isFound,
+  SearchOrganizationName,
+  SearchOrganizationEmail,
+  SearchOrganizationDateFrom,
+  SearchOrganizationDateTo,
+  SearchOrganizationStatus,
 }) => {
+  console.log(
+    {
+      SearchOrganizationName,
+      SearchOrganizationEmail,
+      SearchOrganizationDateFrom,
+      SearchOrganizationDateTo,
+      SearchOrganizationStatus,
+    },
+    "SearchOrganizationStatus"
+  );
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -249,11 +263,11 @@ const CurrentOrganization = ({
     if (isRowsData <= totalRecords) {
       setIsScroll(true);
       let newData = {
-        OrganizationContactName: "",
-        OrganizationContactEmail: "",
-        OrganizationDateTo: "",
-        OrganizationDateFrom: "",
-        OrganizationSubscriptionStatus: 0,
+        OrganizationContactName: SearchOrganizationName,
+        OrganizationContactEmail: SearchOrganizationEmail,
+        OrganizationDateTo: SearchOrganizationDateFrom,
+        OrganizationDateFrom: SearchOrganizationDateTo,
+        OrganizationSubscriptionStatus: Number(SearchOrganizationStatus.value),
         OrganizationName: "",
         sRow: Number(isRowsData),
         eRow: 10,
@@ -275,7 +289,7 @@ const CurrentOrganization = ({
       render: (text, record) => {
         return (
           <>
-            <span className='inner-sub-Heading-insidetable'>
+            <span className="inner-sub-Heading-insidetable">
               {text &&
                 convertUTCDateToLocalDate(text + "201320", currentLanguage)}
             </span>
@@ -292,7 +306,7 @@ const CurrentOrganization = ({
         console.log(record, "recordrecord");
         return (
           <>
-            <span className='inner-sub-Heading-insidetable'>
+            <span className="inner-sub-Heading-insidetable">
               {text &&
                 convertUTCDateToLocalDate(text + "201320", currentLanguage)}
             </span>
@@ -310,37 +324,37 @@ const CurrentOrganization = ({
           <>
             {record.fK_TenureOfSubscriptionID === 1 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Annual")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 2 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Monthly")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 3 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Quarterly")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 4 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("HalfYearly")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 5 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Trial")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 6 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Trial-extended")}
                 </span>
               </>
@@ -359,37 +373,37 @@ const CurrentOrganization = ({
           <>
             {record.fK_SubscriptionStatusID === 1 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Active")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 2 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("In-active")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 3 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Suspended")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 4 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Closed")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 5 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Termination-requested")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 6 ? (
               <>
-                <span className='inner-sub-Heading-insidetable'>
+                <span className="inner-sub-Heading-insidetable">
                   {t("Cancelled")}
                 </span>
               </>
@@ -407,7 +421,7 @@ const CurrentOrganization = ({
         return (
           <>
             <Button
-              className='update-button'
+              className="update-button"
               text={t("Update-subscription")}
               onClick={() => handleEditSubscriptionModal(record)}
             />
@@ -428,8 +442,9 @@ const CurrentOrganization = ({
       render: (text, record) => (
         <>
           <span
-            className='inner-organization-heading-view-modal'
-            onClick={() => handlerViewOrganizer(record)}>
+            className="inner-organization-heading-view-modal"
+            onClick={() => handlerViewOrganizer(record)}
+          >
             {text}
           </span>
         </>
@@ -442,7 +457,7 @@ const CurrentOrganization = ({
       className: "class-main-headerColumn",
       render: (text, record) => (
         <>
-          <span className='inner-sub-Heading'>{text}</span>
+          <span className="inner-sub-Heading">{text}</span>
         </>
       ),
     },
@@ -455,9 +470,9 @@ const CurrentOrganization = ({
         const countryCode = record.mobileCode;
         return (
           <>
-            <span className='d-flex gap-2'>
+            <span className="d-flex gap-2">
               <FlagCountryName countryCode={countryCode} />
-              <span className='inner-sub-Heading'>{text}</span>
+              <span className="inner-sub-Heading">{text}</span>
             </span>
           </>
         );
@@ -473,37 +488,37 @@ const CurrentOrganization = ({
           <>
             {record.organizationStatus === 1 ? (
               <>
-                <span className='inner-sub-Heading'>{t("Active")}</span>
+                <span className="inner-sub-Heading">{t("Active")}</span>
               </>
             ) : record.organizationStatus === 2 ? (
               <>
-                <span className='inner-sub-Heading'>{t("In-active")}</span>
+                <span className="inner-sub-Heading">{t("In-active")}</span>
               </>
             ) : record.organizationStatus === 3 ? (
               <>
-                <span className='inner-sub-Heading'>{t("Suspended")}</span>
+                <span className="inner-sub-Heading">{t("Suspended")}</span>
               </>
             ) : record.organizationStatus === 4 ? (
               <>
-                <span className='inner-sub-Heading'>{t("Closed")}</span>
+                <span className="inner-sub-Heading">{t("Closed")}</span>
               </>
             ) : record.organizationStatus === 5 ? (
               <>
-                <span className='inner-sub-Heading'>
+                <span className="inner-sub-Heading">
                   {t("Termination-requested")}
                 </span>
               </>
             ) : record.organizationStatus === 6 ? (
               <>
-                <span className='inner-sub-Heading'>{t("Deleted")}</span>
+                <span className="inner-sub-Heading">{t("Deleted")}</span>
               </>
             ) : record.organizationStatus === 7 ? (
               <>
-                <span className='inner-sub-Heading'>{t("Archived")}</span>
+                <span className="inner-sub-Heading">{t("Archived")}</span>
               </>
             ) : record.organizationStatus === 8 ? (
               <>
-                <span className='inner-sub-Heading'>
+                <span className="inner-sub-Heading">
                   {t("Locked-by-global-admin")}
                 </span>
               </>
@@ -521,7 +536,7 @@ const CurrentOrganization = ({
         return (
           <>
             <Button
-              className='update-button'
+              className="update-button"
               text={t("Edit-organization")}
               onClick={() => handleEditOrganizationModal(record)}
             />
@@ -578,7 +593,7 @@ const CurrentOrganization = ({
         <Col lg={12} md={12} sm={12}>
           {isFound === false ? (
             <>
-              <section className='emptyState'>
+              <section className="emptyState">
                 <img src={EmptyState} />
                 <span>{t("No-match-found")}</span>
               </section>
@@ -600,27 +615,30 @@ const CurrentOrganization = ({
                         sm={12}
                         md={12}
                         lg={12}
-                        className='d-flex justify-content-center mt-2'>
+                        className="d-flex justify-content-center mt-2"
+                      >
                         <Spin />
                       </Col>
                     </Row>
                   ) : null
-                }>
+                }
+              >
                 {viewOrganizationData.map((org) => (
                   <Collapse
                     key={org.organizationId}
                     bordered={false}
-                    expandIconPosition='end'
+                    expandIconPosition="end"
                     expandIcon={({ isActive }) => (
                       <UpOutlined
-                        className='custom-icon'
+                        className="custom-icon"
                         rotate={isActive ? 180 : 0}
                       />
                     )}
-                    className='organization-collapse'>
+                    className="organization-collapse"
+                  >
                     <Panel
                       key={org.organizationId}
-                      className='Panel-Class'
+                      className="Panel-Class"
                       header={
                         <>
                           <div onClick={(e) => e.stopPropagation()}>
@@ -628,11 +646,12 @@ const CurrentOrganization = ({
                               rows={[org]}
                               column={headerColumn}
                               pagination={false}
-                              className='custom-table'
+                              className="custom-table"
                             />
                           </div>
                         </>
-                      }>
+                      }
+                    >
                       <div onClick={(e) => e.stopPropagation()}>
                         <Table
                           rows={viewOrganizationInsideData.filter(
@@ -640,7 +659,7 @@ const CurrentOrganization = ({
                           )}
                           column={columns}
                           pagination={false}
-                          className='custom-table'
+                          className="custom-table"
                         />
                       </div>
                     </Panel>
@@ -650,19 +669,20 @@ const CurrentOrganization = ({
             </>
           ) : (
             <>
-              <Row className='mt-5'>
+              <Row className="mt-5">
                 <Col
                   lg={12}
                   md={12}
                   sm={12}
-                  className='view-organization-section'>
+                  className="view-organization-section"
+                >
                   <img
                     src={NoOrganizationIcon}
                     width={"110px"}
-                    alt='View Organization'
+                    alt="View Organization"
                   />
 
-                  <span className='Main-Title-ViewOrganization'>
+                  <span className="Main-Title-ViewOrganization">
                     {t("No-View-Organization")}
                   </span>
                 </Col>

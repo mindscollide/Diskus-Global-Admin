@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { billingDueReport, loginHistory } from "../../common/apis/Api_Config";
+import {
+  AuditTrialReport,
+  billingDueReport,
+  loginHistory,
+} from "../../common/apis/Api_Config";
 import { adminURL, excelURL } from "../../common/apis/Api_endPoints";
 import { loginHistoryLoader } from "../ActionsSlicers/LoginHistorySlicer";
 
@@ -116,6 +120,54 @@ export const LogingHistoryReportApi = createAsyncThunk(
         const link = document.createElement("a");
         link.href = url;
         link.setAttribute("download", "download-security-reports.xlsx");
+        document.body.appendChild(link);
+        link.click();
+
+        // Dispatch action to update loading state or handle other logic
+        dispatch(loginHistoryLoader(false));
+      } else {
+        // Handle other status codes if needed
+        return rejectWithValue("Error downloading file");
+      }
+    } catch (error) {
+      // Handle errors
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Audit Trial Report
+export const AuditTrialReportApi = createAsyncThunk(
+  "AuditTrialReportApi/AuditTrialReportApi",
+  async (requestData, { rejectWithValue, dispatch }) => {
+    try {
+      let token = localStorage.getItem("token");
+      let { data } = requestData;
+      let form = new FormData();
+      form.append("RequestMethod", AuditTrialReport.RequestMethod);
+      form.append("RequestData", JSON.stringify(data));
+
+      const response = await axios({
+        method: "post",
+        url: excelURL,
+        data: form,
+        headers: {
+          _token: token,
+          "Content-Disposition": "attachment; filename=template.xlsx",
+          "Content-Type":
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+        responseType: "blob",
+      });
+
+      if (response.status === 200) {
+        // Create a temporary URL for the blob data
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Create a link element and simulate a click to trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "AuditTrialReport.xlsx");
         document.body.appendChild(link);
         link.click();
 
