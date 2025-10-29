@@ -1,16 +1,16 @@
-const baseURL = "http://192.168.18.243";
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 //Services EndPoints
-const serviceAutheticationURL = ":11001/ERM_Auth";
+const serviceAutheticationURL = process.env.REACT_APP_AUTH_API;
 
 //Admin Endpoint
-const adminApi = ":11009/Admin";
+const adminApi = process.env.REACT_APP_ADMIN_API;
 
 //Audit Endpoint
-const auditApi = ":11023/Audit";
+const auditApi = process.env.REACT_APP_AUDIT_API;
 
 //Excel Report
-const excelReport = ":11020/ExcelReport";
+const excelReport = process.env.REACT_APP_REPORT_DOWNLOAD_API;
 
 //Services URL
 
@@ -25,6 +25,5 @@ const auditURL = baseURL + auditApi;
 
 //Excel Report URL
 const excelURL = baseURL + excelReport;
-//const excelURL = "http://localhost:9004/ExcelReport";
 
 export { authenticationURL, adminURL, excelURL, auditURL };
