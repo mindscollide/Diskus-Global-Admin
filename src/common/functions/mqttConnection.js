@@ -2,6 +2,7 @@ import Paho from "paho-mqtt";
 // import { setClient } from "../../store/actions/Auth2_actions";
 import Helper from "./historyLogout";
 import { decrypt } from "./Regex";
+import { setClient } from "../../store/ActionsSlicers/RealtimeSlicer";
 let newClient;
 
 export const onConnected = (newClient, subscribeID) => {
@@ -17,7 +18,7 @@ export const onConnectionLost = (subscribeID) => {
   setTimeout(mqttConnection(subscribeID), 3000);
 };
 
-export const mqttConnection = (subscribeID) => {
+export const mqttConnection = (subscribeID, dispatch) => {
   try {
     if (newClient && newClient.isConnected()) {
       console.log("MQTT client already connected");
@@ -61,8 +62,14 @@ export const mqttConnection = (subscribeID) => {
     newClient.connect(options);
 
     Helper.socket = newClient;
+
+    dispatch(
+      setClient({
+        clientId: newClient.clientId,
+        isConnected: newClient.isConnected(),
+      })
+    );
   } catch (error) {
     console.log("Error checking MQTT client connection:", error);
   }
-
 };

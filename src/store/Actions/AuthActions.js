@@ -126,7 +126,7 @@ export const enterEmailValidation = createAsyncThunk(
 //password Verification
 export const PasswordVerificationApi = createAsyncThunk(
   "Auth/PasswordValidation",
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { rejectWithValue, dispatch }) => {
     let { password, navigate, t } = requestData;
     console.log(navigate, "PasswordValidationPasswordValidation");
     let userID = localStorage.getItem("userID");
@@ -183,7 +183,10 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_04".toLowerCase()
               )
           ) {
-            mqttConnection(response.data.responseResult.authToken.userID);
+            mqttConnection(
+              response.data.responseResult.authToken.userID,
+              dispatch
+            );
             localStorage.setItem(
               "token",
               response.data.responseResult.authToken.token
@@ -221,7 +224,10 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_05".toLowerCase()
               )
           ) {
-            mqttConnection(response.data.responseResult.authToken.userID);
+            mqttConnection(
+              response.data.responseResult.authToken.userID,
+              dispatch
+            );
             localStorage.setItem(
               "userEmail",
               response.data.responseResult.authToken.userName
