@@ -340,6 +340,7 @@ const ValidateEncryptedStringForOrganizationTrialEmailRM = {
 const AuditTrialReport = {
   RequestMethod: "ServiceManager.DownloadAuditReport",
 };
+
 export {
   loginAPi,
   passwordVerify,

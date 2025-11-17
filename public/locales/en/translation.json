@@ -58,9 +58,7 @@
   "Sign-in": "Sign In",
   "Enter-password": "Enter password",
   "Remember-password": "Remember Password",
-  "Securing-your-session-one-step-at-a-time": "Securing your session one step at a time",
-  "Deploying-multiple-encryption-layers": "Deploying multiple encryption layers",
-  "Obfuscating-network": "Obfuscating network",
+
   "Export-to-excel": "Export To Excel",
   "Organization": "Organization",
   "User-level-configurations": "User Level Configurations",
@@ -365,5 +363,22 @@
   "This-page-could-not-be-found": "This page could not be found",
   "Search-organizations": "Search Organizations",
   "No-match-found": "No Match Found",
-  "No-activity": "No Activity"
+  "No-activity": "No Activity",
+  "Securing-your-session-one-step-at-a-time": "Securing your session one step at a time",
+  "Deploying-multiple-encryption-layers": "Deploying multiple encryption layers",
+  "Obfuscating-network": "Obfuscating network",
+  "Containing-&-encrypting-network": "Containing & encrypting network",
+  "Securing-your-data": "Securing your data",
+  "Generating-new-key-for-security": "Generating new key for security",
+  "Encrypting-your-data": "Encrypting your data",
+  "Authenticating-your-credentials": "Authenticating your credentials",
+  "Generating-secure-token": "Generating secure token",
+  "Authenticating-identity": "Authenticating identity",
+  "Authenticating-identity-&-encrypting-network": "Authenticating Identity & Encrypting Network",
+  "Welcome-to-the-admin-panel-your-trusted-control-center": "Welcome to the Admin Panel, Your Trusted Control Center.",
+  "Protecting-your-data-during-onboarding": "Protecting Your Data During Onboarding",
+  "Protecting-your-data": "Protecting Your Data",
+  "Advanced-data-protection-in-progress": " Advanced Data Protection in Progress",
+  "Securing-your-data-please-wait": "Securing Your Data, Please Wait."
+
 }

@@ -21,15 +21,12 @@ const Loader = () => {
     t("Authenticating-your-credentials"),
     t("Generating-secure-token"),
     t("Authenticating-identity"),
-    t("Authenticating-your-credentials"),
-    t("Containing-&-encrypting-network"),
     t("Authenticating-identity-&-encrypting-network"),
     t("Welcome-to-the-admin-panel-your-trusted-control-center"),
     t("Protecting-your-data-during-onboarding"),
     t("Protecting-your-data"),
     t("Advanced-data-protection-in-progress"),
     t("Securing-your-data-please-wait"),
-    t("Downloading-file"),
   ];
 
   const [randomIndex, setRandomIndex] = useState(0);
@@ -52,15 +49,15 @@ const Loader = () => {
   }, []);
 
   return (
-    <Container className={styles["main-container"]} data-tut="welcomescreen">
+    <Container className={styles["main-container"]} data-tut='welcomescreen'>
       <Row className={styles["overlay-box"]}>
         <Col className={styles["overlay"]}></Col>
         <Col className={styles["overlay-content"]}>
           <img
             src={DikusGIF}
             className={styles["LoadderImageclass"]}
-            alt="My GIF Icon"
-            draggable="false"
+            alt='My GIF Icon'
+            draggable='false'
           />
         </Col>
       </Row>
