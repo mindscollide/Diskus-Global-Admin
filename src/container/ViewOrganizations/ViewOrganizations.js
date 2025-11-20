@@ -31,8 +31,11 @@ import {
 import CurrenrOrganization from "./CurrentOrganizations/CurrentOrganizations";
 import TrailRequest from "./TrailRequest/TrailRequest";
 import RejectedRequest from "./RejectedRequest/RejectedRequest";
+import { useViewOrganization } from "../../context/viewOrganizations";
 
 const ViewOrganization = () => {
+  const {searchOrganizationData,setSearchOrganizationData, setShowSearchText, showsearchText } = useViewOrganization()
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,7 +64,6 @@ const ViewOrganization = () => {
   const [organization, setOrganization] = useState([]);
 
   // states for search
-  const [showsearchText, setShowSearchText] = useState(false);
   const [isFound, setIsFound] = useState(true);
   const [isScroll, setIsScroll] = useState(false);
   const [calendarValue, setCalendarValue] = useState(gregorian);
@@ -75,20 +77,7 @@ const ViewOrganization = () => {
     severity: "none",
   });
 
-  // search Organizer State
-  const [searchOrganizationData, setSearchOrganizationData] = useState({
-    OrganizationContactName: "",
-    OrganizationContactEmail: "",
-    OrganizationDateFrom: "",
-    OrganizationDateTo: "",
-    OrganizationName: "",
-    OrganizationSubscriptionStatus: {
-      value: 0,
-      label: "",
-    },
-    OrganizationDateToView: "",
-    OrganizationDateFromView: "",
-  });
+
   console.log(
     { searchOrganizationData, showsearchText },
     "showsearchTextshowsearchText"
@@ -98,7 +87,6 @@ const ViewOrganization = () => {
       Responsemessage !== "" &&
       Responsemessage !== t("No-data-available") &&
       Responsemessage !== "Success" &&
-      Responsemessage !== t("Something-went-wrong") &&
       Responsemessage !== "No Data available"
     ) {
       setOpenNotification({
@@ -524,7 +512,6 @@ const ViewOrganization = () => {
       ...searchOrganizationData,
       OrganizationName: e.target.value.trimStart(),
     });
-    // setUserNameSearch(e.target.value.trimStart());
   };
 
   const handleKeyDownSearch = (e) => {

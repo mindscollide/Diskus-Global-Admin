@@ -184,7 +184,7 @@ export const EditOrganizationAPI = createAsyncThunk(
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
     console.log(requestData, "requestDatarequestData");
-    let { data, navigate, t } = requestData;
+    let { data, navigate, t, setSearchOrganizationData , setShowSearchText} = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", editOrganization.RequestMethod);
@@ -209,6 +209,20 @@ export const EditOrganizationAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationStatus_01".toLowerCase()
               )
           ) {
+            setSearchOrganizationData({
+              OrganizationContactName: "",
+              OrganizationContactEmail: "",
+              OrganizationDateFrom: "",
+              OrganizationDateTo: "",
+              OrganizationName: "",
+              OrganizationSubscriptionStatus: {
+                value: 0,
+                label: "",
+              },
+              OrganizationDateToView: "",
+              OrganizationDateFromView: "",
+            });
+            setShowSearchText(false)
             let newData = {
               OrganizationContactName: "",
               OrganizationContactEmail: "",
@@ -310,7 +324,6 @@ export const getAllOrganizationApi = createAsyncThunk(
             } catch (error) {
               console.log(error);
             }
-   
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()

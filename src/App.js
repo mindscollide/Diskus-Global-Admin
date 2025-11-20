@@ -22,7 +22,8 @@ import "@fontsource/ibm-plex-sans-arabic/600.css";
 import "@fontsource/ibm-plex-sans-arabic/700.css";
 import { router } from "./routes/routes";
 function App() {
-  return <RouterProvider router={router} />;
+  console.log("App component rendered");
+  return ;
 }
 
 export default App;
