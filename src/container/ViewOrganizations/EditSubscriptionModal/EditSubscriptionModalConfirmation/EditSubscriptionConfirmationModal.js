@@ -8,12 +8,16 @@ import { Col, Row } from "react-bootstrap";
 import { viewOrganizationLoader } from "../../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
 import { EditSubscriptionAPI } from "../../../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
+import { useViewOrganization } from "../../../../context/viewOrganizations";
 const EditSubscriptionConfirmationModal = ({
   subsciptionStatus,
   editSubscriptionOrgID,
-  setShowSearchText,
-  setUserNameSearch,
 }) => {
+  const {
+    setSearchOrganizationData,
+    setShowSearchText,
+    setUserNameSearch,
+  } = useViewOrganization();
   const ModalReducer = useSelector((state) => state.modal);
   console.log(
     { editSubscriptionOrgID, subsciptionStatus },
@@ -46,7 +50,7 @@ const EditSubscriptionConfirmationModal = ({
       SubscriptionStatusID: Number(subsciptionStatus),
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(EditSubscriptionAPI({ data, navigate, t }));
+    dispatch(EditSubscriptionAPI({ data, navigate, t, setUserNameSearch, setShowSearchText, setSearchOrganizationData }));
     setShowSearchText(false);
     setUserNameSearch("");
     dispatch(editSubscriptionConfirmationModalOpen(false));

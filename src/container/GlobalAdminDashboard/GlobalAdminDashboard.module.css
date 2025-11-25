@@ -84,8 +84,11 @@ body[dir="rtl"] .BillingDueHeading {
 }
 
 .dropdown_list {
-  height: 40vh !important;
-  overflow-x: hidden !important;
+  max-height: 350px !important;
+  overflow: hidden;
+  max-width: 239px !important;
+  min-width: 239px !important;
+
 }
 
 .dropdown_list::-webkit-scrollbar {
@@ -98,6 +101,12 @@ body[dir="rtl"] .BillingDueHeading {
   border-radius: 20px;
   background: #ccc;
   margin-left: -15px;
+}
+
+.OrganizationList {
+  overflow-y: auto;
+  max-height: 290px;
+  padding-bottom: 10px !important;
 }
 
 .Scroller {
@@ -232,9 +241,12 @@ body[dir="rtl"] .OrgazationStatusHeading {
   color: #5a5a5a !important;
   font-weight: 700 !important;
   height: 37px !important;
-  text-overflow: ellipsis; /* Add this */
-  overflow: hidden; /* Add this */
-  white-space: nowrap; /* Add this */
+  text-overflow: ellipsis;
+  /* Add this */
+  overflow: hidden;
+  /* Add this */
+  white-space: nowrap;
+  /* Add this */
   display: inline-block;
 }
 
@@ -247,9 +259,12 @@ body[dir="rtl"] .ButtonsDashboard {
   color: #5a5a5a !important;
   font-weight: 700 !important;
   height: 37px !important;
-  text-overflow: ellipsis; /* Add this */
-  overflow: hidden; /* Add this */
-  white-space: nowrap; /* Add this */
+  text-overflow: ellipsis;
+  /* Add this */
+  overflow: hidden;
+  /* Add this */
+  white-space: nowrap;
+  /* Add this */
   display: inline-block;
 }
 
@@ -273,9 +288,12 @@ body[dir="rtl"] .ButtonsDashboard {
   color: #fff !important;
   font-weight: 700 !important;
   height: 37px !important;
-  text-overflow: ellipsis; /* Add this */
-  overflow: hidden; /* Add this */
-  white-space: nowrap; /* Add this */
+  text-overflow: ellipsis;
+  /* Add this */
+  overflow: hidden;
+  /* Add this */
+  white-space: nowrap;
+  /* Add this */
   display: inline-block;
 }
 
@@ -288,9 +306,12 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   color: #fff !important;
   font-weight: 700 !important;
   height: 37px !important;
-  text-overflow: ellipsis; /* Add this */
-  overflow: hidden; /* Add this */
-  white-space: nowrap; /* Add this */
+  text-overflow: ellipsis;
+  /* Add this */
+  overflow: hidden;
+  /* Add this */
+  white-space: nowrap;
+  /* Add this */
   display: inline-block;
 }
 
@@ -303,9 +324,12 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   color: #5a5a5a !important;
   font-weight: 700 !important;
   height: 37px !important;
-  white-space: nowrap; /* Ensure text is on one line */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Show ellipsis if text is too long */
+  white-space: nowrap;
+  /* Ensure text is on one line */
+  overflow: hidden;
+  /* Hide overflow */
+  text-overflow: ellipsis;
+  /* Show ellipsis if text is too long */
 }
 
 .activeEssentialButton-Licenses {
@@ -317,9 +341,12 @@ body[dir="rtl"] .ButtonsDashboard:is(:hover, :focus, :focus-visible, :active) {
   color: #fff !important;
   font-weight: 700 !important;
   height: 37px !important;
-  white-space: nowrap; /* Ensure text is on one line */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Show ellipsis if text is too long */
+  white-space: nowrap;
+  /* Ensure text is on one line */
+  overflow: hidden;
+  /* Hide overflow */
+  text-overflow: ellipsis;
+  /* Show ellipsis if text is too long */
 }
 
 .Search_Bar_icon_class {
@@ -558,17 +585,22 @@ body[dir="rtl"] .ExportBUtton-essential {
   border-radius: 4px !important;
   background: #6172d6;
   display: flex;
-  align-items: center; /* Center items vertically */
-  gap: 5px; /* Adjust gap as needed */
-  min-width: 50px; /* Minimum width */
-  max-width: 100%; /* Allow maximum width based on content */
+  align-items: center;
+  /* Center items vertically */
+  gap: 5px;
+  /* Adjust gap as needed */
+  min-width: 50px;
+  /* Minimum width */
+  max-width: 100%;
+  /* Allow maximum width based on content */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .Search-Company-Searches {
-  flex: 1; /* Allow text to stretch */
+  flex: 1;
+  /* Allow text to stretch */
   font-size: 12px !important;
   color: #fff !important;
   font-weight: 700 !important;
@@ -576,6 +608,7 @@ body[dir="rtl"] .ExportBUtton-essential {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .CrossIcon_Class-company {
   cursor: pointer !important;
   color: #505050 !important;
@@ -620,7 +653,9 @@ body[dir="rtl"] .CrossIcon_Class-users {
 .dropdown-header-content {
   display: flex;
   align-items: center;
-  width: 150px; /* Adjust as needed */
+  width: 150px;
+  gap: 10px;
+  /* Adjust as needed */
 }
 
 .CrossIcon_Class {
@@ -630,7 +665,8 @@ body[dir="rtl"] .CrossIcon_Class-users {
 
 .dropdown-container-companyName {
   width: 160px !important;
-  position: relative !important; /* Ensure relative positioning */
+  position: relative !important;
+  /* Ensure relative positioning */
 }
 
 .CompanyName-select {
@@ -753,7 +789,8 @@ body[dir="rtl"] .inside-pie-chart {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10; /* Ensure buttons are above the scroll content */
+  z-index: 10;
+  /* Ensure buttons are above the scroll content */
 }
 
 .scrollContent {
@@ -769,6 +806,7 @@ body[dir="rtl"] .inside-pie-chart {
   flex: 0 0 auto;
   margin: 0 10px;
 }
+
 .button-slides-class {
   font-size: 23px !important;
   cursor: pointer;
@@ -779,6 +817,7 @@ body[dir="rtl"] .button-slides-class {
   cursor: pointer !important;
   transform: rotateY(180deg) !important;
 }
+
 .emptyCircle {
   border: 40px solid #e1e1e1;
   width: 155.81px;
@@ -803,6 +842,7 @@ body[dir="rtl"] .button-slides-class {
   margin-left: 5px !important;
   color: #5a5a5a !important;
 }
+
 body[dir="rtl"] .font-size-in-Data {
   font-size: 10px !important;
   font-weight: 600 !important;

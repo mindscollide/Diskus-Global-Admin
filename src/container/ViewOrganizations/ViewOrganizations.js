@@ -23,9 +23,7 @@ import { formatDate } from "../../common/functions/dateFormatters";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
-import { getAllOrganizationNameMainApi } from "../../store/Actions/GlobalAdminDashboardActions";
 import {
-  globalAdminDashBoardLoader,
   resetResponseMessage,
 } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import CurrenrOrganization from "./CurrentOrganizations/CurrentOrganizations";
@@ -34,7 +32,12 @@ import RejectedRequest from "./RejectedRequest/RejectedRequest";
 import { useViewOrganization } from "../../context/viewOrganizations";
 
 const ViewOrganization = () => {
-  const {searchOrganizationData,setSearchOrganizationData, setShowSearchText, showsearchText } = useViewOrganization()
+  const {
+    searchOrganizationData,
+    setSearchOrganizationData,
+    setShowSearchText,
+    showsearchText,
+  } = useViewOrganization();
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -76,7 +79,6 @@ const ViewOrganization = () => {
     historyNotification: "",
     severity: "none",
   });
-
 
   console.log(
     { searchOrganizationData, showsearchText },
@@ -123,8 +125,6 @@ const ViewOrganization = () => {
         })
       );
     } else {
-      dispatch(globalAdminDashBoardLoader(true));
-      dispatch(getAllOrganizationNameMainApi({ navigate, t }));
       setCurrentTab(1);
     }
 
@@ -289,6 +289,8 @@ const ViewOrganization = () => {
       setIsFound(true);
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
+      setIsScroll(false);
+
       // setSearchBox(false);
       // setShowSearchText(false);
       setSearchOrganizationData(updatedData);
@@ -308,6 +310,8 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+      setIsScroll(false);
+
       // setSearchBox(false);
       // setShowSearchText(false);
       setSearchOrganizationData(updatedData);
@@ -327,6 +331,8 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+      setIsScroll(false);
+
       // setSearchBox(false);
       // setShowSearchText(false);
       setSearchOrganizationData(updatedData);
@@ -358,6 +364,8 @@ const ViewOrganization = () => {
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
       setSearchBox(false);
+      setIsScroll(false);
+
       // setShowSearchText(false);
     } else if (currentTab === 2) {
       let newData = {
@@ -378,6 +386,8 @@ const ViewOrganization = () => {
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
       setSearchBox(false);
+      setIsScroll(false);
+
       // setShowSearchText(false);
     } else if (currentTab === 3) {
       let newData = {
@@ -398,6 +408,9 @@ const ViewOrganization = () => {
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
       setSearchBox(false);
+
+      setIsScroll(false);
+
       // setShowSearchText(false);
     }
     setShowSearchText(true);
@@ -594,6 +607,7 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
+      setIsScroll(false);
     } else if (value === 2) {
       // Trail Requests
       let newData = {
@@ -607,6 +621,7 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
+      setIsScroll(false);
     } else {
       // Rejected Requests
       let newData = {
@@ -620,19 +635,20 @@ const ViewOrganization = () => {
       };
       dispatch(viewOrganizationLoader(true));
       dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
+      setIsScroll(false);
     }
   };
 
   return (
     <>
-      <Row className="mt-3">
+      <Row className='mt-3'>
         <Col lg={7} md={7} sm={7}>
           <span className={"HeadingViewORganization"}>
             {t("View-organization")}
           </span>
         </Col>
         <Col lg={5} md={5} sm={5}>
-          <span className="position-relative">
+          <span className='position-relative'>
             <TextField
               onKeyDown={handleKeyDownSearch}
               change={onChangeEventForSearch}
@@ -650,13 +666,12 @@ const ViewOrganization = () => {
                       lg={12}
                       md={12}
                       sm={12}
-                      className="d-flex gap-2 align-items-center"
-                    >
+                      className='d-flex gap-2 align-items-center'>
                       <img
                         src={SearchIcon}
-                        alt=""
+                        alt=''
                         className={"Search_Bar_icon_class"}
-                        draggable="false"
+                        draggable='false'
                         onClick={HandleopenSearchBox}
                       />
                     </Col>
@@ -667,7 +682,7 @@ const ViewOrganization = () => {
             />
 
             <Row>
-              <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
+              <Col lg={12} md={12} sm={12} className='d-flex gap-2 flex-wrap'>
                 {showsearchText &&
                 searchOrganizationData.OrganizationName !== "" ? (
                   <div className={"SearchablesItems"}>
@@ -676,7 +691,7 @@ const ViewOrganization = () => {
                     </span>
                     <img
                       src={Crossicon}
-                      alt=""
+                      alt=''
                       className={"CrossIcon_Class"}
                       width={13}
                       onClick={() => handleSearches("OrganizationName")}
@@ -691,7 +706,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() =>
@@ -709,7 +724,7 @@ const ViewOrganization = () => {
                     </span>
                     <img
                       src={Crossicon}
-                      alt=""
+                      alt=''
                       className={"CrossIcon_Class"}
                       width={13}
                       onClick={() => handleSearches("OrganizationContactEmail")}
@@ -728,7 +743,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() => handleSearches("OrganizationDateFrom")}
@@ -747,7 +762,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() => handleSearches("OrganizationDateTo")}
@@ -782,7 +797,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() =>
@@ -797,23 +812,22 @@ const ViewOrganization = () => {
               <>
                 <Row>
                   <Col lg={12} md={12} sm={12} className={"SearchBox"}>
-                    <Row className="mt-2">
+                    <Row className='mt-2'>
                       <Col
                         lg={12}
                         md={12}
                         sm={12}
-                        className="d-flex justify-content-end align-items-center"
-                      >
+                        className='d-flex justify-content-end align-items-center'>
                         <img
-                          alt=""
+                          alt=''
                           src={BlackCrossicon}
-                          draggable="false"
+                          draggable='false'
                           className={"CrossIcon_Class"}
                           onClick={handleCancelSearchbox}
                         />
                       </Col>
                     </Row>
-                    <Row className="mt-2">
+                    <Row className='mt-2'>
                       <Col lg={6} md={6} sm={6}>
                         <TextField
                           labelClass={"d-none"}
@@ -837,7 +851,7 @@ const ViewOrganization = () => {
                         />
                       </Col>
                     </Row>
-                    <Row className="mt-3">
+                    <Row className='mt-3'>
                       <Col lg={6} md={6} sm={6}>
                         <DatePicker
                           value={
@@ -852,10 +866,10 @@ const ViewOrganization = () => {
                             />
                           }
                           editable={false}
-                          className="datePickerTodoCreate2"
+                          className='datePickerTodoCreate2'
                           containerClassName={"datePicker_Container"}
                           onOpenPickNewDate={false}
-                          inputMode=""
+                          inputMode=''
                           calendar={calendarValue}
                           locale={localValue}
                           ref={calendRef}
@@ -874,10 +888,10 @@ const ViewOrganization = () => {
                             />
                           }
                           editable={false}
-                          className="datePickerTodoCreate2"
+                          className='datePickerTodoCreate2'
                           containerClassName={"datePicker_Container"}
                           onOpenPickNewDate={false}
-                          inputMode=""
+                          inputMode=''
                           calendar={calendarValue}
                           locale={localValue}
                           ref={calendRef}
@@ -887,7 +901,7 @@ const ViewOrganization = () => {
                     </Row>
 
                     {currentTab === 1 && (
-                      <Row className="mt-3">
+                      <Row className='mt-3'>
                         <Col lg={6} md={6} sm={6}>
                           <Select
                             value={
@@ -896,6 +910,19 @@ const ViewOrganization = () => {
                                 ? searchOrganizationData.OrganizationSubscriptionStatus
                                 : null
                             }
+                            styles={{
+                              placeholder: (provided) => ({
+                                ...provided,
+                                fontSize: "12px",
+                                fontWeight: 500,
+                              }),
+                              control: (provided) => ({
+                                ...provided,
+                                minHeight: "38px",
+                                fontSize: "12px",
+                                fontWeight: 500,
+                              }),
+                            }}
                             placeholder={t("Subscription-status")}
                             options={options}
                             onChange={handleStatusChange}
@@ -915,13 +942,12 @@ const ViewOrganization = () => {
                       </Row>
                     )}
 
-                    <Row className="mt-3">
+                    <Row className='mt-3'>
                       <Col
                         lg={12}
                         md={12}
                         sm={12}
-                        className="d-flex justify-content-end gap-2"
-                      >
+                        className='d-flex justify-content-end gap-2'>
                         <Button
                           text={t("Reset")}
                           className={"SearchBoxResetButton"}
@@ -941,13 +967,12 @@ const ViewOrganization = () => {
           </span>
         </Col>
       </Row>
-      <Row className="mt-3">
+      <Row className='mt-3'>
         <Col
           lg={12}
           md={12}
           sm={12}
-          className="d-flex gap-2 justify-content-start"
-        >
+          className='d-flex gap-2 justify-content-start'>
           <span
             onClick={() => {
               handleClickTab(1);
@@ -956,8 +981,7 @@ const ViewOrganization = () => {
               currentTab === 1
                 ? "currenrOrganizationTab_active"
                 : "currenrOrganizationTab"
-            }
-          >
+            }>
             {t("Current-organizations")}
           </span>
           <span
@@ -968,8 +992,7 @@ const ViewOrganization = () => {
               currentTab === 2
                 ? "currenrOrganizationTab_active"
                 : "currenrOrganizationTab"
-            }
-          >
+            }>
             {t("Trial-requests")}
           </span>
           <span
@@ -980,8 +1003,7 @@ const ViewOrganization = () => {
               currentTab === 3
                 ? "currenrOrganizationTab_active"
                 : "currenrOrganizationTab"
-            }
-          >
+            }>
             {t("Rejected-requests")}
           </span>
         </Col>

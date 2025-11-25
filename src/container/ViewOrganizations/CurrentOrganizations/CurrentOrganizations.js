@@ -41,7 +41,6 @@ import {
 import EditOrganizationSubscriptions from "../EditOrganizationSubscriptionModal/EditOrganizationSubscription";
 import EditSubscriptionModals from "../EditSubscriptionModal/EditSubscriptionModal";
 import {
-  getAllOrganizationNameMainApi,
   getPackageDetailGlobalApi,
 } from "../../../store/Actions/GlobalAdminDashboardActions";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
@@ -49,6 +48,7 @@ import {
   globalAdminDashBoardLoader,
   resetResponseMessage,
 } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { useViewOrganization } from "../../../context/viewOrganizations";
 
 const { Panel } = Collapse;
 
@@ -63,25 +63,13 @@ const CurrentOrganization = ({
   SearchOrganizationDateTo,
   SearchOrganizationStatus,
 }) => {
-  console.log(
-    {
-      SearchOrganizationName,
-      SearchOrganizationEmail,
-      SearchOrganizationDateFrom,
-      SearchOrganizationDateTo,
-      SearchOrganizationStatus,
-    },
-    "SearchOrganizationStatus"
-  );
+  const {setShowSearchText} = useViewOrganization()
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const calendRef = useRef();
-  const ModalReducer = useSelector((state) => state.modal);
 
   // current language set in local storage
   let currentLanguage = localStorage.getItem("currentLanguage");
-  const local = currentLanguage === "en" ? "en-US" : "ar-SA";
 
   // for response message
   const Responsemessage = useSelector(
@@ -94,22 +82,9 @@ const CurrentOrganization = ({
     (state) => state.searchOrganization.getAllOrganizationData
   );
 
-  // reducer for get All Organization but in dropdown
-  const organizationIdDataDropdown = useSelector(
-    (state) => state.globalAdminDashboardReducer.getOrganizationNames
-  );
-
-  console.log(organizationIdData, "organizationIdDataResponseMessage");
-
-  const [searchBox, setSearchBox] = useState(false);
-  const [organizationDataValue, setOrganizationDataValue] = useState(null);
-
   // state for view Organizer Table data
   const [viewOrganizationData, setViewOrganizationData] = useState([]);
   const [viewOrganizationInsideData, setOrganizationInsideData] = useState([]);
-
-  // for dropdown lazy loading state:
-  const [organization, setOrganization] = useState([]);
 
   // for lazy Loading state
   const [isRowsData, setSRowsData] = useState(0);
@@ -132,15 +107,6 @@ const CurrentOrganization = ({
   const [duration, setDuration] = useState(0);
   const [headData, setHeadData] = useState([]);
   const [editSubModal, setEditSubModal] = useState("");
-
-  // states for search
-  const [showsearchText, setShowSearchText] = useState(false);
-  const [aminNameSearch, setAminNameSearch] = useState("");
-  const [calendarValue, setCalendarValue] = useState(gregorian);
-  const [localValue, setLocalValue] = useState(gregorian_en);
-
-  const [userNameSearch, setUserNameSearch] = useState("");
-  console.log(userNameSearch, "userNameSearchuserNameSearch");
 
   const [openNotification, setOpenNotification] = useState({
     historyFlag: false,
@@ -189,30 +155,7 @@ const CurrentOrganization = ({
     }
   }, [Responsemessage]);
 
-  // useEffect for dropdown select organization Names
-  useEffect(() => {
-    if (
-      organizationIdDataDropdown !== null &&
-      organizationIdDataDropdown !== undefined &&
-      organizationIdDataDropdown?.result?.organizations.length > 0
-    ) {
-      setOrganization(organizationIdDataDropdown.result.organizations);
-    } else {
-      setOrganization([]);
-    }
-  }, [organizationIdDataDropdown]);
 
-  // for status Options
-  const options = [
-    { value: 1, label: "Active" },
-    { value: 2, label: "InActive" },
-    { value: 3, label: "suspended" },
-    { value: 4, label: "Closed" },
-    { value: 5, label: "Terminated Requested" },
-    { value: 6, label: "Deleted" },
-    { value: 7, label: "Archived" },
-    { value: 8, label: "Locked By Global Admin" },
-  ];
 
   // uesEffect to get data getAllOrganization to set data in table
   useEffect(() => {
@@ -220,7 +163,7 @@ const CurrentOrganization = ({
       const { getAllOrganizations, totalCount } = organizationIdData.result;
 
       if (getAllOrganizations && getAllOrganizations.length > 0) {
-        setShowSearchText(false)
+        setShowSearchText(false);
         const newOrganizations = isScroll
           ? [...viewOrganizationData, ...getAllOrganizations]
           : getAllOrganizations;
@@ -247,7 +190,10 @@ const CurrentOrganization = ({
         setOrganizationInsideData(uniqueSubscriptions);
         setSRowsData(newOrganizations.length);
         setTotalRecords(totalCount);
+        setIsScroll(false);
       } else {
+        setIsScroll(false);
+
         // Handle empty response
         setViewOrganizationData([]); // Ensure empty table renders
         setOrganizationInsideData([]);
@@ -556,6 +502,8 @@ const CurrentOrganization = ({
 
   // edit handler
   const handleEditOrganizationModal = (record) => {
+    setIsScroll(false);
+
     setEditOrganzationName(record.organizationName);
     setEditOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationStatus);
@@ -564,6 +512,7 @@ const CurrentOrganization = ({
   };
 
   const handleEditSubscriptionModal = (record) => {
+    setIsScroll(false);
     const subscriptions = viewOrganizationData.filter(
       (data) => data.organizationID === record.organizationId
     );
@@ -582,7 +531,9 @@ const CurrentOrganization = ({
       SubscriptionID: record.pK_OrganizationsSubscriptionID,
     };
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
+    dispatch(
+      getPackageDetailGlobalApi({ data, navigate, t, route: { valu: 1 } })
+    );
   };
 
   return (
@@ -688,11 +639,7 @@ const CurrentOrganization = ({
         editOrganizationID={editOrganizationID}
         editOrganzationName={editOrganzationName}
         editSubscriptionName={editSubscriptionName}
-        setShowSearchText={setShowSearchText}
-        setUserNameSearch={setUserNameSearch}
         SearchOrganizationStatus={SearchOrganizationStatus}
-        showsearchText={showsearchText}
-        userNameSearch={userNameSearch}
       />
 
       <EditSubscriptionModals
@@ -703,10 +650,6 @@ const CurrentOrganization = ({
         duration={duration}
         headData={headData}
         editSubModal={editSubModal}
-        setShowSearchText={setShowSearchText}
-        setUserNameSearch={setUserNameSearch}
-        showsearchText={showsearchText}
-        userNameSearch={userNameSearch}
         SearchOrganizationStatus={SearchOrganizationStatus}
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />

@@ -17,12 +17,16 @@ export const ViewOrganizationProvider = ({ children }) => {
     OrganizationDateFromView: "",
   });
   const [showsearchText, setShowSearchText] = useState(false);
+  const [userNameSearch, setUserNameSearch] = useState("");
+
 
   const viewOrganizationData = {
     searchOrganizationData,
     setSearchOrganizationData,
     showsearchText,
     setShowSearchText,
+    userNameSearch,
+    setUserNameSearch,
     // Add any state or functions related to viewing organizations here
   };
 

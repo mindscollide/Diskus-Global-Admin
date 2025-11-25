@@ -10,13 +10,17 @@ import {
 } from "../../../store/ActionsSlicers/UIModalsActions";
 import { Col, Row } from "react-bootstrap";
 import EditOrganizationConfirmations from "./EditOrganizationConfirmation/EditOrganizationConfirmation";
+import { useViewOrganization } from "../../../context/viewOrganizations";
 const EditOrganizationSubscriptions = ({
   editOrganizationID,
   editOrganzationName,
   editSubscriptionName,
-  setShowSearchText,
-  setUserNameSearch,
+  SearchOrganizationStatus
 }) => {
+  const {
+    setShowSearchText,
+    setUserNameSearch,
+  } = useViewOrganization();
   const ModalReducer = useSelector((state) => state.modal);
 
   const dispatch = useDispatch();
@@ -42,20 +46,20 @@ const EditOrganizationSubscriptions = ({
           editSubscriptionName === 1
             ? "Active"
             : editSubscriptionName === 2
-            ? "InActive"
-            : editSubscriptionName === 3
-            ? "suspended"
-            : editSubscriptionName === 4
-            ? "Closed"
-            : editSubscriptionName === 5
-            ? "Terminated Request"
-            : editSubscriptionName === 6
-            ? "Deleted"
-            : editSubscriptionName === 7
-            ? "Archived"
-            : editSubscriptionName === 8
-            ? "Locked By Global Admin"
-            : "Active",
+              ? "InActive"
+              : editSubscriptionName === 3
+                ? "suspended"
+                : editSubscriptionName === 4
+                  ? "Closed"
+                  : editSubscriptionName === 5
+                    ? "Terminated Request"
+                    : editSubscriptionName === 6
+                      ? "Deleted"
+                      : editSubscriptionName === 7
+                        ? "Archived"
+                        : editSubscriptionName === 8
+                          ? "Locked By Global Admin"
+                          : "Active",
       };
       setOrganzationStatus(status);
       setInitialOrganzationStatus(status);

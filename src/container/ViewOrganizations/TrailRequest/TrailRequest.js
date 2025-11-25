@@ -3,12 +3,10 @@ import {
   getAllTrailRequestedApi,
   updateOrganizationTrailRequestStatusApi,
 } from "../../../store/Actions/ViewOrganizationActions";
-import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
   confirmatioModalFunc,
   viewOrganizationLoader,
 } from "../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
-import { getAllOrganizationNameMainApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -18,7 +16,6 @@ import CustomButton from "../../../components/elements/button/Button";
 import { utcConvertintoGMT } from "../../../common/functions/dateFormatters";
 import moment from "moment";
 import ConfirmationModal from "../confirmationModal/ConfirmationModal";
-import { use } from "react";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 
 const TrailRequest = ({ currentTab, setCurrentTab, setIsScroll, isScroll }) => {

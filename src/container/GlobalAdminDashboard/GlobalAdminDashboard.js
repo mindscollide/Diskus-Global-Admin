@@ -287,6 +287,8 @@ const GlobalAdminDashboard = () => {
   const [dynamicPackagesTab, setDynamicPackagesTab] = useState([]);
 
   const [activeTab, setActiveTab] = useState(null);
+  // View Invoice Data
+  const [InvoiceData, setInvoiceData] = useState(null);
 
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
@@ -1043,6 +1045,7 @@ const GlobalAdminDashboard = () => {
       InvoiceID: record.invoiceID,
       SubscriptionID: record.fK_OSID,
     };
+    setInvoiceData(record);
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(getInvoiceHtmlApi({ data, navigate, t, setSendInvoiceData }));
   };
@@ -1050,9 +1053,9 @@ const GlobalAdminDashboard = () => {
   // for inside htmlModal on send button click
   const onClickSendInvoice = () => {
     let data = {
-      OrganizationID: sendInvoiceData.OrganizationID,
-      InvoiceID: sendInvoiceData.InvoiceID,
-      SubscriptionID: sendInvoiceData.SubscriptionID,
+      OrganizationID: InvoiceData.organizationID,
+      InvoiceID: InvoiceData.invoiceID,
+      SubscriptionID: InvoiceData.fK_OSID,
     };
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(SendInvoiceApi({ data, navigate, t }));
@@ -1060,13 +1063,16 @@ const GlobalAdminDashboard = () => {
 
   // for download Invoice Button
   const onClickDownloadInvoice = () => {
-    let data = {
-      OrganizationID: sendInvoiceData.OrganizationID,
-      InvoiceID: sendInvoiceData.InvoiceID,
-      SubscriptionID: sendInvoiceData.SubscriptionID,
+    console.log(InvoiceData, "sendInvoiceDatasendInvoiceData");
+    let newdata = {
+      OrganizationID: InvoiceData.organizationID,
+      InvoiceID: InvoiceData.invoiceID,
+      SubscriptionID: InvoiceData.fK_OSID,
     };
+
+    console.log(newdata, "newdata");
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(downloadInvoiceReportMainApi({ data, navigate, t }));
+    dispatch(downloadInvoiceReportMainApi({ newdata, navigate, t }));
   };
 
   const DashboardGlobalColumn = [
@@ -1112,9 +1118,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {billingSort === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1149,9 +1155,8 @@ const GlobalAdminDashboard = () => {
       title: (
         <span
           className={styles["Export_To_Excel_dashboardTableButton"]}
-          onClick={onClickExport}
-        >
-          <img src={ExcelIcon} alt="" draggable="false" />
+          onClick={onClickExport}>
+          <img src={ExcelIcon} alt='' draggable='false' />
           <span>{t("Export")}</span>
         </span>
       ),
@@ -1327,9 +1332,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {sortTrial === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1366,9 +1371,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Trial-start-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1405,9 +1410,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Trial-end-date")}{" "}
             {sortTrialEndDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1444,9 +1449,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Remaining-days")}{" "}
             {sortTrialRemaining === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1487,9 +1492,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {sortTrial === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1526,9 +1531,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Trial-extend-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1565,9 +1570,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Trial-extend-end-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1605,9 +1610,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Remaining-days")}{" "}
             {sortTrialRemaining === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1657,9 +1662,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {sortTrial === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1713,9 +1718,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Expiration-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1752,9 +1757,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Remaining-days")}{" "}
             {sortTrialRemaining === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1794,9 +1799,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {sortTrial === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1850,9 +1855,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Expiration-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1893,9 +1898,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {essentialSort === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1932,9 +1937,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Start-date")}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -2093,7 +2098,7 @@ const GlobalAdminDashboard = () => {
     };
     setSubscribedPackageDetail(record);
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
+    dispatch(getPackageDetailGlobalApi({ data, navigate, t, route: { val: 2 } }));
   };
 
   //Multi Date Picker Date Pickers Month Function
@@ -2338,7 +2343,7 @@ const GlobalAdminDashboard = () => {
   return (
     <>
       <Container fluid className={styles["global-admin-dashboard-container"]}>
-        <Row className="mt-3">
+        <Row className='mt-3'>
           <Col lg={6} md={6} sm={6}>
             <section className={styles["LeftBoxDashboard"]}>
               <Row>
@@ -2351,24 +2356,20 @@ const GlobalAdminDashboard = () => {
                   lg={3}
                   md={3}
                   sm={3}
-                  className="d-flex justify-content-end"
-                >
+                  className='d-flex justify-content-end'>
                   <div
                     ref={dropdownRef}
-                    className={styles["dropdown-container"]}
-                  >
+                    className={styles["dropdown-container"]}>
                     <div
                       className={styles["dropdown-header"]}
-                      onClick={toggling}
-                    >
+                      onClick={toggling}>
                       {isOpen ? (
                         <>
                           <span className={styles["MonthName"]}>
                             {t("Month")}
                           </span>
                           <span
-                            className={isOpen ? styles.down : styles.up}
-                          ></span>
+                            className={isOpen ? styles.down : styles.up}></span>
                         </>
                       ) : null}
                     </div>
@@ -2382,7 +2383,7 @@ const GlobalAdminDashboard = () => {
                           locale={localValue}
                           onMonthChange={handleMonthChange}
                           multiple
-                          format="YYYY-MM-DD"
+                          format='YYYY-MM-DD'
                         />
                       </>
                     ) : null}
@@ -2395,7 +2396,7 @@ const GlobalAdminDashboard = () => {
                           </span>
                           <img
                             src={Crossicon}
-                            alt=""
+                            alt=''
                             className={styles["CrossIcon_Class"]}
                             width={13}
                             onClick={handleCrossIcon}
@@ -2409,16 +2410,13 @@ const GlobalAdminDashboard = () => {
                   lg={4}
                   md={4}
                   sm={4}
-                  className="d-flex justify-content-end"
-                >
+                  className='d-flex justify-content-end'>
                   <div
                     ref={CompanyRef}
-                    className={styles["dropdown-container-companyName"]}
-                  >
+                    className={styles["dropdown-container-companyName"]}>
                     <div
                       className={styles["dropdown-header"]}
-                      onClick={togglingCompany}
-                    >
+                      onClick={togglingCompany}>
                       {showSelectedCompany ? (
                         <div className={styles["Search-Company"]}>
                           <span className={styles["Search-Company-Searches"]}>
@@ -2426,7 +2424,7 @@ const GlobalAdminDashboard = () => {
                           </span>
                           <img
                             src={Crossicon}
-                            alt=""
+                            alt=''
                             className={styles["CrossIcon_Class-company"]}
                             width={13}
                             onClick={handleCompanyCrossIcon}
@@ -2438,29 +2436,31 @@ const GlobalAdminDashboard = () => {
                             {t("Company")}
                           </span>
                           <span
-                            className={isOpenCom ? styles.down : styles.up}
-                          ></span>
+                            className={
+                              isOpenCom ? styles.down : styles.up
+                            }></span>
                           {isCompnayOpen && (
                             <section className={styles["dropdown_list"]}>
                               <input
-                                type="text"
+                                type='text'
                                 value={searchTerm}
                                 onChange={handleSearchChange}
-                                placeholder="Search..."
+                                placeholder='Search...'
                                 className={styles["search-input"]}
                                 onClick={(event) => event.stopPropagation()}
                               />
-                              {filteredOrganizations.map(
-                                (CountryData, index) => (
-                                  <div
-                                    className={styles["dropdown-list-item"]}
-                                    onClick={onCountryClickClick(CountryData)}
-                                    key={index}
-                                  >
-                                    {CountryData.organizationName}
-                                  </div>
-                                )
-                              )}
+                              <div className={styles["OrganizationList"]}>
+                                {filteredOrganizations.map(
+                                  (CountryData, index) => (
+                                    <div
+                                      className={styles["dropdown-list-item"]}
+                                      onClick={onCountryClickClick(CountryData)}
+                                      key={index}>
+                                      {CountryData.organizationName}
+                                    </div>
+                                  )
+                                )}
+                              </div>
                             </section>
                           )}
                         </>
@@ -2469,13 +2469,12 @@ const GlobalAdminDashboard = () => {
                   </div>
                 </Col>
               </Row>
-              <Row className="mt-3">
+              <Row className='mt-3'>
                 <Col
                   lg={12}
                   md={12}
                   sm={12}
-                  className="d-flex justify-content-center flex-column flex-wrap align-items-center"
-                >
+                  className='d-flex justify-content-center flex-column flex-wrap align-items-center'>
                   <span className={styles["PrizeStyles"]}>
                     {formatSessionDurationArabicAndEng(
                       totalDue,
@@ -2489,7 +2488,7 @@ const GlobalAdminDashboard = () => {
                 </Col>
               </Row>
 
-              <Row className="mt-2">
+              <Row className='mt-2'>
                 <Col lg={12} md={12} sm={12} className={styles["Scroller"]}>
                   <InfiniteScroll
                     dataLength={billDueTable.length}
@@ -2509,31 +2508,29 @@ const GlobalAdminDashboard = () => {
                               sm={12}
                               md={12}
                               lg={12}
-                              className="d-flex justify-content-center mt-2"
-                            >
+                              className='d-flex justify-content-center mt-2'>
                               <Spin />
                             </Col>
                           </Row>
                         </>
                       ) : null
-                    }
-                  >
+                    }>
                     <Table
                       column={DashboardGlobalColumn}
                       pagination={false}
                       rows={billDueTable}
                       footer={false}
-                      className="billingTable"
+                      className='billingTable'
                       locale={{
                         emptyText: (
                           <>
-                            <section className="d-flex flex-column align-items-center justify-content-center">
-                              <img src={BillingDue} width={"180px"} alt="" />
+                            <section className='d-flex flex-column align-items-center justify-content-center'>
+                              <img src={BillingDue} width={"180px"} alt='' />
 
-                              <span className="Main-Title">
+                              <span className='Main-Title'>
                                 {t("No-billing-due")}
                               </span>
-                              <span className="Sub-Title">
+                              <span className='Sub-Title'>
                                 {t("No-payment-due-for-this-organization")}
                               </span>
                             </section>
@@ -2560,7 +2557,7 @@ const GlobalAdminDashboard = () => {
                   </span>
                 </Col>
               </Row>
-              <Row className="mt-2">
+              <Row className='mt-2'>
                 <Col lg={6} md={6} sm={6}>
                   <section
                     className={
@@ -2569,15 +2566,13 @@ const GlobalAdminDashboard = () => {
                         : styles["OuterBoxPieChart"]
                     }
                     style={{ position: "relative" }}
-                    onClick={handleOrgnizationStatus}
-                  >
+                    onClick={handleOrgnizationStatus}>
                     <div className={styles["chart-container"]}>
                       <>
                         {!dataFound ? (
                           <>
                             <section
-                              className={styles["emptyCircle-empty-box"]}
-                            >
+                              className={styles["emptyCircle-empty-box"]}>
                               <div className={styles["div-in-row-empty"]}>
                                 <span className={styles["emptyCircle"]}></span>
                                 <span>
@@ -2605,7 +2600,7 @@ const GlobalAdminDashboard = () => {
                           <>
                             {" "}
                             <Chart
-                              chartType="PieChart"
+                              chartType='PieChart'
                               height={"200px"}
                               width={"250px"}
                               data={exData}
@@ -2618,8 +2613,7 @@ const GlobalAdminDashboard = () => {
                             </div>
                             <div
                               className={styles["click-preventer"]}
-                              onClick={(e) => e.stopPropagation()}
-                            ></div>
+                              onClick={(e) => e.stopPropagation()}></div>
                           </>
                         )}
                       </>
@@ -2634,38 +2628,33 @@ const GlobalAdminDashboard = () => {
                         : styles["OuterBoxPieChart"]
                     }
                     onClick={handleUsers}
-                    style={{ position: "relative" }}
-                  >
+                    style={{ position: "relative" }}>
                     {/* <Pie {...configSecond} /> */}
                     <div className={styles["chart-container"]}>
                       <>
                         {!dataFoundActive ? (
                           <>
                             <section
-                              className={styles["emptyCircle-empty-box"]}
-                            >
+                              className={styles["emptyCircle-empty-box"]}>
                               <div className={styles["div-in-row-empty"]}>
                                 <span className={styles["emptyCircle"]}></span>
                                 <span>
                                   <p
                                     className={
                                       styles["font-size-in-Data-active"]
-                                    }
-                                  >
+                                    }>
                                     {`${t("Essential")} ${"(0)"}`}
                                   </p>
                                   <p
                                     className={
                                       styles["font-size-in-Data-active"]
-                                    }
-                                  >
+                                    }>
                                     {`${t("Professional")} ${"(0)"}`}
                                   </p>
                                   <p
                                     className={
                                       styles["font-size-in-Data-active"]
-                                    }
-                                  >
+                                    }>
                                     {`${t("Premium")} ${"(0)"}`}
                                   </p>
                                 </span>
@@ -2675,7 +2664,7 @@ const GlobalAdminDashboard = () => {
                         ) : (
                           <>
                             <Chart
-                              chartType="PieChart"
+                              chartType='PieChart'
                               height={"200px"}
                               width={"250px"}
                               data={userData}
@@ -2686,8 +2675,7 @@ const GlobalAdminDashboard = () => {
                             </div>
                             <div
                               className={styles["click-preventer"]}
-                              onClick={(e) => e.stopPropagation()}
-                            ></div>
+                              onClick={(e) => e.stopPropagation()}></div>
                           </>
                         )}
                       </>
@@ -2695,8 +2683,8 @@ const GlobalAdminDashboard = () => {
                   </section>
                 </Col>
               </Row>
-              <Row className="mt-3">
-                <Col lg={10} md={10} sm={12} className="d-flex gap-3 mt-2">
+              <Row className='mt-3'>
+                <Col lg={10} md={10} sm={12} className='d-flex gap-3 mt-2'>
                   {organizationStatus ? (
                     <>
                       <Button
@@ -2758,8 +2746,7 @@ const GlobalAdminDashboard = () => {
                         </span>
                         <div
                           className={styles["scrollContent"]}
-                          ref={containerRef}
-                        >
+                          ref={containerRef}>
                           {dynamicPackagesTab &&
                             dynamicPackagesTab.map((dynamicTab, index) => (
                               <div key={index} className={styles.scrollItem}>
@@ -2793,7 +2780,7 @@ const GlobalAdminDashboard = () => {
                   ) : null}
                 </Col>
 
-                <Col lg={2} md={2} sm={12} className="mt-2">
+                <Col lg={2} md={2} sm={12} className='mt-2'>
                   {organizationStatus === true && users === false ? (
                     <>
                       {subscription === true ? (
@@ -2804,7 +2791,7 @@ const GlobalAdminDashboard = () => {
                             onClick={downloadSubscriptionReport}
                             icon={
                               <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
+                                <img src={ExcelIcon} alt='' draggable='false' />
                               </>
                             }
                           />
@@ -2817,7 +2804,7 @@ const GlobalAdminDashboard = () => {
                             onClick={downloadTrialExtendedReport}
                             icon={
                               <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
+                                <img src={ExcelIcon} alt='' draggable='false' />
                               </>
                             }
                           />
@@ -2830,7 +2817,7 @@ const GlobalAdminDashboard = () => {
                             onClick={downloadTrialExpireSubscriptionReport}
                             icon={
                               <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
+                                <img src={ExcelIcon} alt='' draggable='false' />
                               </>
                             }
                           />
@@ -2843,7 +2830,7 @@ const GlobalAdminDashboard = () => {
                             onClick={downloadTrialReport}
                             icon={
                               <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
+                                <img src={ExcelIcon} alt='' draggable='false' />
                               </>
                             }
                           />
@@ -2861,7 +2848,7 @@ const GlobalAdminDashboard = () => {
                             onClick={downloadEssentialReport}
                             icon={
                               <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
+                                <img src={ExcelIcon} alt='' draggable='false' />
                               </>
                             }
                           />
@@ -2871,9 +2858,9 @@ const GlobalAdminDashboard = () => {
                   ) : null}
                 </Col>
               </Row>
-              <Row className="mt-3">
+              <Row className='mt-3'>
                 <Col lg={12} sm={12} md={12}>
-                  <span className="position-relative">
+                  <span className='position-relative'>
                     <TextField
                       labelClass={"d-none"}
                       applyClass={"NewMeetingFileds"}
@@ -2888,23 +2875,22 @@ const GlobalAdminDashboard = () => {
                               lg={12}
                               md={12}
                               sm={12}
-                              className="d-flex gap-2 align-items-center"
-                            >
+                              className='d-flex gap-2 align-items-center'>
                               {searchData.trim() === "" || !searchExecuted ? (
                                 <img
                                   src={Search_Icon}
-                                  alt=""
+                                  alt=''
                                   onClick={onClickSearchHandler}
                                   className={styles["Search_Bar_icon_class"]}
-                                  draggable="false"
+                                  draggable='false'
                                 />
                               ) : (
                                 <img
                                   src={BlackCrossicon}
-                                  alt=""
+                                  alt=''
                                   onClick={onClickClearSearchHandler}
                                   className={styles["CrossIcon_Class-users"]}
-                                  draggable="false"
+                                  draggable='false'
                                 />
                               )}
                             </Col>
@@ -2933,35 +2919,33 @@ const GlobalAdminDashboard = () => {
                                 sm={12}
                                 md={12}
                                 lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
+                                className='d-flex justify-content-center mt-2'>
                                 <Spin />
                               </Col>
                             </Row>
                           </>
                         ) : null
-                      }
-                    >
+                      }>
                       <Table
                         column={TrialColumn}
                         pagination={false}
                         rows={trialRow}
                         footer={false}
-                        className="TrialTableDashboard"
+                        className='TrialTableDashboard'
                         locale={{
                           emptyText: (
                             <>
-                              <section className="d-flex flex-column align-items-center justify-content-center">
+                              <section className='d-flex flex-column align-items-center justify-content-center'>
                                 <img
                                   src={NoOrganizationIcon}
                                   width={"45px"}
-                                  alt=""
+                                  alt=''
                                 />
 
-                                <span className="Main-Title">
+                                <span className='Main-Title'>
                                   {t("No-organization")}
                                 </span>
-                                <span className="Sub-Title">
+                                <span className='Sub-Title'>
                                   {t("No-organization-found")}
                                 </span>
                               </section>
@@ -2992,35 +2976,33 @@ const GlobalAdminDashboard = () => {
                                 sm={12}
                                 md={12}
                                 lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
+                                className='d-flex justify-content-center mt-2'>
                                 <Spin />
                               </Col>
                             </Row>
                           </>
                         ) : null
-                      }
-                    >
+                      }>
                       <Table
                         column={TraiExtendedColumn}
                         pagination={false}
                         rows={trialExtendedRow}
                         footer={false}
-                        className="TrialExtendedDashboard"
+                        className='TrialExtendedDashboard'
                         locale={{
                           emptyText: (
                             <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <section className='d-flex flex-column align-items-center justify-content-center '>
                                 <img
                                   src={NoOrganizationIcon}
                                   width={"45px"}
-                                  alt=""
+                                  alt=''
                                 />
 
-                                <span className="Main-Title">
+                                <span className='Main-Title'>
                                   {t("No-organization")}
                                 </span>
-                                <span className="Sub-Title">
+                                <span className='Sub-Title'>
                                   {t("No-organization-found")}
                                 </span>
                               </section>
@@ -3051,35 +3033,33 @@ const GlobalAdminDashboard = () => {
                                 sm={12}
                                 md={12}
                                 lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
+                                className='d-flex justify-content-center mt-2'>
                                 <Spin />
                               </Col>
                             </Row>
                           </>
                         ) : null
-                      }
-                    >
+                      }>
                       <Table
                         column={subscriptionColumn}
                         pagination={false}
                         rows={subscribedRow}
                         footer={false}
-                        className="TrialTableDashboard"
+                        className='TrialTableDashboard'
                         locale={{
                           emptyText: (
                             <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <section className='d-flex flex-column align-items-center justify-content-center '>
                                 <img
                                   src={NoOrganizationIcon}
                                   width={"45px"}
-                                  alt=""
+                                  alt=''
                                 />
 
-                                <span className="Main-Title">
+                                <span className='Main-Title'>
                                   {t("No-organization")}
                                 </span>
-                                <span className="Sub-Title">
+                                <span className='Sub-Title'>
                                   {t("No-organization-found")}
                                 </span>
                               </section>
@@ -3112,35 +3092,33 @@ const GlobalAdminDashboard = () => {
                                 sm={12}
                                 md={12}
                                 lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
+                                className='d-flex justify-content-center mt-2'>
                                 <Spin />
                               </Col>
                             </Row>
                           </>
                         ) : null
-                      }
-                    >
+                      }>
                       <Table
                         column={subscriptionExpiry}
                         pagination={false}
                         rows={subscriptionExpiredRow}
                         footer={false}
-                        className="TrialExtendedDashboard"
+                        className='TrialExtendedDashboard'
                         locale={{
                           emptyText: (
                             <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <section className='d-flex flex-column align-items-center justify-content-center '>
                                 <img
                                   src={NoOrganizationIcon}
                                   width={"45px"}
-                                  alt=""
+                                  alt=''
                                 />
 
-                                <span className="Main-Title">
+                                <span className='Main-Title'>
                                   {t("No-organization")}
                                 </span>
-                                <span className="Sub-Title">
+                                <span className='Sub-Title'>
                                   {t("No-organization-found")}
                                 </span>
                               </section>
@@ -3171,35 +3149,33 @@ const GlobalAdminDashboard = () => {
                                 sm={12}
                                 md={12}
                                 lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
+                                className='d-flex justify-content-center mt-2'>
                                 <Spin />
                               </Col>
                             </Row>
                           </>
                         ) : null
-                      }
-                    >
+                      }>
                       <Table
                         column={essentialColumns}
                         pagination={false}
                         rows={essentialRow}
                         footer={false}
-                        className="EssentialTable"
+                        className='EssentialTable'
                         locale={{
                           emptyText: (
                             <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
+                              <section className='d-flex flex-column align-items-center justify-content-center '>
                                 <img
                                   src={NoOrganizationIcon}
                                   width={"45px"}
-                                  alt=""
+                                  alt=''
                                 />
 
-                                <span className="Main-Title">
+                                <span className='Main-Title'>
                                   {t("No-organization")}
                                 </span>
-                                <span className="Sub-Title">
+                                <span className='Sub-Title'>
                                   {t("No-organization-found")}
                                 </span>
                               </section>
@@ -3228,6 +3204,7 @@ const GlobalAdminDashboard = () => {
         onClickSendInvoice={onClickSendInvoice}
         setSendInvoiceData={setSendInvoiceData}
         onClickDownloadInvoice={onClickDownloadInvoice}
+        setInvoiceData={setInvoiceData}
       />
     </>
   );

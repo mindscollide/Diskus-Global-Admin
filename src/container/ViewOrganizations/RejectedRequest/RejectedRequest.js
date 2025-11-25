@@ -3,12 +3,10 @@ import {
   getAllTrailRejectedApi,
   updateOrganizationTrailRequestStatusApi,
 } from "../../../store/Actions/ViewOrganizationActions";
-import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
   confirmatioModalFunc,
   viewOrganizationLoader,
 } from "../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
-import { getAllOrganizationNameMainApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";

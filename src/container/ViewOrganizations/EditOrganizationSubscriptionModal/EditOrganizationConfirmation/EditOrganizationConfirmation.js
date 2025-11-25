@@ -34,6 +34,8 @@ const EditOrganizationConfirmations = ({
   useEffect(() => {
     return () => {
       dispatch(editOrganizationConfirmation(false));
+      setShowSearchText(false);
+      setUserNameSearch("");
     };
   }, []);
 
