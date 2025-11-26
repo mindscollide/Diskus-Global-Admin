@@ -23,9 +23,7 @@ import { formatDate } from "../../common/functions/dateFormatters";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_ar from "react-date-object/locales/gregorian_ar";
 import gregorian_en from "react-date-object/locales/gregorian_en";
-import {
-  resetResponseMessage,
-} from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { resetResponseMessage } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import CurrenrOrganization from "./CurrentOrganizations/CurrentOrganizations";
 import TrailRequest from "./TrailRequest/TrailRequest";
 import RejectedRequest from "./RejectedRequest/RejectedRequest";
@@ -595,18 +593,7 @@ const ViewOrganization = () => {
     });
     if (value === 1) {
       // Current Organizations
-      let newData = {
-        OrganizationContactName: "",
-        OrganizationContactEmail: "",
-        OrganizationDateTo: "",
-        OrganizationDateFrom: "",
-        OrganizationSubscriptionStatus: 0,
-        OrganizationName: "",
-        sRow: 0,
-        eRow: 10,
-      };
-      dispatch(viewOrganizationLoader(true));
-      dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
+
       setIsScroll(false);
     } else if (value === 2) {
       // Trail Requests

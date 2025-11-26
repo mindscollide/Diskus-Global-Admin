@@ -17,11 +17,13 @@ import { utcConvertintoGMT } from "../../../common/functions/dateFormatters";
 import moment from "moment";
 import ConfirmationModal from "../confirmationModal/ConfirmationModal";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
+import { useViewOrganization } from "../../../context/viewOrganizations";
 
 const TrailRequest = ({ currentTab, setCurrentTab, setIsScroll, isScroll }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { setShowSearchText, setSearchOrganizationData } = useViewOrganization();
   const scrollableElementRef = useRef(null);
   // Global State for Data
   const trailRequesRequestData = useSelector(
@@ -105,6 +107,8 @@ const TrailRequest = ({ currentTab, setCurrentTab, setIsScroll, isScroll }) => {
         setCurrentTab,
         navigate,
         t,
+        setShowSearchText, 
+        setSearchOrganizationData
       })
     );
   }, [organizationID]);

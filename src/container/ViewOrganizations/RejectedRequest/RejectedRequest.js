@@ -17,6 +17,7 @@ import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 import ConfirmationModal from "../confirmationModal/ConfirmationModal";
 import moment from "moment";
 import { utcConvertintoGMT } from "../../../common/functions/dateFormatters";
+import { useViewOrganization } from "../../../context/viewOrganizations";
 
 const RejectedRequest = ({
   currentTab,
@@ -27,6 +28,10 @@ const RejectedRequest = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const { setShowSearchText, setSearchOrganizationData } =
+    useViewOrganization();
+
   // Global State for Data
   const rejctedRequestData = useSelector(
     (state) => state.searchOrganization.rejectedRequestData
@@ -39,8 +44,6 @@ const RejectedRequest = ({
 
   const [totalRecords, setTotalRecords] = useState(0);
   const [rejectedRequestData, setRejectedRequestData] = useState([]);
-
-
 
   useEffect(() => {
     try {
@@ -131,6 +134,8 @@ const RejectedRequest = ({
         setCurrentTab,
         navigate,
         t,
+        setShowSearchText,
+        setSearchOrganizationData,
       })
     );
     // setStatus("");
