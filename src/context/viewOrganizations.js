@@ -16,9 +16,10 @@ export const ViewOrganizationProvider = ({ children }) => {
     OrganizationDateToView: "",
     OrganizationDateFromView: "",
   });
+
+  const [appliedSearchFilters, setAppliedSearchFilters] = useState({});
   const [showsearchText, setShowSearchText] = useState(false);
   const [userNameSearch, setUserNameSearch] = useState("");
-
 
   const viewOrganizationData = {
     searchOrganizationData,
@@ -27,6 +28,8 @@ export const ViewOrganizationProvider = ({ children }) => {
     setShowSearchText,
     userNameSearch,
     setUserNameSearch,
+    appliedSearchFilters,
+    setAppliedSearchFilters,
     // Add any state or functions related to viewing organizations here
   };
 

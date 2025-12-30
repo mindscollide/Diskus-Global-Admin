@@ -35,8 +35,13 @@ const ViewOrganization = () => {
     setSearchOrganizationData,
     setShowSearchText,
     showsearchText,
+    setAppliedSearchFilters,
+    appliedSearchFilters,
   } = useViewOrganization();
-
+  console.log(
+    appliedSearchFilters,
+    "appliedSearchFiltersappliedSearchFiltersappliedSearchFilters"
+  );
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,10 +83,74 @@ const ViewOrganization = () => {
     severity: "none",
   });
 
-  console.log(
-    { searchOrganizationData, showsearchText },
-    "showsearchTextshowsearchText"
-  );
+  const callSearchApi = (filters) => {
+    if (currentTab === 1) {
+      const newData = {
+        OrganizationContactName: filters.OrganizationContactName || "",
+        OrganizationContactEmail: filters.OrganizationContactEmail || "",
+        OrganizationDateFrom: filters.OrganizationDateFrom
+          ? `${filters.OrganizationDateFrom}000000`
+          : "",
+        OrganizationDateTo: filters.OrganizationDateTo
+          ? `${filters.OrganizationDateTo}000000`
+          : "",
+        OrganizationSubscriptionStatus: Number(
+          filters.OrganizationSubscriptionStatus?.value || 0
+        ),
+        OrganizationName: filters.OrganizationName || "",
+        sRow: 0,
+        eRow: 10,
+      };
+
+      dispatch(viewOrganizationLoader(true));
+      dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
+    }
+
+    if (currentTab === 2) {
+      dispatch(
+        getAllTrailRequestedApi({
+          newData: {
+            OrganizationName: filters.OrganizationName || "",
+            ContactPersonName: filters.OrganizationContactName || "",
+            ContactPersonEmail: filters.OrganizationContactEmail || "",
+            DateTimeFrom: filters.OrganizationDateFrom
+              ? `${filters.OrganizationDateFrom}000000`
+              : "",
+            DateTimeTo: filters.OrganizationDateTo
+              ? `${filters.OrganizationDateTo}000000`
+              : "",
+            SkipRows: 0,
+            Length: 10,
+          },
+          navigate,
+          t,
+        })
+      );
+    }
+
+    if (currentTab === 3) {
+      dispatch(
+        getAllTrailRejectedApi({
+          newData: {
+            OrganizationName: filters.OrganizationName || "",
+            ContactPersonName: filters.OrganizationContactName || "",
+            ContactPersonEmail: filters.OrganizationContactEmail || "",
+            DateTimeFrom: filters.OrganizationDateFrom
+              ? `${filters.OrganizationDateFrom}000000`
+              : "",
+            DateTimeTo: filters.OrganizationDateTo
+              ? `${filters.OrganizationDateTo}000000`
+              : "",
+            SkipRows: 0,
+            Length: 10,
+          },
+          navigate,
+          t,
+        })
+      );
+    }
+  };
+
   useEffect(() => {
     if (
       Responsemessage !== "" &&
@@ -334,146 +403,44 @@ const ViewOrganization = () => {
       // setSearchBox(false);
       // setShowSearchText(false);
       setSearchOrganizationData(updatedData);
+      setAppliedSearchFilters({
+        ...searchOrganizationData,
+      });
     }
   };
 
   // search Button Handler
   const handleSearchButton = () => {
-    if (currentTab === 1) {
-      let newData = {
-        OrganizationContactName: searchOrganizationData.OrganizationContactName,
-        OrganizationContactEmail:
-          searchOrganizationData.OrganizationContactEmail,
-        OrganizationDateTo: searchOrganizationData.OrganizationDateTo
-          ? `${searchOrganizationData.OrganizationDateTo}000000`
-          : "",
-        OrganizationDateFrom: searchOrganizationData.OrganizationDateFrom
-          ? `${searchOrganizationData.OrganizationDateFrom}000000`
-          : "",
-        OrganizationSubscriptionStatus: Number(
-          searchOrganizationData.OrganizationSubscriptionStatus.value
-        ),
-        OrganizationName: organizationDataValue
-          ? organizationDataValue.label
-          : "",
-        sRow: 0,
-        eRow: 10,
-      };
-      dispatch(viewOrganizationLoader(true));
-      dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
-      setSearchBox(false);
-      setIsScroll(false);
-
-      // setShowSearchText(false);
-    } else if (currentTab === 2) {
-      let newData = {
-        OrganizationName: organizationDataValue
-          ? organizationDataValue.label
-          : "",
-        ContactPersonName: searchOrganizationData.OrganizationContactName,
-        ContactPersonEmail: searchOrganizationData.OrganizationContactEmail,
-        DateTimeTo: searchOrganizationData.OrganizationDateTo
-          ? `${searchOrganizationData.OrganizationDateTo}000000`
-          : "",
-        DateTimeFrom: searchOrganizationData.OrganizationDateFrom
-          ? `${searchOrganizationData.OrganizationDateFrom}000000`
-          : "",
-        SkipRows: 0,
-        Length: 10,
-      };
-      dispatch(viewOrganizationLoader(true));
-      dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
-      setSearchBox(false);
-      setIsScroll(false);
-
-      // setShowSearchText(false);
-    } else if (currentTab === 3) {
-      let newData = {
-        OrganizationName: organizationDataValue
-          ? organizationDataValue.label
-          : "",
-        ContactPersonName: searchOrganizationData.OrganizationContactName,
-        ContactPersonEmail: searchOrganizationData.OrganizationContactEmail,
-        DateTimeTo: searchOrganizationData.OrganizationDateTo
-          ? `${searchOrganizationData.OrganizationDateTo}000000`
-          : "",
-        DateTimeFrom: searchOrganizationData.OrganizationDateFrom
-          ? `${searchOrganizationData.OrganizationDateFrom}000000`
-          : "",
-        SkipRows: 0,
-        Length: 10,
-      };
-      dispatch(viewOrganizationLoader(true));
-      dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
-      setSearchBox(false);
-
-      setIsScroll(false);
-
-      // setShowSearchText(false);
-    }
+    setAppliedSearchFilters({ ...searchOrganizationData });
     setShowSearchText(true);
+    setSearchBox(false);
+    setIsScroll(false);
+
+    callSearchApi(searchOrganizationData);
   };
 
   // to reset field on handler reset button
   const handleResetButton = () => {
-    setOrganizationDataValue(null);
-    setShowSearchText(false);
-    setSearchBox(false);
-
-    setSearchOrganizationData({
+    const resetState = {
       OrganizationContactName: "",
       OrganizationContactEmail: "",
       OrganizationDateFrom: "",
       OrganizationDateTo: "",
       OrganizationName: "",
-      OrganizationSubscriptionStatus: {
-        value: 0,
-        label: "",
-      },
+      OrganizationSubscriptionStatus: { value: 0, label: "" },
       OrganizationDateToView: "",
       OrganizationDateFromView: "",
-    });
-    if (currentTab === 1) {
-      // Current Organizations
-      let newData = {
-        OrganizationContactName: "",
-        OrganizationContactEmail: "",
-        OrganizationDateTo: "",
-        OrganizationDateFrom: "",
-        OrganizationSubscriptionStatus: 0,
-        OrganizationName: "",
-        sRow: 0,
-        eRow: 10,
-      };
-      dispatch(viewOrganizationLoader(true));
-      dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
-    } else if (currentTab === 2) {
-      // Trail Requests
-      let newData = {
-        OrganizationName: "",
-        ContactPersonName: "",
-        ContactPersonEmail: "",
-        DateTimeTo: "",
-        DateTimeFrom: "",
-        SkipRows: 0,
-        Length: 10,
-      };
-      dispatch(viewOrganizationLoader(true));
-      dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
-    } else if (currentTab === 3) {
-      // Rejected Requests
-      let newData = {
-        OrganizationName: "",
-        ContactPersonName: "",
-        ContactPersonEmail: "",
-        DateTimeTo: "",
-        DateTimeFrom: "",
-        SkipRows: 0,
-        Length: 10,
-      };
-      dispatch(viewOrganizationLoader(true));
-      dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
-    }
+    };
+
+    setOrganizationDataValue(null);
+    setSearchBox(false);
+    setShowSearchText(false);
+    setIsScroll(false);
+
+    setSearchOrganizationData(resetState);
+    setAppliedSearchFilters({});
+
+    callSearchApi(resetState);
   };
 
   const handleCancelSearchbox = () => {
@@ -571,6 +538,9 @@ const ViewOrganization = () => {
         }
       }
       setShowSearchText(true);
+      setAppliedSearchFilters({
+        ...searchOrganizationData,
+      });
     }
   };
 
@@ -626,16 +596,38 @@ const ViewOrganization = () => {
     }
   };
 
+  const handleRemoveFilter = (key) => {
+    // 1️⃣ Update applied filters (chips)
+    const updatedFilters = { ...appliedSearchFilters };
+    delete updatedFilters[key];
+
+    // 2️⃣ Update search state (API source)
+    const updatedSearchData = {
+      ...searchOrganizationData,
+      [key]:
+        key === "OrganizationSubscriptionStatus" ? { value: 0, label: "" } : "",
+    };
+
+    setAppliedSearchFilters(updatedFilters);
+    setSearchOrganizationData(updatedSearchData);
+
+    // 3️⃣ CALL API with empty value
+    setShowSearchText(Object.keys(updatedFilters).length > 0);
+    setIsScroll(false);
+
+    callSearchApi(updatedSearchData);
+  };
+
   return (
     <>
-      <Row className='mt-3'>
+      <Row className="mt-3">
         <Col lg={7} md={7} sm={7}>
           <span className={"HeadingViewORganization"}>
             {t("View-organization")}
           </span>
         </Col>
         <Col lg={5} md={5} sm={5}>
-          <span className='position-relative'>
+          <span className="position-relative">
             <TextField
               onKeyDown={handleKeyDownSearch}
               change={onChangeEventForSearch}
@@ -653,12 +645,13 @@ const ViewOrganization = () => {
                       lg={12}
                       md={12}
                       sm={12}
-                      className='d-flex gap-2 align-items-center'>
+                      className="d-flex gap-2 align-items-center"
+                    >
                       <img
                         src={SearchIcon}
-                        alt=''
+                        alt=""
                         className={"Search_Bar_icon_class"}
-                        draggable='false'
+                        draggable="false"
                         onClick={HandleopenSearchBox}
                       />
                     </Col>
@@ -667,9 +660,34 @@ const ViewOrganization = () => {
               }
               iconClassName={"d-block"}
             />
+            <div className="d-flex gap-2 flex-wrap mt-2">
+              {Object.entries(appliedSearchFilters).map(([key, value]) => {
+                if (
+                  !value ||
+                  value === "" ||
+                  (typeof value === "object" && value.value === 0)
+                )
+                  return null;
 
-            <Row>
-              <Col lg={12} md={12} sm={12} className='d-flex gap-2 flex-wrap'>
+                const label =
+                  key === "OrganizationSubscriptionStatus"
+                    ? value.label
+                    : value;
+
+                return (
+                  <div key={key} className="SearchablesItems">
+                    <span className="Searches">{label}</span>
+                    <img
+                      src={BlackCrossicon}
+                      className="CrossIcon_Class"
+                      onClick={() => handleRemoveFilter(key)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            {/* <Row>
+              <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
                 {showsearchText &&
                 searchOrganizationData.OrganizationName !== "" ? (
                   <div className={"SearchablesItems"}>
@@ -678,7 +696,7 @@ const ViewOrganization = () => {
                     </span>
                     <img
                       src={Crossicon}
-                      alt=''
+                      alt=""
                       className={"CrossIcon_Class"}
                       width={13}
                       onClick={() => handleSearches("OrganizationName")}
@@ -693,7 +711,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=''
+                        alt=""
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() =>
@@ -711,7 +729,7 @@ const ViewOrganization = () => {
                     </span>
                     <img
                       src={Crossicon}
-                      alt=''
+                      alt=""
                       className={"CrossIcon_Class"}
                       width={13}
                       onClick={() => handleSearches("OrganizationContactEmail")}
@@ -730,7 +748,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=''
+                        alt=""
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() => handleSearches("OrganizationDateFrom")}
@@ -749,7 +767,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=''
+                        alt=""
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() => handleSearches("OrganizationDateTo")}
@@ -771,8 +789,7 @@ const ViewOrganization = () => {
                     />
                   </div>
                 )} */}
-
-                {showsearchText &&
+            {/* {showsearchText &&
                   searchOrganizationData.OrganizationSubscriptionStatus
                     .label && (
                     <div className={"SearchablesItems"}>
@@ -784,7 +801,7 @@ const ViewOrganization = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=''
+                        alt=""
                         className={"CrossIcon_Class"}
                         width={13}
                         onClick={() =>
@@ -792,29 +809,30 @@ const ViewOrganization = () => {
                         }
                       />
                     </div>
-                  )}
-              </Col>
-            </Row>
+                  )} */}
+            {/* </Col> */}
+            {/* </Row> */}
             {searchBox ? (
               <>
                 <Row>
                   <Col lg={12} md={12} sm={12} className={"SearchBox"}>
-                    <Row className='mt-2'>
+                    <Row className="mt-2">
                       <Col
                         lg={12}
                         md={12}
                         sm={12}
-                        className='d-flex justify-content-end align-items-center'>
+                        className="d-flex justify-content-end align-items-center"
+                      >
                         <img
-                          alt=''
+                          alt=""
                           src={BlackCrossicon}
-                          draggable='false'
+                          draggable="false"
                           className={"CrossIcon_Class"}
                           onClick={handleCancelSearchbox}
                         />
                       </Col>
                     </Row>
-                    <Row className='mt-2'>
+                    <Row className="mt-2">
                       <Col lg={6} md={6} sm={6}>
                         <TextField
                           labelClass={"d-none"}
@@ -838,7 +856,7 @@ const ViewOrganization = () => {
                         />
                       </Col>
                     </Row>
-                    <Row className='mt-3'>
+                    <Row className="mt-3">
                       <Col lg={6} md={6} sm={6}>
                         <DatePicker
                           value={
@@ -853,10 +871,10 @@ const ViewOrganization = () => {
                             />
                           }
                           editable={false}
-                          className='datePickerTodoCreate2'
+                          className="datePickerTodoCreate2"
                           containerClassName={"datePicker_Container"}
                           onOpenPickNewDate={false}
-                          inputMode=''
+                          inputMode=""
                           calendar={calendarValue}
                           locale={localValue}
                           ref={calendRef}
@@ -875,10 +893,10 @@ const ViewOrganization = () => {
                             />
                           }
                           editable={false}
-                          className='datePickerTodoCreate2'
+                          className="datePickerTodoCreate2"
                           containerClassName={"datePicker_Container"}
                           onOpenPickNewDate={false}
-                          inputMode=''
+                          inputMode=""
                           calendar={calendarValue}
                           locale={localValue}
                           ref={calendRef}
@@ -888,7 +906,7 @@ const ViewOrganization = () => {
                     </Row>
 
                     {currentTab === 1 && (
-                      <Row className='mt-3'>
+                      <Row className="mt-3">
                         <Col lg={6} md={6} sm={6}>
                           <Select
                             value={
@@ -929,12 +947,13 @@ const ViewOrganization = () => {
                       </Row>
                     )}
 
-                    <Row className='mt-3'>
+                    <Row className="mt-3">
                       <Col
                         lg={12}
                         md={12}
                         sm={12}
-                        className='d-flex justify-content-end gap-2'>
+                        className="d-flex justify-content-end gap-2"
+                      >
                         <Button
                           text={t("Reset")}
                           className={"SearchBoxResetButton"}
@@ -954,12 +973,13 @@ const ViewOrganization = () => {
           </span>
         </Col>
       </Row>
-      <Row className='mt-3'>
+      <Row className="mt-3">
         <Col
           lg={12}
           md={12}
           sm={12}
-          className='d-flex gap-2 justify-content-start'>
+          className="d-flex gap-2 justify-content-start"
+        >
           <span
             onClick={() => {
               handleClickTab(1);
@@ -968,7 +988,8 @@ const ViewOrganization = () => {
               currentTab === 1
                 ? "currenrOrganizationTab_active"
                 : "currenrOrganizationTab"
-            }>
+            }
+          >
             {t("Current-organizations")}
           </span>
           <span
@@ -979,7 +1000,8 @@ const ViewOrganization = () => {
               currentTab === 2
                 ? "currenrOrganizationTab_active"
                 : "currenrOrganizationTab"
-            }>
+            }
+          >
             {t("Trial-requests")}
           </span>
           <span
@@ -990,7 +1012,8 @@ const ViewOrganization = () => {
               currentTab === 3
                 ? "currenrOrganizationTab_active"
                 : "currenrOrganizationTab"
-            }>
+            }
+          >
             {t("Rejected-requests")}
           </span>
         </Col>
