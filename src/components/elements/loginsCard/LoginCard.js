@@ -53,7 +53,15 @@ const LoginCard = () => {
   return (
     <>
       <Container>
-     
+      <Row>
+          <Col
+            lg={12}
+            md={12}
+            sm={12}
+            className={styles["language-selector-class"]}
+          >
+          </Col>
+        </Row>
         {/* Inside the Card functionality */}
         <Row className={styles["login-cards-container"]}>
           <Col lg={4} md={4} sm={12}>
