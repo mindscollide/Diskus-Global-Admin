@@ -30,7 +30,7 @@ const LanguageSlicer = createSlice({
         console.log(action, "payloadpayload");
         // state.loading = false;
         state.getSystemLanguage = action.payload.result;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getSystemLanguageMainApi.rejected, (state, action) => {
         // state.loading = false;
@@ -44,7 +44,7 @@ const LanguageSlicer = createSlice({
       .addCase(getLastLanguageMainApi.fulfilled, (state, action) => {
         // state.loading = false;
         state.lastLanguageData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getLastLanguageMainApi.rejected, (state, action) => {
         // state.loading = false;
@@ -58,7 +58,7 @@ const LanguageSlicer = createSlice({
       .addCase(setLastSelectedLanguageMainApi.fulfilled, (state, action) => {
         // state.loading = false;
         state.setLastLanguageData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(setLastSelectedLanguageMainApi.rejected, (state, action) => {
         // state.loading = false;

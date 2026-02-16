@@ -1,0 +1,49 @@
+/* Base Custom Notification Style */
+.notification-custom {
+  width: 100% !important;
+  background: #6172d6 !important;
+  position: relative !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+}
+/* Remove default icon spacing */
+.notification-custom .ant-notification-notice .ant-notification-notice-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Remove default icon spacing */
+.notification-custom .ant-notification-notice-icon {
+  margin-right: 12px !important;
+}
+.notification-custom .ant-notification-notice-description {
+  min-width: 250px !important;
+}
+
+body[dir="rtl"] .notification-custom .ant-notification-notice-icon {
+  margin-left: 12px !important;
+  margin-right: 0 !important;
+}
+
+/* Remove close button default spacing */
+.notification-custom .ant-notification-notice-close {
+  right: 12px !important;
+  color: #fff !important;
+  top: 35% !important;
+}
+
+body[dir="rtl"] .notification-custom .ant-notification-notice-close {
+  left: 12px !important;
+  right: auto !important;
+}
+
+/* Description text */
+.notification-custom .ant-notification-notice-description {
+  color: #fff !important;
+}
+
+/* Title (if used) */
+.notification-custom .ant-notification-notice-message {
+  color: #fff !important;
+  font-weight: 600;
+}

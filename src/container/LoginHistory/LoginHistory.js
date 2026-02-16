@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./LoginHistory.module.css";
-import {
-  Button,
-  Notification,
-  Table,
-  TextField,
-} from "../../components/elements";
+import { Button, Table, TextField } from "../../components/elements";
 import { Col, Container, Row } from "react-bootstrap";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
@@ -72,12 +67,6 @@ const LoginHistory = () => {
   const UserLoginHistoryData = useSelector(
     (state) => state.loginHistory.loginHistoryData
   );
-
-  const [openNotification, setOpenNotification] = useState({
-    historyFlag: false,
-    historyNotification: null,
-    severity: "none",
-  });
 
   // for dropdown lazy loading state:
   const [organization, setOrganization] = useState([]);
@@ -673,7 +662,7 @@ const LoginHistory = () => {
   return (
     <Container fluid>
       <>
-        <Row className="mt-3">
+        <Row className='mt-3'>
           <Col lg={5} md={5} sm={5}>
             <span className={styles["HeadingViewORganization"]}>
               {t("User-login-history")}
@@ -683,15 +672,14 @@ const LoginHistory = () => {
             lg={2}
             md={2}
             sm={2}
-            className="d-flex justify-content-center align-items-center"
-          >
+            className='d-flex justify-content-center align-items-center'>
             <span className={styles["Export_To_Excel"]} onClick={handleExport}>
-              <img src={ExcelIcon} alt="" draggable="false" />
+              <img src={ExcelIcon} alt='' draggable='false' />
               <span>{t("Export-to-excel")}</span>
             </span>
           </Col>
           <Col lg={5} md={5} sm={5}>
-            <span className="position-relative">
+            <span className='position-relative'>
               <TextField
                 onKeyDown={handleKeyDownSearch}
                 change={onChangeEventForSearch}
@@ -707,13 +695,12 @@ const LoginHistory = () => {
                         lg={12}
                         md={12}
                         sm={12}
-                        className="d-flex gap-2 align-items-center"
-                      >
+                        className='d-flex gap-2 align-items-center'>
                         <img
                           src={SearchIcon}
-                          alt=""
+                          alt=''
                           className={styles["Search_Bar_icon_class"]}
-                          draggable="false"
+                          draggable='false'
                           onClick={HandleopenSearchBox}
                         />
                       </Col>
@@ -731,7 +718,7 @@ const LoginHistory = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() =>
@@ -743,7 +730,7 @@ const LoginHistory = () => {
                 </Col>
               </Row>
               <Row>
-                <Col lg={12} md={12} sm={12} className="d-flex gap-2 flex-wrap">
+                <Col lg={12} md={12} sm={12} className='d-flex gap-2 flex-wrap'>
                   {showsearchText && userLoginHistorySearch.userName && (
                     <div className={styles["SearchablesItems"]}>
                       <span className={styles["Searches"]}>
@@ -751,7 +738,7 @@ const LoginHistory = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() => handleSearches("userName")}
@@ -766,7 +753,7 @@ const LoginHistory = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() => handleSearches("organizationID")}
@@ -781,7 +768,7 @@ const LoginHistory = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() => handleSearches("userEmail")}
@@ -795,7 +782,7 @@ const LoginHistory = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() => handleSearches("IpAddress")}
@@ -812,7 +799,7 @@ const LoginHistory = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() => handleSearches("DateFrom")}
@@ -829,7 +816,7 @@ const LoginHistory = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() => handleSearches("DateTo")}
@@ -844,7 +831,7 @@ const LoginHistory = () => {
                       </span>
                       <img
                         src={Crossicon}
-                        alt=""
+                        alt=''
                         className={styles["CrossIcon_Class"]}
                         width={13}
                         onClick={() => handleSearches("deviceID")}
@@ -860,31 +847,29 @@ const LoginHistory = () => {
                       lg={12}
                       md={12}
                       sm={12}
-                      className={styles["SearchBox"]}
-                    >
-                      <Row className="mt-2">
+                      className={styles["SearchBox"]}>
+                      <Row className='mt-2'>
                         <Col
                           lg={12}
                           md={12}
                           sm={12}
-                          className="d-flex justify-content-end align-items-center"
-                        >
+                          className='d-flex justify-content-end align-items-center'>
                           <img
-                            alt=""
+                            alt=''
                             src={BlackCrossicon}
-                            draggable="false"
+                            draggable='false'
                             className={styles["crossIconClass"]}
                             onClick={handleCancelSearchbox}
                           />
                         </Col>
                       </Row>
-                      <Row className="mt-2">
+                      <Row className='mt-2'>
                         <Col lg={6} md={6} sm={6}>
                           <TextField
                             placeholder={t("User-name")}
                             name={"userName"}
                             // onKeyDown={handleKeyDown}
-                            type="text"
+                            type='text'
                             labelClass={"d-none"}
                             applyClass={"SearchTextFiled"}
                             value={userLoginHistorySearch.userName}
@@ -897,13 +882,13 @@ const LoginHistory = () => {
                             placeholder={t("User-email")}
                             applyClass={"SearchTextFiled"}
                             name={"userEmail"}
-                            type="email"
+                            type='email'
                             value={userLoginHistorySearch.userEmail}
                             change={handleChangeSearchBoxValues}
                           />
                         </Col>
                       </Row>
-                      <Row className="mt-3">
+                      <Row className='mt-3'>
                         <Col lg={6} md={6} sm={6}>
                           <DatePicker
                             value={userLoginHistorySearch.DateForView}
@@ -918,10 +903,10 @@ const LoginHistory = () => {
                               />
                             }
                             editable={false}
-                            className="datePickerTodoCreate2"
+                            className='datePickerTodoCreate2'
                             containerClassName={styles["datePicker_Container"]}
                             onOpenPickNewDate={false}
-                            inputMode=""
+                            inputMode=''
                             calendar={calendarValue}
                             locale={localValue}
                             ref={calendRef}
@@ -942,10 +927,10 @@ const LoginHistory = () => {
                               />
                             }
                             editable={false}
-                            className="datePickerTodoCreate2"
+                            className='datePickerTodoCreate2'
                             onOpenPickNewDate={false}
                             containerClassName={styles["datePicker_Container"]}
-                            inputMode=""
+                            inputMode=''
                             calendar={calendarValue}
                             locale={localValue}
                             ref={calendRef}
@@ -953,7 +938,7 @@ const LoginHistory = () => {
                           />
                         </Col>
                       </Row>
-                      <Row className="mt-3">
+                      <Row className='mt-3'>
                         <Col lg={6} md={6} sm={6}>
                           {/* <Select options={options} /> */}
                           <TextField
@@ -974,7 +959,7 @@ const LoginHistory = () => {
                           />
                         </Col>
                       </Row>
-                      <Row className="mt-3">
+                      <Row className='mt-3'>
                         <Col lg={6} md={6} sm={6}>
                           <Select
                             value={organizationDataValue}
@@ -990,8 +975,7 @@ const LoginHistory = () => {
                           lg={6}
                           md={6}
                           sm={6}
-                          className="d-flex justify-content-end gap-2"
-                        >
+                          className='d-flex justify-content-end gap-2'>
                           <Button
                             text={t("Reset")}
                             className={styles["SearchBoxResetButton"]}
@@ -1011,8 +995,8 @@ const LoginHistory = () => {
             </span>
           </Col>
         </Row>
-        <Row className="mt-4">
-          <Col sm={12} md={12} lg={12} className="py-2  px-4 bg-white">
+        <Row className='mt-4'>
+          <Col sm={12} md={12} lg={12} className='py-2  px-4 bg-white'>
             <InfiniteScroll
               dataLength={tablerows.length}
               next={handleScroll}
@@ -1026,15 +1010,13 @@ const LoginHistory = () => {
                         sm={12}
                         md={12}
                         lg={12}
-                        className="d-flex justify-content-center mt-2"
-                      >
+                        className='d-flex justify-content-center mt-2'>
                         <Spin />
                       </Col>
                     </Row>
                   </>
                 ) : null
-              }
-            >
+              }>
               <Table
                 column={UserLoginHistoryColoumn}
                 pagination={false}
@@ -1045,13 +1027,13 @@ const LoginHistory = () => {
                 locale={{
                   emptyText: (
                     <>
-                      <section className="oops d-flex flex-column align-items-center justify-content-center ">
-                        <img src={Oops} width={"250px"} alt="" />
+                      <section className='oops d-flex flex-column align-items-center justify-content-center '>
+                        <img src={Oops} width={"250px"} alt='' />
 
-                        <span className="Main-Title UserLogin">
+                        <span className='Main-Title UserLogin'>
                           {t("Oops")}
                         </span>
-                        <span className="Sub-Title UserLogin">
+                        <span className='Sub-Title UserLogin'>
                           {t("We-can't-seem-to-find-what-you're-looking-for")}
                         </span>
                       </section>
@@ -1065,18 +1047,6 @@ const LoginHistory = () => {
             </InfiniteScroll>
           </Col>
         </Row>
-
-        <Notification
-          show={openNotification.historyFlag}
-          hide={setOpenNotification}
-          message={openNotification.historyNotification}
-          severity={openNotification.severity}
-          notificationClass={
-            openNotification.severity
-              ? "notification-error"
-              : "notification-success"
-          }
-        />
       </>
     </Container>
   );

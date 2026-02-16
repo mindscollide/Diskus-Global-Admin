@@ -41,7 +41,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(getAllPackageApi.fulfilled, (state, action) => {
         state.packagesFeaturesGlobalData = action.payload;
-        state.ResponseMessage = "Success";
+        state.ResponseMessage = "";
       })
       .addCase(getAllPackageApi.rejected, (state, action) => {
         state.packagesFeaturesGlobalData = null;
@@ -54,7 +54,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(deleteMainPackageApi.fulfilled, (state, action) => {
         state.deleteMainPackageData = action.payload;
-        state.ResponseMessage = "Success";
+        state.ResponseMessage = "";
       })
       .addCase(deleteMainPackageApi.rejected, (state, action) => {
         state.deleteMainPackageData = null;
@@ -82,7 +82,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(deletePackageFeatureApi.fulfilled, (state, action) => {
         state.deletePackageFeatureData = action.payload;
-        state.ResponseMessage = "Success";
+        state.ResponseMessage = "";
       })
       .addCase(deletePackageFeatureApi.rejected, (state, action) => {
         state.deletePackageFeatureData = null;
@@ -95,7 +95,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(getPackageFeaturesApi.fulfilled, (state, action) => {
         state.getPackageFeatureData = action.payload;
-        state.ResponseMessage = "Success";
+        state.ResponseMessage = "";
       })
       .addCase(getPackageFeaturesApi.rejected, (state, action) => {
         state.getPackageFeatureData = null;
@@ -108,7 +108,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(addPackageFeatureApi.fulfilled, (state, action) => {
         state.addPackageFeaturesData = action.payload;
-        state.ResponseMessage = "Success";
+        state.ResponseMessage = "";
       })
       .addCase(addPackageFeatureApi.rejected, (state, action) => {
         state.addPackageFeaturesData = null;
@@ -121,7 +121,7 @@ const packageAdminReducer = createSlice({
       })
       .addCase(createPackageFeaturesApi.fulfilled, (state, action) => {
         state.createPackageData = action.payload;
-        state.ResponseMessage = "Success";
+        state.ResponseMessage = "";
       })
       .addCase(createPackageFeaturesApi.rejected, (state, action) => {
         state.createPackageData = null;

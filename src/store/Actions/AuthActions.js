@@ -72,7 +72,7 @@ export const enterEmailValidation = createAsyncThunk(
             dispatch(changeScreen("PasswordVerification"));
             return {
               result: response.data.responseResult,
-              code: t("User's-password-is-created"),
+              code: "",
             };
           } else if (
             response.data.responseResult.responseMessage
@@ -295,7 +295,7 @@ export const PasswordVerificationApi = createAsyncThunk(
 );
 
 //SignOut Function
-const signOut = (navigate, message, dispatch) => {
+const signOut = () => {
   logoutChannel.postMessage("Logout");
 
   window.location.href = window.location.origin + "/";
@@ -311,7 +311,7 @@ const signOut = (navigate, message, dispatch) => {
       "rememberPasswordValue"
     );
     localStorage.clear();
-    if (reLang != undefined && reLang != null) {
+    if (reLang !== undefined && reLang !== null) {
       localStorage.setItem("i18nextLng", reLang);
     }
     localStorage.setItem("remeberPassword", RememberPasswordLocal);
@@ -321,7 +321,7 @@ const signOut = (navigate, message, dispatch) => {
   } else if (RememberEmailLocal === true) {
     let RememberEmailLocalValue = localStorage.getItem("rememberEmailValue");
     localStorage.clear();
-    if (reLang != undefined && reLang != null) {
+    if (reLang !== undefined && reLang !== null) {
       localStorage.setItem("i18nextLng", reLang);
     }
     localStorage.setItem("rememberEmail", RememberEmailLocal);
@@ -331,14 +331,14 @@ const signOut = (navigate, message, dispatch) => {
       "rememberPasswordValue"
     );
     localStorage.clear();
-    if (reLang != undefined && reLang != null) {
+    if (reLang !== undefined && reLang !== null) {
       localStorage.setItem("i18nextLng", reLang);
     }
     localStorage.setItem("remeberPassword", RememberPasswordLocal);
     localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
   } else {
     localStorage.clear();
-    if (reLang != undefined && reLang != null) {
+    if (reLang !== undefined && reLang !== null) {
       localStorage.setItem("i18nextLng", reLang);
     }
     localStorage.setItem("rememberEmail", false);
@@ -384,23 +384,29 @@ export const GlobalAdminLogOutApi = createAsyncThunk(
               .toLowerCase()
               .includes("ERM_AuthService_AuthManager_LogOut_02".toLowerCase())
           ) {
+            signOut();
             return rejectWithValue(t("Invalid-token"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes("ERM_AuthService_AuthManager_LogOut_03".toLowerCase())
           ) {
+            signOut();
             return rejectWithValue(t("Something-went-wrong"));
           } else {
+            signOut();
             return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
+          signOut();
           return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
+        signOut();
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      signOut();
       return rejectWithValue(t("Something-went-wrong"));
     }
   }

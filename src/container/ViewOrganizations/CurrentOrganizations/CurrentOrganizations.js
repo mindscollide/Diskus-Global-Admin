@@ -1,11 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Collapse, Spin } from "antd";
-import {
-  Button,
-  Notification,
-  Table,
-  TextField,
-} from "../../../components/elements";
+import { Button, Table, TextField } from "../../../components/elements";
 import { UpOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Col, Container, Row } from "react-bootstrap";
@@ -40,15 +35,14 @@ import {
 } from "../../../store/ActionsSlicers/UIModalsActions";
 import EditOrganizationSubscriptions from "../EditOrganizationSubscriptionModal/EditOrganizationSubscription";
 import EditSubscriptionModals from "../EditSubscriptionModal/EditSubscriptionModal";
-import {
-  getPackageDetailGlobalApi,
-} from "../../../store/Actions/GlobalAdminDashboardActions";
+import { getPackageDetailGlobalApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 import {
   globalAdminDashBoardLoader,
   resetResponseMessage,
 } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import { useViewOrganization } from "../../../context/viewOrganizations";
+import { showNotification } from "../../../components/elements/snack_bar/snackbar";
 
 const { Panel } = Collapse;
 
@@ -63,7 +57,7 @@ const CurrentOrganization = ({
   SearchOrganizationDateTo,
   SearchOrganizationStatus,
 }) => {
-  const {setShowSearchText} = useViewOrganization()
+  const { setShowSearchText } = useViewOrganization();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -108,11 +102,7 @@ const CurrentOrganization = ({
   const [headData, setHeadData] = useState([]);
   const [editSubModal, setEditSubModal] = useState("");
 
-  const [openNotification, setOpenNotification] = useState({
-    historyFlag: false,
-    historyNotification: "",
-    severity: "none",
-  });
+
 
   useEffect(() => {
     let newData = {
@@ -128,34 +118,20 @@ const CurrentOrganization = ({
     dispatch(viewOrganizationLoader(true));
     dispatch(getAllOrganizationApi({ newData, navigate, t }));
   }, []);
-
   useEffect(() => {
     if (
-      Responsemessage !== "" &&
+      Responsemessage &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
-      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "" &&
       Responsemessage !== "No Data available"
     ) {
-      setOpenNotification({
-        historyFlag: true,
-        historyNotification: Responsemessage,
-        severity: t("Updated-Successfully") ? "success" : "error",
-      });
+      // Show notification
+      showNotification("success", Responsemessage);
 
-      setTimeout(() => {
-        dispatch(resetResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          historyFlag: false,
-          historyNotification: "",
-          severity: "none",
-        });
-      }, 4000);
+      // Reset the response message in the store
+      dispatch(resetResponseMessage());
     }
   }, [Responsemessage]);
-
-
 
   // uesEffect to get data getAllOrganization to set data in table
   useEffect(() => {
@@ -654,17 +630,7 @@ const CurrentOrganization = ({
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
 
-      <Notification
-        show={openNotification.historyFlag}
-        hide={setOpenNotification}
-        message={openNotification.historyNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+
     </>
   );
 };

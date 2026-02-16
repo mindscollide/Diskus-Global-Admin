@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Notification, TextField } from "../../components/elements";
+import { Button,  TextField } from "../../components/elements";
 import { useTranslation } from "react-i18next";
 import { Col, Row } from "react-bootstrap";
 import DatePicker from "react-multi-date-picker";
@@ -28,6 +28,7 @@ import CurrenrOrganization from "./CurrentOrganizations/CurrentOrganizations";
 import TrailRequest from "./TrailRequest/TrailRequest";
 import RejectedRequest from "./RejectedRequest/RejectedRequest";
 import { useViewOrganization } from "../../context/viewOrganizations";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 
 const ViewOrganization = () => {
   const {
@@ -77,11 +78,7 @@ const ViewOrganization = () => {
   let orgTrialAccept = localStorage.getItem("orgTrialAccept_action");
   let orgTrialReject = localStorage.getItem("orgTrialReject_action");
   console.log(isFound, "isFoundisFoundisFound");
-  const [openNotification, setOpenNotification] = useState({
-    historyFlag: false,
-    historyNotification: "",
-    severity: "none",
-  });
+
 
   const callSearchApi = (filters) => {
     if (currentTab === 1) {
@@ -153,28 +150,18 @@ const ViewOrganization = () => {
 
   useEffect(() => {
     if (
-      Responsemessage !== "" &&
+      Responsemessage &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
+      Responsemessage !== "" &&
       Responsemessage !== "No Data available"
     ) {
-      setOpenNotification({
-        historyFlag: true,
-        historyNotification: Responsemessage,
-        severity: t("Updated-Successfully") ? "success" : "error",
-      });
-
-      setTimeout(() => {
-        dispatch(resetResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          historyFlag: false,
-          historyNotification: "",
-          severity: "none",
-        });
-      }, 4000);
+      // Show notification
+      showNotification("success", Responsemessage);
+  
+      // Reset the response message in the store
+      dispatch(resetResponseMessage());
     }
-  }, [Responsemessage]);
+  }, [Responsemessage, dispatch, t]);
 
   //Calling Organization Api
   useEffect(() => {
@@ -1057,17 +1044,7 @@ const ViewOrganization = () => {
         />
       )}
 
-      <Notification
-        show={openNotification.historyFlag}
-        hide={setOpenNotification}
-        message={openNotification.historyNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+
     </>
   );
 };

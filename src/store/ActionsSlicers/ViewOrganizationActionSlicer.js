@@ -42,7 +42,7 @@ const searchOrganization = createSlice({
       })
       .addCase(searchOrganizationApi.fulfilled, (state, action) => {
         state.searchOrganizationData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(searchOrganizationApi.rejected, (state, action) => {
         state.searchOrganizationData = null;
@@ -82,7 +82,7 @@ const searchOrganization = createSlice({
       .addCase(getAllOrganizationApi.pending, (state) => {})
       .addCase(getAllOrganizationApi.fulfilled, (state, action) => {
         state.getAllOrganizationData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getAllOrganizationApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -90,7 +90,7 @@ const searchOrganization = createSlice({
 
       .addCase(getAllTrailRejectedApi.fulfilled, (state, action) => {
         state.rejectedRequestData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getAllTrailRejectedApi.rejected, (state, action) => {
         state.rejectedRequestData = null;
@@ -98,7 +98,7 @@ const searchOrganization = createSlice({
       })
       .addCase(getAllTrailRequestedApi.fulfilled, (state, action) => {
         state.trailRequestData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getAllTrailRequestedApi.rejected, (state, action) => {
         state.trailRequestData = null;
@@ -123,7 +123,7 @@ const searchOrganization = createSlice({
         (state, action) => {
           state.validateEncryptedStringForOrganizationTrialEmail =
             action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = "";
         }
       )
       .addCase(

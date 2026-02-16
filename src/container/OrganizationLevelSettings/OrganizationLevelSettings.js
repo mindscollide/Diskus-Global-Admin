@@ -14,7 +14,7 @@ import SecurityIcon from "../../assets/images/OutletImages/SecuritySetting.svg";
 import TodoIcon from "../../assets/images/OutletImages/Todo_icon.svg";
 import GroupIcon from "../../assets/images/OutletImages/GroupSetting.svg";
 import ResolutionIcon from "../../assets/images/OutletImages/new_ResolutionIcon2.svg";
-import { Button, Notification, TextField } from "../../components/elements";
+import { Button, TextField } from "../../components/elements";
 import {
   MonthOptions,
   MonthValues,
@@ -30,6 +30,7 @@ import {
   globalAdminDashBoardLoader,
   resetResponseMessage,
 } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 const OrganizationLevelSettings = () => {
   const { t } = useTranslation();
 
@@ -71,12 +72,6 @@ const OrganizationLevelSettings = () => {
     dispatch(GetSystemConfigurationsApi({ navigate, t }));
   }, []);
 
-  // for toaste notification
-  const [openNotification, setOpenNotification] = useState({
-    historyFlag: false,
-    historyNotification: "",
-    severity: "none",
-  });
 
   const [newData, setNewData] = useState({
     MAXIMUM_MEETING_DURATION: {
@@ -361,30 +356,28 @@ const OrganizationLevelSettings = () => {
   }, [GetSystemConfigurationsData]);
 
   useEffect(() => {
-    if (
-      Responsemessage !== "" &&
-      Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
-      Responsemessage !== t("Something-went-wrong") &&
-      Responsemessage !== "No Data available"
-    ) {
-      setOpenNotification({
-        historyFlag: true,
-        historyNotification: Responsemessage,
-        severity: t("Updated-Successfully") ? "success" : "error",
-      });
-
-      setTimeout(() => {
-        dispatch(resetResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          historyFlag: false,
-          historyNotification: "",
-          severity: "none",
-        });
-      }, 4000);
-    }
+    if (!Responsemessage) return;
+  
+    const ignoredMessages = [
+      "",
+      t("No-data-available"),
+      "No Data available",
+    ];
+  
+    if (ignoredMessages.includes(Responsemessage)) return;
+  
+    const successMessages = [
+      "",
+      t("Updated-Successfully"),
+    ];
+  
+    const isSuccess = successMessages.includes(Responsemessage);
+  
+    showNotification(isSuccess ? "success" : "error", Responsemessage);
+  
+    dispatch(resetResponseMessage());
   }, [Responsemessage]);
+  
 
   const openSecurityTab = () => {
     setSecuritystate(true);
@@ -2253,17 +2246,7 @@ const OrganizationLevelSettings = () => {
           />
         </Col>
       </Row>
-      <Notification
-        show={openNotification.historyFlag}
-        hide={setOpenNotification}
-        message={openNotification.historyNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+   
     </section>
   );
 };

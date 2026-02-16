@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   Button,
   Modal,
-  Notification,
   TextField,
 } from "./../../components/elements";
 import { Row, Col, Container } from "react-bootstrap";
@@ -21,6 +20,7 @@ import {
   globalAdminDashBoardLoader,
   resetResponseMessage,
 } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 
 const UserConfirmationModal = ({
   userDataInfo,
@@ -39,37 +39,23 @@ const UserConfirmationModal = ({
   );
   console.log(userInfoState, "userInfoStateuserInfoState");
 
-  const [openNotification, setOpenNotification] = useState({
-    changePasswordFlag: false,
-    changePasswordNotification: null,
-    severity: "none",
-  });
+
 
   useEffect(() => {
     if (
-      Responsemessage !== "" &&
+      Responsemessage &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
+      Responsemessage !== "" &&
       Responsemessage !== t("Something-went-wrong") &&
       Responsemessage !== "No Data available"
     ) {
-      setOpenNotification({
-        changePasswordFlag: true,
-        changePasswordNotification: Responsemessage,
-        severity: t("Updated-Successfully") ? "success" : "error",
-      });
-
-      setTimeout(() => {
-        dispatch(resetResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          changePasswordFlag: false,
-          changePasswordNotification: "",
-          severity: "none",
-        });
-      }, 4000);
+      // Show notification
+      showNotification("success", Responsemessage);
+  
+      // Reset the response message in the store
+      dispatch(resetResponseMessage());
     }
-  }, [Responsemessage]);
+  }, [Responsemessage, dispatch, t]);
 
   const handleClose = () => {
     dispatch(userConifrmationOpenModal(false));
@@ -140,17 +126,7 @@ const UserConfirmationModal = ({
           }
         />
       </Container>
-      <Notification
-        show={openNotification.changePasswordFlag}
-        hide={setOpenNotification}
-        message={openNotification.changePasswordNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+ 
     </>
   );
 };

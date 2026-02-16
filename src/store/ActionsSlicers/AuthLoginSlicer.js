@@ -54,7 +54,7 @@ const AuthActionsSlice = createSlice({
       .addCase(PasswordVerificationApi.fulfilled, (state, action) => {
         state.loading = false;
         state.passwordVerifyData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(PasswordVerificationApi.rejected, (state, action) => {
         state.loading = false;
@@ -68,7 +68,7 @@ const AuthActionsSlice = createSlice({
       .addCase(GlobalAdminLogOutApi.fulfilled, (state, action) => {
         state.loading = false;
         state.logOutData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(GlobalAdminLogOutApi.rejected, (state, action) => {
         state.loading = false;
