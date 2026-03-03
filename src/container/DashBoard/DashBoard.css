@@ -3,6 +3,9 @@
   margin: 0;
   padding: 0;
 }
+.dashbaord_data {
+  padding: 0 30px !important;
+}
 
 .dashboard-row {
   display: -webkit-box !important;
@@ -18,10 +21,6 @@
   margin-right: 10px;
   position: relative;
   top: -3px;
-}
-
-.Dashboard-Content {
-  margin-left: 60px !important;
 }
 
 .Dashboard-Main-Container.container-fluid {
@@ -49,14 +48,6 @@ body[dir="rtl"] .Dashboard-Main-Container.container-fluid {
   background: transparent;
   pointer-events: auto;
   z-index: 8;
-}
-
-.dashbaord_data {
-  margin: 0px 37px;
-  /* width: 100%; */
-}
-.talk_features_home {
-  width: 2%;
 }
 
 .dashboard-background {

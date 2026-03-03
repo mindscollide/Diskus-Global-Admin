@@ -21,3 +21,33 @@ export const onlyCharactersPattern = /^\s*|[^a-zA-Z\s]/g;
 export function formatNumber(number) {
   return new Intl.NumberFormat("en-US").format(number);
 }
+
+export const xorEncryptDecrypt = (input, key) => {
+  let out = "";
+  for (let i = 0; i < input.length; i++) {
+    out += String.fromCharCode(
+      input.charCodeAt(i) ^ key.charCodeAt(i % key.length)
+    );
+  }
+  return out;
+};
+
+export const encrypt = (data, key) => {
+  try {
+    const encrypted = xorEncryptDecrypt(JSON.stringify(data), key);
+    return btoa(encrypted); // base64 encode
+  } catch (e) {
+    console.log("Encrypt Error:", e);
+    return null;
+  }
+};
+
+export const decrypt = (data, key) => {
+  try {
+    const decoded = atob(data); // base64 decode
+    return JSON.parse(xorEncryptDecrypt(decoded, key));
+  } catch (e) {
+    console.log("Decrypt Error:", e);
+    return null;
+  }
+};

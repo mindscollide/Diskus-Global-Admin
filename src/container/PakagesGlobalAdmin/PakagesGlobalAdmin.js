@@ -13,7 +13,7 @@ import {
 } from "../../store/ActionsSlicers/UIModalsActions";
 import { useDispatch, useSelector } from "react-redux";
 import CreatePackageModal from "../CreatePackageModal/CreatePackageModal";
-import { Button, Notification } from "../../components/elements";
+import { Button, } from "../../components/elements";
 import DeletePackageModal from "../DeletePackageModal/DeletePackageModal";
 import {
   deletePackageFeatureApi,
@@ -27,6 +27,7 @@ import {
   resetResponseMessage,
 } from "../../store/ActionsSlicers/PackageSlicer";
 import { globalAdminDashBoardLoader } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 
 const PakagesGlobalAdmin = () => {
   const { t } = useTranslation();
@@ -53,15 +54,10 @@ const PakagesGlobalAdmin = () => {
   );
   console.log(ResponseMessage, "ResponseMessageResponseMessage");
 
-  const [openNotification, setOpenNotification] = useState({
-    historyFlag: false,
-    historyNotification: "",
-    severity: "none",
-  });
+
 
   // dropdown of package Feature in dropdown states
   const [packageFeature, setPackageFeature] = useState([]);
-  const [packageFeatureValue, setPackageFeatureValue] = useState(null);
   const [selectedPackageFeatures, setSelectedPackageFeatures] = useState({});
 
   // set state for package Id for deletion
@@ -95,30 +91,29 @@ const PakagesGlobalAdmin = () => {
   }, [getPackageFeatureData]);
 
   useEffect(() => {
-    if (
-      ResponseMessage !== "" &&
-      ResponseMessage !== t("No-data-available") &&
-      ResponseMessage !== t("Something-went-wrong") &&
-      ResponseMessage !== "Success" &&
-      ResponseMessage !== "No Data available"
-    ) {
-      setOpenNotification({
-        historyFlag: true,
-        historyNotification: ResponseMessage,
-        severity: t("Package-created-successfully") ? "success" : "error",
-      });
-
-      setTimeout(() => {
-        dispatch(resetResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          historyFlag: false,
-          historyNotification: "",
-          severity: "none",
-        });
-      }, 4000);
-    }
+    if (!ResponseMessage) return;
+  
+    const ignoredMessages = [
+      "",
+      t("No-data-available"),
+      t("Something-went-wrong"),
+      "No Data available",
+    ];
+  
+    if (ignoredMessages.includes(ResponseMessage)) return;
+  
+    const successMessages = [
+      "",
+      t("Package-created-successfully"),
+    ];
+  
+    const isSuccess = successMessages.includes(ResponseMessage);
+  
+    showNotification(isSuccess ? "success" : "error", ResponseMessage);
+  
+    dispatch(resetResponseMessage());
   }, [ResponseMessage]);
+  
 
   // this is how I store data of main Packages in reducer from useEffect
   useEffect(() => {
@@ -534,17 +529,7 @@ const PakagesGlobalAdmin = () => {
         onClickDelete={deletePackageCard}
       />
 
-      <Notification
-        show={openNotification.historyFlag}
-        hide={setOpenNotification}
-        message={openNotification.historyNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+
     </>
   );
 };

@@ -3,12 +3,10 @@ import {
   getAllTrailRequestedApi,
   updateOrganizationTrailRequestStatusApi,
 } from "../../../store/Actions/ViewOrganizationActions";
-import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
   confirmatioModalFunc,
   viewOrganizationLoader,
 } from "../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
-import { getAllOrganizationNameMainApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -18,13 +16,14 @@ import CustomButton from "../../../components/elements/button/Button";
 import { utcConvertintoGMT } from "../../../common/functions/dateFormatters";
 import moment from "moment";
 import ConfirmationModal from "../confirmationModal/ConfirmationModal";
-import { use } from "react";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
+import { useViewOrganization } from "../../../context/viewOrganizations";
 
 const TrailRequest = ({ currentTab, setCurrentTab, setIsScroll, isScroll }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { setShowSearchText, setSearchOrganizationData } = useViewOrganization();
   const scrollableElementRef = useRef(null);
   // Global State for Data
   const trailRequesRequestData = useSelector(
@@ -43,37 +42,6 @@ const TrailRequest = ({ currentTab, setCurrentTab, setIsScroll, isScroll }) => {
     { trailRequesRequestData, totalRecords, trailRequestData },
     "trailRequestDatatrailRequestData"
   );
-
-  //Calling Organization Api
-  useEffect(() => {
-    let newData = {
-      OrganizationName: "",
-      ContactPersonName: "",
-      ContactPersonEmail: "",
-      DateTimeTo: "",
-      DateTimeFrom: "",
-      SkipRows: 0,
-      Length: 10,
-    };
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllTrailRequestedApi({ newData, navigate, t }));
-
-    return () => {
-      // setSearchOrganizationData({
-      //   OrganizationContactName: "",
-      //   OrganizationContactEmail: "",
-      //   OrganizationDateFrom: "",
-      //   OrganizationDateTo: "",
-      //   OrganizationName: "",
-      //   OrganizationSubscriptionStatus: {
-      //     value: 0,
-      //     label: "",
-      //   },
-      //   OrganizationDateToView: "",
-      //   OrganizationDateFromView: "",
-      // });
-    };
-  }, []);
 
   useEffect(() => {
     try {
@@ -139,6 +107,8 @@ const TrailRequest = ({ currentTab, setCurrentTab, setIsScroll, isScroll }) => {
         setCurrentTab,
         navigate,
         t,
+        setShowSearchText, 
+        setSearchOrganizationData
       })
     );
   }, [organizationID]);

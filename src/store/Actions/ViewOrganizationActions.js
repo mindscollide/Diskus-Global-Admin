@@ -97,7 +97,14 @@ export const EditSubscriptionAPI = createAsyncThunk(
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
     console.log(requestData, "requestDatarequestData");
-    let { data, navigate, t } = requestData;
+    let {
+      data,
+      navigate,
+      t,
+      setUserNameSearch,
+      setShowSearchText,
+      setSearchOrganizationData,
+    } = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", editSubscription.RequestMethod);
@@ -122,6 +129,21 @@ export const EditSubscriptionAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationSubscriptionStatus_01".toLowerCase()
               )
           ) {
+            setUserNameSearch("");
+            setShowSearchText(false);
+            setSearchOrganizationData({
+              OrganizationContactName: "",
+              OrganizationContactEmail: "",
+              OrganizationDateFrom: "",
+              OrganizationDateTo: "",
+              OrganizationName: "",
+              OrganizationSubscriptionStatus: {
+                value: 0,
+                label: "",
+              },
+              OrganizationDateToView: "",
+              OrganizationDateFromView: "",
+            });
             let newData = {
               OrganizationContactName: "",
               OrganizationContactEmail: "",
@@ -184,7 +206,8 @@ export const EditOrganizationAPI = createAsyncThunk(
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
     console.log(requestData, "requestDatarequestData");
-    let { data, navigate, t } = requestData;
+    let { data, navigate, t, setSearchOrganizationData, setShowSearchText } =
+      requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", editOrganization.RequestMethod);
@@ -209,6 +232,20 @@ export const EditOrganizationAPI = createAsyncThunk(
                 "Admin_AdminServiceManager_UpdateOrganizationStatus_01".toLowerCase()
               )
           ) {
+            setSearchOrganizationData({
+              OrganizationContactName: "",
+              OrganizationContactEmail: "",
+              OrganizationDateFrom: "",
+              OrganizationDateTo: "",
+              OrganizationName: "",
+              OrganizationSubscriptionStatus: {
+                value: 0,
+                label: "",
+              },
+              OrganizationDateToView: "",
+              OrganizationDateFromView: "",
+            });
+            setShowSearchText(false);
             let newData = {
               OrganizationContactName: "",
               OrganizationContactEmail: "",
@@ -310,7 +347,6 @@ export const getAllOrganizationApi = createAsyncThunk(
             } catch (error) {
               console.log(error);
             }
-   
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
@@ -525,7 +561,15 @@ export const updateOrganizationTrailRequestStatusApi = createAsyncThunk(
   async (requestData, { rejectWithValue, dispatch }) => {
     console.log(requestData, "requestDatarequestData");
     let token = localStorage.getItem("token");
-    let { Data, navigate, t, setStatus, setCurrentTab } = requestData;
+    let {
+      Data,
+      navigate,
+      t,
+      setStatus,
+      setCurrentTab,
+      setShowSearchText,
+      setSearchOrganizationData,
+    } = requestData;
     let form = new FormData();
     form.append(
       "RequestMethod",
@@ -561,6 +605,25 @@ export const updateOrganizationTrailRequestStatusApi = createAsyncThunk(
             }
             dispatch(viewOrganizationLoader(false));
             dispatch(confirmatioModalFunc(false));
+            if (
+              typeof setShowSearchText === "function" &&
+              typeof setSearchOrganizationData === "function"
+            ) {
+              setShowSearchText(false);
+              setSearchOrganizationData({
+                OrganizationContactName: "",
+                OrganizationContactEmail: "",
+                OrganizationDateFrom: "",
+                OrganizationDateTo: "",
+                OrganizationName: "",
+                OrganizationSubscriptionStatus: {
+                  value: 0,
+                  label: "",
+                },
+                OrganizationDateToView: "",
+                OrganizationDateFromView: "",
+              });
+            }
             // if (currentTab) {
             //   if (currentTab === 2) {
             //     let newData = {

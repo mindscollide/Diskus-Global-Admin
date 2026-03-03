@@ -15,6 +15,7 @@ import { changeScreen } from "../../store/ActionsSlicers/AuthScreenActionSlicer"
 import { validationEmail } from "../../common/functions/Validate";
 import { async } from "q";
 import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -26,11 +27,7 @@ const LoginScreen = () => {
 
   const { t } = useTranslation();
 
-  const [openNotification, setOpenNotification] = useState({
-    loginFlag: false,
-    loginNotification: null,
-    severity: "none",
-  });
+ 
 
   const [rememberEmail, setRemeberEmail] = useState(false);
   const screenName = useSelector((state) => state.Auth.screenName);
@@ -153,59 +150,19 @@ const LoginScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (
-      ResponseMessage !== null &&
-      ResponseMessage !== undefined &&
-      ResponseMessage !== ""
-    ) {
-      setOpenNotification({
-        ...openNotification,
-        loginFlag: true,
-        loginNotification: ResponseMessage,
-        severity: "error",
-      });
-      setTimeout(() => {
-        setOpenNotification({
-          ...openNotification,
-          loginFlag: false,
-        });
-      }, 3000);
-      dispatch(resetAuthResponseMessage(""))
+    if (ResponseMessage) {
+      showNotification("error", ResponseMessage);
+      dispatch(resetAuthResponseMessage(""));
     }
   }, [ResponseMessage]);
 
   const onClickSignIn = async (e) => {
     e.preventDefault();
+
     if (email === "") {
-      setOpenNotification({
-        ...openNotification,
-        loginFlag: true,
-        loginNotification: t("Please-enter-email"),
-        severity: "error",
-      });
-
-      // Close the notification after 3 seconds
-      setTimeout(() => {
-        setOpenNotification({
-          ...openNotification,
-          loginFlag: false,
-        });
-      }, 3000);
+      showNotification("error", t("Please-enter-email"));
     } else if (!validationEmail(email)) {
-      setOpenNotification({
-        ...openNotification,
-        loginFlag: true,
-        loginNotification: t("Invalid-email-format"),
-        severity: "error",
-      });
-
-      // Close the notification after 3 seconds
-      setTimeout(() => {
-        setOpenNotification({
-          ...openNotification,
-          loginFlag: false,
-        });
-      }, 3000);
+      showNotification("error", t("Invalid-email-format"));
     } else {
       await dispatch(enterEmailValidation({ email, navigate, t }));
     }
@@ -281,18 +238,6 @@ const LoginScreen = () => {
           />
         </Col>
       </Row>
-
-      <Notification
-        show={openNotification.loginFlag}
-        hide={setOpenNotification}
-        message={openNotification.loginNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
     </>
   );
 };

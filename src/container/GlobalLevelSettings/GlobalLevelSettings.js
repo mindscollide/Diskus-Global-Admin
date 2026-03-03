@@ -13,7 +13,7 @@ import UserAccountsetting from "../../assets/images/OutletImages/UserAccountsett
 import OrganizationAccountSettings from "../../assets/images/OutletImages/OrganizationAccountSettings.svg";
 import SMSSettings from "../../assets/images/OutletImages/SMSSettings.svg";
 import TodoIcon from "../../assets/images/OutletImages/Todo_icon.svg";
-import { Button, Notification, TextField } from "../../components/elements";
+import { Button, TextField } from "../../components/elements";
 import Profilepicture from "../../assets/images/OutletImages/newprofile.png";
 
 import { Checkbox } from "antd";
@@ -32,6 +32,7 @@ import {
   globalAdminDashBoardLoader,
   resetResponseMessage,
 } from "../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 const GlobalLevelSettings = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -56,12 +57,7 @@ const GlobalLevelSettings = () => {
     useState(false);
   const [smsSettingState, setSmsSettingState] = useState(false);
 
-  // for toaste notification
-  const [openNotification, setOpenNotification] = useState({
-    historyFlag: false,
-    historyNotification: "",
-    severity: "none",
-  });
+
 
   // useEffect to hit Api of Global Level Configuration
   useEffect(() => {
@@ -229,30 +225,26 @@ const GlobalLevelSettings = () => {
   }, [getGlobalLevelConfigData]);
 
   useEffect(() => {
-    if (
-      Responsemessage !== "" &&
-      Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
-      Responsemessage !== t("Something-went-wrong") &&
-      Responsemessage !== "No Data available"
-    ) {
-      setOpenNotification({
-        historyFlag: true,
-        historyNotification: Responsemessage,
-        severity: t("Updated-Successfully") ? "success" : "error",
-      });
-
-      setTimeout(() => {
-        dispatch(resetResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          historyFlag: false,
-          historyNotification: "",
-          severity: "none",
-        });
-      }, 4000);
-    }
+    if (!Responsemessage) return;
+  
+    const ignoredMessages = [
+      "",
+      t("No-data-available"),
+      "No Data available",
+    ];
+  
+    if (ignoredMessages.includes(Responsemessage)) return;
+  
+    const isSuccess =
+      Responsemessage === "" ||
+      Responsemessage === t("Updated-Successfully");
+  
+    showNotification(isSuccess ? "success" : "error", Responsemessage);
+  
+    dispatch(resetResponseMessage());
   }, [Responsemessage]);
+  
+  
 
   // to open mail Tab
   const openMailTab = () => {
@@ -1152,17 +1144,7 @@ const GlobalLevelSettings = () => {
         </Col>
       </Row>
 
-      <Notification
-        show={openNotification.historyFlag}
-        hide={setOpenNotification}
-        message={openNotification.historyNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+
     </section>
   );
 };

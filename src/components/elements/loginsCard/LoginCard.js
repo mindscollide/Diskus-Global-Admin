@@ -3,7 +3,6 @@ import styles from "./LoginCard.module.css";
 import { Col, Row, Container } from "react-bootstrap";
 import DiskusLogo from "./../../../assets/images/DiskusLogo/Diskus_newLogo.svg";
 import DiskusRoundLogo from "./../../../assets/images/DiskusLogo/Diskus_newRoundIcon.svg";
-import LanguageSelector from "../../elements/languageSelector/Language-selector";
 import img7 from "./../../../assets/images/DiskusLogo/7.png";
 import img9 from "./../../../assets/images/DiskusLogo/9.png";
 import img2 from "./../../../assets/images/DiskusLogo/2.png";
@@ -54,14 +53,13 @@ const LoginCard = () => {
   return (
     <>
       <Container>
-        <Row>
+      <Row>
           <Col
             lg={12}
             md={12}
             sm={12}
             className={styles["language-selector-class"]}
           >
-            <LanguageSelector />
           </Col>
         </Row>
         {/* Inside the Card functionality */}

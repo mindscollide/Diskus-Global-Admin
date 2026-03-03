@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 // import styles from "./PasswordCreation.module.css";
 import "./PasswordCreation.css";
 import { Col, Container, Form, Row } from "react-bootstrap";
-import { Button, Paper, Loader, Notification } from "../../components/elements";
+import { Button, Paper, Loader } from "../../components/elements";
 import { Checkbox } from "antd";
 import { useTranslation } from "react-i18next";
 // import DiskusLogo from "../../../../assets/images/newElements/Diskus_newLogo.svg";
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { passwordCreationMainApi } from "../../store/Actions/AuthActions";
 import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 // import CreateAddtionalUsersModal from "../ModalsUserManagement/CreateAdditionalusersModal/CreateAddtionalUsersModal";
 // import Cookies from "js-cookie";
 // import {
@@ -37,11 +38,7 @@ const PasswordCreation = ({ onClickGoBack }) => {
   );
   console.log(Responsemessage, "ResponsemessageResponsemessage");
 
-  const [openNotification, setOpenNotification] = useState({
-    Flag: false,
-    Notification: null,
-    severity: "none",
-  });
+
 
   const { UserManagementModals } = useSelector((state) => state);
 
@@ -81,29 +78,19 @@ const PasswordCreation = ({ onClickGoBack }) => {
 
   // for response message useEffect
   useEffect(() => {
-    if (
-      Responsemessage !== "" &&
-      Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
-      Responsemessage !== t("Something-went-wrong") &&
-      Responsemessage !== "No Data available"
-    ) {
-      setOpenNotification({
-        Flag: true,
-        Notification: Responsemessage,
-        severity: t("The-user's-email-has-been-verified") ? "success" : "error",
-      });
+    if (!Responsemessage) return;
 
-      setTimeout(() => {
-        dispatch(resetAuthResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          Flag: false,
-          Notification: "",
-          severity: "none",
-        });
-      }, 4000);
-    }
+    const ignoredMessages = ["", t("No-data-available"), "No Data available"];
+
+    if (ignoredMessages.includes(Responsemessage)) return;
+
+    const isSuccess =
+      Responsemessage === "" ||
+      Responsemessage === t("The-user's-email-has-been-verified");
+
+    showNotification(isSuccess ? "success" : "error", Responsemessage);
+
+    dispatch(resetAuthResponseMessage());
   }, [Responsemessage]);
 
   //Encryption Password
@@ -159,30 +146,30 @@ const PasswordCreation = ({ onClickGoBack }) => {
   //Handler Password Verification
   const verifyHandlePassword = (e) => {
     e.preventDefault();
-    if (
-      passwordDetails.Password === "" &&
-      passwordDetails.ConfirmPassword === "" &&
-      passwordDetails.Password.length >= 8 &&
-      passwordDetails.ConfirmPassword.length >= 8
-    ) {
-      setErrorBar(false);
-      setOpen({
-        ...open,
-        open: true,
-        message: "Please Enter Fields Value",
-      });
-    } else if (passwordDetails.Password !== passwordDetails.ConfirmPassword) {
-      setErrorBar(true);
-    } else {
-      setErrorBar(false);
-      // navigate("/")
-      let UserID = localStorage.getItem("userID");
-      let data = {
-        UserID: JSON.parse(UserID),
-        NewPassword: passwordDetails.Password,
-      };
-      dispatch(passwordCreationMainApi({ data, navigate, t }));
+
+    if (!passwordDetails.Password || !passwordDetails.ConfirmPassword) {
+      showNotification("error", t("Please-enter-required-fields"));
+      return;
     }
+
+    if (passwordDetails.Password !== passwordDetails.ConfirmPassword) {
+      showNotification("error", t("Passwords-do-not-match"));
+      return;
+    }
+
+    if (!isPasswordStrong) {
+      showNotification("error", t("Password-is-not-strong-enough"));
+      return;
+    }
+
+    let UserID = localStorage.getItem("userID");
+
+    let data = {
+      UserID: JSON.parse(UserID),
+      NewPassword: passwordDetails.Password,
+    };
+
+    dispatch(passwordCreationMainApi({ data, navigate, t }));
   };
 
   return (
@@ -193,59 +180,56 @@ const PasswordCreation = ({ onClickGoBack }) => {
             lg={12}
             md={12}
             sm={12}
-            className="d-flex justify-content-center align-items-center mx-auto "
-          >
+            className='d-flex justify-content-center align-items-center mx-auto '>
             <Col sm={12} lg={12} md={12} className={"EmailVerifyBox"}>
-              <Row className="mt-4 mb-3">
-                <Col className="">
+              <Row className='mt-4 mb-3'>
+                <Col className=''>
                   <span className={"signIn_heading"}>
                     {t("Create-password")}
                   </span>
                 </Col>
               </Row>
               <Form onSubmit={verifyHandlePassword}>
-                <Row className="mb-3">
+                <Row className='mb-3'>
                   <Col
                     lg={12}
                     md={12}
                     xs={12}
-                    className="create-field-password position-relative d-flex justify-content-center"
-                  >
+                    className='create-field-password position-relative d-flex justify-content-center'>
                     <Form.Control
                       className={"PasswordTextField"}
                       type={showNewPasswordIcon ? "text" : "password"}
-                      name="Password"
+                      name='Password'
                       ref={passwordRef}
                       value={passwordDetails.Password || ""}
                       onChange={passwordChangeHandler}
                       placeholder={t("New-password")}
-                      autoComplete="false"
+                      autoComplete='false'
                       iconClassName={"IconStyle"}
                     />
                     <span className={"passwordIcon"} onClick={showNewPassowrd}>
                       {showNewPasswordIcon ? (
                         <img
-                          draggable="false"
+                          draggable='false'
                           src={PasswordHideEyeIcon}
-                          alt=""
+                          alt=''
                         />
                       ) : (
-                        <img draggable="false" src={PasswordEyeIcon} alt="" />
+                        <img draggable='false' src={PasswordEyeIcon} alt='' />
                       )}
                     </span>
                   </Col>
                 </Row>
-                <Row className="mb-2">
+                <Row className='mb-2'>
                   <Col
                     lg={12}
                     md={12}
                     xs={12}
-                    className="create-field-password position-relative d-flex  justify-content-center "
-                  >
+                    className='create-field-password position-relative d-flex  justify-content-center '>
                     <Form.Control
                       className={"PasswordTextField"}
                       type={showConfirmPasswordIcon ? "text" : "password"}
-                      name="ConfirmPassword"
+                      name='ConfirmPassword'
                       value={passwordDetails.ConfirmPassword || ""}
                       onChange={passwordChangeHandler}
                       placeholder={t("Re-enter-password")}
@@ -253,28 +237,26 @@ const PasswordCreation = ({ onClickGoBack }) => {
                     />
                     <span
                       className={"passwordIcon"}
-                      onClick={showConfirmPassowrd}
-                    >
+                      onClick={showConfirmPassowrd}>
                       {showConfirmPasswordIcon ? (
                         <img
-                          draggable="false"
+                          draggable='false'
                           src={PasswordHideEyeIcon}
-                          alt=""
+                          alt=''
                         />
                       ) : (
-                        <img draggable="false" src={PasswordEyeIcon} alt="" />
+                        <img draggable='false' src={PasswordEyeIcon} alt='' />
                       )}
                     </span>
                   </Col>
                 </Row>
 
-                <Row className="mb-4">
+                <Row className='mb-4'>
                   <Col
                     sm={12}
                     md={12}
                     lg={12}
-                    className={"PasswordCheckListstyle"}
-                  >
+                    className={"PasswordCheckListstyle"}>
                     <p className={"paragraph_password_must_have"}>
                       {t("Password-must-have")}
                     </p>
@@ -302,10 +284,9 @@ const PasswordCreation = ({ onClickGoBack }) => {
                     sm={12}
                     lg={12}
                     md={12}
-                    className="d-flex justify-content-center"
-                  >
+                    className='d-flex justify-content-center'>
                     <Button
-                      type="submit"
+                      type='submit'
                       onClick={verifyHandlePassword}
                       text={t("Confirm")}
                       disableBtn={
@@ -321,7 +302,7 @@ const PasswordCreation = ({ onClickGoBack }) => {
                     />
                   </Col>
                 </Row>
-                <Row className="mt-2">
+                <Row className='mt-2'>
                   <Col sm={12} md={12} lg={12} className={"forogt_email_link"}>
                     <span onClick={onClickGoBack} className={"ForgotPassword"}>
                       {t("Go-back")}
@@ -334,17 +315,7 @@ const PasswordCreation = ({ onClickGoBack }) => {
         </Row>
       </Container>
 
-      <Notification
-        show={openNotification.Flag}
-        hide={setOpenNotification}
-        message={openNotification.Notification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+
     </>
   );
 };

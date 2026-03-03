@@ -4,7 +4,6 @@ import {
   Button,
   Paper,
   TextField,
-  Notification,
 } from "./../../components/elements";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import "./UpdatedPassword.css";
 import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 
 const UpdatedPassword = ({ onClickGoBack }) => {
   const { t } = useTranslation();
@@ -21,37 +21,26 @@ const UpdatedPassword = ({ onClickGoBack }) => {
     (state) => state.AuthActions.Responsemessage
   );
 
-  const [openNotification, setOpenNotification] = useState({
-    Flag: false,
-    Notification: null,
-    severity: "none",
-  });
+
 
   useEffect(() => {
     if (
-      Responsemessage !== "" &&
+      Responsemessage &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
+      Responsemessage !== "" &&
       Responsemessage !== t("Something-went-wrong") &&
       Responsemessage !== "No Data available"
     ) {
-      setOpenNotification({
-        Flag: true,
-        Notification: Responsemessage,
-        severity: t("Password-updated-successfully") ? "success" : "error",
-      });
-
-      setTimeout(() => {
-        dispatch(resetAuthResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          Flag: false,
-          Notification: "",
-          severity: "none",
-        });
-      }, 4000);
+      // Determine type based on message (success/error)
+      const type = Responsemessage === t("Password-updated-successfully") ? "success" : "error";
+  
+      // Show notification
+      showNotification(type, Responsemessage);
+  
+      // Reset response message in Redux
+      dispatch(resetAuthResponseMessage());
     }
-  }, [Responsemessage]);
+  }, [Responsemessage, dispatch, t]);
 
   return (
     <>
@@ -98,17 +87,7 @@ const UpdatedPassword = ({ onClickGoBack }) => {
         </Row>
       </Form>
 
-      <Notification
-        show={openNotification.Flag}
-        hide={setOpenNotification}
-        message={openNotification.Notification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+   
     </>
   );
 };

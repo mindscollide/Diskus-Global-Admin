@@ -1,11 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Collapse, Spin } from "antd";
-import {
-  Button,
-  Notification,
-  Table,
-  TextField,
-} from "../../../components/elements";
+import { Button, Table, TextField } from "../../../components/elements";
 import { UpOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Col, Container, Row } from "react-bootstrap";
@@ -40,15 +35,14 @@ import {
 } from "../../../store/ActionsSlicers/UIModalsActions";
 import EditOrganizationSubscriptions from "../EditOrganizationSubscriptionModal/EditOrganizationSubscription";
 import EditSubscriptionModals from "../EditSubscriptionModal/EditSubscriptionModal";
-import {
-  getAllOrganizationNameMainApi,
-  getPackageDetailGlobalApi,
-} from "../../../store/Actions/GlobalAdminDashboardActions";
+import { getPackageDetailGlobalApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 import {
   globalAdminDashBoardLoader,
   resetResponseMessage,
 } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
+import { useViewOrganization } from "../../../context/viewOrganizations";
+import { showNotification } from "../../../components/elements/snack_bar/snackbar";
 
 const { Panel } = Collapse;
 
@@ -63,25 +57,13 @@ const CurrentOrganization = ({
   SearchOrganizationDateTo,
   SearchOrganizationStatus,
 }) => {
-  console.log(
-    {
-      SearchOrganizationName,
-      SearchOrganizationEmail,
-      SearchOrganizationDateFrom,
-      SearchOrganizationDateTo,
-      SearchOrganizationStatus,
-    },
-    "SearchOrganizationStatus"
-  );
+  const { setShowSearchText } = useViewOrganization();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const calendRef = useRef();
-  const ModalReducer = useSelector((state) => state.modal);
 
   // current language set in local storage
   let currentLanguage = localStorage.getItem("currentLanguage");
-  const local = currentLanguage === "en" ? "en-US" : "ar-SA";
 
   // for response message
   const Responsemessage = useSelector(
@@ -94,22 +76,9 @@ const CurrentOrganization = ({
     (state) => state.searchOrganization.getAllOrganizationData
   );
 
-  // reducer for get All Organization but in dropdown
-  const organizationIdDataDropdown = useSelector(
-    (state) => state.globalAdminDashboardReducer.getOrganizationNames
-  );
-
-  console.log(organizationIdData, "organizationIdDataResponseMessage");
-
-  const [searchBox, setSearchBox] = useState(false);
-  const [organizationDataValue, setOrganizationDataValue] = useState(null);
-
   // state for view Organizer Table data
   const [viewOrganizationData, setViewOrganizationData] = useState([]);
   const [viewOrganizationInsideData, setOrganizationInsideData] = useState([]);
-
-  // for dropdown lazy loading state:
-  const [organization, setOrganization] = useState([]);
 
   // for lazy Loading state
   const [isRowsData, setSRowsData] = useState(0);
@@ -133,48 +102,8 @@ const CurrentOrganization = ({
   const [headData, setHeadData] = useState([]);
   const [editSubModal, setEditSubModal] = useState("");
 
-  // states for search
-  const [showsearchText, setShowSearchText] = useState(false);
-  const [aminNameSearch, setAminNameSearch] = useState("");
-  const [calendarValue, setCalendarValue] = useState(gregorian);
-  const [localValue, setLocalValue] = useState(gregorian_en);
 
-  const [userNameSearch, setUserNameSearch] = useState("");
-  console.log(userNameSearch, "userNameSearchuserNameSearch");
 
-  const [openNotification, setOpenNotification] = useState({
-    historyFlag: false,
-    historyNotification: "",
-    severity: "none",
-  });
-
-  useEffect(() => {
-    if (
-      Responsemessage !== "" &&
-      Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
-      Responsemessage !== t("Something-went-wrong") &&
-      Responsemessage !== "No Data available"
-    ) {
-      setOpenNotification({
-        historyFlag: true,
-        historyNotification: Responsemessage,
-        severity: t("Updated-Successfully") ? "success" : "error",
-      });
-
-      setTimeout(() => {
-        dispatch(resetResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          historyFlag: false,
-          historyNotification: "",
-          severity: "none",
-        });
-      }, 4000);
-    }
-  }, [Responsemessage]);
-
-  //Calling Organization Api
   useEffect(() => {
     let newData = {
       OrganizationContactName: "",
@@ -187,34 +116,22 @@ const CurrentOrganization = ({
       eRow: 10,
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(getAllOrganizationApi({ newData, navigate, t, setIsFound }));
-    return () => {};
+    dispatch(getAllOrganizationApi({ newData, navigate, t }));
   }, []);
-
-  // useEffect for dropdown select organization Names
   useEffect(() => {
     if (
-      organizationIdDataDropdown !== null &&
-      organizationIdDataDropdown !== undefined &&
-      organizationIdDataDropdown?.result?.organizations.length > 0
+      Responsemessage &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "" &&
+      Responsemessage !== "No Data available"
     ) {
-      setOrganization(organizationIdDataDropdown.result.organizations);
-    } else {
-      setOrganization([]);
-    }
-  }, [organizationIdDataDropdown]);
+      // Show notification
+      showNotification("success", Responsemessage);
 
-  // for status Options
-  const options = [
-    { value: 1, label: "Active" },
-    { value: 2, label: "InActive" },
-    { value: 3, label: "suspended" },
-    { value: 4, label: "Closed" },
-    { value: 5, label: "Terminated Requested" },
-    { value: 6, label: "Deleted" },
-    { value: 7, label: "Archived" },
-    { value: 8, label: "Locked By Global Admin" },
-  ];
+      // Reset the response message in the store
+      dispatch(resetResponseMessage());
+    }
+  }, [Responsemessage]);
 
   // uesEffect to get data getAllOrganization to set data in table
   useEffect(() => {
@@ -222,6 +139,7 @@ const CurrentOrganization = ({
       const { getAllOrganizations, totalCount } = organizationIdData.result;
 
       if (getAllOrganizations && getAllOrganizations.length > 0) {
+        setShowSearchText(false);
         const newOrganizations = isScroll
           ? [...viewOrganizationData, ...getAllOrganizations]
           : getAllOrganizations;
@@ -248,7 +166,10 @@ const CurrentOrganization = ({
         setOrganizationInsideData(uniqueSubscriptions);
         setSRowsData(newOrganizations.length);
         setTotalRecords(totalCount);
+        setIsScroll(false);
       } else {
+        setIsScroll(false);
+
         // Handle empty response
         setViewOrganizationData([]); // Ensure empty table renders
         setOrganizationInsideData([]);
@@ -289,7 +210,7 @@ const CurrentOrganization = ({
       render: (text, record) => {
         return (
           <>
-            <span className="inner-sub-Heading-insidetable">
+            <span className='inner-sub-Heading-insidetable'>
               {text &&
                 convertUTCDateToLocalDate(text + "201320", currentLanguage)}
             </span>
@@ -306,7 +227,7 @@ const CurrentOrganization = ({
         console.log(record, "recordrecord");
         return (
           <>
-            <span className="inner-sub-Heading-insidetable">
+            <span className='inner-sub-Heading-insidetable'>
               {text &&
                 convertUTCDateToLocalDate(text + "201320", currentLanguage)}
             </span>
@@ -324,37 +245,37 @@ const CurrentOrganization = ({
           <>
             {record.fK_TenureOfSubscriptionID === 1 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Annual")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 2 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Monthly")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 3 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Quarterly")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 4 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("HalfYearly")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 5 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Trial")}
                 </span>
               </>
             ) : record.fK_TenureOfSubscriptionID === 6 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Trial-extended")}
                 </span>
               </>
@@ -373,37 +294,37 @@ const CurrentOrganization = ({
           <>
             {record.fK_SubscriptionStatusID === 1 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Active")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 2 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("In-active")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 3 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Suspended")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 4 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Closed")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 5 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Termination-requested")}
                 </span>
               </>
             ) : record.fK_SubscriptionStatusID === 6 ? (
               <>
-                <span className="inner-sub-Heading-insidetable">
+                <span className='inner-sub-Heading-insidetable'>
                   {t("Cancelled")}
                 </span>
               </>
@@ -421,7 +342,7 @@ const CurrentOrganization = ({
         return (
           <>
             <Button
-              className="update-button"
+              className='update-button'
               text={t("Update-subscription")}
               onClick={() => handleEditSubscriptionModal(record)}
             />
@@ -442,9 +363,8 @@ const CurrentOrganization = ({
       render: (text, record) => (
         <>
           <span
-            className="inner-organization-heading-view-modal"
-            onClick={() => handlerViewOrganizer(record)}
-          >
+            className='inner-organization-heading-view-modal'
+            onClick={() => handlerViewOrganizer(record)}>
             {text}
           </span>
         </>
@@ -457,7 +377,7 @@ const CurrentOrganization = ({
       className: "class-main-headerColumn",
       render: (text, record) => (
         <>
-          <span className="inner-sub-Heading">{text}</span>
+          <span className='inner-sub-Heading'>{text}</span>
         </>
       ),
     },
@@ -470,9 +390,9 @@ const CurrentOrganization = ({
         const countryCode = record.mobileCode;
         return (
           <>
-            <span className="d-flex gap-2">
+            <span className='d-flex gap-2'>
               <FlagCountryName countryCode={countryCode} />
-              <span className="inner-sub-Heading">{text}</span>
+              <span className='inner-sub-Heading'>{text}</span>
             </span>
           </>
         );
@@ -488,37 +408,37 @@ const CurrentOrganization = ({
           <>
             {record.organizationStatus === 1 ? (
               <>
-                <span className="inner-sub-Heading">{t("Active")}</span>
+                <span className='inner-sub-Heading'>{t("Active")}</span>
               </>
             ) : record.organizationStatus === 2 ? (
               <>
-                <span className="inner-sub-Heading">{t("In-active")}</span>
+                <span className='inner-sub-Heading'>{t("In-active")}</span>
               </>
             ) : record.organizationStatus === 3 ? (
               <>
-                <span className="inner-sub-Heading">{t("Suspended")}</span>
+                <span className='inner-sub-Heading'>{t("Suspended")}</span>
               </>
             ) : record.organizationStatus === 4 ? (
               <>
-                <span className="inner-sub-Heading">{t("Closed")}</span>
+                <span className='inner-sub-Heading'>{t("Closed")}</span>
               </>
             ) : record.organizationStatus === 5 ? (
               <>
-                <span className="inner-sub-Heading">
+                <span className='inner-sub-Heading'>
                   {t("Termination-requested")}
                 </span>
               </>
             ) : record.organizationStatus === 6 ? (
               <>
-                <span className="inner-sub-Heading">{t("Deleted")}</span>
+                <span className='inner-sub-Heading'>{t("Deleted")}</span>
               </>
             ) : record.organizationStatus === 7 ? (
               <>
-                <span className="inner-sub-Heading">{t("Archived")}</span>
+                <span className='inner-sub-Heading'>{t("Archived")}</span>
               </>
             ) : record.organizationStatus === 8 ? (
               <>
-                <span className="inner-sub-Heading">
+                <span className='inner-sub-Heading'>
                   {t("Locked-by-global-admin")}
                 </span>
               </>
@@ -536,7 +456,7 @@ const CurrentOrganization = ({
         return (
           <>
             <Button
-              className="update-button"
+              className='update-button'
               text={t("Edit-organization")}
               onClick={() => handleEditOrganizationModal(record)}
             />
@@ -558,6 +478,8 @@ const CurrentOrganization = ({
 
   // edit handler
   const handleEditOrganizationModal = (record) => {
+    setIsScroll(false);
+
     setEditOrganzationName(record.organizationName);
     setEditOrganizationID(record.organizationID);
     setEditSubscriptionName(record.organizationStatus);
@@ -566,6 +488,7 @@ const CurrentOrganization = ({
   };
 
   const handleEditSubscriptionModal = (record) => {
+    setIsScroll(false);
     const subscriptions = viewOrganizationData.filter(
       (data) => data.organizationID === record.organizationId
     );
@@ -584,7 +507,9 @@ const CurrentOrganization = ({
       SubscriptionID: record.pK_OrganizationsSubscriptionID,
     };
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
+    dispatch(
+      getPackageDetailGlobalApi({ data, navigate, t, route: { valu: 1 } })
+    );
   };
 
   return (
@@ -593,7 +518,7 @@ const CurrentOrganization = ({
         <Col lg={12} md={12} sm={12}>
           {isFound === false ? (
             <>
-              <section className="emptyState">
+              <section className='emptyState'>
                 <img src={EmptyState} />
                 <span>{t("No-match-found")}</span>
               </section>
@@ -615,30 +540,27 @@ const CurrentOrganization = ({
                         sm={12}
                         md={12}
                         lg={12}
-                        className="d-flex justify-content-center mt-2"
-                      >
+                        className='d-flex justify-content-center mt-2'>
                         <Spin />
                       </Col>
                     </Row>
                   ) : null
-                }
-              >
+                }>
                 {viewOrganizationData.map((org) => (
                   <Collapse
                     key={org.organizationId}
                     bordered={false}
-                    expandIconPosition="end"
+                    expandIconPosition='end'
                     expandIcon={({ isActive }) => (
                       <UpOutlined
-                        className="custom-icon"
+                        className='custom-icon'
                         rotate={isActive ? 180 : 0}
                       />
                     )}
-                    className="organization-collapse"
-                  >
+                    className='organization-collapse'>
                     <Panel
                       key={org.organizationId}
-                      className="Panel-Class"
+                      className='Panel-Class'
                       header={
                         <>
                           <div onClick={(e) => e.stopPropagation()}>
@@ -646,12 +568,11 @@ const CurrentOrganization = ({
                               rows={[org]}
                               column={headerColumn}
                               pagination={false}
-                              className="custom-table"
+                              className='custom-table'
                             />
                           </div>
                         </>
-                      }
-                    >
+                      }>
                       <div onClick={(e) => e.stopPropagation()}>
                         <Table
                           rows={viewOrganizationInsideData.filter(
@@ -659,7 +580,7 @@ const CurrentOrganization = ({
                           )}
                           column={columns}
                           pagination={false}
-                          className="custom-table"
+                          className='custom-table'
                         />
                       </div>
                     </Panel>
@@ -669,20 +590,19 @@ const CurrentOrganization = ({
             </>
           ) : (
             <>
-              <Row className="mt-5">
+              <Row className='mt-5'>
                 <Col
                   lg={12}
                   md={12}
                   sm={12}
-                  className="view-organization-section"
-                >
+                  className='view-organization-section'>
                   <img
                     src={NoOrganizationIcon}
                     width={"110px"}
-                    alt="View Organization"
+                    alt='View Organization'
                   />
 
-                  <span className="Main-Title-ViewOrganization">
+                  <span className='Main-Title-ViewOrganization'>
                     {t("No-View-Organization")}
                   </span>
                 </Col>
@@ -695,8 +615,7 @@ const CurrentOrganization = ({
         editOrganizationID={editOrganizationID}
         editOrganzationName={editOrganzationName}
         editSubscriptionName={editSubscriptionName}
-        setShowSearchText={setShowSearchText}
-        setUserNameSearch={setUserNameSearch}
+        SearchOrganizationStatus={SearchOrganizationStatus}
       />
 
       <EditSubscriptionModals
@@ -707,22 +626,11 @@ const CurrentOrganization = ({
         duration={duration}
         headData={headData}
         editSubModal={editSubModal}
-        setShowSearchText={setShowSearchText}
-        setUserNameSearch={setUserNameSearch}
+        SearchOrganizationStatus={SearchOrganizationStatus}
       />
       <ViewOrganizationModal viewOrganizationsModal={viewOrganizationsModal} />
 
-      <Notification
-        show={openNotification.historyFlag}
-        hide={setOpenNotification}
-        message={openNotification.historyNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+
     </>
   );
 };

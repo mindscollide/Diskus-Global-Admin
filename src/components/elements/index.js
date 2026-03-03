@@ -6,8 +6,7 @@ import TextField from "./input_field/Input_field";
 import Table from "./table/Table";
 import loader from "./loader/Loader";
 import Checkbox from "./check_box/Checkbox";
-import { Notification, Message } from "./snack_bar";
-import Paper from "./paper/Paper";
+// import { Notification } from "./snack_bar";
 
 export {
   Login_Card,
@@ -18,7 +17,5 @@ export {
   Table,
   loader,
   Checkbox,
-  Notification,
-  Message,
-  Paper,
+  // Notification,
 };

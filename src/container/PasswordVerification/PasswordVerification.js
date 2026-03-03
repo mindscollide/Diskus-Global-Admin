@@ -6,7 +6,6 @@ import {
   Button,
   Checkbox,
   TextField,
-  Notification,
 } from "../../components/elements";
 import PasswordEyeIcon from "../../assets/images/OutletImages/password.svg";
 import PasswordHideEyeIcon from "../../assets/images/OutletImages/password_hide.svg";
@@ -14,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PasswordVerificationApi } from "../../store/Actions/AuthActions";
 import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 
 const PasswordVerification = ({ onClickForgetPasswordText, onClickGoBack }) => {
   const { t } = useTranslation();
@@ -31,11 +31,7 @@ const PasswordVerification = ({ onClickForgetPasswordText, onClickGoBack }) => {
   );
   console.log(Responsemessage, "ResponsemessageResponsemessage");
 
-  const [openNotification, setOpenNotification] = useState({
-    passwordFlag: false,
-    passwordNotification: null,
-    severity: "none",
-  });
+
 
   //States
   const [showNewPasswordIcon, setShowNewPasswordIcon] = useState(false);
@@ -109,50 +105,33 @@ const PasswordVerification = ({ onClickForgetPasswordText, onClickGoBack }) => {
   };
 
   // for response Message
-  // useEffect(() => {
-  //   if (
-  //     Responsemessage !== "" &&
-  //     Responsemessage !== t("No-data-available") &&
-  //     Responsemessage !== "Success" &&
-  //     Responsemessage !== "Something-went-wrong" &&
-  //     Responsemessage !== "No Data available"
-  //   ) {
-  //     setOpenNotification({
-  //       passwordFlag: true,
-  //       passwordNotification: Responsemessage,
-  //       severity: t("User's-password-is-created") ? "success" : "error",
-  //     });
 
-  //     setTimeout(() => {
-  //       dispatch(resetAuthResponseMessage());
-  //       setOpenNotification({
-  //         ...openNotification,
-  //         passwordFlag: false,
-  //         passwordNotification: "",
-  //         severity: "none",
-  //       });
-  //     }, 400000);
-  //   }
-  // }, [Responsemessage]);
+  useEffect(() => {
+    if (
+      Responsemessage &&
+      Responsemessage !== t("No-data-available") &&
+      Responsemessage !== "" &&
+      Responsemessage !== t("Something-went-wrong") &&
+      Responsemessage !== "No Data available"
+    ) {
+      // Determine type: success if it's the "password created" message, else error
+      const type = Responsemessage === t("User's-password-is-created") ? "success" : "error";
+  
+      // Show notification
+      showNotification(type, Responsemessage);
+  
+      // Reset the response message in Redux
+      dispatch(resetAuthResponseMessage());
+    }
+  }, [Responsemessage, dispatch, t]);
+  
 
   //Form Submission Login Handler
   const loginHandler = (e) => {
     e.preventDefault();
-    if (password === "") {
-      setOpenNotification({
-        ...openNotification,
-        passwordFlag: true,
-        passwordNotification: t("Please-fill-Input-field"),
-        severity: "error",
-      });
-
-      // Close the notification after 3 seconds
-      setTimeout(() => {
-        setOpenNotification({
-          ...openNotification,
-          passwordFlag: false,
-        });
-      }, 3000);
+  
+    if (password.trim() === "") {
+      showNotification("error", t("Please-fill-Input-field")); // show error snackbar
     } else {
       setErrorBar(false);
       dispatch(PasswordVerificationApi({ password, navigate, t }));
@@ -298,17 +277,7 @@ const PasswordVerification = ({ onClickForgetPasswordText, onClickGoBack }) => {
         </Row>
       </Form>
 
-      <Notification
-        show={openNotification.passwordFlag}
-        hide={setOpenNotification}
-        message={openNotification.passwordNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+
     </>
   );
 };

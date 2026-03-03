@@ -28,7 +28,7 @@ const loginHistorySlice = createSlice({
       .addCase(LoginHistoryAPI.fulfilled, (state, action) => {
         // state.loading = false;
         state.loginHistoryData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(LoginHistoryAPI.rejected, (state, action) => {
         // state.loading = false;
@@ -40,7 +40,7 @@ const loginHistorySlice = createSlice({
         // state.loading = false;
       })
       .addCase(LogingHistoryReportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(LogingHistoryReportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -51,7 +51,7 @@ const loginHistorySlice = createSlice({
         // state.loading = false;
       })
       .addCase(AuditTrialReportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(AuditTrialReportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";

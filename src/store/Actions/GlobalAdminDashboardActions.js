@@ -53,6 +53,7 @@ import {
 } from "../../common/apis/Api_Config";
 import { globalAdminDashBoardLoader } from "../ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
+  ChangePasswordModalOpen,
   dashboardSendInvoiceOpenModal,
   htmlInvoiceModalOpen,
   trialRenewOpenModal,
@@ -978,6 +979,8 @@ export const ChangePasswordApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_01".toLowerCase()
               )
           ) {
+            dispatch(ChangePasswordModalOpen(false));
+
             dispatch(globalAdminDashBoardLoader(false));
             try {
               return {
@@ -1729,7 +1732,7 @@ export const getPackageDetailGlobalApi = createAsyncThunk(
   "getPackageDetailGlobalApi/getPackageDetailGlobalApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { data, navigate, t } = requestData;
+    let { data, navigate, t, route } = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", getPackageDetailsModal.RequestMethod);
@@ -1754,7 +1757,11 @@ export const getPackageDetailGlobalApi = createAsyncThunk(
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
-            dispatch(dashboardSendInvoiceOpenModal(true));
+
+            console.log(route," NoNo")
+            if (route !== null && route !== undefined && route.val === 2) {
+              dispatch(dashboardSendInvoiceOpenModal(true));
+            }
 
             try {
               return {
@@ -1953,7 +1960,7 @@ export const getInvoiceHtmlApi = createAsyncThunk(
                 "Admin_AdminServiceManager_GetGlobalAdminInvoiceHtmlByOrganizationID_01".toLowerCase()
               )
           ) {
-            setSendInvoiceData(data);
+            setSendInvoiceData(response.data.responseResult.htmlString);
             dispatch(htmlInvoiceModalOpen(true));
             dispatch(globalAdminDashBoardLoader(false));
             try {
@@ -1977,7 +1984,7 @@ export const getInvoiceHtmlApi = createAsyncThunk(
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes(
-                "Admin_AdminServiceManager_GetInvoiceHtmlByOrganizationID_03".toLowerCase()
+                "Admin_AdminServiceManager_GetGlobalAdminInvoiceHtmlByOrganizationID_03".toLowerCase()
               )
           ) {
             dispatch(globalAdminDashBoardLoader(false));
@@ -2811,12 +2818,14 @@ export const dynamicalyDownloadReportApi = createAsyncThunk(
 export const downloadInvoiceReportMainApi = createAsyncThunk(
   "downloadInvoiceReportMainApi/downloadInvoiceReportMainApi",
   async (requestData, { rejectWithValue, dispatch }) => {
+    console.log(requestData, "newdata");
+
     try {
       let token = localStorage.getItem("token");
-      let { data } = requestData;
+      let { newdata } = requestData;
       let form = new FormData();
       form.append("RequestMethod", downloadInvoiceApi.RequestMethod);
-      form.append("RequestData", JSON.stringify(data));
+      form.append("RequestData", JSON.stringify(newdata));
       // let response;
       // let contentType = "application/pdf";
       const response = await axios({
@@ -2830,7 +2839,6 @@ export const downloadInvoiceReportMainApi = createAsyncThunk(
         responseType: "blob",
       });
 
-      console.log(response, "responseresponseresponseresponse");
       if (response.status === 200) {
         // Create a temporary URL for the blob data
         const blob = new Blob([response.data], { type: "application/pdf" });
@@ -2851,7 +2859,7 @@ export const downloadInvoiceReportMainApi = createAsyncThunk(
     } catch (error) {
       // Handle errors
       dispatch(globalAdminDashBoardLoader(false));
-      return rejectWithValue(error);
+      return rejectWithValue("Error downloading file");
     }
   }
 );
@@ -2998,6 +3006,7 @@ export const getOrganizationUserAuditListingAPI = createAsyncThunk(
       } else {
         dispatch(globalAdminDashBoardLoader(false));
         return rejectWithValue("Something-went-wrong");
+        dispatch(ChangePasswordModalOpen(false));
       }
     } catch (error) {
       return rejectWithValue("Something-went-wrong");

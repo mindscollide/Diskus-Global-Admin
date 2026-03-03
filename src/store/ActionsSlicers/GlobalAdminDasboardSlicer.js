@@ -105,7 +105,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(StatsOfActiveLicenseApi.fulfilled, (state, action) => {
         state.StatsOfActiveLicenseApiData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(StatsOfActiveLicenseApi.rejected, (state, action) => {
         state.StatsOfActiveLicenseApiData = null;
@@ -120,7 +120,7 @@ const globalAdminDashboardReducer = createSlice({
         organziationStatsBySubscriptionApi.fulfilled,
         (state, action) => {
           state.OrganizationStatsSubscriptionData = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = "";
         }
       )
       .addCase(organziationStatsBySubscriptionApi.rejected, (state, action) => {
@@ -134,7 +134,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(OrganizationsByActiveLicenseApi.fulfilled, (state, action) => {
         state.OrganizationsByActiveLicenseApiData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(OrganizationsByActiveLicenseApi.rejected, (state, action) => {
         state.OrganizationsByActiveLicenseApiData = null;
@@ -147,7 +147,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(GetAllBillingDueApi.fulfilled, (state, action) => {
         state.GetAllBillingDueApiData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
 
       .addCase(GetAllBillingDueApi.rejected, (state, action) => {
@@ -162,7 +162,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(TotalThisMonthDueApi.fulfilled, (state, action) => {
         state.TotalThisMonthDueApiData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(TotalThisMonthDueApi.rejected, (state, action) => {
         state.TotalThisMonthDueApiData = null;
@@ -175,7 +175,7 @@ const globalAdminDashboardReducer = createSlice({
       })
 
       .addCase(dashBoardReportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
 
       .addCase(dashBoardReportApi.rejected, (state, action) => {
@@ -188,7 +188,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(OrganizationSubscriptionTypeApi.fulfilled, (state, action) => {
         state.OrganizationSubscriptionStatsGraphData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(OrganizationSubscriptionTypeApi.rejected, (state, action) => {
         state.OrganizationSubscriptionStatsGraphData = null;
@@ -201,7 +201,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(SendInvoiceApi.fulfilled, (state, action) => {
         state.SendInvoiceData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(SendInvoiceApi.rejected, (state, action) => {
         state.SendInvoiceData = null;
@@ -216,7 +216,7 @@ const globalAdminDashboardReducer = createSlice({
         GetAllPackagesWithFeaturesGlobalAdminApi.fulfilled,
         (state, action) => {
           state.GetAllPackagesWithFeaturesGlobalAdminData = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = "";
         }
       )
       .addCase(
@@ -232,7 +232,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(UpdatePackagePriceGlobalAdminApi.fulfilled, (state, action) => {
         state.UpdatePackagePriceGlobalAdminData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(UpdatePackagePriceGlobalAdminApi.rejected, (state, action) => {
         state.UpdatePackagePriceGlobalAdminData = null;
@@ -245,7 +245,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(GetSystemConfigurationsApi.fulfilled, (state, action) => {
         state.GetSystemConfigurationsData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(GetSystemConfigurationsApi.rejected, (state, action) => {
         state.GetSystemConfigurationsData = null;
@@ -290,7 +290,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getCashFlowMainApi.fulfilled, (state, action) => {
         state.cashFlowData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getCashFlowMainApi.rejected, (state, action) => {
         state.cashFlowData = null;
@@ -303,7 +303,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getCashOutStandingFlowMainApi.fulfilled, (state, action) => {
         state.cashOutFlowData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getCashOutStandingFlowMainApi.rejected, (state, action) => {
         state.cashOutFlowData = null;
@@ -316,7 +316,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getListTrialSubscription.fulfilled, (state, action) => {
         state.listOfTrialSubscription = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getListTrialSubscription.rejected, (state, action) => {
         state.listOfTrialSubscription = null;
@@ -331,7 +331,7 @@ const globalAdminDashboardReducer = createSlice({
         getListOfExtendedTrailSubscriptions.fulfilled,
         (state, action) => {
           state.listOfTrialExtendedSubscription = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = "";
         }
       )
       .addCase(
@@ -348,7 +348,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getListOfSubscribedSubscriptions.fulfilled, (state, action) => {
         state.listofTrialSubscribeSubscription = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getListOfSubscribedSubscriptions.rejected, (state, action) => {
         state.listofTrialSubscribeSubscription = null;
@@ -361,7 +361,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getListOfExpiredSubscriptions.fulfilled, (state, action) => {
         state.listOfExpiredSubscriptions = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getListOfExpiredSubscriptions.rejected, (state, action) => {
         state.listOfExpiredSubscriptions = null;
@@ -374,7 +374,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(trialRenewApi.fulfilled, (state, action) => {
         state.trialRenew = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(trialRenewApi.rejected, (state, action) => {
         state.trialRenew = null;
@@ -386,7 +386,7 @@ const globalAdminDashboardReducer = createSlice({
         // state.loading = false;
       })
       .addCase(trialExtendedReportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(trialExtendedReportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -397,7 +397,7 @@ const globalAdminDashboardReducer = createSlice({
         // state.loading = false;
       })
       .addCase(trialSubscribeReportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(trialSubscribeReportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -408,7 +408,7 @@ const globalAdminDashboardReducer = createSlice({
         // state.loading = false;
       })
       .addCase(trialSubscribeExpiredReportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(trialSubscribeExpiredReportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -420,7 +420,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getPackageDetailGlobalApi.fulfilled, (state, action) => {
         state.packageDetailModalData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getPackageDetailGlobalApi.rejected, (state, action) => {
         state.packageDetailModalData = null;
@@ -445,7 +445,7 @@ const globalAdminDashboardReducer = createSlice({
         // state.loading = false;
       })
       .addCase(trialReportExportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(trialReportExportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -457,7 +457,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getInvoiceHtmlApi.fulfilled, (state, action) => {
         state.htmlStringData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getInvoiceHtmlApi.rejected, (state, action) => {
         state.htmlStringData = null;
@@ -472,7 +472,7 @@ const globalAdminDashboardReducer = createSlice({
         getAllListOrganizationEssentialApi.fulfilled,
         (state, action) => {
           state.getAllListOrganizationEssentialData = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = "";
         }
       )
       .addCase(getAllListOrganizationEssentialApi.rejected, (state, action) => {
@@ -488,7 +488,7 @@ const globalAdminDashboardReducer = createSlice({
         getAllListOrganizationProfessionalApi.fulfilled,
         (state, action) => {
           state.getAllListOrganizationProfessionalData = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = "";
         }
       )
       .addCase(
@@ -505,7 +505,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getAllListOrganizationPremiumApi.fulfilled, (state, action) => {
         state.getAllListOrganizationPremiumData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getAllListOrganizationPremiumApi.rejected, (state, action) => {
         state.getAllListOrganizationPremiumData = null;
@@ -517,7 +517,7 @@ const globalAdminDashboardReducer = createSlice({
         // state.loading = false;
       })
       .addCase(essentialDownloadExportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(essentialDownloadExportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -528,7 +528,7 @@ const globalAdminDashboardReducer = createSlice({
         // state.loading = false;
       })
       .addCase(professionalDownloadExportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(professionalDownloadExportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -539,7 +539,7 @@ const globalAdminDashboardReducer = createSlice({
         // state.loading = false;
       })
       .addCase(premiumDownloadExportApi.fulfilled, (state, action) => {
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(premiumDownloadExportApi.rejected, (state, action) => {
         state.Responsemessage = action.payload || "";
@@ -551,7 +551,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getGlobalLevelConfigurationsApi.fulfilled, (state, action) => {
         state.getGlobalLevelConfigData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getGlobalLevelConfigurationsApi.rejected, (state, action) => {
         state.getGlobalLevelConfigData = null;
@@ -577,7 +577,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getAllPackagesDynamicTabsApi.fulfilled, (state, action) => {
         state.getPackagesDynamicTabs = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getAllPackagesDynamicTabsApi.rejected, (state, action) => {
         state.getPackagesDynamicTabs = null;
@@ -590,7 +590,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(listOfPackageLisencesMainApi.fulfilled, (state, action) => {
         state.listOfPackageLisencesData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(listOfPackageLisencesMainApi.rejected, (state, action) => {
         state.listOfPackageLisencesData = null;
@@ -603,7 +603,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getAllOrganizationNameMainApi.fulfilled, (state, action) => {
         state.getOrganizationNames = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getAllOrganizationNameMainApi.rejected, (state, action) => {
         state.getOrganizationNames = null;
@@ -616,7 +616,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(dynamicalyDownloadReportApi.fulfilled, (state, action) => {
         state.downloadDynamicallyReportData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(dynamicalyDownloadReportApi.rejected, (state, action) => {
         state.downloadDynamicallyReportData = null;
@@ -625,13 +625,13 @@ const globalAdminDashboardReducer = createSlice({
 
       //Get All Organization Audit Listing
       .addCase(getOrganizationUserAuditListingAPI.pending, (state) => {
-        // state.loading = true;
+        state.loading = true;
       })
       .addCase(
         getOrganizationUserAuditListingAPI.fulfilled,
         (state, action) => {
           state.getOrganizationAuditListingData = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = "";
         }
       )
       .addCase(getOrganizationUserAuditListingAPI.rejected, (state, action) => {
@@ -641,13 +641,13 @@ const globalAdminDashboardReducer = createSlice({
 
       //Get All Organization Audit Actions
       .addCase(getOrganizationUserAuditActionsAPI.pending, (state) => {
-        // state.loading = true;
+        state.loading = true;
       })
       .addCase(
         getOrganizationUserAuditActionsAPI.fulfilled,
         (state, action) => {
           state.getAuditActions = action.payload;
-          state.Responsemessage = "Success";
+          state.Responsemessage = "";
         }
       )
       .addCase(getOrganizationUserAuditActionsAPI.rejected, (state, action) => {
@@ -661,7 +661,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(downloadInvoiceReportMainApi.fulfilled, (state, action) => {
         state.downloadInvoiceData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(downloadInvoiceReportMainApi.rejected, (state, action) => {
         state.downloadInvoiceData = null;
@@ -674,7 +674,7 @@ const globalAdminDashboardReducer = createSlice({
       })
       .addCase(getUserInfoMainApi.fulfilled, (state, action) => {
         state.getUserInfoData = action.payload;
-        state.Responsemessage = "Success";
+        state.Responsemessage = "";
       })
       .addCase(getUserInfoMainApi.rejected, (state, action) => {
         state.getUserInfoData = null;

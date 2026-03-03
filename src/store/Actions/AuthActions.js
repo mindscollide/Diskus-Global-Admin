@@ -15,6 +15,7 @@ import {
   getLastLanguageMainApi,
   setLastSelectedLanguageMainApi,
 } from "./LanguageActions";
+import { mqttConnection } from "../../common/functions/mqttConnection";
 
 const logoutChannel = new BroadcastChannel("logout");
 //Email Verification
@@ -71,7 +72,7 @@ export const enterEmailValidation = createAsyncThunk(
             dispatch(changeScreen("PasswordVerification"));
             return {
               result: response.data.responseResult,
-              code: t("User's-password-is-created"),
+              code: "",
             };
           } else if (
             response.data.responseResult.responseMessage
@@ -125,7 +126,7 @@ export const enterEmailValidation = createAsyncThunk(
 //password Verification
 export const PasswordVerificationApi = createAsyncThunk(
   "Auth/PasswordValidation",
-  async (requestData, { rejectWithValue }) => {
+  async (requestData, { rejectWithValue, dispatch }) => {
     let { password, navigate, t } = requestData;
     console.log(navigate, "PasswordValidationPasswordValidation");
     let userID = localStorage.getItem("userID");
@@ -182,6 +183,10 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_04".toLowerCase()
               )
           ) {
+            mqttConnection(
+              response.data.responseResult.authToken.userID,
+              dispatch
+            );
             localStorage.setItem(
               "token",
               response.data.responseResult.authToken.token
@@ -219,7 +224,10 @@ export const PasswordVerificationApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_GlobalPasswordVerification_05".toLowerCase()
               )
           ) {
-            console.log(response.data.responseResult, "includesincludes");
+            mqttConnection(
+              response.data.responseResult.authToken.userID,
+              dispatch
+            );
             localStorage.setItem(
               "userEmail",
               response.data.responseResult.authToken.userName
@@ -287,7 +295,7 @@ export const PasswordVerificationApi = createAsyncThunk(
 );
 
 //SignOut Function
-const signOut = (navigate, message, dispatch) => {
+const signOut = () => {
   logoutChannel.postMessage("Logout");
 
   window.location.href = window.location.origin + "/";
@@ -303,7 +311,7 @@ const signOut = (navigate, message, dispatch) => {
       "rememberPasswordValue"
     );
     localStorage.clear();
-    if (reLang != undefined && reLang != null) {
+    if (reLang !== undefined && reLang !== null) {
       localStorage.setItem("i18nextLng", reLang);
     }
     localStorage.setItem("remeberPassword", RememberPasswordLocal);
@@ -313,7 +321,7 @@ const signOut = (navigate, message, dispatch) => {
   } else if (RememberEmailLocal === true) {
     let RememberEmailLocalValue = localStorage.getItem("rememberEmailValue");
     localStorage.clear();
-    if (reLang != undefined && reLang != null) {
+    if (reLang !== undefined && reLang !== null) {
       localStorage.setItem("i18nextLng", reLang);
     }
     localStorage.setItem("rememberEmail", RememberEmailLocal);
@@ -323,14 +331,14 @@ const signOut = (navigate, message, dispatch) => {
       "rememberPasswordValue"
     );
     localStorage.clear();
-    if (reLang != undefined && reLang != null) {
+    if (reLang !== undefined && reLang !== null) {
       localStorage.setItem("i18nextLng", reLang);
     }
     localStorage.setItem("remeberPassword", RememberPasswordLocal);
     localStorage.setItem("rememberPasswordValue", RememberPasswordLocalValue);
   } else {
     localStorage.clear();
-    if (reLang != undefined && reLang != null) {
+    if (reLang !== undefined && reLang !== null) {
       localStorage.setItem("i18nextLng", reLang);
     }
     localStorage.setItem("rememberEmail", false);
@@ -376,23 +384,29 @@ export const GlobalAdminLogOutApi = createAsyncThunk(
               .toLowerCase()
               .includes("ERM_AuthService_AuthManager_LogOut_02".toLowerCase())
           ) {
+            signOut();
             return rejectWithValue(t("Invalid-token"));
           } else if (
             response.data.responseResult.responseMessage
               .toLowerCase()
               .includes("ERM_AuthService_AuthManager_LogOut_03".toLowerCase())
           ) {
+            signOut();
             return rejectWithValue(t("Something-went-wrong"));
           } else {
+            signOut();
             return rejectWithValue(t("Something-went-wrong"));
           }
         } else {
+          signOut();
           return rejectWithValue(t("Something-went-wrong"));
         }
       } else {
+        signOut();
         return rejectWithValue(t("Something-went-wrong"));
       }
     } catch (error) {
+      signOut();
       return rejectWithValue(t("Something-went-wrong"));
     }
   }

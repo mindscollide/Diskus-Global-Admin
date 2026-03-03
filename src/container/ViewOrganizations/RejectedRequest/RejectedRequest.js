@@ -3,12 +3,10 @@ import {
   getAllTrailRejectedApi,
   updateOrganizationTrailRequestStatusApi,
 } from "../../../store/Actions/ViewOrganizationActions";
-import { globalAdminDashBoardLoader } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import {
   confirmatioModalFunc,
   viewOrganizationLoader,
 } from "../../../store/ActionsSlicers/ViewOrganizationActionSlicer";
-import { getAllOrganizationNameMainApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -19,6 +17,7 @@ import FlagCountryName from "../CountryFlagFunctionality/CountryFlag";
 import ConfirmationModal from "../confirmationModal/ConfirmationModal";
 import moment from "moment";
 import { utcConvertintoGMT } from "../../../common/functions/dateFormatters";
+import { useViewOrganization } from "../../../context/viewOrganizations";
 
 const RejectedRequest = ({
   currentTab,
@@ -29,6 +28,10 @@ const RejectedRequest = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const { setShowSearchText, setSearchOrganizationData } =
+    useViewOrganization();
+
   // Global State for Data
   const rejctedRequestData = useSelector(
     (state) => state.searchOrganization.rejectedRequestData
@@ -41,37 +44,6 @@ const RejectedRequest = ({
 
   const [totalRecords, setTotalRecords] = useState(0);
   const [rejectedRequestData, setRejectedRequestData] = useState([]);
-
-  //Calling Organization Api
-  useEffect(() => {
-    let newData = {
-      OrganizationName: "",
-      ContactPersonName: "",
-      ContactPersonEmail: "",
-      DateTimeTo: "",
-      DateTimeFrom: "",
-      SkipRows: 0,
-      Length: 10,
-    };
-    dispatch(viewOrganizationLoader(true));
-    dispatch(getAllTrailRejectedApi({ newData, navigate, t }));
-
-    return () => {
-      // setSearchOrganizationData({
-      //   OrganizationContactName: "",
-      //   OrganizationContactEmail: "",
-      //   OrganizationDateFrom: "",
-      //   OrganizationDateTo: "",
-      //   OrganizationName: "",
-      //   OrganizationSubscriptionStatus: {
-      //     value: 0,
-      //     label: "",
-      //   },
-      //   OrganizationDateToView: "",
-      //   OrganizationDateFromView: "",
-      // });
-    };
-  }, []);
 
   useEffect(() => {
     try {
@@ -162,6 +134,8 @@ const RejectedRequest = ({
         setCurrentTab,
         navigate,
         t,
+        setShowSearchText,
+        setSearchOrganizationData,
       })
     );
     // setStatus("");

@@ -12,6 +12,7 @@ const InvoiceHtmlModal = ({
   onClickSendInvoice,
   setSendInvoiceData,
   onClickDownloadInvoice,
+  setInvoiceData
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,6 +25,13 @@ const InvoiceHtmlModal = ({
 
   const [invoiceHtml, setInvoiceHtml] = useState(null);
   console.log(htmlStringData, "htmlStringDatahtmlStringData");
+
+  useEffect(() => {
+    return () => {
+      setInvoiceHtml(null);
+      setInvoiceData(null)
+    };
+  }, [])
 
   useEffect(() => {
     if (
@@ -43,6 +51,7 @@ const InvoiceHtmlModal = ({
   return (
     <Modal
       show={ModalReducer.htmlInvoiceModal}
+      modalHeaderClassName={"d-none"}
       htmlCode={invoiceHtml}
       size={"xl"}
       modalBodyClassName={styles["InvocieHTMLPreview"]}

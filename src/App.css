@@ -45,6 +45,7 @@ body[dir="rtl"] {
 
 ::-webkit-scrollbar {
   width: 0.45rem !important;
+  height: 0.45rem !important;
   border-radius: 20px !important;
   background-color: #e1e1e1 !important;
 }

@@ -287,6 +287,8 @@ const GlobalAdminDashboard = () => {
   const [dynamicPackagesTab, setDynamicPackagesTab] = useState([]);
 
   const [activeTab, setActiveTab] = useState(null);
+  // View Invoice Data
+  const [InvoiceData, setInvoiceData] = useState(null);
 
   const [calendarValue, setCalendarValue] = useState(gregorian);
   const [localValue, setLocalValue] = useState(gregorian_en);
@@ -1043,6 +1045,7 @@ const GlobalAdminDashboard = () => {
       InvoiceID: record.invoiceID,
       SubscriptionID: record.fK_OSID,
     };
+    setInvoiceData(record);
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(getInvoiceHtmlApi({ data, navigate, t, setSendInvoiceData }));
   };
@@ -1050,9 +1053,9 @@ const GlobalAdminDashboard = () => {
   // for inside htmlModal on send button click
   const onClickSendInvoice = () => {
     let data = {
-      OrganizationID: sendInvoiceData.OrganizationID,
-      InvoiceID: sendInvoiceData.InvoiceID,
-      SubscriptionID: sendInvoiceData.SubscriptionID,
+      OrganizationID: InvoiceData.organizationID,
+      InvoiceID: InvoiceData.invoiceID,
+      SubscriptionID: InvoiceData.fK_OSID,
     };
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(SendInvoiceApi({ data, navigate, t }));
@@ -1060,13 +1063,16 @@ const GlobalAdminDashboard = () => {
 
   // for download Invoice Button
   const onClickDownloadInvoice = () => {
-    let data = {
-      OrganizationID: sendInvoiceData.OrganizationID,
-      InvoiceID: sendInvoiceData.InvoiceID,
-      SubscriptionID: sendInvoiceData.SubscriptionID,
+    console.log(InvoiceData, "sendInvoiceDatasendInvoiceData");
+    let newdata = {
+      OrganizationID: InvoiceData.organizationID,
+      InvoiceID: InvoiceData.invoiceID,
+      SubscriptionID: InvoiceData.fK_OSID,
     };
+
+    console.log(newdata, "newdata");
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(downloadInvoiceReportMainApi({ data, navigate, t }));
+    dispatch(downloadInvoiceReportMainApi({ newdata, navigate, t }));
   };
 
   const DashboardGlobalColumn = [
@@ -1112,9 +1118,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {billingSort === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1149,9 +1155,8 @@ const GlobalAdminDashboard = () => {
       title: (
         <span
           className={styles["Export_To_Excel_dashboardTableButton"]}
-          onClick={onClickExport}
-        >
-          <img src={ExcelIcon} alt="" draggable="false" />
+          onClick={onClickExport}>
+          <img src={ExcelIcon} alt='' draggable='false' />
           <span>{t("Export")}</span>
         </span>
       ),
@@ -1300,15 +1305,14 @@ const GlobalAdminDashboard = () => {
   const userOptions = {
     pieHole: 0.45,
     is3D: false,
+    legend: "none",
     colors: ["#81DB86", "#6172D6", "#D8A709", "#F16B6B"],
     chartArea: {
       width: "90%", // Adjust the width of the chart area
       height: "90%", // Adjust the height of the chart area
     },
     direction: currentLanguage === "ar" ? "rtl" : "ltr",
-    legend: {
-      alignment: "center",
-    },
+
     tooltip: { trigger: "none" },
   };
 
@@ -1327,9 +1331,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {sortTrial === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1366,9 +1370,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Trial-start-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1405,9 +1409,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Trial-end-date")}{" "}
             {sortTrialEndDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1444,9 +1448,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Remaining-days")}{" "}
             {sortTrialRemaining === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1487,9 +1491,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {sortTrial === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1526,9 +1530,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Trial-extend-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1565,9 +1569,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Trial-extend-end-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1605,9 +1609,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Remaining-days")}{" "}
             {sortTrialRemaining === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1657,9 +1661,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {sortTrial === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1713,9 +1717,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Expiration-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1752,9 +1756,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Remaining-days")}{" "}
             {sortTrialRemaining === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1794,9 +1798,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {sortTrial === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1850,9 +1854,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Expiration-date")}{" "}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -1893,9 +1897,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Organization-name")}{" "}
             {essentialSort === "descend" ? (
-              <img src={SortDescending} alt="" />
+              <img src={SortDescending} alt='' />
             ) : (
-              <img src={SortAscending} alt="" />
+              <img src={SortAscending} alt='' />
             )}
           </span>
         </>
@@ -1932,9 +1936,9 @@ const GlobalAdminDashboard = () => {
           <span>
             {t("Start-date")}
             {sortTrialDate === "descend" ? (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             ) : (
-              <img src={descendingArrow} alt="" />
+              <img src={descendingArrow} alt='' />
             )}
           </span>
         </>
@@ -2093,7 +2097,9 @@ const GlobalAdminDashboard = () => {
     };
     setSubscribedPackageDetail(record);
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(getPackageDetailGlobalApi({ data, navigate, t }));
+    dispatch(
+      getPackageDetailGlobalApi({ data, navigate, t, route: { val: 2 } })
+    );
   };
 
   //Multi Date Picker Date Pickers Month Function
@@ -2337,204 +2343,566 @@ const GlobalAdminDashboard = () => {
 
   return (
     <>
-      <Container fluid className={styles["global-admin-dashboard-container"]}>
-        <Row className="mt-3">
-          <Col lg={6} md={6} sm={6}>
-            <section className={styles["LeftBoxDashboard"]}>
-              <Row>
-                <Col lg={5} md={5} sm={5}>
-                  <span className={styles["BillingDueHeading"]}>
-                    {t("Billing-due")}
-                  </span>
-                </Col>
-                <Col
-                  lg={3}
-                  md={3}
-                  sm={3}
-                  className="d-flex justify-content-end"
-                >
-                  <div
-                    ref={dropdownRef}
-                    className={styles["dropdown-container"]}
-                  >
-                    <div
-                      className={styles["dropdown-header"]}
-                      onClick={toggling}
-                    >
-                      {isOpen ? (
-                        <>
-                          <span className={styles["MonthName"]}>
-                            {t("Month")}
-                          </span>
-                          <span
-                            className={isOpen ? styles.down : styles.up}
-                          ></span>
-                        </>
-                      ) : null}
-                    </div>
-                    {isOpenCalender ? (
+      <Row className='mt-3'>
+        <Col lg={6} md={6} sm={6}>
+          <section className={styles["LeftBoxDashboard"]}>
+            <Row>
+              <Col lg={5} md={5} sm={5}>
+                <span className={styles["BillingDueHeading"]}>
+                  {t("Billing-due")}
+                </span>
+              </Col>
+              <Col lg={3} md={3} sm={3} className='d-flex justify-content-end'>
+                <div ref={dropdownRef} className={styles["dropdown-container"]}>
+                  <div className={styles["dropdown-header"]} onClick={toggling}>
+                    {isOpen ? (
                       <>
-                        <Calendar
-                          numberOfMonths={2}
-                          style={{ position: "absolute", zIndex: 1000 }}
-                          onFocusedDateChange={handleDateChange}
-                          calendar={calendarValue}
-                          locale={localValue}
-                          onMonthChange={handleMonthChange}
-                          multiple
-                          format="YYYY-MM-DD"
-                        />
-                      </>
-                    ) : null}
-                    {showSearchedDate ? (
-                      <>
-                        <div className={styles["SearchDataes"]}>
-                          <span className={styles["Searches"]}>
-                            {formatDate(startDate, currentLanguage)}-
-                            {formatDate(endDate, currentLanguage)}
-                          </span>
-                          <img
-                            src={Crossicon}
-                            alt=""
-                            className={styles["CrossIcon_Class"]}
-                            width={13}
-                            onClick={handleCrossIcon}
-                          />
-                        </div>
+                        <span className={styles["MonthName"]}>
+                          {t("Month")}
+                        </span>
+                        <span
+                          className={isOpen ? styles.down : styles.up}></span>
                       </>
                     ) : null}
                   </div>
-                </Col>
-                <Col
-                  lg={4}
-                  md={4}
-                  sm={4}
-                  className="d-flex justify-content-end"
-                >
+                  {isOpenCalender ? (
+                    <>
+                      <Calendar
+                        numberOfMonths={2}
+                        style={{ position: "absolute", zIndex: 1000 }}
+                        onFocusedDateChange={handleDateChange}
+                        calendar={calendarValue}
+                        locale={localValue}
+                        onMonthChange={handleMonthChange}
+                        multiple
+                        format='YYYY-MM-DD'
+                      />
+                    </>
+                  ) : null}
+                  {showSearchedDate ? (
+                    <>
+                      <div className={styles["SearchDataes"]}>
+                        <span className={styles["Searches"]}>
+                          {formatDate(startDate, currentLanguage)}-
+                          {formatDate(endDate, currentLanguage)}
+                        </span>
+                        <img
+                          src={Crossicon}
+                          alt=''
+                          className={styles["CrossIcon_Class"]}
+                          width={13}
+                          onClick={handleCrossIcon}
+                        />
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+              </Col>
+              <Col lg={4} md={4} sm={4} className='d-flex justify-content-end'>
+                <div
+                  ref={CompanyRef}
+                  className={styles["dropdown-container-companyName"]}>
                   <div
-                    ref={CompanyRef}
-                    className={styles["dropdown-container-companyName"]}
-                  >
-                    <div
-                      className={styles["dropdown-header"]}
-                      onClick={togglingCompany}
-                    >
-                      {showSelectedCompany ? (
-                        <div className={styles["Search-Company"]}>
-                          <span className={styles["Search-Company-Searches"]}>
-                            {selectedCompany}
-                          </span>
-                          <img
-                            src={Crossicon}
-                            alt=""
-                            className={styles["CrossIcon_Class-company"]}
-                            width={13}
-                            onClick={handleCompanyCrossIcon}
-                          />
-                        </div>
-                      ) : (
-                        <>
-                          <span className={styles["MonthName"]}>
-                            {t("Company")}
-                          </span>
-                          <span
-                            className={isOpenCom ? styles.down : styles.up}
-                          ></span>
-                          {isCompnayOpen && (
-                            <section className={styles["dropdown_list"]}>
-                              <input
-                                type="text"
-                                value={searchTerm}
-                                onChange={handleSearchChange}
-                                placeholder="Search..."
-                                className={styles["search-input"]}
-                                onClick={(event) => event.stopPropagation()}
-                              />
+                    className={styles["dropdown-header"]}
+                    onClick={togglingCompany}>
+                    {showSelectedCompany ? (
+                      <div className={styles["Search-Company"]}>
+                        <span className={styles["Search-Company-Searches"]}>
+                          {selectedCompany}
+                        </span>
+                        <img
+                          src={Crossicon}
+                          alt=''
+                          className={styles["CrossIcon_Class-company"]}
+                          width={13}
+                          onClick={handleCompanyCrossIcon}
+                        />
+                      </div>
+                    ) : (
+                      <>
+                        <span className={styles["MonthName"]}>
+                          {t("Company")}
+                        </span>
+                        <span
+                          className={
+                            isOpenCom ? styles.down : styles.up
+                          }></span>
+                        {isCompnayOpen && (
+                          <section className={styles["dropdown_list"]}>
+                            <input
+                              type='text'
+                              value={searchTerm}
+                              onChange={handleSearchChange}
+                              placeholder='Search...'
+                              className={styles["search-input"]}
+                              onClick={(event) => event.stopPropagation()}
+                            />
+                            <div className={styles["OrganizationList"]}>
                               {filteredOrganizations.map(
                                 (CountryData, index) => (
                                   <div
                                     className={styles["dropdown-list-item"]}
                                     onClick={onCountryClickClick(CountryData)}
-                                    key={index}
-                                  >
+                                    key={index}>
                                     {CountryData.organizationName}
                                   </div>
                                 )
                               )}
-                            </section>
-                          )}
+                            </div>
+                          </section>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <Row className='mt-3'>
+              <Col
+                lg={12}
+                md={12}
+                sm={12}
+                className='d-flex justify-content-center flex-column flex-wrap align-items-center'>
+                <span className={styles["PrizeStyles"]}>
+                  {formatSessionDurationArabicAndEng(totalDue, currentLanguage)}
+                  <span> $</span>
+                </span>
+                <span className={styles["PrizeSubHeading"]}>
+                  {t("Total-due")}
+                </span>
+              </Col>
+            </Row>
+
+            <Row className='mt-2'>
+              <Col lg={12} md={12} sm={12} className={styles["Scroller"]}>
+                <InfiniteScroll
+                  dataLength={billDueTable.length}
+                  next={handleBillingScroll}
+                  height={"55vh"}
+                  
+                  className={styles["infinite-hidden-class"]}
+                  hasMore={
+                    billDueTable.length === totalBillingRecord ? false : true
+                  }
+                  ref={scrollContainerRef}
+                  loader={
+                    isBillingRowData <= totalBillingRecord && billingScroll ? (
+                      <>
+                        <Row>
+                          <Col
+                            sm={12}
+                            md={12}
+                            lg={12}
+                            className='d-flex justify-content-center mt-2'>
+                            <Spin />
+                          </Col>
+                        </Row>
+                      </>
+                    ) : null
+                  }>
+                  <Table
+                    column={DashboardGlobalColumn}
+                    pagination={false}
+                    rows={billDueTable}
+                    scroll={{
+                      x: "max-content"
+                    }}
+                    footer={false}
+                    className='billingTable'
+                    locale={{
+                      emptyText: (
+                        <>
+                          <section className='d-flex flex-column align-items-center justify-content-center'>
+                            <img src={BillingDue} width={"180px"} alt='' />
+
+                            <span className='Main-Title'>
+                              {t("No-billing-due")}
+                            </span>
+                            <span className='Sub-Title'>
+                              {t("No-payment-due-for-this-organization")}
+                            </span>
+                          </section>
+                        </>
+                      ), // Set your custom empty text here
+                    }}
+                  />
+                </InfiniteScroll>
+              </Col>
+            </Row>
+          </section>
+        </Col>
+        <Col lg={6} md={6} sm={6}>
+          <section className={styles["RightBoxDashboard"]}>
+            <Row className='mt-2'>
+              <Col lg={7} md={7} sm={12}>
+                <span className={styles["OrgazationStatusHeading"]}>
+                  {t("Organization-status")}
+                </span>
+                <section
+                  className={
+                    organizationStatus
+                      ? styles["OuterBoxPieChartActive"]
+                      : styles["OuterBoxPieChart"]
+                  }
+                  style={{ position: "relative" }}
+                  onClick={handleOrgnizationStatus}>
+                  <div className={styles["chart-container"]}>
+                    <>
+                      {!dataFound ? (
+                        <>
+                          <section className={styles["emptyCircle-empty-box"]}>
+                            <div className={styles["div-in-row-empty"]}>
+                              <span className={styles["emptyCircle"]}></span>
+                              <span>
+                                <p className={styles["font-size-in-Data"]}>
+                                  {`${t("Trial-organizations")} ${"(0)"}`}
+                                </p>
+                                <p className={styles["font-size-in-Data"]}>
+                                  {`${t(
+                                    "Trial-extended-organizations"
+                                  )} ${"(0)"}`}
+                                </p>
+                                <p className={styles["font-size-in-Data"]}>
+                                  {`${t("Subscribed-organizations")} ${"(0)"}`}
+                                </p>
+                                <p className={styles["font-size-in-Data"]}>
+                                  {`${t("Subscription-expired")}  ${"(0)"}`}
+                                </p>
+                              </span>
+                            </div>
+                          </section>
+                        </>
+                      ) : (
+                        <>
+                          {" "}
+                          <Chart
+                            chartType='PieChart'
+                            height={"200px"}
+                            data={exData}
+                            options={options}
+                          />
+                          <div className={styles["inside-pie-chart"]}>
+                            {Number(
+                              organizationStatsLicense.totalOrganizations
+                            )}
+                          </div>
+                          <div
+                            className={styles["click-preventer"]}
+                            onClick={(e) => e.stopPropagation()}></div>
                         </>
                       )}
-                    </div>
+                    </>
                   </div>
-                </Col>
-              </Row>
-              <Row className="mt-3">
-                <Col
-                  lg={12}
-                  md={12}
-                  sm={12}
-                  className="d-flex justify-content-center flex-column flex-wrap align-items-center"
-                >
-                  <span className={styles["PrizeStyles"]}>
-                    {formatSessionDurationArabicAndEng(
-                      totalDue,
-                      currentLanguage
-                    )}
-                    <span> $</span>
-                  </span>
-                  <span className={styles["PrizeSubHeading"]}>
-                    {t("Total-due")}
-                  </span>
-                </Col>
-              </Row>
+                </section>
+              </Col>
+              <Col lg={5} md={5} sm={12}>
+                <span className={styles["OrgazationStatusHeading"]}>
+                  {t("Licenses")}
+                </span>
+                <section
+                  className={
+                    users
+                      ? styles["OuterBoxPieChartActive"]
+                      : styles["OuterBoxPieChart"]
+                  }
+                  onClick={handleUsers}
+                  style={{ position: "relative" }}>
+                  {/* <Pie {...configSecond} /> */}
+                  <div className={styles["chart-container"]}>
+                    <>
+                      <>
+                        <Chart
+                          chartType='PieChart'
+                          height={"200px"}
+                          data={userData}
+                          options={userOptions}
+                          legendToggle={false}
+                        />
+                        <div className={styles["inside-pie-chart_Licenses"]}>
+                          {Number(activelicenses.totalActiveLicense)}
+                        </div>
+                        <div
+                          className={styles["click-preventer"]}
+                          onClick={(e) => e.stopPropagation()}></div>
+                      </>
+                    </>
+                  </div>
+                </section>
+              </Col>
+            </Row>
+            <Row className='mt-3'>
+              <Col
+                lg={10}
+                md={10}
+                sm={12}
+                className={styles["OrganizationStatus_Buttons"]}>
+                {organizationStatus ? (
+                  <>
+                    <Button
+                      text={t("Trial")}
+                      className={
+                        trialExtended === false &&
+                        subscription === false &&
+                        subsExpiry === false &&
+                        organizationStatus
+                          ? styles["activeEssentialButton"]
+                          : styles["ButtonsDashboard"]
+                      }
+                      onClick={handleTrailButton}
+                    />
+                    <Button
+                      text={t("Trial-extended")}
+                      className={
+                        trialBtn === false &&
+                        subscription === false &&
+                        subsExpiry === false &&
+                        trialExtended
+                          ? styles["activeEssentialButton"]
+                          : styles["ButtonsDashboard"]
+                      }
+                      onClick={handleTrialExtendedButton}
+                    />
+                    <Button
+                      text={t("Subscribed")}
+                      className={
+                        trialBtn === false &&
+                        subsExpiry === false &&
+                        trialExtended === false &&
+                        subscription
+                          ? styles["activeEssentialButton"]
+                          : styles["ButtonsDashboard"]
+                      }
+                      onClick={handleSubscriptionTable}
+                    />
+                    <Button
+                      text={t("Subscription-expired")}
+                      className={
+                        trialBtn === false &&
+                        trialExtended === false &&
+                        subscription === false &&
+                        subsExpiry
+                          ? styles["activeEssentialButton"]
+                          : styles["ButtonsDashboard"]
+                      }
+                      onClick={handleSubscriptionExpiry}
+                    />
+                  </>
+                ) : users ? (
+                  <>
+                    <div className={styles.scrollContainer}>
+                      <span onClick={scrollLeft}>
+                        <CaretLeftOutlined
+                          className={styles["button-slides-class"]}
+                        />
+                      </span>
+                      <div
+                        className={styles["scrollContent"]}
+                        ref={containerRef}>
+                        {dynamicPackagesTab &&
+                          dynamicPackagesTab.map((dynamicTab, index) => (
+                            <div key={index} className={styles.scrollItem}>
+                              <Button
+                                text={dynamicTab.name}
+                                className={
+                                  activeTab &&
+                                  activeTab.tabName === dynamicTab.name &&
+                                  activeTab.packageId ===
+                                    dynamicTab.pK_PackageID
+                                    ? styles["activeEssentialButton-Licenses"]
+                                    : styles["ButtonsDashboard-Licenses"]
+                                }
+                                onClick={() =>
+                                  handleTabClick(
+                                    dynamicTab.name,
+                                    dynamicTab.pK_PackageID
+                                  )
+                                }
+                              />
+                            </div>
+                          ))}
+                      </div>
+                      <span onClick={scrollRight}>
+                        <CaretRightOutlined
+                          className={styles["button-slides-class"]}
+                        />
+                      </span>
+                    </div>
+                  </>
+                ) : null}
+              </Col>
 
-              <Row className="mt-2">
-                <Col lg={12} md={12} sm={12} className={styles["Scroller"]}>
-                  <InfiniteScroll
-                    dataLength={billDueTable.length}
-                    next={handleBillingScroll}
-                    height={"55vh"}
-                    className={styles["infinite-hidden-class"]}
-                    hasMore={
-                      billDueTable.length === totalBillingRecord ? false : true
+              <Col lg={2} md={2} sm={12} className='mt-2'>
+                {organizationStatus === true && users === false ? (
+                  <>
+                    {subscription === true ? (
+                      <>
+                        <Button
+                          text={t("Export")}
+                          className={styles["ExportBUtton"]}
+                          onClick={downloadSubscriptionReport}
+                          icon={
+                            <>
+                              <img
+                                src={ExcelIcon}
+                                alt=''
+                                className='ms-2'
+                                draggable='false'
+                              />
+                            </>
+                          }
+                        />
+                      </>
+                    ) : trialExtended === true ? (
+                      <>
+                        <Button
+                          text={t("Export")}
+                          className={styles["ExportBUtton"]}
+                          onClick={downloadTrialExtendedReport}
+                          icon={
+                            <>
+                              <img src={ExcelIcon} alt='' draggable='false' />
+                            </>
+                          }
+                        />
+                      </>
+                    ) : subsExpiry === true ? (
+                      <>
+                        <Button
+                          text={t("Export")}
+                          className={styles["ExportBUtton"]}
+                          onClick={downloadTrialExpireSubscriptionReport}
+                          icon={
+                            <>
+                              <img src={ExcelIcon} alt='' draggable='false' />
+                            </>
+                          }
+                        />
+                      </>
+                    ) : trialBtn === true ? (
+                      <>
+                        <Button
+                          text={t("Export")}
+                          className={styles["ExportBUtton"]}
+                          onClick={downloadTrialReport}
+                          icon={
+                            <>
+                              <img src={ExcelIcon} alt='' draggable='false' />
+                            </>
+                          }
+                        />
+                      </>
+                    ) : null}
+                  </>
+                ) : null}
+                {users ? (
+                  <>
+                    {essentialTbl === true ? (
+                      <>
+                        <Button
+                          text={t("Export")}
+                          className={styles["ExportBUtton-essential"]}
+                          onClick={downloadEssentialReport}
+                          icon={
+                            <>
+                              <img src={ExcelIcon} alt='' draggable='false' />
+                            </>
+                          }
+                        />
+                      </>
+                    ) : null}
+                  </>
+                ) : null}
+              </Col>
+            </Row>
+            <Row className='mt-3'>
+              <Col lg={12} sm={12} md={12}>
+                <span className='position-relative'>
+                  <TextField
+                    labelClass={"d-none"}
+                    applyClass={"NewMeetingFileds"}
+                    placeholder={t("Search")}
+                    value={searchData}
+                    change={onChangeSearchHandler}
+                    onKeyPress={onKeyPressSearchHandler}
+                    inputicon={
+                      <>
+                        <Row>
+                          <Col
+                            lg={12}
+                            md={12}
+                            sm={12}
+                            className='d-flex gap-2 align-items-center'>
+                            {searchData.trim() === "" || !searchExecuted ? (
+                              <img
+                                src={Search_Icon}
+                                alt=''
+                                onClick={onClickSearchHandler}
+                                className={styles["Search_Bar_icon_class"]}
+                                draggable='false'
+                              />
+                            ) : (
+                              <img
+                                src={BlackCrossicon}
+                                alt=''
+                                onClick={onClickClearSearchHandler}
+                                className={styles["CrossIcon_Class-users"]}
+                                draggable='false'
+                              />
+                            )}
+                          </Col>
+                        </Row>
+                      </>
                     }
-                    ref={scrollContainerRef}
+                    iconClassName={"d-block"}
+                  />
+                </span>
+              </Col>
+            </Row>
+            <Row>
+              {trialBtn ? (
+                <>
+                  <InfiniteScroll
+                    dataLength={trialRow.length}
+                    next={handleScroll}
+                    className={styles["infinite-hidden-class"]}
+                    height={"30vh"}
+                    hasMore={trialRow.length === totalRecords ? false : true}
                     loader={
-                      isBillingRowData <= totalBillingRecord &&
-                      billingScroll ? (
+                      isRowsData <= totalRecords && isScroll ? (
                         <>
                           <Row>
                             <Col
                               sm={12}
                               md={12}
                               lg={12}
-                              className="d-flex justify-content-center mt-2"
-                            >
+                              className='d-flex justify-content-center mt-2'>
                               <Spin />
                             </Col>
                           </Row>
                         </>
                       ) : null
-                    }
-                  >
+                    }>
                     <Table
-                      column={DashboardGlobalColumn}
+                      column={TrialColumn}
                       pagination={false}
-                      rows={billDueTable}
+                      rows={trialRow}
                       footer={false}
-                      className="billingTable"
+                      className='TrialTableDashboard'
                       locale={{
                         emptyText: (
                           <>
-                            <section className="d-flex flex-column align-items-center justify-content-center">
-                              <img src={BillingDue} width={"180px"} alt="" />
+                            <section className='d-flex flex-column align-items-center justify-content-center'>
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"45px"}
+                                alt=''
+                              />
 
-                              <span className="Main-Title">
-                                {t("No-billing-due")}
+                              <span className='Main-Title'>
+                                {t("No-organization")}
                               </span>
-                              <span className="Sub-Title">
-                                {t("No-payment-due-for-this-organization")}
+                              <span className='Sub-Title'>
+                                {t("No-organization-found")}
                               </span>
                             </section>
                           </>
@@ -2542,680 +2910,242 @@ const GlobalAdminDashboard = () => {
                       }}
                     />
                   </InfiniteScroll>
-                </Col>
-              </Row>
-            </section>
-          </Col>
-          <Col lg={6} md={6} sm={6}>
-            <section className={styles["RightBoxDashboard"]}>
-              <Row>
-                <Col lg={6} md={6} sm={12}>
-                  <span className={styles["OrgazationStatusHeading"]}>
-                    {t("Organization-status")}
-                  </span>
-                </Col>
-                <Col lg={6} md={6} sm={12}>
-                  <span className={styles["OrgazationStatusHeading"]}>
-                    {t("Licenses")}
-                  </span>
-                </Col>
-              </Row>
-              <Row className="mt-2">
-                <Col lg={6} md={6} sm={6}>
-                  <section
-                    className={
-                      organizationStatus
-                        ? styles["OuterBoxPieChartActive"]
-                        : styles["OuterBoxPieChart"]
+                </>
+              ) : trialExtended ? (
+                <>
+                  <InfiniteScroll
+                    dataLength={trialExtendedRow.length}
+                    next={handleScrollTrialExtended}
+                    height={"30vh"}
+                    className={styles["infinite-hidden-class"]}
+                    hasMore={
+                      trialExtendedRow.length === totalRecordsTrialExtended
+                        ? false
+                        : true
                     }
-                    style={{ position: "relative" }}
-                    onClick={handleOrgnizationStatus}
-                  >
-                    <div className={styles["chart-container"]}>
-                      <>
-                        {!dataFound ? (
-                          <>
-                            <section
-                              className={styles["emptyCircle-empty-box"]}
-                            >
-                              <div className={styles["div-in-row-empty"]}>
-                                <span className={styles["emptyCircle"]}></span>
-                                <span>
-                                  <p className={styles["font-size-in-Data"]}>
-                                    {`${t("Trial-organizations")} ${"(0)"}`}
-                                  </p>
-                                  <p className={styles["font-size-in-Data"]}>
-                                    {`${t(
-                                      "Trial-extended-organizations"
-                                    )} ${"(0)"}`}
-                                  </p>
-                                  <p className={styles["font-size-in-Data"]}>
-                                    {`${t(
-                                      "Subscribed-organizations"
-                                    )} ${"(0)"}`}
-                                  </p>
-                                  <p className={styles["font-size-in-Data"]}>
-                                    {`${t("Subscription-expired")}  ${"(0)"}`}
-                                  </p>
-                                </span>
-                              </div>
-                            </section>
-                          </>
-                        ) : (
-                          <>
-                            {" "}
-                            <Chart
-                              chartType="PieChart"
-                              height={"200px"}
-                              width={"250px"}
-                              data={exData}
-                              options={options}
-                            />
-                            <div className={styles["inside-pie-chart"]}>
-                              {Number(
-                                organizationStatsLicense.totalOrganizations
-                              )}
-                            </div>
-                            <div
-                              className={styles["click-preventer"]}
-                              onClick={(e) => e.stopPropagation()}
-                            ></div>
-                          </>
-                        )}
-                      </>
-                    </div>
-                  </section>
-                </Col>
-                <Col lg={6} md={6} sm={6}>
-                  <section
-                    className={
-                      users
-                        ? styles["OuterBoxPieChartActive"]
-                        : styles["OuterBoxPieChart"]
-                    }
-                    onClick={handleUsers}
-                    style={{ position: "relative" }}
-                  >
-                    {/* <Pie {...configSecond} /> */}
-                    <div className={styles["chart-container"]}>
-                      <>
-                        {!dataFoundActive ? (
-                          <>
-                            <section
-                              className={styles["emptyCircle-empty-box"]}
-                            >
-                              <div className={styles["div-in-row-empty"]}>
-                                <span className={styles["emptyCircle"]}></span>
-                                <span>
-                                  <p
-                                    className={
-                                      styles["font-size-in-Data-active"]
-                                    }
-                                  >
-                                    {`${t("Essential")} ${"(0)"}`}
-                                  </p>
-                                  <p
-                                    className={
-                                      styles["font-size-in-Data-active"]
-                                    }
-                                  >
-                                    {`${t("Professional")} ${"(0)"}`}
-                                  </p>
-                                  <p
-                                    className={
-                                      styles["font-size-in-Data-active"]
-                                    }
-                                  >
-                                    {`${t("Premium")} ${"(0)"}`}
-                                  </p>
-                                </span>
-                              </div>
-                            </section>
-                          </>
-                        ) : (
-                          <>
-                            <Chart
-                              chartType="PieChart"
-                              height={"200px"}
-                              width={"250px"}
-                              data={userData}
-                              options={userOptions}
-                            />
-                            <div className={styles["inside-pie-chart"]}>
-                              {Number(activelicenses.totalActiveLicense)}
-                            </div>
-                            <div
-                              className={styles["click-preventer"]}
-                              onClick={(e) => e.stopPropagation()}
-                            ></div>
-                          </>
-                        )}
-                      </>
-                    </div>
-                  </section>
-                </Col>
-              </Row>
-              <Row className="mt-3">
-                <Col lg={10} md={10} sm={12} className="d-flex gap-3 mt-2">
-                  {organizationStatus ? (
-                    <>
-                      <Button
-                        text={t("Trial")}
-                        className={
-                          trialExtended === false &&
-                          subscription === false &&
-                          subsExpiry === false &&
-                          organizationStatus
-                            ? styles["activeEssentialButton"]
-                            : styles["ButtonsDashboard"]
-                        }
-                        onClick={handleTrailButton}
-                      />
-                      <Button
-                        text={t("Trial-extended")}
-                        className={
-                          trialBtn === false &&
-                          subscription === false &&
-                          subsExpiry === false &&
-                          trialExtended
-                            ? styles["activeEssentialButton"]
-                            : styles["ButtonsDashboard"]
-                        }
-                        onClick={handleTrialExtendedButton}
-                      />
-                      <Button
-                        text={t("Subscribed")}
-                        className={
-                          trialBtn === false &&
-                          subsExpiry === false &&
-                          trialExtended === false &&
-                          subscription
-                            ? styles["activeEssentialButton"]
-                            : styles["ButtonsDashboard"]
-                        }
-                        onClick={handleSubscriptionTable}
-                      />
-                      <Button
-                        text={t("Subscription-expired")}
-                        className={
-                          trialBtn === false &&
-                          trialExtended === false &&
-                          subscription === false &&
-                          subsExpiry
-                            ? styles["activeEssentialButton"]
-                            : styles["ButtonsDashboard"]
-                        }
-                        onClick={handleSubscriptionExpiry}
-                      />
-                    </>
-                  ) : users ? (
-                    <>
-                      <div className={styles.scrollContainer}>
-                        <span onClick={scrollLeft}>
-                          <CaretLeftOutlined
-                            className={styles["button-slides-class"]}
-                          />
-                        </span>
-                        <div
-                          className={styles["scrollContent"]}
-                          ref={containerRef}
-                        >
-                          {dynamicPackagesTab &&
-                            dynamicPackagesTab.map((dynamicTab, index) => (
-                              <div key={index} className={styles.scrollItem}>
-                                <Button
-                                  text={dynamicTab.name}
-                                  className={
-                                    activeTab &&
-                                    activeTab.tabName === dynamicTab.name &&
-                                    activeTab.packageId ===
-                                      dynamicTab.pK_PackageID
-                                      ? styles["activeEssentialButton-Licenses"]
-                                      : styles["ButtonsDashboard-Licenses"]
-                                  }
-                                  onClick={() =>
-                                    handleTabClick(
-                                      dynamicTab.name,
-                                      dynamicTab.pK_PackageID
-                                    )
-                                  }
-                                />
-                              </div>
-                            ))}
-                        </div>
-                        <span onClick={scrollRight}>
-                          <CaretRightOutlined
-                            className={styles["button-slides-class"]}
-                          />
-                        </span>
-                      </div>
-                    </>
-                  ) : null}
-                </Col>
-
-                <Col lg={2} md={2} sm={12} className="mt-2">
-                  {organizationStatus === true && users === false ? (
-                    <>
-                      {subscription === true ? (
-                        <>
-                          <Button
-                            text={t("Export")}
-                            className={styles["ExportBUtton"]}
-                            onClick={downloadSubscriptionReport}
-                            icon={
-                              <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
-                              </>
-                            }
-                          />
-                        </>
-                      ) : trialExtended === true ? (
-                        <>
-                          <Button
-                            text={t("Export")}
-                            className={styles["ExportBUtton"]}
-                            onClick={downloadTrialExtendedReport}
-                            icon={
-                              <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
-                              </>
-                            }
-                          />
-                        </>
-                      ) : subsExpiry === true ? (
-                        <>
-                          <Button
-                            text={t("Export")}
-                            className={styles["ExportBUtton"]}
-                            onClick={downloadTrialExpireSubscriptionReport}
-                            icon={
-                              <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
-                              </>
-                            }
-                          />
-                        </>
-                      ) : trialBtn === true ? (
-                        <>
-                          <Button
-                            text={t("Export")}
-                            className={styles["ExportBUtton"]}
-                            onClick={downloadTrialReport}
-                            icon={
-                              <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
-                              </>
-                            }
-                          />
-                        </>
-                      ) : null}
-                    </>
-                  ) : null}
-                  {users ? (
-                    <>
-                      {essentialTbl === true ? (
-                        <>
-                          <Button
-                            text={t("Export")}
-                            className={styles["ExportBUtton-essential"]}
-                            onClick={downloadEssentialReport}
-                            icon={
-                              <>
-                                <img src={ExcelIcon} alt="" draggable="false" />
-                              </>
-                            }
-                          />
-                        </>
-                      ) : null}
-                    </>
-                  ) : null}
-                </Col>
-              </Row>
-              <Row className="mt-3">
-                <Col lg={12} sm={12} md={12}>
-                  <span className="position-relative">
-                    <TextField
-                      labelClass={"d-none"}
-                      applyClass={"NewMeetingFileds"}
-                      placeholder={t("Search")}
-                      value={searchData}
-                      change={onChangeSearchHandler}
-                      onKeyPress={onKeyPressSearchHandler}
-                      inputicon={
+                    loader={
+                      isRowsDataTrialExtended <= totalRecordsTrialExtended &&
+                      isScrollTrialExtended ? (
                         <>
                           <Row>
                             <Col
-                              lg={12}
-                              md={12}
                               sm={12}
-                              className="d-flex gap-2 align-items-center"
-                            >
-                              {searchData.trim() === "" || !searchExecuted ? (
-                                <img
-                                  src={Search_Icon}
-                                  alt=""
-                                  onClick={onClickSearchHandler}
-                                  className={styles["Search_Bar_icon_class"]}
-                                  draggable="false"
-                                />
-                              ) : (
-                                <img
-                                  src={BlackCrossicon}
-                                  alt=""
-                                  onClick={onClickClearSearchHandler}
-                                  className={styles["CrossIcon_Class-users"]}
-                                  draggable="false"
-                                />
-                              )}
+                              md={12}
+                              lg={12}
+                              className='d-flex justify-content-center mt-2'>
+                              <Spin />
                             </Col>
                           </Row>
                         </>
-                      }
-                      iconClassName={"d-block"}
+                      ) : null
+                    }>
+                    <Table
+                      column={TraiExtendedColumn}
+                      pagination={false}
+                      rows={trialExtendedRow}
+                      footer={false}
+                      className='TrialExtendedDashboard'
+                      locale={{
+                        emptyText: (
+                          <>
+                            <section className='d-flex flex-column align-items-center justify-content-center '>
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"45px"}
+                                alt=''
+                              />
+
+                              <span className='Main-Title'>
+                                {t("No-organization")}
+                              </span>
+                              <span className='Sub-Title'>
+                                {t("No-organization-found")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
                     />
-                  </span>
-                </Col>
-              </Row>
-              <Row>
-                {trialBtn ? (
-                  <>
-                    <InfiniteScroll
-                      dataLength={trialRow.length}
-                      next={handleScroll}
-                      className={styles["infinite-hidden-class"]}
-                      height={"30vh"}
-                      hasMore={trialRow.length === totalRecords ? false : true}
-                      loader={
-                        isRowsData <= totalRecords && isScroll ? (
+                  </InfiniteScroll>
+                </>
+              ) : subscription ? (
+                <>
+                  <InfiniteScroll
+                    dataLength={subscribedRow.length}
+                    next={handleScrollSubscribed}
+                    className={styles["infinite-hidden-class"]}
+                    height={"30vh"}
+                    hasMore={
+                      subscribedRow.length === totalRecordsSubscribed
+                        ? false
+                        : true
+                    }
+                    loader={
+                      isRowsDataSubscribed <= totalRecordsSubscribed &&
+                      isScrollSubscribed ? (
+                        <>
+                          <Row>
+                            <Col
+                              sm={12}
+                              md={12}
+                              lg={12}
+                              className='d-flex justify-content-center mt-2'>
+                              <Spin />
+                            </Col>
+                          </Row>
+                        </>
+                      ) : null
+                    }>
+                    <Table
+                      column={subscriptionColumn}
+                      pagination={false}
+                      rows={subscribedRow}
+                      footer={false}
+                      className='TrialTableDashboard'
+                      locale={{
+                        emptyText: (
                           <>
-                            <Row>
-                              <Col
-                                sm={12}
-                                md={12}
-                                lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
-                                <Spin />
-                              </Col>
-                            </Row>
-                          </>
-                        ) : null
-                      }
-                    >
-                      <Table
-                        column={TrialColumn}
-                        pagination={false}
-                        rows={trialRow}
-                        footer={false}
-                        className="TrialTableDashboard"
-                        locale={{
-                          emptyText: (
-                            <>
-                              <section className="d-flex flex-column align-items-center justify-content-center">
-                                <img
-                                  src={NoOrganizationIcon}
-                                  width={"45px"}
-                                  alt=""
-                                />
+                            <section className='d-flex flex-column align-items-center justify-content-center '>
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"45px"}
+                                alt=''
+                              />
 
-                                <span className="Main-Title">
-                                  {t("No-organization")}
-                                </span>
-                                <span className="Sub-Title">
-                                  {t("No-organization-found")}
-                                </span>
-                              </section>
-                            </>
-                          ), // Set your custom empty text here
-                        }}
-                      />
-                    </InfiniteScroll>
-                  </>
-                ) : trialExtended ? (
-                  <>
-                    <InfiniteScroll
-                      dataLength={trialExtendedRow.length}
-                      next={handleScrollTrialExtended}
-                      height={"30vh"}
-                      className={styles["infinite-hidden-class"]}
-                      hasMore={
-                        trialExtendedRow.length === totalRecordsTrialExtended
-                          ? false
-                          : true
-                      }
-                      loader={
-                        isRowsDataTrialExtended <= totalRecordsTrialExtended &&
-                        isScrollTrialExtended ? (
+                              <span className='Main-Title'>
+                                {t("No-organization")}
+                              </span>
+                              <span className='Sub-Title'>
+                                {t("No-organization-found")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+                  </InfiniteScroll>
+                </>
+              ) : subsExpiry ? (
+                <>
+                  <InfiniteScroll
+                    dataLength={subscriptionExpiredRow.length}
+                    next={handleScrollSubscriptionExpiry}
+                    className={styles["infinite-hidden-class"]}
+                    height={"30vh"}
+                    hasMore={
+                      subscriptionExpiredRow.length ===
+                      totalRecordsSubscriptionExpiry
+                        ? false
+                        : true
+                    }
+                    loader={
+                      isRowsDataSubscriptionExpiry <=
+                        totalRecordsSubscriptionExpiry &&
+                      isScrollSubscriptionExpiry ? (
+                        <>
+                          <Row>
+                            <Col
+                              sm={12}
+                              md={12}
+                              lg={12}
+                              className='d-flex justify-content-center mt-2'>
+                              <Spin />
+                            </Col>
+                          </Row>
+                        </>
+                      ) : null
+                    }>
+                    <Table
+                      column={subscriptionExpiry}
+                      pagination={false}
+                      rows={subscriptionExpiredRow}
+                      footer={false}
+                      className='TrialExtendedDashboard'
+                      locale={{
+                        emptyText: (
                           <>
-                            <Row>
-                              <Col
-                                sm={12}
-                                md={12}
-                                lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
-                                <Spin />
-                              </Col>
-                            </Row>
-                          </>
-                        ) : null
-                      }
-                    >
-                      <Table
-                        column={TraiExtendedColumn}
-                        pagination={false}
-                        rows={trialExtendedRow}
-                        footer={false}
-                        className="TrialExtendedDashboard"
-                        locale={{
-                          emptyText: (
-                            <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
-                                <img
-                                  src={NoOrganizationIcon}
-                                  width={"45px"}
-                                  alt=""
-                                />
+                            <section className='d-flex flex-column align-items-center justify-content-center '>
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"45px"}
+                                alt=''
+                              />
 
-                                <span className="Main-Title">
-                                  {t("No-organization")}
-                                </span>
-                                <span className="Sub-Title">
-                                  {t("No-organization-found")}
-                                </span>
-                              </section>
-                            </>
-                          ), // Set your custom empty text here
-                        }}
-                      />
-                    </InfiniteScroll>
-                  </>
-                ) : subscription ? (
-                  <>
-                    <InfiniteScroll
-                      dataLength={subscribedRow.length}
-                      next={handleScrollSubscribed}
-                      className={styles["infinite-hidden-class"]}
-                      height={"30vh"}
-                      hasMore={
-                        subscribedRow.length === totalRecordsSubscribed
-                          ? false
-                          : true
-                      }
-                      loader={
-                        isRowsDataSubscribed <= totalRecordsSubscribed &&
-                        isScrollSubscribed ? (
+                              <span className='Main-Title'>
+                                {t("No-organization")}
+                              </span>
+                              <span className='Sub-Title'>
+                                {t("No-organization-found")}
+                              </span>
+                            </section>
+                          </>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+                  </InfiniteScroll>
+                </>
+              ) : essentialTbl ? (
+                <>
+                  <InfiniteScroll
+                    dataLength={essentialRow.length}
+                    next={handleScrollEssential}
+                    height={"30vh"}
+                    className={styles["infinite-hidden-class"]}
+                    hasMore={
+                      essentialRow.length === totalRecordsEssential
+                        ? false
+                        : true
+                    }
+                    loader={
+                      isRowsDataEssential <= totalRecordsEssential &&
+                      isScrollEssential ? (
+                        <>
+                          <Row>
+                            <Col
+                              sm={12}
+                              md={12}
+                              lg={12}
+                              className='d-flex justify-content-center mt-2'>
+                              <Spin />
+                            </Col>
+                          </Row>
+                        </>
+                      ) : null
+                    }>
+                    <Table
+                      column={essentialColumns}
+                      pagination={false}
+                      rows={essentialRow}
+                      footer={false}
+                      className='EssentialTable'
+                      locale={{
+                        emptyText: (
                           <>
-                            <Row>
-                              <Col
-                                sm={12}
-                                md={12}
-                                lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
-                                <Spin />
-                              </Col>
-                            </Row>
-                          </>
-                        ) : null
-                      }
-                    >
-                      <Table
-                        column={subscriptionColumn}
-                        pagination={false}
-                        rows={subscribedRow}
-                        footer={false}
-                        className="TrialTableDashboard"
-                        locale={{
-                          emptyText: (
-                            <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
-                                <img
-                                  src={NoOrganizationIcon}
-                                  width={"45px"}
-                                  alt=""
-                                />
+                            <section className='d-flex flex-column align-items-center justify-content-center '>
+                              <img
+                                src={NoOrganizationIcon}
+                                width={"45px"}
+                                alt=''
+                              />
 
-                                <span className="Main-Title">
-                                  {t("No-organization")}
-                                </span>
-                                <span className="Sub-Title">
-                                  {t("No-organization-found")}
-                                </span>
-                              </section>
-                            </>
-                          ), // Set your custom empty text here
-                        }}
-                      />
-                    </InfiniteScroll>
-                  </>
-                ) : subsExpiry ? (
-                  <>
-                    <InfiniteScroll
-                      dataLength={subscriptionExpiredRow.length}
-                      next={handleScrollSubscriptionExpiry}
-                      className={styles["infinite-hidden-class"]}
-                      height={"30vh"}
-                      hasMore={
-                        subscriptionExpiredRow.length ===
-                        totalRecordsSubscriptionExpiry
-                          ? false
-                          : true
-                      }
-                      loader={
-                        isRowsDataSubscriptionExpiry <=
-                          totalRecordsSubscriptionExpiry &&
-                        isScrollSubscriptionExpiry ? (
-                          <>
-                            <Row>
-                              <Col
-                                sm={12}
-                                md={12}
-                                lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
-                                <Spin />
-                              </Col>
-                            </Row>
+                              <span className='Main-Title'>
+                                {t("No-organization")}
+                              </span>
+                              <span className='Sub-Title'>
+                                {t("No-organization-found")}
+                              </span>
+                            </section>
                           </>
-                        ) : null
-                      }
-                    >
-                      <Table
-                        column={subscriptionExpiry}
-                        pagination={false}
-                        rows={subscriptionExpiredRow}
-                        footer={false}
-                        className="TrialExtendedDashboard"
-                        locale={{
-                          emptyText: (
-                            <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
-                                <img
-                                  src={NoOrganizationIcon}
-                                  width={"45px"}
-                                  alt=""
-                                />
-
-                                <span className="Main-Title">
-                                  {t("No-organization")}
-                                </span>
-                                <span className="Sub-Title">
-                                  {t("No-organization-found")}
-                                </span>
-                              </section>
-                            </>
-                          ), // Set your custom empty text here
-                        }}
-                      />
-                    </InfiniteScroll>
-                  </>
-                ) : essentialTbl ? (
-                  <>
-                    <InfiniteScroll
-                      dataLength={essentialRow.length}
-                      next={handleScrollEssential}
-                      height={"30vh"}
-                      className={styles["infinite-hidden-class"]}
-                      hasMore={
-                        essentialRow.length === totalRecordsEssential
-                          ? false
-                          : true
-                      }
-                      loader={
-                        isRowsDataEssential <= totalRecordsEssential &&
-                        isScrollEssential ? (
-                          <>
-                            <Row>
-                              <Col
-                                sm={12}
-                                md={12}
-                                lg={12}
-                                className="d-flex justify-content-center mt-2"
-                              >
-                                <Spin />
-                              </Col>
-                            </Row>
-                          </>
-                        ) : null
-                      }
-                    >
-                      <Table
-                        column={essentialColumns}
-                        pagination={false}
-                        rows={essentialRow}
-                        footer={false}
-                        className="EssentialTable"
-                        locale={{
-                          emptyText: (
-                            <>
-                              <section className="d-flex flex-column align-items-center justify-content-center ">
-                                <img
-                                  src={NoOrganizationIcon}
-                                  width={"45px"}
-                                  alt=""
-                                />
-
-                                <span className="Main-Title">
-                                  {t("No-organization")}
-                                </span>
-                                <span className="Sub-Title">
-                                  {t("No-organization-found")}
-                                </span>
-                              </section>
-                            </>
-                          ), // Set your custom empty text here
-                        }}
-                      />
-                    </InfiniteScroll>
-                  </>
-                ) : null}
-                <Col lg={12} md={12} sm={12}></Col>
-              </Row>
-            </section>
-          </Col>
-        </Row>
-      </Container>
+                        ), // Set your custom empty text here
+                      }}
+                    />
+                  </InfiniteScroll>
+                </>
+              ) : null}
+            </Row>
+          </section>
+        </Col>
+      </Row>
 
       <PackageDetailModal subscribedPackageDetail={subscribedPackageDetail} />
       <TrialRenewModal
@@ -3228,6 +3158,7 @@ const GlobalAdminDashboard = () => {
         onClickSendInvoice={onClickSendInvoice}
         setSendInvoiceData={setSendInvoiceData}
         onClickDownloadInvoice={onClickDownloadInvoice}
+        setInvoiceData={setInvoiceData}
       />
     </>
   );

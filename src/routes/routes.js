@@ -2,6 +2,7 @@ import {
   Route,
   createRoutesFromElements,
   createHashRouter,
+  createBrowserRouter,
 } from "react-router-dom";
 import { DashBoard } from "../container";
 import LoginCard from "../components/elements/loginsCard/LoginCard";
@@ -17,7 +18,7 @@ import ViewOrganizations from "../container/ViewOrganizations/ViewOrganizations"
 import AuditTrial from "../container/AuditTrial/AuditTrial";
 import NotFound from "../container/NotFound/NotFound";
 
-export const router = createHashRouter(
+export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       {/* <Route path="/" element={<Login />} /> */}

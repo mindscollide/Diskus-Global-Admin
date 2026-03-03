@@ -14,12 +14,14 @@ import {
   EditSubscriptionAPI,
 } from "../../../../store/Actions/ViewOrganizationActions";
 import { useNavigate } from "react-router-dom";
+import { useViewOrganization } from "../../../../context/viewOrganizations";
 const EditOrganizationConfirmations = ({
   organzationStatus,
   editOrganizationID,
-  setShowSearchText,
   setUserNameSearch,
 }) => {
+  const { setSearchOrganizationData, setShowSearchText } =
+    useViewOrganization();
   const ModalReducer = useSelector((state) => state.modal);
   console.log(editOrganizationID, "ModalReducerModalReducerModalReducer");
 
@@ -32,6 +34,8 @@ const EditOrganizationConfirmations = ({
   useEffect(() => {
     return () => {
       dispatch(editOrganizationConfirmation(false));
+      setShowSearchText(false);
+      setUserNameSearch("");
     };
   }, []);
 
@@ -49,7 +53,16 @@ const EditOrganizationConfirmations = ({
       StatusID: Number(organzationStatus),
     };
     dispatch(viewOrganizationLoader(true));
-    dispatch(EditOrganizationAPI({ data, navigate, t, setUserNameSearch }));
+    dispatch(
+      EditOrganizationAPI({
+        data,
+        navigate,
+        t,
+        setUserNameSearch,
+        setSearchOrganizationData,
+        setShowSearchText,
+      })
+    );
     setShowSearchText(false);
     setUserNameSearch("");
     dispatch(editOrganizationConfirmation(false));
@@ -72,8 +85,7 @@ const EditOrganizationConfirmations = ({
                 lg={12}
                 md={12}
                 sm={12}
-                className="d-flex justify-content-center"
-              >
+                className='d-flex justify-content-center'>
                 <span className={styles["ConfirmationModalHeading"]}>
                   {t("Are-you-sure-you-want-to-update-the-changes")}
                 </span>
@@ -88,8 +100,7 @@ const EditOrganizationConfirmations = ({
                 lg={12}
                 md={12}
                 sm={12}
-                className="d-flex justify-content-center gap-2"
-              >
+                className='d-flex justify-content-center gap-2'>
                 <Button
                   text={t("Cancel")}
                   className={styles["CancelBtnStyles"]}

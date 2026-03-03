@@ -11,6 +11,7 @@ import {
 import { Col, Row } from "react-bootstrap";
 import EditSubscriptionConfirmationModal from "./EditSubscriptionModalConfirmation/EditSubscriptionConfirmationModal";
 import { convertUTCDateToLocalDateView } from "../../../common/functions/dateFormatters";
+import { useViewOrganization } from "../../../context/viewOrganizations";
 const EditSubscriptionModals = ({
   editSubscriptionOrgID,
   subcriptionStartDate,
@@ -19,14 +20,11 @@ const EditSubscriptionModals = ({
   editCurrentSubscriptionName,
   headData,
   editSubModal,
-  setUserNameSearch,
-  setShowSearchText,
 }) => {
   const ModalReducer = useSelector((state) => state.modal);
+  const { setShowSearchText, setUserNameSearch, showsearchText, userNameSearch } = useViewOrganization();
 
-  const isEditSubscriptionModalOpen = useSelector(
-    (state) => state.modal.editSubscriptionConfirmationModal
-  );
+
 
   const [packageDetails, setPackageDetails] = useState([]);
 
@@ -73,16 +71,16 @@ const EditSubscriptionModals = ({
           editCurrentSubscriptionName === 1
             ? "Active"
             : editCurrentSubscriptionName === 2
-            ? "InActive"
-            : editCurrentSubscriptionName === 3
-            ? "suspended"
-            : editCurrentSubscriptionName === 4
-            ? "Closed"
-            : editCurrentSubscriptionName === 5
-            ? "Terminated Request"
-            : editCurrentSubscriptionName === 6
-            ? "Cancelled"
-            : "Active",
+              ? "InActive"
+              : editCurrentSubscriptionName === 3
+                ? "suspended"
+                : editCurrentSubscriptionName === 4
+                  ? "Closed"
+                  : editCurrentSubscriptionName === 5
+                    ? "Terminated Request"
+                    : editCurrentSubscriptionName === 6
+                      ? "Cancelled"
+                      : "Active",
       };
       setSubsciptionStatus(status);
       setInitialOrganzationStatus(status);
@@ -290,8 +288,6 @@ const EditSubscriptionModals = ({
       <EditSubscriptionConfirmationModal
         subsciptionStatus={subsciptionStatus.value}
         editSubscriptionOrgID={editSubscriptionOrgID}
-        setShowSearchText={setShowSearchText}
-        setUserNameSearch={setUserNameSearch}
       />
     </>
   );

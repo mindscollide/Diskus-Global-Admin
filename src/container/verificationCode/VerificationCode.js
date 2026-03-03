@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Form } from "react-bootstrap";
-import {
-  Button,
-  Notification,
-  VerificationInputField,
-} from "../../components/elements";
+import { Button, VerificationInputField } from "../../components/elements";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +12,7 @@ import {
   resendOTPMainApi,
 } from "../../store/Actions/AuthActions";
 import { resetAuthResponseMessage } from "../../store/ActionsSlicers/AuthLoginSlicer";
+import { showNotification } from "../../components/elements/snack_bar/snackbar";
 
 const VerificationCode = ({ onClickGoBack }) => {
   const { t } = useTranslation();
@@ -27,11 +24,7 @@ const VerificationCode = ({ onClickGoBack }) => {
   );
   console.log(Responsemessage, "ResponsemessageResponsemessage");
 
-  const [openNotification, setOpenNotification] = useState({
-    Flag: false,
-    Notification: null,
-    severity: "none",
-  });
+
 
   const [key, setKey] = useState(1);
   const [verifyOTP, setVerifyOTP] = useState("");
@@ -49,31 +42,28 @@ const VerificationCode = ({ onClickGoBack }) => {
   );
 
   // for response message useEffect
+
   useEffect(() => {
     if (
-      Responsemessage !== "" &&
+      Responsemessage &&
       Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
+      Responsemessage !== "" &&
       Responsemessage !== t("Something-went-wrong") &&
       Responsemessage !== "No Data available"
     ) {
-      setOpenNotification({
-        Flag: true,
-        Notification: Responsemessage,
-        severity: t("OTP-has-been-sent-to-your-email") ? "success" : "error",
-      });
+      // Determine type: success if it's the OTP message, else error
+      const type =
+        Responsemessage === t("OTP-has-been-sent-to-your-email")
+          ? "success"
+          : "error";
 
-      setTimeout(() => {
-        dispatch(resetAuthResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          Flag: false,
-          Notification: "",
-          severity: "none",
-        });
-      }, 4000);
+      // Show notification
+      showNotification(type, Responsemessage);
+
+      // Reset the response message in Redux
+      dispatch(resetAuthResponseMessage());
     }
-  }, [Responsemessage]);
+  }, [Responsemessage, dispatch, t]);
 
   useEffect(() => {
     // if value was cleared, set key to re-render the element
@@ -248,17 +238,7 @@ const VerificationCode = ({ onClickGoBack }) => {
         </Col>
       </Row>
 
-      <Notification
-        show={openNotification.Flag}
-        hide={setOpenNotification}
-        message={openNotification.Notification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+ 
     </>
   );
 };

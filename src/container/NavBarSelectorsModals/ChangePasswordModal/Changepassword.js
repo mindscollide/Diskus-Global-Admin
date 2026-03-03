@@ -6,7 +6,6 @@ import {
   Button,
   Modal,
   TextField,
-  Notification,
 } from "../../../components/elements";
 import { ChangePasswordModalOpen } from "../../../store/ActionsSlicers/UIModalsActions";
 import PasswordEyeIcon from "../../../assets/images/OutletImages/password.svg";
@@ -19,6 +18,7 @@ import {
 } from "../../../store/ActionsSlicers/GlobalAdminDasboardSlicer";
 import { ChangePasswordApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useNavigate } from "react-router-dom";
+import { showNotification } from "../../../components/elements/snack_bar/snackbar";
 
 const Changepassword = () => {
   const ModalReducer = useSelector((state) => state.modal);
@@ -40,11 +40,6 @@ const Changepassword = () => {
     ConfirmPassword: "",
   });
 
-  const [openNotification, setOpenNotification] = useState({
-    changePasswordFlag: false,
-    changePasswordNotification: null,
-    severity: "none",
-  });
 
   const dispatch = useDispatch();
 
@@ -96,50 +91,52 @@ const Changepassword = () => {
   };
 
   const handleChangePassword = () => {
-    // let data = {
-    //   UserID: Number(userID),
-    //   Email: Email,
-    //   Password: oldPassword,
-    //   ConfirmPassword: Password.newPassword,
-    //   DeviceID: "1",
-    // };
-
+    if (!oldPassword || !Password.newPassword || !Password.ConfirmPassword) {
+      showNotification("error", t("Please-enter-required-fields"));
+      return;
+    }
+  
+    if (Password.newPassword !== Password.ConfirmPassword) {
+      showNotification("error", t("Passwords-do-not-match"));
+      return;
+    }
+  
+    if (!isPasswordStrong) {
+      showNotification("error", t("Password-is-not-strong-enough"));
+      return;
+    }
+  
     let data = {
       UserID: Number(userID),
       OldPassword: oldPassword,
       NewPassword: Password.newPassword,
       DeviceID: "1",
     };
-
+  
     dispatch(globalAdminDashBoardLoader(true));
     dispatch(ChangePasswordApi({ data, navigate, t }));
   };
-
+  
   useEffect(() => {
-    if (
-      Responsemessage !== "" &&
-      Responsemessage !== t("No-data-available") &&
-      Responsemessage !== "Success" &&
-      Responsemessage !== t("Something-went-wrong") &&
-      Responsemessage !== "No Data available"
-    ) {
-      setOpenNotification({
-        changePasswordFlag: true,
-        changePasswordNotification: Responsemessage,
-        severity: t("Updated-Successfully") ? "success" : "error",
-      });
-
-      setTimeout(() => {
-        dispatch(resetResponseMessage());
-        setOpenNotification({
-          ...openNotification,
-          changePasswordFlag: false,
-          changePasswordNotification: "",
-          severity: "none",
-        });
-      }, 4000);
-    }
+    if (!Responsemessage) return;
+  
+    const ignoredMessages = [
+      "",
+      t("No-data-available"),
+      "No Data available",
+    ];
+  
+    if (ignoredMessages.includes(Responsemessage)) return;
+  
+    const isSuccess =
+      Responsemessage === "" ||
+      Responsemessage === t("Updated-Successfully");
+  
+    showNotification(isSuccess ? "success" : "error", Responsemessage);
+  
+    dispatch(resetResponseMessage());
   }, [Responsemessage]);
+  
 
   return (
     <>
@@ -372,17 +369,7 @@ const Changepassword = () => {
           </>
         }
       />
-      <Notification
-        show={openNotification.changePasswordFlag}
-        hide={setOpenNotification}
-        message={openNotification.changePasswordNotification}
-        severity={openNotification.severity}
-        notificationClass={
-          openNotification.severity
-            ? "notification-error"
-            : "notification-success"
-        }
-      />
+
     </>
   );
 };

@@ -6,13 +6,24 @@ import AdminOptionsNavBar from "../../components/layout/AdminOptionsNavbar/Admin
 import { Outlet } from "react-router-dom";
 import ar_EG from "antd/es/locale/ar_EG";
 import en_US from "antd/es/locale/en_US";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/elements/loader/Loader";
+import { mqttConnection } from "../../common/functions/mqttConnection";
+import Helper from "../../common/functions/historyLogout";
+import { GlobalAdminLogOutApi } from "../../store/Actions/AuthActions";
+import { useTranslation } from "react-i18next";
 
 const DashBoard = () => {
+  const { t } = useTranslation();
   const { Content } = Layout;
+  const dispatch = useDispatch();
   const authStateLoader = useSelector((state) => state.AuthActions.loading);
   const LoginHistoryLoader = useSelector((state) => state.loginHistory.loading);
+  let newClient = Helper.socket;
+  const mqttClient = useSelector(
+    (state) => state.realtimeSlice.connectionClient
+  );
+  console.log("mqttConnection", mqttClient);
   const globalAdminDashboardLoader = useSelector(
     (state) => state.globalAdminDashboardReducer.loading
   );
@@ -30,6 +41,43 @@ const DashBoard = () => {
       ? "en"
       : localStorage.getItem("i18nextLng")
   );
+  const onMessageArrived = async (msg) => {
+    let data = JSON.parse(msg.payloadString);
+    console.log(data, "MQTT onMessageArrived");
+    switch (data.message) {
+      case "GA_LOGIN_ACTIVITY":
+        let token = localStorage.getItem("token");
+        let userID = localStorage.getItem("userID");
+        if (
+          token !== data.payload.authToken.token &&
+          userID !== data.payload.authToken.userID
+        ) {
+          dispatch(GlobalAdminLogOutApi({ t }));
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const onConnectionLost = () => {
+    let userId = localStorage.getItem("userID");
+    setTimeout(mqttConnection(Number(userId), dispatch), 3000);
+  };
+
+  useEffect(() => {
+    if (mqttClient !== null) {
+      if (newClient !== null) {
+        newClient.onConnectionLost = onConnectionLost;
+        newClient.onMessageArrived = onMessageArrived;
+      }
+    } else {
+      let userId = localStorage.getItem("userID");
+      userId && mqttConnection(Number(userId), dispatch);
+      // console.log("mqttConnection is null");
+    }
+  }, [mqttClient, newClient, dispatch]);
 
   useEffect(() => {
     setCurrentLanguage(i18nextLng);
@@ -38,16 +86,15 @@ const DashBoard = () => {
     <>
       <ConfigProvider
         direction={currentLanguage === "ar" ? ar_EG : en_US}
-        locale={currentLanguage === "ar" ? ar_EG : en_US}
-      >
+        locale={currentLanguage === "ar" ? ar_EG : en_US}>
         <Layout>
           <Header />
           <AdminOptionsNavBar />
         </Layout>
 
-        <Layout className="dashboard-background">
+        <Layout className='dashboard-background'>
           <Content>
-            <div className="dashbaord_data">
+            <div className='dashbaord_data'>
               <Outlet />
             </div>
           </Content>

@@ -7,6 +7,7 @@ import searchOrganization from "./ActionsSlicers/ViewOrganizationActionSlicer";
 import globalAdminDashboardReducer from "./ActionsSlicers/GlobalAdminDasboardSlicer";
 import packageAdminReducer from "./ActionsSlicers/PackageSlicer";
 import LanguageReducer from "./ActionsSlicers/LanguageSlicer";
+import RealtimeSlicer from "./ActionsSlicers/RealtimeSlicer";
 
 const rootReducer = combineReducers({
   Auth: AuthAction,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   globalAdminDashboardReducer: globalAdminDashboardReducer,
   packageAdminReducer: packageAdminReducer,
   LanguageReducer: LanguageReducer,
+  realtimeSlice: RealtimeSlicer
 });
 
 const store = configureStore({

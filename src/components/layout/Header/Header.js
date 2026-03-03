@@ -6,7 +6,6 @@ import DiskusNotificationIcon from "../../../assets/images/DiskusLogo/Diskus-not
 import DiskusLogoHeader from "../../../assets/images/DiskusLogo/diskus_newheader.svg";
 import Profilepicture from "../../../assets/images/OutletImages/newprofile.png";
 import "./Header.css";
-import LanguageSelector from "../../elements/languageSelector/Language-selector";
 import Changepassword from "../../../container/NavBarSelectorsModals/ChangePasswordModal/Changepassword";
 import {
   ChangePasswordModalOpen,
@@ -63,7 +62,6 @@ const Header = () => {
           </Navbar.Brand>
 
           <Nav className="ml-auto align-items-center">
-            <LanguageSelector />
             <Dropdown className="profilebtn-dropdown">
               <Dropdown.Toggle className="dropdown-toggle">
                 <img

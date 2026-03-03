@@ -7,9 +7,15 @@ import "./i18n";
 import { Provider } from "react-redux";
 
 import DiskusStore from "./store/Store";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/routes";
+import { ViewOrganizationProvider } from "./context/viewOrganizations";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={DiskusStore}>
+    <ViewOrganizationProvider>
+      <RouterProvider router={router} />
+    </ViewOrganizationProvider>
     <App />
   </Provider>
 );
