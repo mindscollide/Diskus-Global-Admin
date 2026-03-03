@@ -548,6 +548,10 @@ const ViewOrganization = () => {
       OrganizationDateToView: "",
       OrganizationDateFromView: "",
     });
+    setAppliedSearchFilters({
+        ...searchOrganizationData,
+        OrganizationName:""
+      });
     if (value === 1) {
       // Current Organizations
 
