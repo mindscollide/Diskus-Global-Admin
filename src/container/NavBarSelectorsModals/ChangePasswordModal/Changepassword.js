@@ -114,7 +114,7 @@ const Changepassword = () => {
     };
   
     dispatch(globalAdminDashBoardLoader(true));
-    dispatch(ChangePasswordApi({ data, navigate, t }));
+    dispatch(ChangePasswordApi({ data, navigate, t,setPassword }));
   };
   
   useEffect(() => {
