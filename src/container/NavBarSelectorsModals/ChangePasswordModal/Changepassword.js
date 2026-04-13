@@ -15,7 +15,9 @@ import {
 import { ChangePasswordApi } from "../../../store/Actions/GlobalAdminDashboardActions";
 import { useNavigate } from "react-router-dom";
 import { showNotification } from "../../../components/elements/snack_bar/snackbar";
-
+// ✅ Add this helper at top
+const generateName = () =>
+  `field_${Math.random().toString(36).substring(2, 10)}`;
 const Changepassword = () => {
   const ModalReducer = useSelector((state) => state.modal);
   const Responsemessage = useSelector(
@@ -42,13 +44,12 @@ const Changepassword = () => {
 
   const { t } = useTranslation();
 
-  const handleNewPasswordChange = (e) => {
-    let name = e.target.name;
+  const handleNewPasswordChange = (e, field) => {
     let value = e.target.value;
-    setPassword({
-      ...Password,
-      [name]: value.trimStart(),
-    });
+    setPassword((prev) => ({
+      ...prev,
+      [field]: value.trimStart(),
+    }));
   };
 
   const handleClose = () => {
@@ -163,6 +164,34 @@ const Changepassword = () => {
                         {t("Old-password")}
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
+                      {/* <TextField
+                        applyClass={"addOraganizer"}
+                        labelClass={"d-none"}
+                        placeholder={t("Old-password")}
+                        value={oldPassword || ""}
+                        type={showOldPassword ? "text" : "password"}
+                        change={oldpasswordChangeHandler}
+                        autoComplete="current-password"
+
+                        iconClassName='eye_icon'
+
+                        inputicon={
+                          showOldPassword ? (
+                            <img
+                              draggable='false'
+                              alt=''
+                              src={PasswordHideEyeIcon}
+                            />
+                          ) : (
+                            <img
+                              draggable='false'
+                              alt=''
+                              src={PasswordEyeIcon}
+                            />
+                          )
+                        }
+                        clickIcon={handleShowOldPassword}
+                      /> */}
                       <TextField
                         applyClass={"addOraganizer"}
                         labelClass={"d-none"}
@@ -170,7 +199,10 @@ const Changepassword = () => {
                         value={oldPassword || ""}
                         type={showOldPassword ? "text" : "password"}
                         change={oldpasswordChangeHandler}
-                        autoComplete='false'
+                        autoComplete='new-password'
+                        name={generateName()} // ✅ random name
+                        readOnly // ✅ prevent autofill
+                        onFocus={(e) => e.target.removeAttribute("readonly")} // ✅ enable typing
                         iconClassName='eye_icon'
                         inputicon={
                           showOldPassword ? (
@@ -201,7 +233,7 @@ const Changepassword = () => {
                         {t("New-password")}
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
-                      <TextField
+                      {/* <TextField
                         applyClass={"addOraganizer"}
                         labelClass={"d-none"}
                         type={shownewPassword ? "text" : "password"}
@@ -210,7 +242,36 @@ const Changepassword = () => {
                         value={Password.newPassword || ""}
                         change={handleNewPasswordChange}
                         iconClassName='eye_icon_newPassowrd'
-                        autoComplete='false'
+                        autoComplete='new-password'
+                        inputicon={
+                          shownewPassword ? (
+                            <img
+                              draggable='false'
+                              alt=''
+                              src={PasswordHideEyeIcon}
+                            />
+                          ) : (
+                            <img
+                              draggable='false'
+                              alt=''
+                              src={PasswordEyeIcon}
+                            />
+                          )
+                        }
+                        clickIcon={handleShowNewPassword}
+                      /> */}
+                      <TextField
+                        applyClass={"addOraganizer"}
+                        labelClass={"d-none"}
+                        type={shownewPassword ? "text" : "password"}
+                        placeholder={t("New-password")}
+                        name={generateName()} // ❌ remove "newPassword"
+                        value={Password.newPassword || ""}
+                        change={(e) => handleNewPasswordChange(e, "newPassword")}
+                        iconClassName='eye_icon_newPassowrd'
+                        autoComplete='new-password'
+                        readOnly
+                        onFocus={(e) => e.target.removeAttribute("readonly")}
                         inputicon={
                           shownewPassword ? (
                             <img
@@ -240,15 +301,44 @@ const Changepassword = () => {
                         {t("Confirm-password")}
                         <span className={styles["aesterick-color"]}> *</span>
                       </span>
-                      <TextField
+                      {/* <TextField
                         applyClass={"addOraganizer"}
                         labelClass={"d-none"}
                         type={showconfirmPassword ? "text" : "password"}
                         placeholder={t("Confirm-password")}
                         name='ConfirmPassword'
                         value={Password.ConfirmPassword || ""}
-                        autoComplete='false'
+                        autoComplete='new-password'
                         change={handleNewPasswordChange}
+                        iconClassName='eye_icon_ConfirmPassword'
+                        inputicon={
+                          showconfirmPassword ? (
+                            <img
+                              draggable='false'
+                              alt=''
+                              src={PasswordHideEyeIcon}
+                            />
+                          ) : (
+                            <img
+                              draggable='false'
+                              alt=''
+                              src={PasswordEyeIcon}
+                            />
+                          )
+                        }
+                        clickIcon={handleShowConfirmPassword}
+                      /> */}
+                      <TextField
+                        applyClass={"addOraganizer"}
+                        labelClass={"d-none"}
+                        type={showconfirmPassword ? "text" : "password"}
+                        placeholder={t("Confirm-password")}
+                        value={Password.ConfirmPassword || ""}
+                        autoComplete='new-password'
+                        readOnly
+                        onFocus={(e) => e.target.removeAttribute("readonly")}
+                        change={(e) => handleNewPasswordChange(e, "ConfirmPassword")}
+                        name={generateName()} // ✅ random
                         iconClassName='eye_icon_ConfirmPassword'
                         inputicon={
                           showconfirmPassword ? (
