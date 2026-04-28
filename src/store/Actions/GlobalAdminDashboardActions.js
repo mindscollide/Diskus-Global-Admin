@@ -955,7 +955,7 @@ export const ChangePasswordApi = createAsyncThunk(
   "ChangePasswordApi/ChangePasswordApi",
   async (requestData, { rejectWithValue, dispatch }) => {
     let token = localStorage.getItem("token");
-    let { data, t } = requestData;
+    let { data, t, setPassword, setOldPassword } = requestData;
     let form = new FormData();
     form.append("RequestData", JSON.stringify(data));
     form.append("RequestMethod", ChangePassword.RequestMethod);
@@ -979,6 +979,11 @@ export const ChangePasswordApi = createAsyncThunk(
                 "ERM_AuthService_AuthManager_ChangePasswordGlobalAdmin_01".toLowerCase()
               )
           ) {
+            setPassword({
+              newPassword: "",
+              ConfirmPassword: "",
+            });
+            setOldPassword("");
             dispatch(ChangePasswordModalOpen(false));
 
             dispatch(globalAdminDashBoardLoader(false));
@@ -1758,7 +1763,7 @@ export const getPackageDetailGlobalApi = createAsyncThunk(
           ) {
             dispatch(globalAdminDashBoardLoader(false));
 
-            console.log(route," NoNo")
+            console.log(route, " NoNo");
             if (route !== null && route !== undefined && route.val === 2) {
               dispatch(dashboardSendInvoiceOpenModal(true));
             }
